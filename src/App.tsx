@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import {
   Area,
   AreaChart,
@@ -9,16 +10,13 @@ import {
 } from 'recharts'
 import {
   ArrowUpRight,
-  BarChart3,
   BrainCircuit,
   ChevronDown,
-  DollarSign,
-  Globe2,
-  Landmark,
-  ShieldCheck,
-  Star,
   TrendingUp,
 } from 'lucide-react'
+
+import { supabase } from './lib/supabase/client'
+import { getMarketAssets } from './lib/queries/referenceData'
 
 const navItems = ['Dashboard', 'Markets', 'Trade Data', 'AI Insights', 'Watchlist']
 
@@ -53,13 +51,6 @@ const kpis = [
   },
 ]
 
-const markets = [
-  { name: 'USD/EUR', value: '0.92', change: '+0.35%', tone: 'positive' },
-  { name: 'USD/INR', value: '83.14', change: '+0.18%', tone: 'positive' },
-  { name: 'Gold', value: '$2,145', change: '+1.12%', tone: 'positive' },
-  { name: 'Oil', value: '$79.80', change: '-0.64%', tone: 'negative' },
-]
-
 const trendData = [
   { month: 'Jan', exports: 42, imports: 38, balance: 4 },
   { month: 'Feb', exports: 44, imports: 39, balance: 5 },
@@ -73,30 +64,145 @@ const trendData = [
 const insights = [
   {
     title: 'Asia export corridor accelerating',
-    summary: 'Southeast Asian exporters are outpacing G7 demand across containers and electronics.',
+    summary:
+      'Southeast Asian exporters are outpacing G7 demand across containers and electronics.',
     impact: 'High confidence',
   },
   {
     title: 'Energy hedging remains elevated',
-    summary: 'Shipping costs and crude volatility are reshaping route profitability for industrial goods.',
+    summary:
+      'Shipping costs and crude volatility are reshaping route profitability for industrial goods.',
     impact: 'Watchlist',
   },
   {
     title: 'AI demand lift in semiconductors',
-    summary: 'Chip-related shipments are trending above seasonal norms with stronger cross-border orders.',
+    summary:
+      'Chip-related shipments are trending above seasonal norms with stronger cross-border orders.',
     impact: 'Positive signal',
   },
 ]
 
 const countries = [
-  { country: 'China', exports: '$2.4T', imports: '$1.9T', balance: '$500B', growth: '+7.1%' },
-  { country: 'United States', exports: '$1.9T', imports: '$2.1T', balance: '-$200B', growth: '+4.8%' },
-  { country: 'Germany', exports: '$1.6T', imports: '$1.4T', balance: '$200B', growth: '+6.3%' },
-  { country: 'India', exports: '$0.8T', imports: '$0.7T', balance: '$100B', growth: '+9.2%' },
-  { country: 'Japan', exports: '$0.9T', imports: '$0.8T', balance: '$100B', growth: '+5.6%' },
+  {
+    country: 'China',
+    exports: '$2.4T',
+    imports: '$1.9T',
+    balance: '$500B',
+    growth: '+7.1%',
+  },
+  {
+    country: 'United States',
+    exports: '$1.9T',
+    imports: '$2.1T',
+    balance: '-$200B',
+    growth: '+4.8%',
+  },
+  {
+    country: 'Germany',
+    exports: '$1.6T',
+    imports: '$1.4T',
+    balance: '$200B',
+    growth: '+6.3%',
+  },
+  {
+    country: 'India',
+    exports: '$0.8T',
+    imports: '$0.7T',
+    balance: '$100B',
+    growth: '+9.2%',
+  },
+  {
+    country: 'Japan',
+    exports: '$0.9T',
+    imports: '$0.8T',
+    balance: '$100B',
+    growth: '+5.6%',
+  },
 ]
 
 function App() {
+  const [marketAssets, setMarketAssets] = useState<
+    Awaited<ReturnType<typeof getMarketAssets>>
+  >([])
+
+  const [marketLoading, setMarketLoading] = useState(true)
+  const [marketError, setMarketError] = useState<string | null>(null)
+
+  useEffect(() => {
+  getMarketAssets()
+    .then((data) => {
+      setMarketAssets(data)
+      setMarketError(null)
+    })
+    .catch((error) => {
+      console.error('Failed to load market assets:', error)
+      setMarketError('Unable to load market data.')
+    })
+    .finally(() => {
+      setMarketLoading(false)
+    })
+
+  const channel = supabase
+    .channel('market-observations-realtime')
+    .on(
+      'postgres_changes',
+      {
+        event: '*',
+        schema: 'public',
+        table: 'market_observations',
+      },
+      () => {
+        getMarketAssets()
+          .then((data) => {
+            setMarketAssets(data)
+            setMarketError(null)
+          })
+          .catch((error) => {
+            console.error('Failed to refresh market assets:', error)
+            setMarketError('Unable to refresh market data.')
+          })
+      },
+    )
+    .subscribe()
+
+  return () => {
+    supabase.removeChannel(channel)
+  }
+}, [])
+  console.log('Supabase market assets:', marketAssets)
+
+  const formatMarketPrice = (
+    symbol: string,
+    price: number | null,
+  ) => {
+    if (price === null) {
+      return '—'
+    }
+
+    if (symbol === 'EURUSD') {
+      return price.toFixed(4)
+    }
+
+    if (symbol === 'USDINR') {
+      return price.toFixed(2)
+    }
+
+    return `$${price.toFixed(2)}`
+  }
+
+  const markets = marketAssets.map((asset) => {
+    const change = asset.change_percent ?? 0
+
+    return {
+      name: asset.symbol,
+      value: formatMarketPrice(asset.symbol, asset.price),
+      change: `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`,
+      tone: change >= 0 ? 'positive' : 'negative',
+      price: asset.price,
+      observedAt: asset.observed_at,
+    }
+  })
+
   return (
     <div className="app-shell">
       <header className="topbar">
@@ -104,6 +210,7 @@ function App() {
           <div className="brand-mark">
             <TrendingUp size={18} />
           </div>
+
           <div className="brand-copy">
             <span className="brand-name">TradePulse AI</span>
           </div>
@@ -125,7 +232,12 @@ function App() {
           <button className="ghost-button" type="button">
             Portfolio
           </button>
-          <button className="avatar-button" type="button" aria-label="Account settings">
+
+          <button
+            className="avatar-button"
+            type="button"
+            aria-label="Account settings"
+          >
             <span>TN</span>
           </button>
         </div>
@@ -135,7 +247,9 @@ function App() {
         <section className="page-header">
           <div>
             <p className="eyebrow">Global macro intelligence</p>
+
             <h1>Global Trade Intelligence</h1>
+
             <p className="subtitle">
               Monitor global trade, markets and economic signals in one place.
             </p>
@@ -145,23 +259,36 @@ function App() {
             <button className="secondary-button" type="button">
               Export report
             </button>
+
             <button className="primary-button" type="button">
               Live signals
             </button>
           </div>
         </section>
 
-        <section className="kpi-grid" aria-label="Key performance indicators">
+        <section
+          className="kpi-grid"
+          aria-label="Key performance indicators"
+        >
           {kpis.map((kpi) => (
             <article key={kpi.label} className="kpi-card">
               <div className="kpi-header">
                 <span>{kpi.label}</span>
-                <span className={kpi.trend === 'up' ? 'trend-pill up' : 'trend-pill down'}>
+
+                <span
+                  className={
+                    kpi.trend === 'up'
+                      ? 'trend-pill up'
+                      : 'trend-pill down'
+                  }
+                >
                   <ArrowUpRight size={14} />
                   {kpi.change}
                 </span>
               </div>
+
               <div className="kpi-value">{kpi.value}</div>
+
               <div className="kpi-note">{kpi.note}</div>
             </article>
           ))}
@@ -174,26 +301,56 @@ function App() {
                 <p className="eyebrow">Market Overview</p>
                 <h2>Macro watchlist</h2>
               </div>
+
               <button className="text-button" type="button">
                 View all <ChevronDown size={14} />
               </button>
             </div>
 
             <div className="market-grid">
-              {markets.map((market) => (
-                <div key={market.name} className="market-card">
-                  <div className="market-title-row">
-                    <span className="market-label">{market.name}</span>
-                    <span className={market.tone === 'positive' ? 'market-chip positive' : 'market-chip negative'}>
-                      {market.change}
-                    </span>
-                  </div>
-                  <div className="market-value">{market.value}</div>
-                  <div className="market-footnote">
-                    {market.tone === 'positive' ? 'Momentum stable' : 'Pullback watch'}
-                  </div>
+              {marketLoading ? (
+                <div className="market-loading">
+                  Loading market data...
                 </div>
-              ))}
+              ) : marketError ? (
+                <div className="market-loading">
+                  {marketError}
+                </div>
+              ) : markets.length === 0 ? (
+                <div className="market-loading">
+                  No market observations available.
+                </div>
+              ) : (
+                markets.map((market) => (
+                  <div key={market.name} className="market-card">
+                    <div className="market-title-row">
+                      <span className="market-label">
+                        {market.name}
+                      </span>
+
+                      <span
+                        className={
+                          market.tone === 'positive'
+                            ? 'market-chip positive'
+                            : 'market-chip negative'
+                        }
+                      >
+                        {market.change}
+                      </span>
+                    </div>
+
+                    <div className="market-value">
+                      {market.value}
+                    </div>
+
+                    <div className="market-footnote">
+                      {market.tone === 'positive'
+                        ? 'Positive momentum'
+                        : 'Pullback watch'}
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </article>
 
@@ -201,8 +358,10 @@ function App() {
             <div className="panel-header">
               <div>
                 <p className="eyebrow">Global Trade Trends</p>
+
                 <h2>Export vs import momentum</h2>
               </div>
+
               <button className="text-button" type="button">
                 12M view
               </button>
@@ -210,31 +369,110 @@ function App() {
 
             <div className="chart-wrap">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={trendData} margin={{ top: 10, right: 16, left: -8, bottom: 0 }}>
+                <AreaChart
+                  data={trendData}
+                  margin={{
+                    top: 10,
+                    right: 16,
+                    left: -8,
+                    bottom: 0,
+                  }}
+                >
                   <defs>
-                    <linearGradient id="exportsFill" x1="0" x2="0" y1="0" y2="1">
-                      <stop offset="0%" stopColor="#4f46e5" stopOpacity={0.38} />
-                      <stop offset="100%" stopColor="#4f46e5" stopOpacity={0.04} />
+                    <linearGradient
+                      id="exportsFill"
+                      x1="0"
+                      x2="0"
+                      y1="0"
+                      y2="1"
+                    >
+                      <stop
+                        offset="0%"
+                        stopColor="#4f46e5"
+                        stopOpacity={0.38}
+                      />
+
+                      <stop
+                        offset="100%"
+                        stopColor="#4f46e5"
+                        stopOpacity={0.04}
+                      />
                     </linearGradient>
-                    <linearGradient id="importsFill" x1="0" x2="0" y1="0" y2="1">
-                      <stop offset="0%" stopColor="#0ea5e9" stopOpacity={0.3} />
-                      <stop offset="100%" stopColor="#0ea5e9" stopOpacity={0.04} />
+
+                    <linearGradient
+                      id="importsFill"
+                      x1="0"
+                      x2="0"
+                      y1="0"
+                      y2="1"
+                    >
+                      <stop
+                        offset="0%"
+                        stopColor="#0ea5e9"
+                        stopOpacity={0.3}
+                      />
+
+                      <stop
+                        offset="100%"
+                        stopColor="#0ea5e9"
+                        stopOpacity={0.04}
+                      />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid stroke="rgba(148, 163, 184, 0.18)" vertical={false} />
-                  <XAxis dataKey="month" tickLine={false} axisLine={false} tick={{ fill: '#94a3b8', fontSize: 12 }} />
-                  <YAxis tickLine={false} axisLine={false} tick={{ fill: '#94a3b8', fontSize: 12 }} />
+
+                  <CartesianGrid
+                    stroke="rgba(148, 163, 184, 0.18)"
+                    vertical={false}
+                  />
+
+                  <XAxis
+                    dataKey="month"
+                    tickLine={false}
+                    axisLine={false}
+                    tick={{
+                      fill: '#94a3b8',
+                      fontSize: 12,
+                    }}
+                  />
+
+                  <YAxis
+                    tickLine={false}
+                    axisLine={false}
+                    tick={{
+                      fill: '#94a3b8',
+                      fontSize: 12,
+                    }}
+                  />
+
                   <Tooltip
-                    formatter={(value: number | string) => [`$${value}B`, 'Value']}
+                    formatter={(value: number | string) => [
+                      `$${value}B`,
+                      'Value',
+                    ]}
                     contentStyle={{
                       backgroundColor: '#0f172a',
-                      border: '1px solid rgba(148, 163, 184, 0.2)',
+                      border:
+                        '1px solid rgba(148, 163, 184, 0.2)',
                       borderRadius: 12,
                       color: '#e2e8f0',
                     }}
                   />
-                  <Area type="monotone" dataKey="exports" stroke="#4f46e5" fill="url(#exportsFill)" strokeWidth={3} />
-                  <Area type="monotone" dataKey="imports" stroke="#0ea5e9" fill="url(#importsFill)" strokeWidth={3} />
+
+                  <Area
+                    type="monotone"
+                    dataKey="exports"
+                    stroke="#4f46e5"
+                    fill="url(#exportsFill)"
+                    strokeWidth={3}
+                  />
+
+                  <Area
+                    type="monotone"
+                    dataKey="imports"
+                    stroke="#0ea5e9"
+                    fill="url(#importsFill)"
+                    strokeWidth={3}
+                  />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
@@ -247,6 +485,7 @@ function App() {
               <p className="eyebrow">Latest AI Insights</p>
               <h2>Signal summary</h2>
             </div>
+
             <button className="text-button" type="button">
               AI briefing
             </button>
@@ -254,14 +493,22 @@ function App() {
 
           <div className="insights-grid">
             {insights.map((insight) => (
-              <article key={insight.title} className="insight-card">
+              <article
+                key={insight.title}
+                className="insight-card"
+              >
                 <div className="insight-topline">
                   <div className="insight-badge">
                     <BrainCircuit size={14} />
                   </div>
-                  <span className="impact-pill">{insight.impact}</span>
+
+                  <span className="impact-pill">
+                    {insight.impact}
+                  </span>
                 </div>
+
                 <h3>{insight.title}</h3>
+
                 <p>{insight.summary}</p>
               </article>
             ))}
@@ -274,6 +521,7 @@ function App() {
               <p className="eyebrow">Top Trading Countries</p>
               <h2>Cross-border volume leaders</h2>
             </div>
+
             <button className="text-button" type="button">
               Full ranking
             </button>
@@ -290,6 +538,7 @@ function App() {
                   <th>Growth</th>
                 </tr>
               </thead>
+
               <tbody>
                 {countries.map((country) => (
                   <tr key={country.country}>
@@ -297,13 +546,28 @@ function App() {
                       <div className="country-flag">
                         {country.country.slice(0, 1)}
                       </div>
+
                       {country.country}
                     </td>
+
                     <td>{country.exports}</td>
+
                     <td>{country.imports}</td>
-                    <td className={country.balance.startsWith('-') ? 'negative-text' : 'positive-text'}>{country.balance}</td>
+
+                    <td
+                      className={
+                        country.balance.startsWith('-')
+                          ? 'negative-text'
+                          : 'positive-text'
+                      }
+                    >
+                      {country.balance}
+                    </td>
+
                     <td className="growth-cell">
-                      <span className="growth-pill">{country.growth}</span>
+                      <span className="growth-pill">
+                        {country.growth}
+                      </span>
                     </td>
                   </tr>
                 ))}
