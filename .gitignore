@@ -7,3 +7,10 @@ dist/
 .env.local
 .env.*.local
 supabase/.temp/
+
+# Python forecasting service
+__pycache__/
+*.py[cod]
+.venv/
+services/forecasting/build/
+services/forecasting/src/*.egg-info/

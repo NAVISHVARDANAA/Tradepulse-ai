@@ -9,185 +9,201 @@ import {
   YAxis,
 } from 'recharts'
 import {
+  ArrowDownRight,
   ArrowUpRight,
-  BrainCircuit,
-  ChevronDown,
+  DatabaseZap,
   TrendingUp,
 } from 'lucide-react'
 
+import { ForecastPanel } from './components/ForecastPanel'
+import { PaymentQuotePanel } from './components/PaymentQuotePanel'
+import { PlatformReadiness } from './components/PlatformReadiness'
+import {
+  getLatestForecasts,
+  getMarketAssets,
+  getPaymentCorridors,
+  getTradeDashboard,
+} from './lib/queries/referenceData'
 import { supabase } from './lib/supabase/client'
-import { getMarketAssets } from './lib/queries/referenceData'
+import type {
+  MarketAssetSnapshot,
+  MarketForecast,
+  PaymentCorridor,
+  TradeDashboard,
+  TradeKpi,
+} from './types/domain'
 
-const navItems = ['Dashboard', 'Markets', 'Trade Data', 'AI Insights', 'Watchlist']
+const navItems = [
+  { label: 'Dashboard', href: '#dashboard' },
+  { label: 'Markets', href: '#markets' },
+  { label: 'Forecasts', href: '#forecasts' },
+  { label: 'Payments', href: '#payments' },
+  { label: 'Trade data', href: '#trade-data' },
+]
 
-const kpis = [
+const emptyKpis: TradeKpi[] = [
   {
-    label: 'Global Trade Volume',
-    value: '$3.84T',
-    change: '+8.4%',
-    note: 'vs last quarter',
-    trend: 'up',
+    label: 'Tracked trade volume',
+    value: '—',
+    change: '—',
+    note: 'Awaiting synchronized trade data',
+    tone: 'neutral',
   },
   {
-    label: 'Export Growth',
-    value: '+6.2%',
-    change: '+1.4 pts',
-    note: 'from prior month',
-    trend: 'up',
+    label: 'Export growth',
+    value: '—',
+    change: '—',
+    note: 'Awaiting synchronized trade data',
+    tone: 'neutral',
   },
   {
-    label: 'Import Growth',
-    value: '+4.9%',
-    change: '+0.8 pts',
-    note: 'cross-border demand',
-    trend: 'up',
+    label: 'Import growth',
+    value: '—',
+    change: '—',
+    note: 'Awaiting synchronized trade data',
+    tone: 'neutral',
   },
   {
-    label: 'Trade Balance',
-    value: '$184B',
-    change: '+$21B',
-    note: 'surplus expansion',
-    trend: 'up',
+    label: 'Trade balance',
+    value: '—',
+    change: '—',
+    note: 'Awaiting synchronized trade data',
+    tone: 'neutral',
   },
 ]
 
-const trendData = [
-  { month: 'Jan', exports: 42, imports: 38, balance: 4 },
-  { month: 'Feb', exports: 44, imports: 39, balance: 5 },
-  { month: 'Mar', exports: 46, imports: 41, balance: 5 },
-  { month: 'Apr', exports: 49, imports: 43, balance: 6 },
-  { month: 'May', exports: 51, imports: 45, balance: 6 },
-  { month: 'Jun', exports: 54, imports: 47, balance: 7 },
-  { month: 'Jul', exports: 57, imports: 49, balance: 8 },
-]
+const emptyTradeDashboard: TradeDashboard = {
+  kpis: emptyKpis,
+  trend: [],
+  countries: [],
+}
 
-const insights = [
-  {
-    title: 'Asia export corridor accelerating',
-    summary:
-      'Southeast Asian exporters are outpacing G7 demand across containers and electronics.',
-    impact: 'High confidence',
-  },
-  {
-    title: 'Energy hedging remains elevated',
-    summary:
-      'Shipping costs and crude volatility are reshaping route profitability for industrial goods.',
-    impact: 'Watchlist',
-  },
-  {
-    title: 'AI demand lift in semiconductors',
-    summary:
-      'Chip-related shipments are trending above seasonal norms with stronger cross-border orders.',
-    impact: 'Positive signal',
-  },
-]
+const usd = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  notation: 'compact',
+  maximumFractionDigits: 1,
+})
 
-const countries = [
-  {
-    country: 'China',
-    exports: '$2.4T',
-    imports: '$1.9T',
-    balance: '$500B',
-    growth: '+7.1%',
-  },
-  {
-    country: 'United States',
-    exports: '$1.9T',
-    imports: '$2.1T',
-    balance: '-$200B',
-    growth: '+4.8%',
-  },
-  {
-    country: 'Germany',
-    exports: '$1.6T',
-    imports: '$1.4T',
-    balance: '$200B',
-    growth: '+6.3%',
-  },
-  {
-    country: 'India',
-    exports: '$0.8T',
-    imports: '$0.7T',
-    balance: '$100B',
-    growth: '+9.2%',
-  },
-  {
-    country: 'Japan',
-    exports: '$0.9T',
-    imports: '$0.8T',
-    balance: '$100B',
-    growth: '+5.6%',
-  },
-]
+function formatMarketPrice(symbol: string, price: number | null) {
+  if (price === null) {
+    return '—'
+  }
+
+  if (symbol === 'EURUSD') {
+    return price.toFixed(4)
+  }
+
+  if (symbol === 'USDINR') {
+    return price.toFixed(2)
+  }
+
+  return `$${price.toFixed(2)}`
+}
+
+function formatGrowth(value: number | null) {
+  if (value === null) {
+    return '—'
+  }
+
+  return `${value >= 0 ? '+' : ''}${value.toFixed(1)}%`
+}
 
 function App() {
-  const [marketAssets, setMarketAssets] = useState<
-    Awaited<ReturnType<typeof getMarketAssets>>
-  >([])
-
+  const [marketAssets, setMarketAssets] = useState<MarketAssetSnapshot[]>([])
+  const [tradeDashboard, setTradeDashboard] = useState<TradeDashboard>(
+    emptyTradeDashboard,
+  )
+  const [forecasts, setForecasts] = useState<MarketForecast[]>([])
+  const [corridors, setCorridors] = useState<PaymentCorridor[]>([])
   const [marketLoading, setMarketLoading] = useState(true)
+  const [tradeLoading, setTradeLoading] = useState(true)
+  const [forecastLoading, setForecastLoading] = useState(true)
+  const [paymentLoading, setPaymentLoading] = useState(true)
   const [marketError, setMarketError] = useState<string | null>(null)
+  const [tradeError, setTradeError] = useState<string | null>(null)
+  const [forecastError, setForecastError] = useState<string | null>(null)
+  const [paymentError, setPaymentError] = useState<string | null>(null)
 
   useEffect(() => {
-    getMarketAssets()
-      .then((data) => {
-        setMarketAssets(data)
+    const loadMarkets = async () => {
+      try {
+        setMarketAssets(await getMarketAssets())
         setMarketError(null)
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error('Failed to load market assets:', error)
-        setMarketError('Unable to load market data.')
-      })
-      .finally(() => {
+        setMarketError('Unable to load synchronized market data.')
+      } finally {
         setMarketLoading(false)
-      })
+      }
+    }
+
+    const loadTrade = async () => {
+      try {
+        setTradeDashboard(await getTradeDashboard())
+        setTradeError(null)
+      } catch (error) {
+        console.error('Failed to load trade intelligence:', error)
+        setTradeError('Unable to load synchronized trade data.')
+      } finally {
+        setTradeLoading(false)
+      }
+    }
+
+    const loadForecasts = async () => {
+      try {
+        setForecasts(await getLatestForecasts())
+        setForecastError(null)
+      } catch (error) {
+        console.error('Failed to load forecasts:', error)
+        setForecastError('Forecast output is temporarily unavailable.')
+      } finally {
+        setForecastLoading(false)
+      }
+    }
+
+    const loadPayments = async () => {
+      try {
+        setCorridors(await getPaymentCorridors())
+        setPaymentError(null)
+      } catch (error) {
+        console.error('Failed to load payment corridors:', error)
+        setPaymentError('Payment corridor configuration is unavailable.')
+      } finally {
+        setPaymentLoading(false)
+      }
+    }
+
+    void Promise.all([
+      loadMarkets(),
+      loadTrade(),
+      loadForecasts(),
+      loadPayments(),
+    ])
 
     const channel = supabase
-      .channel('market-observations-realtime')
+      .channel('tradepulse-dashboard-realtime')
       .on(
         'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'market_observations',
-        },
-        () => {
-          getMarketAssets()
-            .then((data) => {
-              setMarketAssets(data)
-              setMarketError(null)
-            })
-            .catch((error) => {
-              console.error('Failed to refresh market assets:', error)
-              setMarketError('Unable to refresh market data.')
-            })
-        },
+        { event: '*', schema: 'public', table: 'market_observations' },
+        () => void loadMarkets(),
+      )
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'trade_observations' },
+        () => void loadTrade(),
+      )
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'market_forecasts' },
+        () => void loadForecasts(),
       )
       .subscribe()
 
     return () => {
-      supabase.removeChannel(channel)
+      void supabase.removeChannel(channel)
     }
   }, [])
-
-  const formatMarketPrice = (
-    symbol: string,
-    price: number | null,
-  ) => {
-    if (price === null) {
-      return '—'
-    }
-
-    if (symbol === 'EURUSD') {
-      return price.toFixed(4)
-    }
-
-    if (symbol === 'USDINR') {
-      return price.toFixed(2)
-    }
-
-    return `$${price.toFixed(2)}`
-  }
 
   const markets = marketAssets.map((asset) => {
     const change = asset.change_percent
@@ -195,7 +211,7 @@ function App() {
       change === null ? 'neutral' : change >= 0 ? 'positive' : 'negative'
 
     return {
-      name: asset.symbol,
+      ...asset,
       value: formatMarketPrice(asset.symbol, asset.price),
       change:
         change === null
@@ -206,113 +222,93 @@ function App() {
   })
 
   return (
-    <div className="app-shell">
+    <div className="app-shell" id="dashboard">
       <header className="topbar">
-        <div className="brand-wrap">
+        <a className="brand-wrap" href="#dashboard" aria-label="TradePulse AI home">
           <div className="brand-mark">
             <TrendingUp size={18} />
           </div>
 
           <div className="brand-copy">
             <span className="brand-name">TradePulse AI</span>
+            <span className="brand-stage">Platform foundation</span>
           </div>
-        </div>
+        </a>
 
         <nav className="main-nav" aria-label="Main navigation">
           {navItems.map((item, index) => (
-            <button
-              key={item}
+            <a
+              key={item.label}
               className={index === 0 ? 'nav-item active' : 'nav-item'}
-              type="button"
+              href={item.href}
             >
-              {item}
-            </button>
+              {item.label}
+            </a>
           ))}
         </nav>
 
-        <div className="header-actions">
-          <button className="ghost-button" type="button">
-            Portfolio
-          </button>
-
-          <button
-            className="avatar-button"
-            type="button"
-            aria-label="Account settings"
-          >
-            <span>TN</span>
-          </button>
-        </div>
+        <span className="environment-pill">Data intelligence</span>
       </header>
 
       <main className="dashboard">
         <section className="page-header">
           <div>
-            <p className="eyebrow">Global macro intelligence</p>
-
-            <h1>Global Trade Intelligence</h1>
-
+            <p className="eyebrow">Markets · trade · payments</p>
+            <h1>Global decision intelligence</h1>
             <p className="subtitle">
-              Monitor global trade, markets and economic signals in one place.
+              Monitor verified market and trade data, inspect model uncertainty,
+              and estimate cross-border payment corridors from one secure platform.
             </p>
           </div>
 
-          <div className="header-controls">
-            <button className="secondary-button" type="button">
-              Export report
-            </button>
-
-            <button className="primary-button" type="button">
-              Live signals
-            </button>
+          <div className="data-trust-card">
+            <DatabaseZap size={18} />
+            <div>
+              <strong>Truth before prediction</strong>
+              <span>Missing data stays missing—never presented as a live signal.</span>
+            </div>
           </div>
         </section>
 
-        <section
-          className="kpi-grid"
-          aria-label="Key performance indicators"
-        >
-          {kpis.map((kpi) => (
-            <article key={kpi.label} className="kpi-card">
-              <div className="kpi-header">
-                <span>{kpi.label}</span>
+        <PlatformReadiness />
 
-                <span
-                  className={
-                    kpi.trend === 'up'
-                      ? 'trend-pill up'
-                      : 'trend-pill down'
-                  }
-                >
-                  <ArrowUpRight size={14} />
-                  {kpi.change}
-                </span>
-              </div>
+        <section className="kpi-grid" aria-label="Trade performance indicators">
+          {(tradeDashboard.kpis.length > 0
+            ? tradeDashboard.kpis
+            : emptyKpis
+          ).map((kpi) => {
+            const TrendIcon =
+              kpi.tone === 'negative' ? ArrowDownRight : ArrowUpRight
 
-              <div className="kpi-value">{kpi.value}</div>
-
-              <div className="kpi-note">{kpi.note}</div>
-            </article>
-          ))}
+            return (
+              <article key={kpi.label} className="kpi-card">
+                <div className="kpi-header">
+                  <span>{kpi.label}</span>
+                  <span className={`trend-pill ${kpi.tone}`}>
+                    <TrendIcon size={14} /> {kpi.change}
+                  </span>
+                </div>
+                <div className="kpi-value">{kpi.value}</div>
+                <div className="kpi-note">{kpi.note}</div>
+              </article>
+            )
+          })}
         </section>
 
         <section className="content-grid">
-          <article className="panel market-panel">
+          <article className="panel market-panel" id="markets">
             <div className="panel-header">
               <div>
-                <p className="eyebrow">Market Overview</p>
-                <h2>Macro watchlist</h2>
+                <p className="eyebrow">Market overview</p>
+                <h2>Latest synchronized prices</h2>
               </div>
-
-              <button className="text-button" type="button">
-                View all <ChevronDown size={14} />
-              </button>
+              <span className="source-label">Supabase snapshot</span>
             </div>
 
             <div className="market-grid">
               {marketLoading ? (
                 <div className="market-state" role="status">
-                  Loading market data...
+                  Loading market data…
                 </div>
               ) : marketError ? (
                 <div className="market-state" role="alert">
@@ -320,33 +316,22 @@ function App() {
                 </div>
               ) : markets.length === 0 ? (
                 <div className="market-state" role="status">
-                  No market observations available.
+                  No market assets are configured.
                 </div>
               ) : (
                 markets.map((market) => (
-                  <div key={market.name} className="market-card">
+                  <div key={market.symbol} className="market-card">
                     <div className="market-title-row">
-                      <span className="market-label">
-                        {market.name}
-                      </span>
-
-                      <span
-                        className={`market-chip ${market.tone}`}
-                      >
+                      <span className="market-label">{market.symbol}</span>
+                      <span className={`market-chip ${market.tone}`}>
                         {market.change}
                       </span>
                     </div>
-
-                    <div className="market-value">
-                      {market.value}
-                    </div>
-
+                    <div className="market-value">{market.value}</div>
                     <div className="market-footnote">
-                      {market.tone === 'positive'
-                        ? 'Positive momentum'
-                        : market.tone === 'negative'
-                          ? 'Pullback watch'
-                          : 'Awaiting live data'}
+                      {market.observed_at
+                        ? `Updated ${new Date(market.observed_at).toLocaleString()}`
+                        : 'Awaiting provider data'}
                     </div>
                   </div>
                 ))
@@ -357,224 +342,163 @@ function App() {
           <article className="panel chart-panel">
             <div className="panel-header">
               <div>
-                <p className="eyebrow">Global Trade Trends</p>
-
-                <h2>Export vs import momentum</h2>
+                <p className="eyebrow">Global trade trends</p>
+                <h2>Tracked export vs import volume</h2>
               </div>
-
-              <button className="text-button" type="button">
-                12M view
-              </button>
+              <span className="source-label">USD billions</span>
             </div>
 
-            <div className="chart-wrap">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart
-                  data={trendData}
-                  margin={{
-                    top: 10,
-                    right: 16,
-                    left: -8,
-                    bottom: 0,
-                  }}
-                >
-                  <defs>
-                    <linearGradient
-                      id="exportsFill"
-                      x1="0"
-                      x2="0"
-                      y1="0"
-                      y2="1"
-                    >
-                      <stop
-                        offset="0%"
-                        stopColor="#4f46e5"
-                        stopOpacity={0.38}
-                      />
-
-                      <stop
-                        offset="100%"
-                        stopColor="#4f46e5"
-                        stopOpacity={0.04}
-                      />
-                    </linearGradient>
-
-                    <linearGradient
-                      id="importsFill"
-                      x1="0"
-                      x2="0"
-                      y1="0"
-                      y2="1"
-                    >
-                      <stop
-                        offset="0%"
-                        stopColor="#0ea5e9"
-                        stopOpacity={0.3}
-                      />
-
-                      <stop
-                        offset="100%"
-                        stopColor="#0ea5e9"
-                        stopOpacity={0.04}
-                      />
-                    </linearGradient>
-                  </defs>
-
-                  <CartesianGrid
-                    stroke="rgba(148, 163, 184, 0.18)"
-                    vertical={false}
-                  />
-
-                  <XAxis
-                    dataKey="month"
-                    tickLine={false}
-                    axisLine={false}
-                    tick={{
-                      fill: '#94a3b8',
-                      fontSize: 12,
-                    }}
-                  />
-
-                  <YAxis
-                    tickLine={false}
-                    axisLine={false}
-                    tick={{
-                      fill: '#94a3b8',
-                      fontSize: 12,
-                    }}
-                  />
-
-                  <Tooltip
-                    formatter={(value: number | string) => [
-                      `$${value}B`,
-                      'Value',
-                    ]}
-                    contentStyle={{
-                      backgroundColor: '#0f172a',
-                      border:
-                        '1px solid rgba(148, 163, 184, 0.2)',
-                      borderRadius: 12,
-                      color: '#e2e8f0',
-                    }}
-                  />
-
-                  <Area
-                    type="monotone"
-                    dataKey="exports"
-                    stroke="#4f46e5"
-                    fill="url(#exportsFill)"
-                    strokeWidth={3}
-                  />
-
-                  <Area
-                    type="monotone"
-                    dataKey="imports"
-                    stroke="#0ea5e9"
-                    fill="url(#importsFill)"
-                    strokeWidth={3}
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
+            {tradeLoading ? (
+              <div className="chart-empty" role="status">
+                Loading trade series…
+              </div>
+            ) : tradeError ? (
+              <div className="chart-empty" role="alert">
+                {tradeError}
+              </div>
+            ) : tradeDashboard.trend.length === 0 ? (
+              <div className="chart-empty" role="status">
+                The chart will appear after the first verified trade-data sync.
+              </div>
+            ) : (
+              <div className="chart-wrap">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart
+                    data={tradeDashboard.trend}
+                    margin={{ top: 10, right: 16, left: -8, bottom: 0 }}
+                  >
+                    <defs>
+                      <linearGradient id="exportsFill" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0%" stopColor="#4f46e5" stopOpacity={0.38} />
+                        <stop offset="100%" stopColor="#4f46e5" stopOpacity={0.04} />
+                      </linearGradient>
+                      <linearGradient id="importsFill" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0%" stopColor="#0ea5e9" stopOpacity={0.3} />
+                        <stop offset="100%" stopColor="#0ea5e9" stopOpacity={0.04} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid stroke="rgba(148, 163, 184, 0.18)" vertical={false} />
+                    <XAxis
+                      dataKey="period"
+                      tickLine={false}
+                      axisLine={false}
+                      tick={{ fill: '#94a3b8', fontSize: 12 }}
+                    />
+                    <YAxis
+                      tickLine={false}
+                      axisLine={false}
+                      tick={{ fill: '#94a3b8', fontSize: 12 }}
+                    />
+                    <Tooltip
+                      formatter={(value: number | string) => [`$${value}B`, 'Value']}
+                      contentStyle={{
+                        backgroundColor: '#0f172a',
+                        border: '1px solid rgba(148, 163, 184, 0.2)',
+                        borderRadius: 12,
+                        color: '#e2e8f0',
+                      }}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="exports"
+                      stroke="#4f46e5"
+                      fill="url(#exportsFill)"
+                      strokeWidth={3}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="imports"
+                      stroke="#0ea5e9"
+                      fill="url(#importsFill)"
+                      strokeWidth={3}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            )}
           </article>
         </section>
 
-        <section className="panel insights-panel">
+        <div className="feature-grid">
+          <ForecastPanel
+            forecasts={forecasts}
+            loading={forecastLoading}
+            error={forecastError}
+          />
+          <PaymentQuotePanel
+            corridors={corridors}
+            marketAssets={marketAssets}
+            loading={paymentLoading}
+            error={paymentError}
+          />
+        </div>
+
+        <section className="panel table-panel" id="trade-data">
           <div className="panel-header">
             <div>
-              <p className="eyebrow">Latest AI Insights</p>
-              <h2>Signal summary</h2>
+              <p className="eyebrow">Country intelligence</p>
+              <h2>Tracked cross-border volume leaders</h2>
             </div>
-
-            <button className="text-button" type="button">
-              AI briefing
-            </button>
+            <span className="source-label">Latest verified period</span>
           </div>
 
-          <div className="insights-grid">
-            {insights.map((insight) => (
-              <article
-                key={insight.title}
-                className="insight-card"
-              >
-                <div className="insight-topline">
-                  <div className="insight-badge">
-                    <BrainCircuit size={14} />
-                  </div>
-
-                  <span className="impact-pill">
-                    {insight.impact}
-                  </span>
-                </div>
-
-                <h3>{insight.title}</h3>
-
-                <p>{insight.summary}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="panel table-panel">
-          <div className="panel-header">
-            <div>
-              <p className="eyebrow">Top Trading Countries</p>
-              <h2>Cross-border volume leaders</h2>
+          {tradeLoading ? (
+            <div className="table-empty" role="status">Loading country data…</div>
+          ) : tradeError ? (
+            <div className="table-empty" role="alert">{tradeError}</div>
+          ) : tradeDashboard.countries.length === 0 ? (
+            <div className="table-empty" role="status">
+              Country rankings will appear after verified observations are synchronized.
             </div>
-
-            <button className="text-button" type="button">
-              Full ranking
-            </button>
-          </div>
-
-          <div className="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Country</th>
-                  <th>Exports</th>
-                  <th>Imports</th>
-                  <th>Trade Balance</th>
-                  <th>Growth</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {countries.map((country) => (
-                  <tr key={country.country}>
-                    <td className="country-cell">
-                      <div className="country-flag">
-                        {country.country.slice(0, 1)}
-                      </div>
-
-                      {country.country}
-                    </td>
-
-                    <td>{country.exports}</td>
-
-                    <td>{country.imports}</td>
-
-                    <td
-                      className={
-                        country.balance.startsWith('-')
-                          ? 'negative-text'
-                          : 'positive-text'
-                      }
-                    >
-                      {country.balance}
-                    </td>
-
-                    <td className="growth-cell">
-                      <span className="growth-pill">
-                        {country.growth}
-                      </span>
-                    </td>
+          ) : (
+            <div className="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Country</th>
+                    <th>Exports</th>
+                    <th>Imports</th>
+                    <th>Trade balance</th>
+                    <th>Growth</th>
+                    <th>Period</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {tradeDashboard.countries.map((country) => (
+                    <tr key={country.isoCode}>
+                      <td className="country-cell">
+                        <div className="country-flag">{country.isoCode}</div>
+                        {country.country}
+                      </td>
+                      <td>{usd.format(country.exports)}</td>
+                      <td>{usd.format(country.imports)}</td>
+                      <td className={country.balance < 0 ? 'negative-text' : 'positive-text'}>
+                        {usd.format(country.balance)}
+                      </td>
+                      <td className="growth-cell">
+                        <span className={`growth-pill ${
+                          country.growthPercent !== null && country.growthPercent < 0
+                            ? 'negative'
+                            : country.growthPercent === null
+                              ? 'neutral'
+                              : ''
+                        }`}>
+                          {formatGrowth(country.growthPercent)}
+                        </span>
+                      </td>
+                      <td>{country.periodDate}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </section>
+
+        <footer className="product-footer">
+          <span>TradePulse AI · Phase 1–2 platform foundation</span>
+          <span>Market forecasts are experimental and not financial advice.</span>
+        </footer>
       </main>
     </div>
   )
