@@ -17,9 +17,9 @@ const capabilities = [
   },
   {
     label: 'Paper investing',
-    status: 'Safe foundation',
-    detail: 'Portfolios, simulated orders, positions and risk checks',
-    tone: 'building',
+    status: 'Authenticated simulator',
+    detail: 'Virtual cash, atomic fills, positions and risk checks',
+    tone: 'active',
     icon: Landmark,
   },
   {

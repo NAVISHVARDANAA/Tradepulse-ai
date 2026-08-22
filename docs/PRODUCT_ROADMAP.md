@@ -42,6 +42,9 @@ payment quotes reconcile deterministically; no real-money execution exists.
 - Virtual portfolios, orders, fills and position accounting.
 - Jurisdiction and instrument-eligibility contracts exist from Phase 2; all
   execution flags remain disabled until the regulated-execution phase.
+- Passwordless authentication, virtual cash, transactional fills, simulated
+  fees/slippage, idempotency, portfolio limits and service-only execution form
+  the first implemented Phase 3 slice.
 - Risk limits, drawdown controls, exposure, VaR scenarios and kill switches.
 - Strategy notebooks promoted through a reviewed model registry.
 - Alert delivery and explainable daily briefings.

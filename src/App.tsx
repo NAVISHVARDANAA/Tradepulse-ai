@@ -17,6 +17,7 @@ import {
 
 import { ForecastPanel } from './components/ForecastPanel'
 import { PaymentQuotePanel } from './components/PaymentQuotePanel'
+import { PaperInvestingPanel } from './components/PaperInvestingPanel'
 import { PlatformReadiness } from './components/PlatformReadiness'
 import {
   getLatestForecasts,
@@ -38,6 +39,7 @@ const navItems = [
   { label: 'Markets', href: '#markets' },
   { label: 'Forecasts', href: '#forecasts' },
   { label: 'Payments', href: '#payments' },
+  { label: 'Paper investing', href: '#paper-investing' },
   { label: 'Trade data', href: '#trade-data' },
 ]
 
@@ -432,6 +434,8 @@ function App() {
             error={paymentError}
           />
         </div>
+
+        <PaperInvestingPanel marketAssets={marketAssets} />
 
         <section className="panel table-panel" id="trade-data">
           <div className="panel-header">
