@@ -272,6 +272,76 @@ h1 {
   gap: 12px;
 }
 
+.readiness-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.readiness-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.62);
+}
+
+.readiness-icon {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: rgba(52, 211, 153, 0.1);
+  color: var(--positive);
+}
+
+.readiness-icon.building {
+  background: rgba(56, 189, 248, 0.1);
+  color: #7dd3fc;
+}
+
+.readiness-icon.locked {
+  background: rgba(251, 191, 36, 0.1);
+  color: var(--warning);
+}
+
+.readiness-card strong,
+.readiness-card span {
+  display: block;
+}
+
+.readiness-card strong {
+  color: #e2e8f0;
+  font-size: 0.76rem;
+}
+
+.readiness-status {
+  margin-top: 3px;
+  color: var(--positive);
+  font-size: 0.62rem;
+  font-weight: 700;
+}
+
+.readiness-status.building {
+  color: #7dd3fc;
+}
+
+.readiness-status.locked {
+  color: var(--warning);
+}
+
+.readiness-card p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.66rem;
+}
+
 .kpi-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -893,6 +963,10 @@ tbody tr:hover {
   .feature-grid {
     grid-template-columns: 1fr;
   }
+
+  .readiness-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 760px) {
@@ -935,7 +1009,8 @@ tbody tr:hover {
   .insights-grid,
   .market-grid,
   .forecast-grid,
-  .payment-layout {
+  .payment-layout,
+  .readiness-grid {
     grid-template-columns: 1fr;
   }
 

@@ -52,6 +52,10 @@ export type MarketForecast = {
   confidence: number | null
   direction: 'up' | 'down' | 'flat'
   modelName: string
+  modelVersion: string
+  baselineMae: number | null
+  modelMae: number | null
+  directionalAccuracy: number | null
   generatedAt: string
   targetAt: string
 }

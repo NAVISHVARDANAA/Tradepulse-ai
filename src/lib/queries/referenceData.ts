@@ -310,6 +310,10 @@ export async function getLatestForecasts(): Promise<MarketForecast[]> {
       confidence_score,
       direction,
       model_name,
+      model_version,
+      baseline_mae,
+      model_mae,
+      directional_accuracy,
       generated_at,
       target_at,
       market_assets!inner (
@@ -318,6 +322,7 @@ export async function getLatestForecasts(): Promise<MarketForecast[]> {
       )
     `)
     .eq('is_latest', true)
+    .eq('validation_status', 'passed')
     .order('generated_at', { ascending: false })
     .limit(12)
 
@@ -347,6 +352,10 @@ export async function getLatestForecasts(): Promise<MarketForecast[]> {
         confidence: toNumber(row.confidence_score),
         direction: row.direction as MarketForecast['direction'],
         modelName: row.model_name,
+        modelVersion: row.model_version,
+        baselineMae: toNumber(row.baseline_mae),
+        modelMae: toNumber(row.model_mae),
+        directionalAccuracy: toNumber(row.directional_accuracy),
         generatedAt: row.generated_at,
         targetAt: row.target_at,
       },

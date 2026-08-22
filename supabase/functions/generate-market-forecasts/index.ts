@@ -169,12 +169,14 @@ Deno.serve(async (request) => {
         .update({ is_latest: false })
         .eq('asset_id', asset.id)
         .eq('horizon_hours', 24)
+        .eq('validation_status', 'baseline')
         .eq('is_latest', true)
 
       rows.push({
         forecast_run_id: run.id,
         asset_id: asset.id,
         model_name: modelName,
+        model_version: '1.0.0',
         horizon_hours: 24,
         generated_at: generatedAt.toISOString(),
         target_at: targetAt.toISOString(),
@@ -183,7 +185,8 @@ Deno.serve(async (request) => {
         upper_bound: forecast.upperBound,
         confidence_score: forecast.confidence,
         direction: forecast.direction,
-        is_latest: true,
+        validation_status: 'baseline',
+        is_latest: false,
         feature_snapshot: forecast.featureSnapshot,
       })
     }

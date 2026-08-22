@@ -25,6 +25,9 @@ and no prototype value is presented as live data.
 
 - Versioned forecast registry, features, horizons, intervals and confidence.
 - Baseline models followed by tree, time-series and ensemble candidates.
+- The first production candidate is a Ridge + histogram gradient-boosting
+  ensemble with expanding-window validation, baseline comparison and empirical
+  residual intervals.
 - Walk-forward validation, cost-aware backtests, calibration, drift and champion /
   challenger evaluation.
 - Payment corridors, FX references, fee rules, quote expiry and idempotent intent
@@ -37,6 +40,8 @@ payment quotes reconcile deterministically; no real-money execution exists.
 ## Phase 3 — portfolio and paper trading
 
 - Virtual portfolios, orders, fills and position accounting.
+- Jurisdiction and instrument-eligibility contracts exist from Phase 2; all
+  execution flags remain disabled until the regulated-execution phase.
 - Risk limits, drawdown controls, exposure, VaR scenarios and kill switches.
 - Strategy notebooks promoted through a reviewed model registry.
 - Alert delivery and explainable daily briefings.

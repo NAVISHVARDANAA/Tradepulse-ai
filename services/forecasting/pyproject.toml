@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tradepulse-forecasting"
+version = "0.1.0"
+description = "Leakage-aware ML forecasting worker for TradePulse AI"
+requires-python = ">=3.11"
+dependencies = [
+  "numpy>=2.0,<3.0",
+  "scikit-learn>=1.8,<2.0",
+]
+
+[project.scripts]
+tradepulse-forecast = "tradepulse_forecasting.worker:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"

@@ -17,6 +17,7 @@ import {
 
 import { ForecastPanel } from './components/ForecastPanel'
 import { PaymentQuotePanel } from './components/PaymentQuotePanel'
+import { PlatformReadiness } from './components/PlatformReadiness'
 import {
   getLatestForecasts,
   getMarketAssets,
@@ -268,6 +269,8 @@ function App() {
             </div>
           </div>
         </section>
+
+        <PlatformReadiness />
 
         <section className="kpi-grid" aria-label="Trade performance indicators">
           {(tradeDashboard.kpis.length > 0

@@ -67,7 +67,9 @@ export function ForecastPanel({
                 <div className="forecast-card-head">
                   <div>
                     <span className="market-label">{forecast.symbol}</span>
-                    <span className="forecast-model">{forecast.modelName}</span>
+                    <span className="forecast-model">
+                      {forecast.modelName} · v{forecast.modelVersion}
+                    </span>
                   </div>
 
                   <span className={`direction-pill ${forecast.direction}`}>
@@ -102,6 +104,32 @@ export function ForecastPanel({
                   <div>
                     <dt>Horizon</dt>
                     <dd>{forecast.horizonHours} hours</dd>
+                  </div>
+                  <div>
+                    <dt>Baseline lift</dt>
+                    <dd>
+                      {forecast.baselineMae === null ||
+                      forecast.modelMae === null ||
+                      forecast.baselineMae === 0
+                        ? 'Not scored'
+                        : `${Math.max(
+                            0,
+                            Math.round(
+                              (1 - forecast.modelMae / forecast.baselineMae) *
+                                100,
+                            ),
+                          )}%`}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Direction score</dt>
+                    <dd>
+                      {forecast.directionalAccuracy === null
+                        ? 'Not scored'
+                        : `${Math.round(
+                            forecast.directionalAccuracy * 100,
+                          )}%`}
+                    </dd>
                   </div>
                 </dl>
               </article>
