@@ -57,6 +57,40 @@ jobs:
           deno check supabase/functions/create-payment-quote/index.ts
           deno check supabase/functions/create-paper-portfolio/index.ts
           deno check supabase/functions/submit-paper-order/index.ts
+          deno check supabase/functions/refresh-paper-risk/index.ts
+          deno check supabase/functions/set-paper-trading-control/index.ts
+
+  database-migrations:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Start isolated Supabase Postgres
+        run: >-
+          npx supabase start
+          --exclude gotrue,realtime,storage-api,imgproxy,kong,mailpit,postgrest,postgres-meta,studio,edge-runtime,logflare,vector,supavisor
+
+      - name: Rebuild database from migrations
+        run: npx supabase db reset --local --no-seed
+
+      - name: Test risk-engine database contracts
+        run: npx supabase test db supabase/tests/database/portfolio_risk_engine.test.sql
+
+      - name: Stop isolated Supabase services
+        if: always()
+        run: npx supabase stop --no-backup
 
   ml-forecasting:
     runs-on: ubuntu-latest

@@ -10,6 +10,9 @@ type PaperOrderRequest = {
 }
 
 function safeOrderError(message: string) {
+  if (message.includes('kill switch')) {
+    return 'Paper trading is paused by the portfolio kill switch.'
+  }
   if (message.includes('market price is stale')) {
     return 'The synchronized market price is stale. Please wait for the next data sync.'
   }

@@ -50,6 +50,19 @@ compliance boundaries are designed in before execution features are enabled.
 - Pre-trade checks reject excessive order/position sizes, insufficient virtual
   cash and unsupported sells while retaining an audit record.
 
+### Phase 3B — portfolio risk and reconciliation
+
+- Authenticated users can run a monitored valuation and reconciliation for a
+  private paper portfolio.
+- The risk engine records NAV, gross/net exposure, concentration, cash reserve,
+  drawdown, 24-hour P&L and a transparent 95% one-day historical scenario VaR.
+- VaR is withheld as a decision metric until at least 20 daily scenarios exist.
+- Virtual cash reconciles to the ledger and positions reconcile to signed fills;
+  exceptions remain visible and auditable.
+- Critical stale-price, drawdown, loss or VaR breaches can automatically engage
+  a paper-trading kill switch. Users can also pause simulated trading manually.
+- A system-triggered kill switch requires risk review before it can be released.
+
 ## Architecture
 
 ```text
@@ -95,7 +108,7 @@ server-side secrets. Never expose them through a `VITE_*` variable.
 
 ## Edge Functions
 
-The repository contains five initial server-side functions:
+The repository contains seven initial server-side functions:
 
 | Function | Purpose | Authorization |
 | --- | --- | --- |
@@ -104,6 +117,8 @@ The repository contains five initial server-side functions:
 | `create-payment-quote` | Persist an authenticated, non-executable indicative quote | Supabase user JWT |
 | `create-paper-portfolio` | Create a plan-limited portfolio with virtual cash and risk limits | Supabase user JWT |
 | `submit-paper-order` | Submit an idempotent, risk-checked simulated market order | Supabase user JWT |
+| `refresh-paper-risk` | Value and reconcile an owned simulation portfolio | Supabase user JWT |
+| `set-paper-trading-control` | Pause or resume user-controlled paper trading | Supabase user JWT |
 
 Set a strong `SYNC_SECRET` in Supabase secrets before deploying scheduled
 functions. Supabase supplies `SUPABASE_URL`, `SUPABASE_ANON_KEY` and
@@ -121,8 +136,9 @@ npm run build
 PYTHONPATH=services/forecasting/src python -m unittest discover -s services/forecasting/tests -v
 ```
 
-GitHub Actions validates the browser application, all Edge Functions and the ML
-forecasting worker for pull requests and pushes to `main`.
+GitHub Actions validates the browser application, all Edge Functions, the ML
+forecasting worker, and a clean rebuild of every migration in an isolated
+Supabase Postgres instance for pull requests and pushes to `main`.
 
 ## ML forecasting service
 
