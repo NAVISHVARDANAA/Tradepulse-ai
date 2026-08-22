@@ -129,47 +129,46 @@ function App() {
   const [marketError, setMarketError] = useState<string | null>(null)
 
   useEffect(() => {
-  getMarketAssets()
-    .then((data) => {
-      setMarketAssets(data)
-      setMarketError(null)
-    })
-    .catch((error) => {
-      console.error('Failed to load market assets:', error)
-      setMarketError('Unable to load market data.')
-    })
-    .finally(() => {
-      setMarketLoading(false)
-    })
+    getMarketAssets()
+      .then((data) => {
+        setMarketAssets(data)
+        setMarketError(null)
+      })
+      .catch((error) => {
+        console.error('Failed to load market assets:', error)
+        setMarketError('Unable to load market data.')
+      })
+      .finally(() => {
+        setMarketLoading(false)
+      })
 
-  const channel = supabase
-    .channel('market-observations-realtime')
-    .on(
-      'postgres_changes',
-      {
-        event: '*',
-        schema: 'public',
-        table: 'market_observations',
-      },
-      () => {
-        getMarketAssets()
-          .then((data) => {
-            setMarketAssets(data)
-            setMarketError(null)
-          })
-          .catch((error) => {
-            console.error('Failed to refresh market assets:', error)
-            setMarketError('Unable to refresh market data.')
-          })
-      },
-    )
-    .subscribe()
+    const channel = supabase
+      .channel('market-observations-realtime')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'market_observations',
+        },
+        () => {
+          getMarketAssets()
+            .then((data) => {
+              setMarketAssets(data)
+              setMarketError(null)
+            })
+            .catch((error) => {
+              console.error('Failed to refresh market assets:', error)
+              setMarketError('Unable to refresh market data.')
+            })
+        },
+      )
+      .subscribe()
 
-  return () => {
-    supabase.removeChannel(channel)
-  }
-}, [])
-  console.log('Supabase market assets:', marketAssets)
+    return () => {
+      supabase.removeChannel(channel)
+    }
+  }, [])
 
   const formatMarketPrice = (
     symbol: string,
@@ -191,15 +190,18 @@ function App() {
   }
 
   const markets = marketAssets.map((asset) => {
-    const change = asset.change_percent ?? 0
+    const change = asset.change_percent
+    const tone =
+      change === null ? 'neutral' : change >= 0 ? 'positive' : 'negative'
 
     return {
       name: asset.symbol,
       value: formatMarketPrice(asset.symbol, asset.price),
-      change: `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`,
-      tone: change >= 0 ? 'positive' : 'negative',
-      price: asset.price,
-      observedAt: asset.observed_at,
+      change:
+        change === null
+          ? '—'
+          : `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`,
+      tone,
     }
   })
 
@@ -309,15 +311,15 @@ function App() {
 
             <div className="market-grid">
               {marketLoading ? (
-                <div className="market-loading">
+                <div className="market-state" role="status">
                   Loading market data...
                 </div>
               ) : marketError ? (
-                <div className="market-loading">
+                <div className="market-state" role="alert">
                   {marketError}
                 </div>
               ) : markets.length === 0 ? (
-                <div className="market-loading">
+                <div className="market-state" role="status">
                   No market observations available.
                 </div>
               ) : (
@@ -329,11 +331,7 @@ function App() {
                       </span>
 
                       <span
-                        className={
-                          market.tone === 'positive'
-                            ? 'market-chip positive'
-                            : 'market-chip negative'
-                        }
+                        className={`market-chip ${market.tone}`}
                       >
                         {market.change}
                       </span>
@@ -346,7 +344,9 @@ function App() {
                     <div className="market-footnote">
                       {market.tone === 'positive'
                         ? 'Positive momentum'
-                        : 'Pullback watch'}
+                        : market.tone === 'negative'
+                          ? 'Pullback watch'
+                          : 'Awaiting live data'}
                     </div>
                   </div>
                 ))

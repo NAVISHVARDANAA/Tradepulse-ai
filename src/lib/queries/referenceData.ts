@@ -30,19 +30,18 @@ export async function getMarketAssets() {
       )
     `)
     .order('symbol')
+    .order('observed_at', {
+      referencedTable: 'market_observations',
+      ascending: false,
+    })
+    .limit(1, { referencedTable: 'market_observations' })
 
   if (error) {
     throw error
   }
 
   return data.map((asset) => {
-    const observations = [...(asset.market_observations ?? [])].sort(
-      (a, b) =>
-        new Date(b.observed_at).getTime() -
-        new Date(a.observed_at).getTime(),
-    )
-
-    const latest = observations[0]
+    const latest = asset.market_observations?.[0]
 
     return {
       id: asset.id,
@@ -57,4 +56,3 @@ export async function getMarketAssets() {
     }
   })
 }
-
