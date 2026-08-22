@@ -309,6 +309,18 @@ h1 {
   gap: 14px;
 }
 
+.market-state {
+  grid-column: 1 / -1;
+  min-height: 120px;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  border-radius: 18px;
+  border: 1px dashed rgba(148, 163, 184, 0.2);
+  color: var(--muted);
+  text-align: center;
+}
+
 .market-card {
   padding: 16px 14px;
   border-radius: 18px;
@@ -342,6 +354,11 @@ h1 {
 .market-chip.negative {
   background: rgba(248, 113, 113, 0.1);
   color: var(--negative);
+}
+
+.market-chip.neutral {
+  background: rgba(148, 163, 184, 0.1);
+  color: var(--muted);
 }
 
 .market-value {
