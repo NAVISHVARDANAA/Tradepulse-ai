@@ -38,6 +38,18 @@ compliance boundaries are designed in before execution features are enabled.
   portfolios, simulated orders, fills, positions and risk checks have isolated
   schemas. Live execution has no writable order path.
 
+### Phase 3 — authenticated paper investing
+
+- Passwordless Supabase authentication protects each user's simulation data.
+- Paper portfolio creation is server-controlled and plan-limited.
+- Virtual cash, risk limits, orders, fills, positions and ledger entries update
+  together through a service-only transactional database function.
+- Market orders require a synchronized, non-stale price and record simulated
+  slippage and fees.
+- Order idempotency prevents duplicate fills during retries.
+- Pre-trade checks reject excessive order/position sizes, insufficient virtual
+  cash and unsupported sells while retaining an audit record.
+
 ## Architecture
 
 ```text
@@ -83,13 +95,15 @@ server-side secrets. Never expose them through a `VITE_*` variable.
 
 ## Edge Functions
 
-The repository contains three initial server-side functions:
+The repository contains five initial server-side functions:
 
 | Function | Purpose | Authorization |
 | --- | --- | --- |
 | `sync-fx-market-data` | Fetch and normalize EUR/USD and USD/INR reference rates from Frankfurter v2 | `x-sync-secret` |
 | `generate-market-forecasts` | Generate a versioned 24-hour baseline forecast after enough observations exist | `x-sync-secret` |
 | `create-payment-quote` | Persist an authenticated, non-executable indicative quote | Supabase user JWT |
+| `create-paper-portfolio` | Create a plan-limited portfolio with virtual cash and risk limits | Supabase user JWT |
+| `submit-paper-order` | Submit an idempotent, risk-checked simulated market order | Supabase user JWT |
 
 Set a strong `SYNC_SECRET` in Supabase secrets before deploying scheduled
 functions. Supabase supplies `SUPABASE_URL`, `SUPABASE_ANON_KEY` and

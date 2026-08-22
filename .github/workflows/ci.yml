@@ -55,6 +55,8 @@ jobs:
           deno check supabase/functions/sync-fx-market-data/index.ts
           deno check supabase/functions/generate-market-forecasts/index.ts
           deno check supabase/functions/create-payment-quote/index.ts
+          deno check supabase/functions/create-paper-portfolio/index.ts
+          deno check supabase/functions/submit-paper-order/index.ts
 
   ml-forecasting:
     runs-on: ubuntu-latest
