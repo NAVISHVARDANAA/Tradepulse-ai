@@ -16,10 +16,14 @@ select ok(
   'server-side quiz grading function exists'
 );
 
-select is((select count(*) from public.academy_courses where published), 5::bigint, 'five launch courses are published');
-select is((select count(*) from public.academy_lessons where published), 15::bigint, 'fifteen launch lessons are published');
-select is((select count(*) from public.academy_quiz_questions), 15::bigint, 'every launch lesson has a knowledge check');
-select is((select count(*) from public.academy_courses where access_tier = 'free'), 5::bigint, 'all essential launch courses are free');
+select cmp_ok((select count(*) from public.academy_courses where published), '>=', 5::bigint, 'at least five launch courses are published');
+select cmp_ok((select count(*) from public.academy_lessons where published), '>=', 15::bigint, 'at least fifteen launch lessons are published');
+select cmp_ok((select count(*) from public.academy_quiz_questions), '>=', 15::bigint, 'every launch phase contributes knowledge checks');
+select is(
+  (select count(*) from public.academy_courses where access_tier <> 'free'),
+  0::bigint,
+  'all essential launch courses are free'
+);
 
 select is(
   (

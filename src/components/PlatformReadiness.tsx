@@ -54,8 +54,8 @@ const capabilities = [
   },
   {
     label: 'Live execution',
-    status: 'Compliance locked',
-    detail: 'Requires jurisdiction, KYC and licensed providers',
+    status: 'Phase 4A controls active',
+    detail: 'Broker-neutral previews expose every launch blocker; routing remains hard locked',
     tone: 'locked',
     icon: ShieldCheck,
   },

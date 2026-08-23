@@ -16,6 +16,7 @@ import {
 } from 'lucide-react'
 
 import { AcademyPanel } from './components/AcademyPanel'
+import { BrokerageReadinessPanel } from './components/BrokerageReadinessPanel'
 import { ForecastPanel } from './components/ForecastPanel'
 import { GlobalEquityResearchPanel } from './components/GlobalEquityResearchPanel'
 import { GuidedOnboarding } from './components/GuidedOnboarding'
@@ -50,6 +51,7 @@ const navItems = [
   { label: 'Forecasts', href: '#forecasts' },
   { label: 'Paper investing', href: '#paper-investing' },
   { label: 'Risk center', href: '#risk-command-center' },
+  { label: 'Brokerage readiness', href: '#brokerage-readiness' },
   { label: 'Trade data', href: '#trade-data' },
   { label: 'Payments', href: '#payments' },
 ]
@@ -483,6 +485,8 @@ function App() {
 
         <PortfolioRiskCommandCenter />
 
+        <BrokerageReadinessPanel />
+
         <section className="panel table-panel" id="trade-data">
           <div className="panel-header">
             <div>
@@ -553,7 +557,7 @@ function App() {
         />
 
         <footer className="product-footer">
-          <span>TradePulse AI · Research, copilot and Academy foundation</span>
+          <span>TradePulse AI · Research, learning and regulated-trading foundation</span>
           <span>Research classifications and forecasts are not financial advice.</span>
         </footer>
       </main>

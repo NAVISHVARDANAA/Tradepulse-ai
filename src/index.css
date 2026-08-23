@@ -3364,6 +3364,503 @@ tbody tr:hover {
   background: #facc15;
 }
 
+.brokerage-panel {
+  margin-bottom: 22px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 7% 0%, rgba(244, 63, 94, 0.09), transparent 25%),
+    radial-gradient(circle at 94% 7%, rgba(56, 189, 248, 0.07), transparent 27%),
+    var(--panel);
+}
+
+.brokerage-lock-badge {
+  border-color: rgba(251, 113, 133, 0.2);
+  background: rgba(159, 18, 57, 0.13);
+  color: #fda4af;
+}
+
+.brokerage-description {
+  max-width: 960px;
+}
+
+.brokerage-lock-banner {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border: 1px solid rgba(251, 113, 133, 0.16);
+  border-radius: 13px;
+  background: rgba(76, 5, 25, 0.18);
+  color: #fb7185;
+}
+
+.brokerage-lock-banner strong,
+.brokerage-lock-banner span {
+  display: block;
+}
+
+.brokerage-lock-banner strong {
+  color: #ffe4e6;
+  font-size: 0.72rem;
+}
+
+.brokerage-lock-banner div span {
+  margin-top: 3px;
+  color: #94a3b8;
+  font-size: 0.6rem;
+  line-height: 1.45;
+}
+
+.brokerage-lock-banner > span {
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: rgba(251, 113, 133, 0.09);
+  color: #fda4af;
+  font-size: 0.55rem;
+  font-weight: 800;
+}
+
+.brokerage-empty {
+  display: flex;
+  min-height: 185px;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  padding: 24px;
+  border: 1px dashed rgba(148, 163, 184, 0.15);
+  border-radius: 15px;
+  background: rgba(8, 16, 30, 0.44);
+  color: #64748b;
+}
+
+.brokerage-empty > svg {
+  color: #38bdf8;
+}
+
+.brokerage-empty strong,
+.brokerage-empty span {
+  display: block;
+}
+
+.brokerage-empty strong {
+  color: #e2e8f0;
+  font-size: 0.76rem;
+}
+
+.brokerage-empty span {
+  max-width: 560px;
+  margin-top: 3px;
+  color: #94a3b8;
+  font-size: 0.62rem;
+  line-height: 1.5;
+}
+
+.brokerage-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 11px;
+}
+
+.brokerage-summary-grid article {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 8px;
+  align-items: center;
+  padding: 11px 12px;
+  border: 1px solid rgba(56, 189, 248, 0.11);
+  border-radius: 12px;
+  background: rgba(8, 18, 34, 0.62);
+  color: #38bdf8;
+}
+
+.brokerage-summary-grid article.locked {
+  border-color: rgba(251, 113, 133, 0.13);
+  color: #fb7185;
+}
+
+.brokerage-summary-grid svg {
+  grid-row: 1 / span 2;
+}
+
+.brokerage-summary-grid span,
+.brokerage-summary-grid strong {
+  display: block;
+}
+
+.brokerage-summary-grid span {
+  color: #64748b;
+  font-size: 0.55rem;
+}
+
+.brokerage-summary-grid strong {
+  color: #dbeafe;
+  font-size: 0.68rem;
+  text-transform: capitalize;
+}
+
+.brokerage-grid,
+.brokerage-preview-layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 11px;
+  margin-bottom: 11px;
+}
+
+.brokerage-card,
+.brokerage-preview-form,
+.brokerage-preview-result,
+.brokerage-history {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 15px;
+  background: rgba(8, 16, 30, 0.58);
+}
+
+.brokerage-card-head,
+.preview-result-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: #38bdf8;
+}
+
+.brokerage-card-head span,
+.brokerage-card-head strong,
+.preview-result-head span,
+.preview-result-head strong {
+  display: block;
+}
+
+.brokerage-card-head span,
+.preview-result-head span {
+  color: #64748b;
+  font-size: 0.54rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.brokerage-card-head strong,
+.preview-result-head strong {
+  margin-top: 2px;
+  color: #e2e8f0;
+  font-size: 0.75rem;
+}
+
+.brokerage-check-list,
+.brokerage-disclosures,
+.preview-blockers {
+  display: grid;
+  gap: 7px;
+  margin-top: 11px;
+}
+
+.brokerage-check {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 9px;
+  border: 1px solid rgba(148, 163, 184, 0.09);
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.45);
+  color: #64748b;
+}
+
+.brokerage-check.passed {
+  border-color: rgba(52, 211, 153, 0.11);
+  color: #34d399;
+}
+
+.brokerage-check strong,
+.brokerage-check span {
+  display: block;
+}
+
+.brokerage-check strong {
+  color: #cbd5e1;
+  font-size: 0.61rem;
+}
+
+.brokerage-check span {
+  margin-top: 2px;
+  color: #64748b;
+  font-size: 0.54rem;
+  text-transform: capitalize;
+}
+
+.brokerage-check small {
+  padding: 4px 6px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.07);
+  color: #94a3b8;
+  font-size: 0.49rem;
+}
+
+.brokerage-disclosures article {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.09);
+  border-radius: 11px;
+  background: rgba(15, 23, 42, 0.44);
+}
+
+.brokerage-disclosures strong,
+.brokerage-disclosures span {
+  display: block;
+}
+
+.brokerage-disclosures strong {
+  color: #dbeafe;
+  font-size: 0.62rem;
+}
+
+.brokerage-disclosures span {
+  margin-top: 4px;
+  color: #64748b;
+  font-size: 0.54rem;
+  line-height: 1.45;
+}
+
+.brokerage-disclosures small {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #34d399;
+  font-size: 0.52rem;
+}
+
+.brokerage-disclosures .secondary-button {
+  white-space: nowrap;
+}
+
+.brokerage-consent-note {
+  margin: 10px 0 0;
+  color: #64748b;
+  font-size: 0.53rem;
+  line-height: 1.5;
+}
+
+.brokerage-preview-form > small {
+  display: block;
+  margin-top: 8px;
+  color: #64748b;
+  font-size: 0.52rem;
+}
+
+.brokerage-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  margin: 13px 0;
+}
+
+.brokerage-form-grid label {
+  display: grid;
+  gap: 5px;
+  color: #94a3b8;
+  font-size: 0.57rem;
+}
+
+.brokerage-form-grid label:first-child {
+  grid-column: 1 / -1;
+}
+
+.brokerage-form-grid select,
+.brokerage-form-grid input {
+  width: 100%;
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 9px;
+  outline: none;
+  background: #0a1425;
+  color: #dbeafe;
+  font: inherit;
+}
+
+.brokerage-form-grid select:focus,
+.brokerage-form-grid input:focus {
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.brokerage-preview-button {
+  width: 100%;
+  justify-content: center;
+}
+
+.brokerage-preview-result {
+  min-height: 310px;
+}
+
+.preview-placeholder {
+  display: flex;
+  height: 100%;
+  min-height: 280px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 7px;
+  text-align: center;
+  color: #fb7185;
+}
+
+.preview-placeholder strong {
+  color: #ffe4e6;
+  font-size: 0.76rem;
+}
+
+.preview-placeholder span {
+  max-width: 350px;
+  color: #64748b;
+  font-size: 0.58rem;
+  line-height: 1.5;
+}
+
+.preview-result-head {
+  color: #fb7185;
+}
+
+.preview-result-head strong {
+  color: #fda4af;
+}
+
+.preview-values {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+  margin: 12px 0;
+}
+
+.preview-values div {
+  padding: 9px;
+  border: 1px solid rgba(148, 163, 184, 0.09);
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.46);
+}
+
+.preview-values span,
+.preview-values strong {
+  display: block;
+}
+
+.preview-values span {
+  color: #64748b;
+  font-size: 0.51rem;
+}
+
+.preview-values strong {
+  margin-top: 3px;
+  color: #e2e8f0;
+  font-size: 0.59rem;
+}
+
+.preview-blockers > span {
+  color: #fda4af;
+  font-size: 0.56rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.preview-blockers > div {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 8px;
+  border-radius: 9px;
+  background: rgba(76, 5, 25, 0.17);
+  color: #fb7185;
+}
+
+.preview-blockers p {
+  margin: 0;
+}
+
+.preview-blockers strong,
+.preview-blockers small {
+  display: block;
+}
+
+.preview-blockers strong {
+  color: #fecdd3;
+  font-size: 0.56rem;
+  line-height: 1.4;
+}
+
+.preview-blockers small {
+  margin-top: 2px;
+  color: #64748b;
+  font-size: 0.49rem;
+  text-transform: capitalize;
+}
+
+.brokerage-history {
+  margin-top: 2px;
+}
+
+.brokerage-history > div:first-child span,
+.brokerage-history > div:first-child strong {
+  display: block;
+}
+
+.brokerage-history > div:first-child span {
+  color: #64748b;
+  font-size: 0.53rem;
+  text-transform: uppercase;
+}
+
+.brokerage-history > div:first-child strong {
+  margin-top: 2px;
+  color: #e2e8f0;
+  font-size: 0.72rem;
+}
+
+.brokerage-history-list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.brokerage-history-list article {
+  padding: 9px;
+  border: 1px solid rgba(148, 163, 184, 0.09);
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.43);
+}
+
+.brokerage-history-list strong,
+.brokerage-history-list span,
+.brokerage-history-list small {
+  display: block;
+}
+
+.brokerage-history-list strong {
+  color: #dbeafe;
+  font-size: 0.62rem;
+}
+
+.brokerage-history-list span {
+  margin: 3px 0 6px;
+  color: #94a3b8;
+  font-size: 0.52rem;
+}
+
+.brokerage-history-list small {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: #fb7185;
+  font-size: 0.48rem;
+}
+
 .payment-panel {
   margin-bottom: 22px;
 }
@@ -3423,6 +3920,10 @@ tbody tr:hover {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     border-right: 0;
     border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+  }
+
+  .brokerage-history-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .alert-card {
@@ -3499,8 +4000,31 @@ tbody tr:hover {
   .copilot-metrics,
   .copilot-grid,
   .academy-trust-row,
-  .academy-layout {
+  .academy-layout,
+  .brokerage-summary-grid,
+  .brokerage-grid,
+  .brokerage-preview-layout,
+  .brokerage-history-list {
     grid-template-columns: 1fr;
+  }
+
+  .brokerage-lock-banner {
+    grid-template-columns: auto 1fr;
+  }
+
+  .brokerage-lock-banner > span {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+
+  .brokerage-disclosures article,
+  .brokerage-form-grid,
+  .preview-values {
+    grid-template-columns: 1fr;
+  }
+
+  .brokerage-form-grid label:first-child {
+    grid-column: auto;
   }
 
   .panel-header-actions {
