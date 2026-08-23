@@ -86,6 +86,7 @@ jobs:
       - name: Verify production execution locks
         run: >-
           npx --no-install supabase db query
+          --linked
           --project-ref "$SUPABASE_PROJECT_REF"
           --file supabase/tests/production/brokerage_readiness_smoke.sql
 
