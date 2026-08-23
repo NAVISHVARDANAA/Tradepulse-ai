@@ -86,6 +86,7 @@ export async function getMarketAssets(): Promise<MarketAssetSnapshot[]> {
         source
       )
     `)
+    .in('asset_type', ['forex', 'commodity', 'index'])
     .order('symbol')
     .order('observed_at', {
       referencedTable: 'market_observations',

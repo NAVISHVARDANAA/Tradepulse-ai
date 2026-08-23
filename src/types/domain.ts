@@ -73,3 +73,65 @@ export type PaymentCorridor = {
   minimumFee: number
   settlementMinutes: number
 }
+
+export type EquityCoverageStatus =
+  | 'reference'
+  | 'delayed'
+  | 'realtime'
+  | 'unavailable'
+
+export type EquityResearchClassification =
+  | 'research_positive'
+  | 'research_neutral'
+  | 'research_cautious'
+  | 'insufficient_data'
+
+export type EquityResearchSnapshot = {
+  securityId: number
+  marketAssetId: number
+  symbol: string
+  companyName: string
+  assetClass: 'equity' | 'etf'
+  exchangeCode: string
+  exchangeName: string | null
+  countryCode: string | null
+  currency: string
+  sector: string | null
+  industry: string | null
+  providerName: string
+  coverageStatus: EquityCoverageStatus | null
+  delayMinutes: number | null
+  licenseStatus: string | null
+  lastSynchronizedAt: string | null
+  observedAt: string | null
+  price: number | null
+  changePercent: number | null
+  priceSource: string | null
+  forecast: MarketForecast | null
+  researchScore: number | null
+  researchClassification: EquityResearchClassification | null
+  researchConfidence: number | null
+  componentScores: {
+    forecast: number | null
+    momentum: number | null
+    quality: number | null
+    valuation: number | null
+    risk: number | null
+    dataQuality: number | null
+  }
+  methodologyVersion: string | null
+  reasons: string[]
+  riskFlags: string[]
+  fundamentalPeriodEnd: string | null
+  revenue: number | null
+  netIncome: number | null
+  dilutedEps: number | null
+  peRatio: number | null
+  priceToBook: number | null
+  dividendYield: number | null
+}
+
+export type EquityPricePoint = {
+  observedAt: string
+  price: number
+}

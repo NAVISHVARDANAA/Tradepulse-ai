@@ -1,7 +1,7 @@
 # TradePulse AI
 
-TradePulse AI is an early-stage global market, trade-intelligence and
-cross-border payment platform. The product is being built as a real FinTech
+TradePulse AI is an early-stage global market research, forecasting, paper
+investing and trade-intelligence platform. The product is being built as a real FinTech
 foundation: data provenance, model uncertainty, access controls and payment
 compliance boundaries are designed in before execution features are enabled.
 
@@ -63,6 +63,24 @@ compliance boundaries are designed in before execution features are enabled.
   a paper-trading kill switch. Users can also pause simulated trading manually.
 - A system-triggered kill switch requires risk review before it can be released.
 
+### Phase 3C — global equity research
+
+- A provider-neutral security and coverage registry separates reference,
+  delayed, licensed real-time and unavailable data states.
+- The first server-side adapter imports selected active US equities and adjusted
+  daily bars from Alpaca. Global venue adapters can use the same contracts.
+- A searchable per-stock dashboard shows price provenance, history, licensed
+  fundamentals, display-qualified forecasts, uncertainty and model validation.
+- A versioned research methodology combines forecast, momentum, company
+  quality, valuation, volatility and data-quality components. Each score retains
+  human-readable evidence and risk flags.
+- Classifications are non-personalized research summaries, never buy/sell/hold
+  instructions or suitability advice.
+- Provider display licensing must be explicitly approved server-side; the sync
+  refuses to ingest provider data until that approval is present.
+- Global commercial billing is designed around USD and GBP. User profiles retain
+  a preferred billing currency without creating any fund-movement capability.
+
 ## Architecture
 
 ```text
@@ -108,7 +126,7 @@ server-side secrets. Never expose them through a `VITE_*` variable.
 
 ## Edge Functions
 
-The repository contains seven initial server-side functions:
+The repository contains ten initial server-side functions:
 
 | Function | Purpose | Authorization |
 | --- | --- | --- |
@@ -119,10 +137,26 @@ The repository contains seven initial server-side functions:
 | `submit-paper-order` | Submit an idempotent, risk-checked simulated market order | Supabase user JWT |
 | `refresh-paper-risk` | Value and reconcile an owned simulation portfolio | Supabase user JWT |
 | `set-paper-trading-control` | Pause or resume user-controlled paper trading | Supabase user JWT |
+| `sync-equity-market-data` | Import approved equity reference data and adjusted daily bars with explicit feed/licensing state | `x-sync-secret` |
+| `generate-equity-research` | Publish versioned, non-personalized research classifications and explanations | `x-sync-secret` |
+| `sync-sec-equity-fundamentals` | Import reported US-company facts from SEC EDGAR with public-domain provenance | `x-sync-secret` |
 
 Set a strong `SYNC_SECRET` in Supabase secrets before deploying scheduled
 functions. Supabase supplies `SUPABASE_URL`, `SUPABASE_ANON_KEY` and
 `SUPABASE_SERVICE_ROLE_KEY` to deployed Edge Functions.
+
+The initial equity adapter also expects `ALPACA_API_KEY_ID`,
+`ALPACA_API_SECRET_KEY` and a comma-separated `EQUITY_SYNC_SYMBOLS` allowlist.
+`ALPACA_DATA_FEED` accepts `iex`, `delayed_sip` or `sip`. Synchronization is
+refused until `EQUITY_DATA_DISPLAY_LICENSED=true` confirms approved display rights;
+set `ALPACA_REALTIME_LICENSED=true` only for a contract that permits SIP
+real-time display. IEX is labeled as a partial reference feed, not consolidated
+US-market coverage.
+
+The SEC fundamentals adapter requires a descriptive `SEC_USER_AGENT` containing
+an application name and operational contact. It processes at most 20 approved
+US securities per invocation and stores the filing date, fiscal period and
+CompanyFacts source URL with every public-domain snapshot.
 
 Frankfurter rates are reference rates, not executable trading prices. For
 production, retain provider attribution and confirm the terms for every
@@ -159,13 +193,19 @@ instrument eligibility, compliance-managed investor profiles and paper trading.
 All jurisdictions start as `research_only`; all venue execution flags start
 disabled; and the only client-submittable order mode is `paper`.
 
+Migration `011_global_equity_research.sql` adds the equity security master,
+coverage registry, licensed-fundamentals boundary and explainable research
+surface, plus USD/GBP billing-currency preferences. It does not create a live
+brokerage or payment route.
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction
 costs, drift monitoring and independent risk review before it can influence
 trades.
 
-Cross-border payments require, at minimum, authenticated customers, KYC/KYB,
+Cross-border payment execution is intentionally scheduled after the trading and
+research platform phases. It requires, at minimum, authenticated customers, KYC/KYB,
 AML and sanctions screening, transaction monitoring, audit retention,
 idempotent provider orchestration, reconciliation, dispute/refund handling,
 encryption and a licensed banking/payment partner in every operating corridor.
