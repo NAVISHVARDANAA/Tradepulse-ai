@@ -218,6 +218,10 @@ GitHub Actions validates the browser application, all Edge Functions, the ML
 forecasting worker, and a clean rebuild of every migration in an isolated
 Supabase Postgres instance for pull requests and pushes to `main`.
 
+Production Supabase releases are manual and environment-protected. See
+[`docs/SUPABASE_DEPLOYMENT.md`](docs/SUPABASE_DEPLOYMENT.md) for the required
+GitHub environment secrets, approval gate and Phase 4A release procedure.
+
 ## ML forecasting service
 
 `services/forecasting` contains the scheduled production ML worker. It builds
