@@ -1,4 +1,7 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0'
+import {
+  createClient,
+  type SupabaseClient,
+} from 'https://esm.sh/@supabase/supabase-js@2.45.0'
 
 import { requireUser } from '../_shared/auth.ts'
 import { corsHeaders, jsonResponse } from '../_shared/http.ts'
@@ -34,6 +37,8 @@ type AlertRow = {
 }
 
 const COPILOT_VERSION = 'research-copilot-v1.0.0'
+
+type AdminClient = SupabaseClient<any, 'public', any>
 
 function numberOrNull(value: NumericValue | undefined) {
   if (value === null || value === undefined) return null
@@ -125,7 +130,7 @@ function alertCopy(alert: AlertRow, row: ResearchRow, observed: number | null) {
 }
 
 async function evaluateAlerts(
-  admin: ReturnType<typeof createClient>,
+  admin: AdminClient,
   userId: string,
   rows: ResearchRow[],
 ) {
@@ -205,7 +210,7 @@ async function evaluateAlerts(
 }
 
 async function generateForUser(
-  admin: ReturnType<typeof createClient>,
+  admin: AdminClient,
   userId: string,
   cadenceOverride: 'on_demand' | null,
 ) {
