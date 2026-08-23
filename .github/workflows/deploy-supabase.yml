@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type DEPLOY_PHASE_4A to release pending migrations and the brokerage preview function
+        description: Type DEPLOY_PHASE_4B to release pending migrations and verify brokerage safety controls
         required: true
         type: string
 
@@ -38,8 +38,8 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "DEPLOY_PHASE_4A" || {
-            echo "Release confirmation did not match DEPLOY_PHASE_4A."
+          test "$RELEASE_CONFIRMATION" = "DEPLOY_PHASE_4B" || {
+            echo "Release confirmation did not match DEPLOY_PHASE_4B."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -90,7 +90,7 @@ jobs:
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])014([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])015([^0-9]|$)' migration-list.txt
 
       - name: Verify the deployed Edge Function
         run: |
@@ -106,6 +106,7 @@ jobs:
       - name: Verify production execution locks
         run: >-
           npx --no-install supabase db query
+          --linked
           --project-ref "$SUPABASE_PROJECT_REF"
           --file supabase/tests/production/brokerage_readiness_smoke.sql
 
@@ -132,7 +133,8 @@ jobs:
             echo "## Supabase production deployment"
             echo
             echo "- Commit: \`$GITHUB_SHA\`"
-            echo "- Migration 014: verified"
+            echo "- Migration 015: verified"
+            echo "- Broker sandbox certification controls: verified"
             echo "- preview-brokerage-order: ACTIVE"
             echo "- Production execution locks: verified"
             echo "- Unauthenticated preview request: blocked with HTTP 401"

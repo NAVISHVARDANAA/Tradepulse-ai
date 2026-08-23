@@ -3501,6 +3501,140 @@ tbody tr:hover {
   text-transform: capitalize;
 }
 
+.brokerage-certification {
+  margin-bottom: 11px;
+  padding: 14px;
+  border: 1px solid rgba(56, 189, 248, 0.13);
+  border-radius: 15px;
+  background:
+    linear-gradient(145deg, rgba(14, 116, 144, 0.07), transparent 42%),
+    rgba(8, 16, 30, 0.58);
+}
+
+.certification-overview {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.certification-overview > div {
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.09);
+  border-radius: 11px;
+  background: rgba(15, 23, 42, 0.44);
+}
+
+.certification-overview span,
+.certification-overview strong,
+.certification-overview small {
+  display: block;
+}
+
+.certification-overview span {
+  color: #64748b;
+  font-size: 0.52rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.certification-overview strong {
+  margin-top: 4px;
+  overflow: hidden;
+  color: #dbeafe;
+  font-size: 0.65rem;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.certification-overview small {
+  margin-top: 3px;
+  color: #64748b;
+  font-size: 0.5rem;
+  line-height: 1.35;
+}
+
+.certification-status.passed {
+  color: #34d399;
+}
+
+.certification-status.failed {
+  color: #fb7185;
+}
+
+.certification-status.not-run {
+  color: #facc15;
+}
+
+.certification-matrix {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.certification-test {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 9px;
+  border: 1px solid rgba(148, 163, 184, 0.09);
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.42);
+  color: #64748b;
+}
+
+.certification-test.passed {
+  border-color: rgba(52, 211, 153, 0.12);
+  color: #34d399;
+}
+
+.certification-test.failed {
+  border-color: rgba(251, 113, 133, 0.14);
+  color: #fb7185;
+}
+
+.certification-test strong,
+.certification-test span {
+  display: block;
+}
+
+.certification-test strong {
+  color: #cbd5e1;
+  font-size: 0.6rem;
+}
+
+.certification-test span {
+  margin-top: 2px;
+  color: #64748b;
+  font-size: 0.51rem;
+  line-height: 1.4;
+}
+
+.certification-test small {
+  padding: 4px 6px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.07);
+  color: currentColor;
+  font-size: 0.47rem;
+  font-weight: 800;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.certification-boundary {
+  margin: 10px 0 0;
+  padding-top: 9px;
+  border-top: 1px solid rgba(148, 163, 184, 0.08);
+  color: #64748b;
+  font-size: 0.53rem;
+  line-height: 1.5;
+}
+
 .brokerage-grid,
 .brokerage-preview-layout {
   display: grid;
@@ -3882,6 +4016,10 @@ tbody tr:hover {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .certification-overview {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .equity-filter-bar {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -4002,6 +4140,8 @@ tbody tr:hover {
   .academy-trust-row,
   .academy-layout,
   .brokerage-summary-grid,
+  .certification-overview,
+  .certification-matrix,
   .brokerage-grid,
   .brokerage-preview-layout,
   .brokerage-history-list {

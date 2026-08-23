@@ -105,9 +105,46 @@ export type BrokeragePreview = {
   createdAt: string
 }
 
+export type BrokerCertificationSummary = {
+  providerId: number
+  providerCode: string
+  displayName: string
+  adapterContractVersion: string
+  regulatoryStatus: string
+  integrationStatus: string
+  liveOrderRoutingEnabled: boolean
+  requiredTests: number
+  latestRunId: string | null
+  latestStatus: 'passed' | 'failed' | null
+  suiteVersion: string | null
+  sourceCommitSha: string | null
+  passedTests: number
+  failedTests: number
+  completedAt: string | null
+  liveOrderRoutingTested: boolean
+}
+
+export type BrokerCertificationTest = {
+  providerId: number
+  providerCode: string
+  code: string
+  category: string
+  title: string
+  description: string
+  required: boolean
+  sequence: number
+  status: 'passed' | 'failed' | 'not_run'
+  latencyMs: number | null
+  attemptCount: number | null
+  errorCode: string | null
+  completedAt: string | null
+}
+
 export type BrokerageWorkspace = {
   readiness: BrokerageReadiness | null
   providers: BrokerProvider[]
+  certifications: BrokerCertificationSummary[]
+  certificationTests: BrokerCertificationTest[]
   disclosures: BrokerageDisclosure[]
   instruments: BrokerageInstrument[]
   previews: BrokeragePreview[]
@@ -159,12 +196,30 @@ function mapPreview(row: Record<string, any>, symbol: string | null = null): Bro
 }
 
 export async function getBrokerageWorkspace(): Promise<BrokerageWorkspace> {
-  const [readinessResult, providerResult, disclosureResult, consentResult, instrumentResult, previewResult] = await Promise.all([
+  const [
+    readinessResult,
+    providerResult,
+    certificationResult,
+    certificationTestResult,
+    disclosureResult,
+    consentResult,
+    instrumentResult,
+    previewResult,
+  ] = await Promise.all([
     supabase.from('brokerage_readiness_dashboard').select('*').maybeSingle(),
     supabase
       .from('broker_provider_registry')
       .select('id, code, display_name, adapter_contract_version, regulatory_status, integration_status, supported_asset_classes, account_connection_enabled, live_order_routing_enabled')
       .order('display_name'),
+    supabase
+      .from('broker_certification_readiness')
+      .select('*')
+      .order('display_name'),
+    supabase
+      .from('broker_certification_latest_results')
+      .select('*')
+      .order('provider_code')
+      .order('sequence'),
     supabase
       .from('brokerage_disclosures')
       .select('id, code, version, title, summary, required, effective_at')
@@ -190,6 +245,8 @@ export async function getBrokerageWorkspace(): Promise<BrokerageWorkspace> {
   const firstError = [
     readinessResult.error,
     providerResult.error,
+    certificationResult.error,
+    certificationTestResult.error,
     disclosureResult.error,
     consentResult.error,
     instrumentResult.error,
@@ -237,6 +294,39 @@ export async function getBrokerageWorkspace(): Promise<BrokerageWorkspace> {
       supportedAssetClasses: stringArray(provider.supported_asset_classes),
       accountConnectionEnabled: provider.account_connection_enabled,
       liveOrderRoutingEnabled: provider.live_order_routing_enabled,
+    })),
+    certifications: (certificationResult.data ?? []).map((certification) => ({
+      providerId: certification.provider_id,
+      providerCode: certification.provider_code,
+      displayName: certification.display_name,
+      adapterContractVersion: certification.adapter_contract_version,
+      regulatoryStatus: certification.regulatory_status,
+      integrationStatus: certification.integration_status,
+      liveOrderRoutingEnabled: certification.live_order_routing_enabled,
+      requiredTests: certification.required_tests,
+      latestRunId: certification.latest_run_id,
+      latestStatus: certification.latest_status,
+      suiteVersion: certification.suite_version,
+      sourceCommitSha: certification.source_commit_sha,
+      passedTests: certification.passed_tests ?? 0,
+      failedTests: certification.failed_tests ?? 0,
+      completedAt: certification.completed_at,
+      liveOrderRoutingTested: certification.live_order_routing_tested ?? false,
+    })),
+    certificationTests: (certificationTestResult.data ?? []).map((test) => ({
+      providerId: test.provider_id,
+      providerCode: test.provider_code,
+      code: test.test_code,
+      category: test.category,
+      title: test.title,
+      description: test.description,
+      required: test.required,
+      sequence: test.sequence,
+      status: test.status,
+      latencyMs: test.latency_ms,
+      attemptCount: test.attempt_count,
+      errorCode: test.error_code,
+      completedAt: test.completed_at,
     })),
     disclosures: (disclosureResult.data ?? []).map((disclosure) => ({
       id: disclosure.id,

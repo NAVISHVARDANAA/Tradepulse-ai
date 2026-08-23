@@ -125,6 +125,24 @@ lessons, and course completion cannot be forged by browser clients.
 provider lock, non-forgeable readiness state, consent audit path, preview
 idempotency and absence of any live-order table or submission function.
 
+### Phase 4B — broker sandbox certification (implemented)
+
+- Versioned adapter controls for sandbox isolation, secret redaction, account
+  normalization, order idempotency and lifecycle, signed webhooks, rate limits,
+  outage recovery, reconciliation and the production-route lock.
+- Service-only immutable reports with source commit, suite version, bounded
+  outcomes and evidence digests; raw provider payloads and credentials are never
+  stored in the certification control plane.
+- Sanitized provider readiness and per-control status views surface `passed`,
+  `failed` and `not_run` states to the product without implying regulatory
+  approval.
+- All certification runs are database-constrained to `sandbox`, and the live
+  execution lock remains independent and disabled.
+
+**Phase 4B exit gate:** clean migration rebuild, certification authorization and
+immutability tests, production read-only lock verification, and a complete
+broker sandbox report before any provider can enter formal certification.
+
 ### Future regulated activation work
 
 - Broker adapter behind a separately permissioned execution service.

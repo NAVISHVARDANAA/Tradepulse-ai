@@ -2,8 +2,11 @@ do $production_smoke$
 begin
   if to_regclass('public.broker_provider_registry') is null
     or to_regclass('public.brokerage_execution_controls') is null
-    or to_regclass('public.brokerage_order_previews') is null then
-    raise exception 'Phase 4A brokerage tables are incomplete';
+    or to_regclass('public.brokerage_order_previews') is null
+    or to_regclass('public.broker_certification_test_catalog') is null
+    or to_regclass('public.broker_certification_runs') is null
+    or to_regclass('public.broker_certification_results') is null then
+    raise exception 'Phase 4B brokerage tables are incomplete';
   end if;
 
   if not exists (
@@ -38,6 +41,25 @@ begin
     where executable or preview_status <> 'blocked'
   ) then
     raise exception 'A brokerage preview violates the non-executable blocked-state invariant';
+  end if;
+
+  if (
+    select count(*)
+    from public.broker_certification_test_catalog
+    where adapter_contract_version = 'broker-adapter-v1'
+      and active
+      and required
+  ) <> 10 then
+    raise exception 'The broker-adapter-v1 certification catalog is incomplete';
+  end if;
+
+  if exists (
+    select 1
+    from public.broker_certification_runs
+    where environment <> 'sandbox'
+      or live_order_routing_tested
+  ) then
+    raise exception 'A certification run violated the sandbox-only routing lock';
   end if;
 
   if to_regclass('public.brokerage_orders') is not null then
@@ -82,7 +104,9 @@ begin
 
   if has_table_privilege('authenticated', 'public.brokerage_accounts', 'INSERT')
     or has_table_privilege('authenticated', 'public.brokerage_readiness_checks', 'INSERT')
-    or has_table_privilege('authenticated', 'public.brokerage_order_previews', 'INSERT') then
+    or has_table_privilege('authenticated', 'public.brokerage_order_previews', 'INSERT')
+    or has_table_privilege('authenticated', 'public.broker_certification_runs', 'INSERT')
+    or has_table_privilege('authenticated', 'public.broker_certification_results', 'INSERT') then
     raise exception 'A browser role can forge regulated brokerage state';
   end if;
 
@@ -92,6 +116,14 @@ begin
     'EXECUTE'
   ) then
     raise exception 'The browser role can execute the service-only preview writer';
+  end if;
+
+  if has_function_privilege(
+    'authenticated',
+    'public.persist_broker_certification_report(text,text,text,timestamptz,timestamptz,jsonb,text)',
+    'EXECUTE'
+  ) then
+    raise exception 'The browser role can execute the service-only certification writer';
   end if;
 
   if not has_function_privilege(
@@ -106,6 +138,6 @@ begin
     raise exception 'Brokerage consent authorization grants are unsafe';
   end if;
 
-  raise notice 'Phase 4A production brokerage locks verified';
+  raise notice 'Phase 4B production brokerage and sandbox-certification locks verified';
 end
 $production_smoke$;
