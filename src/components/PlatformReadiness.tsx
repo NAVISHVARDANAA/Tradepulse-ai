@@ -1,4 +1,11 @@
-import { BrainCircuit, Globe2, Landmark, ShieldCheck, WalletCards } from 'lucide-react'
+import {
+  BrainCircuit,
+  Gauge,
+  Globe2,
+  Landmark,
+  ShieldCheck,
+  WalletCards,
+} from 'lucide-react'
 
 const capabilities = [
   {
@@ -21,6 +28,13 @@ const capabilities = [
     detail: 'Virtual cash, atomic fills, positions and risk checks',
     tone: 'active',
     icon: Landmark,
+  },
+  {
+    label: 'Portfolio risk',
+    status: 'Command center active',
+    detail: 'NAV, scenarios, limits, reconciliation and kill switch',
+    tone: 'active',
+    icon: Gauge,
   },
   {
     label: 'Cross-border payments',

@@ -45,7 +45,9 @@ payment quotes reconcile deterministically; no real-money execution exists.
 - Passwordless authentication, virtual cash, transactional fills, simulated
   fees/slippage, idempotency, portfolio limits and service-only execution form
   the first implemented Phase 3 slice.
-- Risk limits, drawdown controls, exposure, VaR scenarios and kill switches.
+- Risk limits, drawdown controls, exposure, transparent historical scenarios,
+  reconciliation and kill switches are implemented in the Phase 3B command
+  center. System-triggered controls require review before release.
 - Strategy notebooks promoted through a reviewed model registry.
 - Alert delivery and explainable daily briefings.
 

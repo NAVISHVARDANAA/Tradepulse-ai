@@ -19,6 +19,7 @@ import { ForecastPanel } from './components/ForecastPanel'
 import { PaymentQuotePanel } from './components/PaymentQuotePanel'
 import { PaperInvestingPanel } from './components/PaperInvestingPanel'
 import { PlatformReadiness } from './components/PlatformReadiness'
+import { PortfolioRiskCommandCenter } from './components/PortfolioRiskCommandCenter'
 import {
   getLatestForecasts,
   getMarketAssets,
@@ -40,6 +41,7 @@ const navItems = [
   { label: 'Forecasts', href: '#forecasts' },
   { label: 'Payments', href: '#payments' },
   { label: 'Paper investing', href: '#paper-investing' },
+  { label: 'Risk center', href: '#risk-command-center' },
   { label: 'Trade data', href: '#trade-data' },
 ]
 
@@ -259,7 +261,8 @@ function App() {
             <h1>Global decision intelligence</h1>
             <p className="subtitle">
               Monitor verified market and trade data, inspect model uncertainty,
-              and estimate cross-border payment corridors from one secure platform.
+              test portfolios under measurable risk controls, and estimate
+              cross-border payment corridors from one secure platform.
             </p>
           </div>
 
@@ -436,6 +439,8 @@ function App() {
         </div>
 
         <PaperInvestingPanel marketAssets={marketAssets} />
+
+        <PortfolioRiskCommandCenter />
 
         <section className="panel table-panel" id="trade-data">
           <div className="panel-header">
