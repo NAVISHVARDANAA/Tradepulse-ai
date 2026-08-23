@@ -15,8 +15,10 @@ import {
   TrendingUp,
 } from 'lucide-react'
 
+import { AcademyPanel } from './components/AcademyPanel'
 import { ForecastPanel } from './components/ForecastPanel'
 import { GlobalEquityResearchPanel } from './components/GlobalEquityResearchPanel'
+import { GuidedOnboarding } from './components/GuidedOnboarding'
 import { PaymentQuotePanel } from './components/PaymentQuotePanel'
 import { PaperInvestingPanel } from './components/PaperInvestingPanel'
 import { PlatformReadiness } from './components/PlatformReadiness'
@@ -43,6 +45,7 @@ const navItems = [
   { label: 'Dashboard', href: '#dashboard' },
   { label: 'Stock research', href: '#stock-research' },
   { label: 'AI Copilot', href: '#research-copilot' },
+  { label: 'Academy', href: '#academy' },
   { label: 'Markets', href: '#markets' },
   { label: 'Forecasts', href: '#forecasts' },
   { label: 'Paper investing', href: '#paper-investing' },
@@ -257,6 +260,7 @@ function App() {
 
   return (
     <div className="app-shell" id="dashboard">
+      <GuidedOnboarding />
       <header className="topbar">
         <a className="brand-wrap" href="#dashboard" aria-label="TradePulse AI home">
           <div className="brand-mark">
@@ -317,6 +321,8 @@ function App() {
           securities={equityResearch}
           researchLoading={equityResearchLoading}
         />
+
+        <AcademyPanel />
 
         <section className="kpi-grid" aria-label="Trade performance indicators">
           {(tradeDashboard.kpis.length > 0
@@ -547,7 +553,7 @@ function App() {
         />
 
         <footer className="product-footer">
-          <span>TradePulse AI · Global equity research and copilot foundation</span>
+          <span>TradePulse AI · Research, copilot and Academy foundation</span>
           <span>Research classifications and forecasts are not financial advice.</span>
         </footer>
       </main>

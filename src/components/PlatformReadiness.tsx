@@ -3,6 +3,7 @@ import {
   BrainCircuit,
   Gauge,
   Globe2,
+  GraduationCap,
   Landmark,
   ShieldCheck,
   WalletCards,
@@ -43,6 +44,13 @@ const capabilities = [
     detail: 'NAV, scenarios, limits, reconciliation and kill switch',
     tone: 'active',
     icon: Gauge,
+  },
+  {
+    label: 'TradePulse Academy',
+    status: 'Guided learning active',
+    detail: 'Courses, product tour, quizzes and private progress',
+    tone: 'active',
+    icon: GraduationCap,
   },
   {
     label: 'Live execution',

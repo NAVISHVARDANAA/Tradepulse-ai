@@ -98,6 +98,9 @@ jobs:
       - name: Test research-copilot database contracts
         run: npx supabase test db supabase/tests/database/research_copilot.test.sql
 
+      - name: Test TradePulse Academy database contracts
+        run: npx supabase test db supabase/tests/database/tradepulse_academy.test.sql
+
       - name: Stop isolated Supabase services
         if: always()
         run: npx supabase stop --no-backup

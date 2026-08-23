@@ -22,6 +22,7 @@ import {
   YAxis,
 } from 'recharts'
 
+import { AcademyLink } from './AcademyLink'
 import { getEquityPriceHistory } from '../lib/queries/equityResearch'
 import type {
   EquityPricePoint,
@@ -209,9 +210,12 @@ export function GlobalEquityResearchPanel({
           <h2>Stock research and forecast dashboard</h2>
         </div>
 
-        <span className="status-badge">
-          <ShieldCheck size={14} /> Research only · no trade instruction
-        </span>
+        <div className="panel-header-actions">
+          <AcademyLink courseSlug="stock-research" lessonSlug="research-score-components" />
+          <span className="status-badge">
+            <ShieldCheck size={14} /> Research only · no trade instruction
+          </span>
+        </div>
       </div>
 
       <p className="panel-description equity-description">
