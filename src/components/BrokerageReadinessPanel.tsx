@@ -104,6 +104,7 @@ export function BrokerageReadinessPanel() {
   const provider = workspace?.providers[0]
   const certification = workspace?.certifications.find((item) => item.providerId === provider?.id)
   const certificationTests = workspace?.certificationTests.filter((item) => item.providerId === provider?.id) ?? []
+  const adapterHealth = workspace?.adapterHealth.find((item) => item.providerId === provider?.id)
   const certificationCompleted = certification
     ? certification.passedTests + certification.failedTests
     : 0
@@ -208,7 +209,7 @@ export function BrokerageReadinessPanel() {
     <section className="panel brokerage-panel" id="brokerage-readiness">
       <div className="panel-header">
         <div>
-          <p className="eyebrow">Regulated execution runway · Phase 4B</p>
+          <p className="eyebrow">Regulated execution runway · Phase 4C</p>
           <h2>Global brokerage readiness</h2>
         </div>
         <div className="panel-header-actions">
@@ -223,8 +224,8 @@ export function BrokerageReadinessPanel() {
         See exactly what TradePulse, a regulated broker, compliance teams and
         you must complete before live investing could ever be enabled. Order
         previews are auditable readiness checks—not broker instructions.
-        The sandbox certification matrix proves adapter safety and operational
-        behavior before a regulated partner can be considered.
+        The sandbox certification matrix and provider-bound read-only probe
+        prove adapter safety before a regulated partner can be considered.
       </p>
 
       <div className="brokerage-lock-banner" role="status">
@@ -265,6 +266,23 @@ export function BrokerageReadinessPanel() {
                 <strong id="broker-certification-title">Sandbox certification matrix</strong>
               </div>
               <ClipboardCheck size={19} />
+            </div>
+
+            <div className={`adapter-health-banner ${adapterHealth?.latestStatus ?? 'not_run'}`}>
+              <ScanSearch size={18} />
+              <div>
+                <span>Provider-bound sandbox adapter</span>
+                <strong>Alpaca Broker API · read-only asset capability</strong>
+                <small>
+                  {adapterHealth?.checkedAt
+                    ? `Checked ${compactDate(adapterHealth.checkedAt)} · ${adapterHealth.latencyMs ?? 0} ms · ${adapterHealth.attemptCount ?? 0} attempt(s)`
+                    : 'Not yet probed with server-side sandbox credentials'}
+                </small>
+              </div>
+              <div className="adapter-health-state">
+                <strong>{statusLabel(adapterHealth?.latestStatus ?? 'not_run')}</strong>
+                <small>{adapterHealth?.errorCode ? statusLabel(adapterHealth.errorCode) : 'Orders and accounts disabled'}</small>
+              </div>
             </div>
 
             <div className="certification-overview">
@@ -311,8 +329,10 @@ export function BrokerageReadinessPanel() {
 
             <p className="certification-boundary">
               Certification reports are service-only, sandbox-constrained and
-              sanitized. Passing this matrix cannot enable production routing,
-              approve a jurisdiction or authorize a customer to trade.
+              sanitized. The current provider adapter permits only a fixed asset
+              read; account reads and all order operations are absent. Passing
+              either check cannot enable production routing, approve a
+              jurisdiction or authorize a customer to trade.
             </p>
           </section>
 

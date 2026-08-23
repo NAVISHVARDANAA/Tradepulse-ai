@@ -140,11 +140,32 @@ export type BrokerCertificationTest = {
   completedAt: string | null
 }
 
+export type BrokerAdapterHealth = {
+  providerId: number
+  providerCode: string
+  displayName: string
+  adapterContractVersion: string
+  environment: 'sandbox'
+  apiOrigin: string
+  probeKind: 'asset_read'
+  latestStatus: 'passed' | 'failed' | 'not_run'
+  httpStatus: number | null
+  latencyMs: number | null
+  attemptCount: number | null
+  errorCode: string | null
+  checkedAt: string | null
+  accountsReadEnabled: false
+  ordersReadEnabled: false
+  ordersWriteEnabled: false
+  liveOrderRoutingEnabled: boolean
+}
+
 export type BrokerageWorkspace = {
   readiness: BrokerageReadiness | null
   providers: BrokerProvider[]
   certifications: BrokerCertificationSummary[]
   certificationTests: BrokerCertificationTest[]
+  adapterHealth: BrokerAdapterHealth[]
   disclosures: BrokerageDisclosure[]
   instruments: BrokerageInstrument[]
   previews: BrokeragePreview[]
@@ -201,6 +222,7 @@ export async function getBrokerageWorkspace(): Promise<BrokerageWorkspace> {
     providerResult,
     certificationResult,
     certificationTestResult,
+    adapterHealthResult,
     disclosureResult,
     consentResult,
     instrumentResult,
@@ -220,6 +242,10 @@ export async function getBrokerageWorkspace(): Promise<BrokerageWorkspace> {
       .select('*')
       .order('provider_code')
       .order('sequence'),
+    supabase
+      .from('broker_adapter_health')
+      .select('*')
+      .order('provider_code'),
     supabase
       .from('brokerage_disclosures')
       .select('id, code, version, title, summary, required, effective_at')
@@ -247,6 +273,7 @@ export async function getBrokerageWorkspace(): Promise<BrokerageWorkspace> {
     providerResult.error,
     certificationResult.error,
     certificationTestResult.error,
+    adapterHealthResult.error,
     disclosureResult.error,
     consentResult.error,
     instrumentResult.error,
@@ -327,6 +354,25 @@ export async function getBrokerageWorkspace(): Promise<BrokerageWorkspace> {
       attemptCount: test.attempt_count,
       errorCode: test.error_code,
       completedAt: test.completed_at,
+    })),
+    adapterHealth: (adapterHealthResult.data ?? []).map((adapter) => ({
+      providerId: adapter.provider_id,
+      providerCode: adapter.provider_code,
+      displayName: adapter.display_name,
+      adapterContractVersion: adapter.adapter_contract_version,
+      environment: 'sandbox',
+      apiOrigin: adapter.api_origin,
+      probeKind: 'asset_read',
+      latestStatus: adapter.latest_status,
+      httpStatus: adapter.http_status,
+      latencyMs: adapter.latency_ms,
+      attemptCount: adapter.attempt_count,
+      errorCode: adapter.error_code,
+      checkedAt: adapter.checked_at,
+      accountsReadEnabled: false,
+      ordersReadEnabled: false,
+      ordersWriteEnabled: false,
+      liveOrderRoutingEnabled: adapter.live_order_routing_enabled,
     })),
     disclosures: (disclosureResult.data ?? []).map((disclosure) => ({
       id: disclosure.id,
