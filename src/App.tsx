@@ -16,6 +16,7 @@ import {
 } from 'lucide-react'
 
 import { ForecastPanel } from './components/ForecastPanel'
+import { GlobalEquityResearchPanel } from './components/GlobalEquityResearchPanel'
 import { PaymentQuotePanel } from './components/PaymentQuotePanel'
 import { PaperInvestingPanel } from './components/PaperInvestingPanel'
 import { PlatformReadiness } from './components/PlatformReadiness'
@@ -26,10 +27,12 @@ import {
   getPaymentCorridors,
   getTradeDashboard,
 } from './lib/queries/referenceData'
+import { getGlobalEquityResearch } from './lib/queries/equityResearch'
 import { supabase } from './lib/supabase/client'
 import type {
   MarketAssetSnapshot,
   MarketForecast,
+  EquityResearchSnapshot,
   PaymentCorridor,
   TradeDashboard,
   TradeKpi,
@@ -37,12 +40,13 @@ import type {
 
 const navItems = [
   { label: 'Dashboard', href: '#dashboard' },
+  { label: 'Stock research', href: '#stock-research' },
   { label: 'Markets', href: '#markets' },
   { label: 'Forecasts', href: '#forecasts' },
-  { label: 'Payments', href: '#payments' },
   { label: 'Paper investing', href: '#paper-investing' },
   { label: 'Risk center', href: '#risk-command-center' },
   { label: 'Trade data', href: '#trade-data' },
+  { label: 'Payments', href: '#payments' },
 ]
 
 const emptyKpis: TradeKpi[] = [
@@ -119,14 +123,17 @@ function App() {
     emptyTradeDashboard,
   )
   const [forecasts, setForecasts] = useState<MarketForecast[]>([])
+  const [equityResearch, setEquityResearch] = useState<EquityResearchSnapshot[]>([])
   const [corridors, setCorridors] = useState<PaymentCorridor[]>([])
   const [marketLoading, setMarketLoading] = useState(true)
   const [tradeLoading, setTradeLoading] = useState(true)
   const [forecastLoading, setForecastLoading] = useState(true)
+  const [equityResearchLoading, setEquityResearchLoading] = useState(true)
   const [paymentLoading, setPaymentLoading] = useState(true)
   const [marketError, setMarketError] = useState<string | null>(null)
   const [tradeError, setTradeError] = useState<string | null>(null)
   const [forecastError, setForecastError] = useState<string | null>(null)
+  const [equityResearchError, setEquityResearchError] = useState<string | null>(null)
   const [paymentError, setPaymentError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -166,6 +173,18 @@ function App() {
       }
     }
 
+    const loadEquityResearch = async () => {
+      try {
+        setEquityResearch(await getGlobalEquityResearch())
+        setEquityResearchError(null)
+      } catch (error) {
+        console.error('Failed to load equity research:', error)
+        setEquityResearchError('Unable to load the equity research registry.')
+      } finally {
+        setEquityResearchLoading(false)
+      }
+    }
+
     const loadPayments = async () => {
       try {
         setCorridors(await getPaymentCorridors())
@@ -182,6 +201,7 @@ function App() {
       loadMarkets(),
       loadTrade(),
       loadForecasts(),
+      loadEquityResearch(),
       loadPayments(),
     ])
 
@@ -200,7 +220,15 @@ function App() {
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'market_forecasts' },
-        () => void loadForecasts(),
+        () => {
+          void loadForecasts()
+          void loadEquityResearch()
+        },
+      )
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'equity_research_scores' },
+        () => void loadEquityResearch(),
       )
       .subscribe()
 
@@ -257,12 +285,12 @@ function App() {
       <main className="dashboard">
         <section className="page-header">
           <div>
-            <p className="eyebrow">Markets · trade · payments</p>
-            <h1>Global decision intelligence</h1>
+            <p className="eyebrow">Global markets · AI research · risk</p>
+            <h1>Research every covered stock with evidence</h1>
             <p className="subtitle">
-              Monitor verified market and trade data, inspect model uncertainty,
-              test portfolios under measurable risk controls, and estimate
-              cross-border payment corridors from one secure platform.
+              Search licensed market coverage, compare transparent opportunity
+              rankings, inspect per-stock forecast uncertainty, and test ideas
+              in paper portfolios under measurable risk controls.
             </p>
           </div>
 
@@ -276,6 +304,12 @@ function App() {
         </section>
 
         <PlatformReadiness />
+
+        <GlobalEquityResearchPanel
+          securities={equityResearch}
+          loading={equityResearchLoading}
+          error={equityResearchError}
+        />
 
         <section className="kpi-grid" aria-label="Trade performance indicators">
           {(tradeDashboard.kpis.length > 0
@@ -430,12 +464,6 @@ function App() {
             loading={forecastLoading}
             error={forecastError}
           />
-          <PaymentQuotePanel
-            corridors={corridors}
-            marketAssets={marketAssets}
-            loading={paymentLoading}
-            error={paymentError}
-          />
         </div>
 
         <PaperInvestingPanel marketAssets={marketAssets} />
@@ -504,9 +532,16 @@ function App() {
           )}
         </section>
 
+        <PaymentQuotePanel
+          corridors={corridors}
+          marketAssets={marketAssets}
+          loading={paymentLoading}
+          error={paymentError}
+        />
+
         <footer className="product-footer">
-          <span>TradePulse AI · Phase 1–2 platform foundation</span>
-          <span>Market forecasts are experimental and not financial advice.</span>
+          <span>TradePulse AI · Global equity research foundation</span>
+          <span>Research classifications and forecasts are not financial advice.</span>
         </footer>
       </main>
     </div>

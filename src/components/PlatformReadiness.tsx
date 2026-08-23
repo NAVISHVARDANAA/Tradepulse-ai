@@ -1,4 +1,5 @@
 import {
+  BarChart3,
   BrainCircuit,
   Gauge,
   Globe2,
@@ -8,6 +9,13 @@ import {
 } from 'lucide-react'
 
 const capabilities = [
+  {
+    label: 'Global stock research',
+    status: 'Coverage registry active',
+    detail: 'Search, evidence, risk flags and per-stock forecast states',
+    tone: 'active',
+    icon: BarChart3,
+  },
   {
     label: 'Global intelligence',
     status: 'Foundation active',
@@ -37,18 +45,18 @@ const capabilities = [
     icon: Gauge,
   },
   {
-    label: 'Cross-border payments',
-    status: 'Indicative sandbox',
-    detail: 'Quotes only; no custody or settlement',
-    tone: 'building',
-    icon: WalletCards,
-  },
-  {
     label: 'Live execution',
     status: 'Compliance locked',
     detail: 'Requires jurisdiction, KYC and licensed providers',
     tone: 'locked',
     icon: ShieldCheck,
+  },
+  {
+    label: 'Cross-border payments',
+    status: 'Deferred to final phase',
+    detail: 'Indicative quotes only; custody and settlement remain disabled',
+    tone: 'locked',
+    icon: WalletCards,
   },
 ]
 
