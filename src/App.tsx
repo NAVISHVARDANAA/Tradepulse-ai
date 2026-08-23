@@ -21,6 +21,7 @@ import { PaymentQuotePanel } from './components/PaymentQuotePanel'
 import { PaperInvestingPanel } from './components/PaperInvestingPanel'
 import { PlatformReadiness } from './components/PlatformReadiness'
 import { PortfolioRiskCommandCenter } from './components/PortfolioRiskCommandCenter'
+import { ResearchCopilotPanel } from './components/ResearchCopilotPanel'
 import {
   getLatestForecasts,
   getMarketAssets,
@@ -41,6 +42,7 @@ import type {
 const navItems = [
   { label: 'Dashboard', href: '#dashboard' },
   { label: 'Stock research', href: '#stock-research' },
+  { label: 'AI Copilot', href: '#research-copilot' },
   { label: 'Markets', href: '#markets' },
   { label: 'Forecasts', href: '#forecasts' },
   { label: 'Paper investing', href: '#paper-investing' },
@@ -311,6 +313,11 @@ function App() {
           error={equityResearchError}
         />
 
+        <ResearchCopilotPanel
+          securities={equityResearch}
+          researchLoading={equityResearchLoading}
+        />
+
         <section className="kpi-grid" aria-label="Trade performance indicators">
           {(tradeDashboard.kpis.length > 0
             ? tradeDashboard.kpis
@@ -540,7 +547,7 @@ function App() {
         />
 
         <footer className="product-footer">
-          <span>TradePulse AI · Global equity research foundation</span>
+          <span>TradePulse AI · Global equity research and copilot foundation</span>
           <span>Research classifications and forecasts are not financial advice.</span>
         </footer>
       </main>

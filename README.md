@@ -81,6 +81,19 @@ compliance boundaries are designed in before execution features are enabled.
 - Global commercial billing is designed around USD and GBP. User profiles retain
   a preferred billing currency without creating any fund-movement capability.
 
+### Phase 3D — watchlists and daily research copilot
+
+- Authenticated users can build a private, plan-limited equity watchlist from
+  the licensed coverage registry.
+- An evidence-linked daily brief summarizes current research classifications,
+  model confidence, forecast direction, source freshness and risk flags.
+- Research-score alert rules are evaluated against new stored snapshots and
+  retain the exact evidence and deduplication key behind each in-app event.
+- Brief generation is deterministic and versioned; it does not invent news,
+  prices, fundamentals or model outputs.
+- Email and push channels remain disabled until reviewed delivery providers,
+  consent controls and regional privacy requirements are configured.
+
 ## Architecture
 
 ```text
@@ -126,7 +139,7 @@ server-side secrets. Never expose them through a `VITE_*` variable.
 
 ## Edge Functions
 
-The repository contains ten initial server-side functions:
+The repository contains eleven initial server-side functions:
 
 | Function | Purpose | Authorization |
 | --- | --- | --- |
@@ -140,6 +153,7 @@ The repository contains ten initial server-side functions:
 | `sync-equity-market-data` | Import approved equity reference data and adjusted daily bars with explicit feed/licensing state | `x-sync-secret` |
 | `generate-equity-research` | Publish versioned, non-personalized research classifications and explanations | `x-sync-secret` |
 | `sync-sec-equity-fundamentals` | Import reported US-company facts from SEC EDGAR with public-domain provenance | `x-sync-secret` |
+| `generate-daily-research-brief` | Generate a private evidence-linked watchlist brief and evaluate research alerts | Supabase user JWT or `x-sync-secret` scheduler |
 
 Set a strong `SYNC_SECRET` in Supabase secrets before deploying scheduled
 functions. Supabase supplies `SUPABASE_URL`, `SUPABASE_ANON_KEY` and
@@ -197,6 +211,10 @@ Migration `011_global_equity_research.sql` adds the equity security master,
 coverage registry, licensed-fundamentals boundary and explainable research
 surface, plus USD/GBP billing-currency preferences. It does not create a live
 brokerage or payment route.
+
+Migration `012_research_copilot.sql` adds private brief preferences, idempotent
+daily briefs, explainable alert evidence and a caller-secured watchlist research
+view. Only the service-side copilot can publish briefs or alert events.
 
 ## Production gates
 

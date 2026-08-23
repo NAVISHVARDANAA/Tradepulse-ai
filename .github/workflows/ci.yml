@@ -62,6 +62,7 @@ jobs:
           deno check supabase/functions/sync-equity-market-data/index.ts
           deno check supabase/functions/generate-equity-research/index.ts
           deno check supabase/functions/sync-sec-equity-fundamentals/index.ts
+          deno check supabase/functions/generate-daily-research-brief/index.ts
 
   database-migrations:
     runs-on: ubuntu-latest
@@ -93,6 +94,9 @@ jobs:
 
       - name: Test equity-research database contracts
         run: npx supabase test db supabase/tests/database/equity_research_foundation.test.sql
+
+      - name: Test research-copilot database contracts
+        run: npx supabase test db supabase/tests/database/research_copilot.test.sql
 
       - name: Stop isolated Supabase services
         if: always()
