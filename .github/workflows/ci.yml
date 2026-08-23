@@ -111,6 +111,9 @@ jobs:
       - name: Test brokerage-readiness database contracts
         run: npx --no-install supabase test db supabase/tests/database/brokerage_readiness.test.sql
 
+      - name: Assert production smoke SQL is query-only
+        run: bash scripts/assert-read-only-sql.sh supabase/tests/production/brokerage_readiness_smoke.sql
+
       - name: Test production execution-lock smoke query
         run: >-
           npx --no-install supabase db query

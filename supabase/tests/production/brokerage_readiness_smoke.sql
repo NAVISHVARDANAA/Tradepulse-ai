@@ -1,5 +1,3 @@
-begin transaction read only;
-
 do $production_smoke$
 begin
   if to_regclass('public.broker_provider_registry') is null
@@ -111,5 +109,3 @@ begin
   raise notice 'Phase 4A production brokerage locks verified';
 end
 $production_smoke$;
-
-rollback;

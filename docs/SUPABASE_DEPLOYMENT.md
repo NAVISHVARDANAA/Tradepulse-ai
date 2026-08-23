@@ -42,10 +42,11 @@ Run **Actions → Verify Supabase production → Run workflow** after a release 
 operational incident. Select `main` and enter `VERIFY_PHASE_4A`.
 
 The verification workflow performs no production writes. It confirms local and
-remote migration parity, executes `brokerage_readiness_smoke.sql` inside a
-read-only transaction, checks that `preview-brokerage-order` is active and
-proves that unauthenticated requests remain blocked. The GitHub run summary is
-the deployment-health audit record.
+remote migration parity, executes the audited, query-only
+`brokerage_readiness_smoke.sql` block, checks that `preview-brokerage-order` is
+active and proves that unauthenticated requests remain blocked. The GitHub run
+summary is the deployment-health audit record. CI and both production workflows
+reject the smoke file if it contains a write-capable SQL statement.
 
 ## Failure handling
 

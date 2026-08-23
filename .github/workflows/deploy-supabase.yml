@@ -100,6 +100,9 @@ jobs:
             --output json | jq -e \
               '.[] | select(.name == "preview-brokerage-order" and .status == "ACTIVE")'
 
+      - name: Assert production smoke SQL is query-only
+        run: bash scripts/assert-read-only-sql.sh supabase/tests/production/brokerage_readiness_smoke.sql
+
       - name: Verify production execution locks
         run: >-
           npx --no-install supabase db query
