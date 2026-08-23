@@ -20,12 +20,14 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: 20
+          node-version-file: .nvmrc
           cache: npm
 
       - name: Install dependencies
@@ -43,7 +45,9 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Set up Deno
         uses: denoland/setup-deno@v2
@@ -71,12 +75,14 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: 20
+          node-version-file: .nvmrc
           cache: npm
 
       - name: Install dependencies
@@ -84,30 +90,36 @@ jobs:
 
       - name: Start isolated Supabase Postgres
         run: >-
-          npx supabase start
+          npx --no-install supabase start
           --exclude gotrue,realtime,storage-api,imgproxy,kong,mailpit,postgrest,postgres-meta,studio,edge-runtime,logflare,vector,supavisor
 
       - name: Rebuild database from migrations
-        run: npx supabase db reset --local --no-seed
+        run: npx --no-install supabase db reset --local --no-seed
 
       - name: Test risk-engine database contracts
-        run: npx supabase test db supabase/tests/database/portfolio_risk_engine.test.sql
+        run: npx --no-install supabase test db supabase/tests/database/portfolio_risk_engine.test.sql
 
       - name: Test equity-research database contracts
-        run: npx supabase test db supabase/tests/database/equity_research_foundation.test.sql
+        run: npx --no-install supabase test db supabase/tests/database/equity_research_foundation.test.sql
 
       - name: Test research-copilot database contracts
-        run: npx supabase test db supabase/tests/database/research_copilot.test.sql
+        run: npx --no-install supabase test db supabase/tests/database/research_copilot.test.sql
 
       - name: Test TradePulse Academy database contracts
-        run: npx supabase test db supabase/tests/database/tradepulse_academy.test.sql
+        run: npx --no-install supabase test db supabase/tests/database/tradepulse_academy.test.sql
 
       - name: Test brokerage-readiness database contracts
-        run: npx supabase test db supabase/tests/database/brokerage_readiness.test.sql
+        run: npx --no-install supabase test db supabase/tests/database/brokerage_readiness.test.sql
+
+      - name: Test production execution-lock smoke query
+        run: >-
+          npx --no-install supabase db query
+          --local
+          --file supabase/tests/production/brokerage_readiness_smoke.sql
 
       - name: Stop isolated Supabase services
         if: always()
-        run: npx supabase stop --no-backup
+        run: npx --no-install supabase stop --no-backup
 
   ml-forecasting:
     runs-on: ubuntu-latest
@@ -115,10 +127,12 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: '3.12'
           cache: pip

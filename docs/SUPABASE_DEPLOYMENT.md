@@ -32,7 +32,20 @@ immediately if either is exposed.
 
 The workflow performs a database dry run, applies every pending migration in
 filename order, deploys only `preview-brokerage-order`, and verifies that
-migration `014` and the active function are visible remotely.
+migration `014` and the active function are visible remotely. It also runs the
+read-only production execution-lock smoke query and proves that an
+unauthenticated preview request receives HTTP 401.
+
+## Read-only production verification
+
+Run **Actions → Verify Supabase production → Run workflow** after a release or
+operational incident. Select `main` and enter `VERIFY_PHASE_4A`.
+
+The verification workflow performs no production writes. It confirms local and
+remote migration parity, executes `brokerage_readiness_smoke.sql` inside a
+read-only transaction, checks that `preview-brokerage-order` is active and
+proves that unauthenticated requests remain blocked. The GitHub run summary is
+the deployment-health audit record.
 
 ## Failure handling
 
@@ -46,3 +59,9 @@ migration `014` and the active function are visible remotely.
 
 Live brokerage execution remains database-locked after this deployment. This
 release creates readiness checks and non-executable previews only.
+
+## Runtime baseline
+
+Repository JavaScript tooling and GitHub workflows use Node.js 24 LTS from
+`.nvmrc`. Privileged production workflows disable persisted checkout
+credentials and automatic package-manager caching.

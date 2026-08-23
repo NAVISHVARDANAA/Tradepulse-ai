@@ -143,6 +143,7 @@ server-side secrets. Never expose them through a `VITE_*` variable.
 - React 18, TypeScript and Vite
 - Recharts
 - Supabase Postgres, Auth, Realtime, RLS and Edge Functions
+- Node.js 24 LTS for application and deployment tooling
 - Python, NumPy and scikit-learn for validated forecasting
 - GitHub Actions CI
 
@@ -151,6 +152,8 @@ server-side secrets. Never expose them through a `VITE_*` variable.
 1. Install dependencies:
 
    ```bash
+   nvm install
+   nvm use
    npm ci
    ```
 
@@ -220,7 +223,8 @@ Supabase Postgres instance for pull requests and pushes to `main`.
 
 Production Supabase releases are manual and environment-protected. See
 [`docs/SUPABASE_DEPLOYMENT.md`](docs/SUPABASE_DEPLOYMENT.md) for the required
-GitHub environment secrets, approval gate and Phase 4A release procedure.
+GitHub environment secrets, approval gate, read-only verification workflow and
+Phase 4A release procedure.
 
 ## ML forecasting service
 
