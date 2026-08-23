@@ -78,6 +78,8 @@ compliance boundaries are designed in before execution features are enabled.
   instructions or suitability advice.
 - Provider display licensing must be explicitly approved server-side; the sync
   refuses to ingest provider data until that approval is present.
+- Global commercial billing is designed around USD and GBP. User profiles retain
+  a preferred billing currency without creating any fund-movement capability.
 
 ## Architecture
 
@@ -193,7 +195,8 @@ disabled; and the only client-submittable order mode is `paper`.
 
 Migration `011_global_equity_research.sql` adds the equity security master,
 coverage registry, licensed-fundamentals boundary and explainable research
-surface. It does not create a live brokerage route.
+surface, plus USD/GBP billing-currency preferences. It does not create a live
+brokerage or payment route.
 
 ## Production gates
 

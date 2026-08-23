@@ -97,6 +97,8 @@ approvals are written and auditable before any production fund movement.
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.
+- Global subscriptions priced in USD and GBP, with localized tax handling added
+  when the payment provider and operating entities are selected.
 - Shared typed contracts for future iOS/Android and partner APIs.
 - Multi-tenant business accounts, role-based access and organization billing.
 - Regional deployment, observability, incident response and data-retention

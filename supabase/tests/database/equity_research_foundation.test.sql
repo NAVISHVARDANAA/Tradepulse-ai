@@ -1,6 +1,6 @@
 begin;
 
-select plan(12);
+select plan(16);
 
 select ok(
   to_regclass('public.equity_securities') is not null,
@@ -25,6 +25,39 @@ select ok(
 select ok(
   to_regclass('public.equity_research_dashboard') is not null,
   'equity research dashboard view exists'
+);
+
+select ok(
+  to_regclass('public.billing_currencies') is not null,
+  'global billing currency catalog exists'
+);
+
+select is(
+  (select count(*) from public.billing_currencies where enabled),
+  2::bigint,
+  'USD and GBP are enabled for billing'
+);
+
+select ok(
+  exists (
+    select 1
+    from information_schema.columns
+    where table_schema = 'public'
+      and table_name = 'profiles'
+      and column_name = 'preferred_billing_currency'
+  ),
+  'profiles store a preferred billing currency'
+);
+
+select ok(
+  exists (
+    select 1
+    from pg_publication_tables
+    where pubname = 'supabase_realtime'
+      and schemaname = 'public'
+      and tablename = 'equity_research_scores'
+  ),
+  'equity research scores publish realtime changes'
 );
 
 select ok(
