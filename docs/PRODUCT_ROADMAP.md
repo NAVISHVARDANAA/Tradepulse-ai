@@ -72,6 +72,23 @@ evaluation window.
 correctly labeled, model qualification is monitored, and research explanations
 reproduce their stored component scores.
 
+## Phase 3D — global watchlists and research copilot
+
+- Private plan-limited equity watchlists linked to the licensed security master.
+- Daily and on-demand research briefs with model confidence, source timestamps,
+  evidence, risk flags and explicit missing-data states.
+- Deduplicated research-score, classification, forecast-direction and risk-flag
+  monitoring with retained trigger evidence.
+- In-app alerts first; email and push require explicit consent, delivery-provider
+  review, unsubscribe controls and regional privacy approval.
+- Deterministic narration is the first production mode. Any future LLM layer
+  must cite stored evidence, pass hallucination evaluation and retain a safe
+  non-generative fallback.
+
+**Exit gate:** cross-user isolation tests pass, repeated generation is
+idempotent, every brief statement resolves to stored evidence, and alert events
+cannot be forged by browser clients.
+
 ## Phase 4 — regulated brokerage integrations
 
 - Broker adapter behind a separately permissioned execution service.
