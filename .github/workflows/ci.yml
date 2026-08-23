@@ -63,6 +63,7 @@ jobs:
           deno check supabase/functions/generate-equity-research/index.ts
           deno check supabase/functions/sync-sec-equity-fundamentals/index.ts
           deno check supabase/functions/generate-daily-research-brief/index.ts
+          deno check supabase/functions/preview-brokerage-order/index.ts
 
   database-migrations:
     runs-on: ubuntu-latest
@@ -100,6 +101,9 @@ jobs:
 
       - name: Test TradePulse Academy database contracts
         run: npx supabase test db supabase/tests/database/tradepulse_academy.test.sql
+
+      - name: Test brokerage-readiness database contracts
+        run: npx supabase test db supabase/tests/database/brokerage_readiness.test.sql
 
       - name: Stop isolated Supabase services
         if: always()

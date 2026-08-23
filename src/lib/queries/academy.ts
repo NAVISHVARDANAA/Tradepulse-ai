@@ -263,7 +263,7 @@ export async function saveAcademyOnboarding(input: {
     .from('academy_onboarding_state')
     .upsert({
       user_id: userId,
-      tour_version: 'product-tour-v1',
+      tour_version: 'product-tour-v2',
       current_step: input.currentStep,
       completed_at: input.completed ? now : null,
       skipped_at: input.skipped ? now : null,

@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 
 import { saveAcademyOnboarding } from '../lib/queries/academy'
 
-const TOUR_KEY = 'tradepulse-product-tour-v1'
+const TOUR_KEY = 'tradepulse-product-tour-v2'
 
 const steps = [
   {
@@ -43,6 +43,12 @@ const steps = [
     eyebrow: 'Step 5 · Protect',
     title: 'Measure risk before return',
     body: 'Review concentration, drawdown, exposure, scenarios, reconciliation and the paper-trading kill switch.',
+  },
+  {
+    selector: '#brokerage-readiness',
+    eyebrow: 'Step 6 · Prepare',
+    title: 'See the regulated-trading launch gates',
+    body: 'Review jurisdiction, identity, suitability, broker and disclosure requirements through order previews that cannot create a live trade.',
   },
 ]
 
@@ -105,7 +111,7 @@ export function GuidedOnboarding() {
             <p className="eyebrow">Welcome to TradePulse AI</p>
             <h2 id="tour-welcome-title">Learn before you invest</h2>
             <p>
-              Take a five-step product tour, then continue with free Academy
+              Take a six-step product tour, then continue with free Academy
               lessons on forecasts, evidence, paper trading and risk.
             </p>
             <div className="tour-principles">

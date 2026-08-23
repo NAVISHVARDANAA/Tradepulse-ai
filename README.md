@@ -96,16 +96,32 @@ compliance boundaries are designed in before execution features are enabled.
 
 ### Phase 3E — TradePulse Academy and guided onboarding
 
-- Five free launch courses teach platform navigation, AI forecast literacy,
-  stock research, paper trading, portfolio risk and the research copilot.
+- Six free launch courses teach platform navigation, AI forecast literacy,
+  stock research, paper trading, portfolio risk, the research copilot and
+  regulated brokerage boundaries.
 - Every lesson includes a server-graded knowledge check with explanations and a
   70% pass mark; the protected answer bank is never exposed to browser clients.
 - Guests can learn immediately with device-local progress. Authenticated users
   receive private, cross-device progress protected by row-level security.
-- A restartable five-step product tour and contextual “Learn this” links connect
+- A restartable six-step product tour and contextual “Learn this” links connect
   complex dashboard features directly to their relevant lessons.
 - Completion records are certificate-ready but service-issued only. Academy
   content is education, not personalized advice or authorization to trade.
+
+### Phase 4A — compliance-locked brokerage readiness
+
+- A broker-neutral provider registry separates adapter contracts, regulatory
+  due diligence, certification and production enablement.
+- Private readiness records expose jurisdiction, identity, sanctions, AML,
+  suitability, disclosure, broker-account and funding gates without treating a
+  signed-in session as regulatory approval.
+- Authenticated users can record current disclosure acknowledgements and create
+  server-evaluated order previews with explicit blocker ownership.
+- Every preview is constrained to `executable = false`; every provider route and
+  instrument live-execution flag remains disabled, and no live-order endpoint
+  exists.
+- Brokerage and custody remain external regulated-partner responsibilities. No
+  provider credentials, customer account numbers or assets enter the browser.
 
 ## Architecture
 
@@ -152,7 +168,7 @@ server-side secrets. Never expose them through a `VITE_*` variable.
 
 ## Edge Functions
 
-The repository contains eleven initial server-side functions:
+The repository contains twelve initial server-side functions:
 
 | Function | Purpose | Authorization |
 | --- | --- | --- |
@@ -167,6 +183,7 @@ The repository contains eleven initial server-side functions:
 | `generate-equity-research` | Publish versioned, non-personalized research classifications and explanations | `x-sync-secret` |
 | `sync-sec-equity-fundamentals` | Import reported US-company facts from SEC EDGAR with public-domain provenance | `x-sync-secret` |
 | `generate-daily-research-brief` | Generate a private evidence-linked watchlist brief and evaluate research alerts | Supabase user JWT or `x-sync-secret` scheduler |
+| `preview-brokerage-order` | Persist an authenticated, blocked order-readiness preview with explicit compliance and platform gates | Supabase user JWT |
 
 Set a strong `SYNC_SECRET` in Supabase secrets before deploying scheduled
 functions. Supabase supplies `SUPABASE_URL`, `SUPABASE_ANON_KEY` and
@@ -233,6 +250,11 @@ Migration `013_tradepulse_academy.sql` adds the public curriculum, protected
 quiz answer bank, private lesson progress, guided-tour state and service-only
 completion records. All essential launch courses are free and English-first;
 language codes and versioned content support future localization.
+
+Migration `014_brokerage_readiness_foundation.sql` adds broker-neutral provider
+contracts, private readiness and consent records, globally locked execution
+controls, non-executable order previews and the brokerage-readiness Academy
+course. It creates no live-order or custody path.
 
 ## Production gates
 

@@ -108,6 +108,25 @@ lessons, and course completion cannot be forged by browser clients.
 
 ## Phase 4 — regulated brokerage integrations
 
+### Phase 4A — brokerage readiness foundation (implemented)
+
+- Broker-neutral provider registry with explicit regulatory, sandbox,
+  certification and production-disabled states.
+- Private investor-readiness dashboard covering jurisdiction, identity,
+  sanctions/AML, suitability, disclosures, broker connection and funding.
+- Server-generated order previews that estimate notional value and preserve
+  blocker evidence without creating, routing or submitting an order.
+- Immutable current-release execution controls: all previews are non-executable,
+  provider routes remain disabled and no browser client can write regulated
+  readiness outcomes.
+- Versioned brokerage-boundary Academy course and a six-step guided product tour.
+
+**Phase 4A exit gate:** isolated database tests prove the global execution lock,
+provider lock, non-forgeable readiness state, consent audit path, preview
+idempotency and absence of any live-order table or submission function.
+
+### Future regulated activation work
+
 - Broker adapter behind a separately permissioned execution service.
 - KYC/KYB, AML, sanctions, transaction monitoring, travel-rule applicability,
   suitability, disclosures and regulatory reporting.
