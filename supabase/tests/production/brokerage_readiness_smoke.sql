@@ -5,8 +5,10 @@ begin
     or to_regclass('public.brokerage_order_previews') is null
     or to_regclass('public.broker_certification_test_catalog') is null
     or to_regclass('public.broker_certification_runs') is null
-    or to_regclass('public.broker_certification_results') is null then
-    raise exception 'Phase 4B brokerage tables are incomplete';
+    or to_regclass('public.broker_certification_results') is null
+    or to_regclass('public.broker_adapter_probes') is null
+    or to_regclass('public.broker_adapter_health') is null then
+    raise exception 'Phase 4C brokerage tables are incomplete';
   end if;
 
   if not exists (
@@ -25,6 +27,18 @@ begin
     where live_order_routing_enabled
   ) then
     raise exception 'A broker provider route is unexpectedly enabled';
+  end if;
+
+  if not exists (
+    select 1
+    from public.broker_provider_registry
+    where code = 'alpaca-broker-sandbox'
+      and integration_status = 'sandbox'
+      and account_connection_enabled = false
+      and live_order_routing_enabled = false
+      and metadata ->> 'api_origin' = 'https://broker-api.sandbox.alpaca.markets'
+  ) then
+    raise exception 'The Alpaca read-only sandbox provider contract is missing or unsafe';
   end if;
 
   if exists (
@@ -60,6 +74,17 @@ begin
       or live_order_routing_tested
   ) then
     raise exception 'A certification run violated the sandbox-only routing lock';
+  end if;
+
+  if exists (
+    select 1
+    from public.broker_adapter_probes
+    where environment <> 'sandbox'
+      or api_origin <> 'https://broker-api.sandbox.alpaca.markets'
+      or probe_kind <> 'asset_read'
+      or live_order_routing_tested
+  ) then
+    raise exception 'A broker adapter probe violated the read-only sandbox lock';
   end if;
 
   if to_regclass('public.brokerage_orders') is not null then
@@ -106,7 +131,8 @@ begin
     or has_table_privilege('authenticated', 'public.brokerage_readiness_checks', 'INSERT')
     or has_table_privilege('authenticated', 'public.brokerage_order_previews', 'INSERT')
     or has_table_privilege('authenticated', 'public.broker_certification_runs', 'INSERT')
-    or has_table_privilege('authenticated', 'public.broker_certification_results', 'INSERT') then
+    or has_table_privilege('authenticated', 'public.broker_certification_results', 'INSERT')
+    or has_table_privilege('authenticated', 'public.broker_adapter_probes', 'INSERT') then
     raise exception 'A browser role can forge regulated brokerage state';
   end if;
 
@@ -126,6 +152,14 @@ begin
     raise exception 'The browser role can execute the service-only certification writer';
   end if;
 
+  if has_function_privilege(
+    'authenticated',
+    'public.persist_broker_adapter_probe(text,text,text,text,integer,integer,integer,text)',
+    'EXECUTE'
+  ) then
+    raise exception 'The browser role can execute the service-only adapter probe writer';
+  end if;
+
   if not has_function_privilege(
     'authenticated',
     'public.record_brokerage_consent(uuid)',
@@ -138,6 +172,6 @@ begin
     raise exception 'Brokerage consent authorization grants are unsafe';
   end if;
 
-  raise notice 'Phase 4B production brokerage and sandbox-certification locks verified';
+  raise notice 'Phase 4C production brokerage, certification and adapter locks verified';
 end
 $production_smoke$;

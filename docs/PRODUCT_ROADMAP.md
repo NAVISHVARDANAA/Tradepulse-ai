@@ -143,9 +143,25 @@ idempotency and absence of any live-order table or submission function.
 immutability tests, production read-only lock verification, and a complete
 broker sandbox report before any provider can enter formal certification.
 
+### Phase 4C — Alpaca Broker API sandbox adapter (implemented)
+
+- Fixed-origin server adapter for the Alpaca Broker API sandbox using Basic
+  authentication sourced only from Supabase secrets.
+- Read-only asset capability probe with response validation, bounded timeout,
+  one safe retry and sanitized errors; account, order and transfer routes are
+  not implemented.
+- Database-enforced sandbox origin, immutable service-issued health evidence and
+  an authenticated product status view with no provider payload or customer data.
+- Deployment and production-verification gates for migration 016, active Edge
+  Function state, unauthenticated denial and the pre-existing live-order locks.
+
+**Phase 4C exit gate:** mocked adapter tests, isolated database authorization and
+immutability tests, production lock smoke checks, then one successful sandbox
+credential probe before account mirroring work begins.
+
 ### Future regulated activation work
 
-- Broker adapter behind a separately permissioned execution service.
+- Sandbox account and order mirroring behind separately permissioned services.
 - KYC/KYB, AML, sanctions, transaction monitoring, travel-rule applicability,
   suitability, disclosures and regulatory reporting.
 - Broker ledger, provider reconciliation, webhooks, retries and disaster recovery.

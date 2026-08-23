@@ -10,3 +10,6 @@ schema_paths = []
 [db.seed]
 enabled = false
 sql_paths = []
+
+[functions.probe-alpaca-broker-sandbox]
+verify_jwt = false

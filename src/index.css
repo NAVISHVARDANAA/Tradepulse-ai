@@ -3511,6 +3511,65 @@ tbody tr:hover {
     rgba(8, 16, 30, 0.58);
 }
 
+.adapter-health-banner {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 11px 12px;
+  border: 1px solid rgba(250, 204, 21, 0.14);
+  border-radius: 12px;
+  background: rgba(250, 204, 21, 0.04);
+  color: #facc15;
+}
+
+.adapter-health-banner.passed {
+  border-color: rgba(52, 211, 153, 0.16);
+  background: rgba(52, 211, 153, 0.04);
+  color: #34d399;
+}
+
+.adapter-health-banner.failed {
+  border-color: rgba(251, 113, 133, 0.16);
+  background: rgba(251, 113, 133, 0.04);
+  color: #fb7185;
+}
+
+.adapter-health-banner span,
+.adapter-health-banner strong,
+.adapter-health-banner small {
+  display: block;
+}
+
+.adapter-health-banner span {
+  color: #64748b;
+  font-size: 0.52rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.adapter-health-banner strong {
+  margin-top: 3px;
+  color: #dbeafe;
+  font-size: 0.65rem;
+}
+
+.adapter-health-banner small {
+  margin-top: 3px;
+  color: #64748b;
+  font-size: 0.5rem;
+}
+
+.adapter-health-state {
+  text-align: right;
+}
+
+.adapter-health-state strong {
+  color: currentColor;
+  text-transform: capitalize;
+}
+
 .certification-overview {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -4150,6 +4209,15 @@ tbody tr:hover {
 
   .brokerage-lock-banner {
     grid-template-columns: auto 1fr;
+  }
+
+  .adapter-health-banner {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .adapter-health-state {
+    grid-column: 2;
+    text-align: left;
   }
 
   .brokerage-lock-banner > span {

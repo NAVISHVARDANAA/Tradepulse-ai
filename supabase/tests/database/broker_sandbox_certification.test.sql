@@ -170,7 +170,7 @@ select set_config('request.jwt.claim.role', 'anon', true);
 select throws_ok(
   $$
     select public.persist_broker_certification_report(
-      'broker-neutral-sandbox',
+      'alpaca-broker-sandbox',
       'sandbox-suite-v1',
       'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
       '2026-08-23T00:00:00Z',
@@ -188,7 +188,7 @@ select set_config('request.jwt.claim.role', 'service_role', true);
 select is(
   (
     public.persist_broker_certification_report(
-      'broker-neutral-sandbox',
+      'alpaca-broker-sandbox',
       'sandbox-suite-v1',
       'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
       '2026-08-23T00:00:00Z',
@@ -215,7 +215,7 @@ select is(
 select is((select count(*) from public.broker_certification_runs), 1::bigint, 'one immutable certification run is recorded');
 select is((select count(*) from public.broker_certification_results), 10::bigint, 'all ten certification outcomes are recorded');
 select is((select live_order_routing_tested from public.broker_certification_runs limit 1), false, 'the recorded run attests that live routing was not tested');
-select is((select latest_status from public.broker_certification_readiness where provider_code = 'broker-neutral-sandbox'), 'passed', 'the readiness view exposes the latest sanitized status');
+select is((select latest_status from public.broker_certification_readiness where provider_code = 'alpaca-broker-sandbox'), 'passed', 'the readiness view exposes the latest sanitized status');
 select is((select count(*) from public.broker_certification_latest_results where status = 'passed'), 10::bigint, 'the latest matrix exposes all passing controls');
 select is((select count(*) from public.financial_audit_events where event_type = 'broker_sandbox_certification_recorded'), 1::bigint, 'certification persistence writes an operational audit event');
 

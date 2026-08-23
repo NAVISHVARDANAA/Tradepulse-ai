@@ -140,6 +140,21 @@ compliance boundaries are designed in before execution features are enabled.
   a jurisdiction, satisfy KYC/suitability, connect an account or authorize a live
   trade.
 
+### Phase 4C — provider-bound sandbox adapter
+
+- The first concrete brokerage implementation targets only Alpaca's Broker API
+  sandbox at the fixed `broker-api.sandbox.alpaca.markets` origin.
+- A server-only capability probe performs one read-only asset lookup. The
+  adapter has no account, order, transfer, custody or production-host method.
+- HTTP Basic credentials come only from Supabase Edge Function secrets. Errors,
+  audit records and the product health view contain no credentials, account
+  numbers or raw provider responses.
+- Retries are bounded to one repeat of the safe GET. Production hosts, redirects,
+  alternate paths and query strings fail closed before a request is made.
+- An append-only health ledger records sanitized outcome, latency and attempt
+  metadata. Browser clients cannot write it, and all live execution locks remain
+  enforced independently by the database.
+
 ## Architecture
 
 ```text
@@ -188,7 +203,7 @@ server-side secrets. Never expose them through a `VITE_*` variable.
 
 ## Edge Functions
 
-The repository contains twelve initial server-side functions:
+The repository contains thirteen initial server-side functions:
 
 | Function | Purpose | Authorization |
 | --- | --- | --- |
@@ -204,6 +219,7 @@ The repository contains twelve initial server-side functions:
 | `sync-sec-equity-fundamentals` | Import reported US-company facts from SEC EDGAR with public-domain provenance | `x-sync-secret` |
 | `generate-daily-research-brief` | Generate a private evidence-linked watchlist brief and evaluate research alerts | Supabase user JWT or `x-sync-secret` scheduler |
 | `preview-brokerage-order` | Persist an authenticated, blocked order-readiness preview with explicit compliance and platform gates | Supabase user JWT |
+| `probe-alpaca-broker-sandbox` | Run the fixed read-only Alpaca Broker API sandbox asset probe and persist sanitized health | `x-sync-secret` |
 
 Set a strong `SYNC_SECRET` in Supabase secrets before deploying scheduled
 functions. Supabase supplies `SUPABASE_URL`, `SUPABASE_ANON_KEY` and
@@ -216,6 +232,13 @@ refused until `EQUITY_DATA_DISPLAY_LICENSED=true` confirms approved display righ
 set `ALPACA_REALTIME_LICENSED=true` only for a contract that permits SIP
 real-time display. IEX is labeled as a partial reference feed, not consolidated
 US-market coverage.
+
+The brokerage adapter uses a separate Alpaca Broker API sandbox credential and
+scheduler boundary. Configure `ALPACA_BROKER_API_KEY`,
+`ALPACA_BROKER_API_SECRET` and a strong `BROKER_SANDBOX_SYNC_SECRET` in Supabase
+Edge Function secrets. Do not reuse retail Trading API credentials, expose these
+values as `VITE_*` variables or paste them into workflow inputs. The current
+adapter cannot submit an order even when these secrets are present.
 
 The SEC fundamentals adapter requires a descriptive `SEC_USER_AGENT` containing
 an application name and operational contact. It processes at most 20 approved
@@ -241,7 +264,7 @@ Supabase Postgres instance for pull requests and pushes to `main`.
 Production Supabase releases are manual and environment-protected. See
 [`docs/SUPABASE_DEPLOYMENT.md`](docs/SUPABASE_DEPLOYMENT.md) for the required
 GitHub environment secrets, approval gate, read-only verification workflow and
-Phase 4B release procedure.
+Phase 4C release procedure.
 
 ## ML forecasting service
 
@@ -285,6 +308,11 @@ Migration `015_broker_sandbox_certification.sql` adds the sandbox-only adapter
 certification catalog, immutable sanitized evidence ledger, service-only report
 writer and public readiness matrix. It adds no provider credential, production
 endpoint or live-order path.
+
+Migration `016_alpaca_broker_sandbox_adapter.sql` binds the provider registry to
+the Alpaca Broker API sandbox, adds an immutable sanitized adapter-health ledger
+and a service-only writer that refuses any alternate origin or execution-enabled
+provider state. It adds no broker account or order capability.
 
 ## Production gates
 
