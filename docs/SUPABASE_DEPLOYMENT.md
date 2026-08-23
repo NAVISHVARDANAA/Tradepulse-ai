@@ -22,24 +22,24 @@ Never paste these values into an issue, pull request, workflow input, log,
 browser client variable or chat. Rotate the access token and database password
 immediately if either is exposed.
 
-## Release Phase 4A
+## Release Phase 4B
 
 1. Confirm the CI workflow on `main` is green.
 2. Open **Actions → Deploy Supabase production → Run workflow**.
 3. Select the `main` branch.
-4. Enter `DEPLOY_PHASE_4A` as the confirmation value.
+4. Enter `DEPLOY_PHASE_4B` as the confirmation value.
 5. Approve the `production` environment deployment when prompted.
 
 The workflow performs a database dry run, applies every pending migration in
 filename order, deploys only `preview-brokerage-order`, and verifies that
-migration `014` and the active function are visible remotely. It also runs the
-read-only production execution-lock smoke query and proves that an
-unauthenticated preview request receives HTTP 401.
+migration `015` and the active function are visible remotely. It also runs the
+read-only production execution-lock and sandbox-certification smoke query and
+proves that an unauthenticated preview request receives HTTP 401.
 
 ## Read-only production verification
 
 Run **Actions → Verify Supabase production → Run workflow** after a release or
-operational incident. Select `main` and enter `VERIFY_PHASE_4A`.
+operational incident. Select `main` and enter `VERIFY_PHASE_4B`.
 
 The verification workflow performs no production writes. It confirms local and
 remote migration parity, executes the audited, query-only
@@ -59,7 +59,8 @@ reject the smoke file if it contains a write-capable SQL statement.
   and reviewed.
 
 Live brokerage execution remains database-locked after this deployment. This
-release creates readiness checks and non-executable previews only.
+release adds a sandbox-only certification control plane; it still creates no
+live-order route, provider credential store or custody capability.
 
 ## Runtime baseline
 

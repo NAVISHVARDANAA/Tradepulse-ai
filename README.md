@@ -123,6 +123,23 @@ compliance boundaries are designed in before execution features are enabled.
 - Brokerage and custody remain external regulated-partner responsibilities. No
   provider credentials, customer account numbers or assets enter the browser.
 
+### Phase 4B — broker sandbox certification control plane
+
+- A versioned broker-neutral certification catalog covers sandbox isolation,
+  credential redaction, account normalization, order idempotency and lifecycle,
+  webhook replay defense, resilience, reconciliation and the production-route
+  lock.
+- Immutable certification reports are accepted only from the service role and
+  retain bounded outcomes, latency, source commit and evidence digests without
+  storing provider payloads, credentials or customer account numbers.
+- The brokerage dashboard exposes explicit passed, failed and not-run states so
+  operational readiness cannot be inferred from a configured provider name.
+- Database constraints keep every certification run in `sandbox` and prove that
+  live routing was neither tested nor enabled.
+- A passing certification report is operational evidence only. It cannot approve
+  a jurisdiction, satisfy KYC/suitability, connect an account or authorize a live
+  trade.
+
 ## Architecture
 
 ```text
@@ -224,7 +241,7 @@ Supabase Postgres instance for pull requests and pushes to `main`.
 Production Supabase releases are manual and environment-protected. See
 [`docs/SUPABASE_DEPLOYMENT.md`](docs/SUPABASE_DEPLOYMENT.md) for the required
 GitHub environment secrets, approval gate, read-only verification workflow and
-Phase 4A release procedure.
+Phase 4B release procedure.
 
 ## ML forecasting service
 
@@ -263,6 +280,11 @@ Migration `014_brokerage_readiness_foundation.sql` adds broker-neutral provider
 contracts, private readiness and consent records, globally locked execution
 controls, non-executable order previews and the brokerage-readiness Academy
 course. It creates no live-order or custody path.
+
+Migration `015_broker_sandbox_certification.sql` adds the sandbox-only adapter
+certification catalog, immutable sanitized evidence ledger, service-only report
+writer and public readiness matrix. It adds no provider credential, production
+endpoint or live-order path.
 
 ## Production gates
 

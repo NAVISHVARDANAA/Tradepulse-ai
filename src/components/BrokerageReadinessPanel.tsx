@@ -102,6 +102,11 @@ export function BrokerageReadinessPanel() {
 
   const readiness = workspace?.readiness
   const provider = workspace?.providers[0]
+  const certification = workspace?.certifications.find((item) => item.providerId === provider?.id)
+  const certificationTests = workspace?.certificationTests.filter((item) => item.providerId === provider?.id) ?? []
+  const certificationCompleted = certification
+    ? certification.passedTests + certification.failedTests
+    : 0
   const checks = useMemo(() => [
     {
       label: 'Verified residency and eligible jurisdiction',
@@ -203,7 +208,7 @@ export function BrokerageReadinessPanel() {
     <section className="panel brokerage-panel" id="brokerage-readiness">
       <div className="panel-header">
         <div>
-          <p className="eyebrow">Regulated execution runway · Phase 4A</p>
+          <p className="eyebrow">Regulated execution runway · Phase 4B</p>
           <h2>Global brokerage readiness</h2>
         </div>
         <div className="panel-header-actions">
@@ -218,6 +223,8 @@ export function BrokerageReadinessPanel() {
         See exactly what TradePulse, a regulated broker, compliance teams and
         you must complete before live investing could ever be enabled. Order
         previews are auditable readiness checks—not broker instructions.
+        The sandbox certification matrix proves adapter safety and operational
+        behavior before a regulated partner can be considered.
       </p>
 
       <div className="brokerage-lock-banner" role="status">
@@ -250,6 +257,64 @@ export function BrokerageReadinessPanel() {
             <article><FileCheck2 size={18} /><span>Disclosures</span><strong>{readiness?.acceptedDisclosures ?? 0}/{readiness?.requiredDisclosures ?? 0}</strong></article>
             <article className="locked"><Ban size={18} /><span>Live routing</span><strong>Disabled</strong></article>
           </div>
+
+          <section className="brokerage-certification" aria-labelledby="broker-certification-title">
+            <div className="brokerage-card-head">
+              <div>
+                <span>Broker-neutral adapter contract</span>
+                <strong id="broker-certification-title">Sandbox certification matrix</strong>
+              </div>
+              <ClipboardCheck size={19} />
+            </div>
+
+            <div className="certification-overview">
+              <div>
+                <span>Provider contract</span>
+                <strong>{certification?.displayName ?? provider?.displayName ?? 'Not configured'}</strong>
+                <small>{certification?.adapterContractVersion ?? provider?.adapterContractVersion ?? 'No adapter version'}</small>
+              </div>
+              <div>
+                <span>Latest certification</span>
+                <strong className={`certification-status ${certification?.latestStatus ?? 'not-run'}`}>
+                  {certification?.latestStatus ? statusLabel(certification.latestStatus) : 'Not run'}
+                </strong>
+                <small>{certification?.completedAt ? compactDate(certification.completedAt) : 'Awaiting a service-issued sandbox report'}</small>
+              </div>
+              <div>
+                <span>Required controls</span>
+                <strong>{certificationCompleted}/{certification?.requiredTests ?? certificationTests.length}</strong>
+                <small>{certification?.failedTests ?? 0} failed · live routing never tested</small>
+              </div>
+              <div>
+                <span>Evidence source</span>
+                <strong>{certification?.suiteVersion ?? 'Pending'}</strong>
+                <small>{certification?.sourceCommitSha ? `Commit ${certification.sourceCommitSha.slice(0, 7)}` : 'No certification evidence yet'}</small>
+              </div>
+            </div>
+
+            <div className="certification-matrix">
+              {certificationTests.map((test) => (
+                <article className={`certification-test ${test.status}`} key={test.code}>
+                  {test.status === 'passed'
+                    ? <CheckCircle2 size={15} />
+                    : test.status === 'failed'
+                      ? <ShieldAlert size={15} />
+                      : <Circle size={15} />}
+                  <div>
+                    <strong>{test.title}</strong>
+                    <span>{test.description}</span>
+                  </div>
+                  <small>{statusLabel(test.status)}</small>
+                </article>
+              ))}
+            </div>
+
+            <p className="certification-boundary">
+              Certification reports are service-only, sandbox-constrained and
+              sanitized. Passing this matrix cannot enable production routing,
+              approve a jurisdiction or authorize a customer to trade.
+            </p>
+          </section>
 
           <div className="brokerage-grid">
             <section className="brokerage-card readiness-card-panel">

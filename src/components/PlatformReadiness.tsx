@@ -54,8 +54,8 @@ const capabilities = [
   },
   {
     label: 'Live execution',
-    status: 'Phase 4A controls active',
-    detail: 'Broker-neutral previews expose every launch blocker; routing remains hard locked',
+    status: 'Phase 4B sandbox controls active',
+    detail: 'Broker-neutral previews and certification evidence are visible; routing remains hard locked',
     tone: 'locked',
     icon: ShieldCheck,
   },
