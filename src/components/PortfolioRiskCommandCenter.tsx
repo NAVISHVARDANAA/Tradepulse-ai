@@ -20,6 +20,7 @@ import {
   YAxis,
 } from 'recharts'
 
+import { AcademyLink } from './AcademyLink'
 import {
   getPaperPortfolios,
   type PaperPortfolio,
@@ -240,9 +241,12 @@ export function PortfolioRiskCommandCenter() {
           <p className="eyebrow">Risk command center · Phase 3B</p>
           <h2>Portfolio controls and reconciliation</h2>
         </div>
-        <span className={`risk-health-badge ${health.tone}`}>
-          <HealthIcon size={14} /> {health.label}
-        </span>
+        <div className="panel-header-actions">
+          <AcademyLink courseSlug="paper-trading-risk" lessonSlug="risk-command-center" />
+          <span className={`risk-health-badge ${health.tone}`}>
+            <HealthIcon size={14} /> {health.label}
+          </span>
+        </div>
       </div>
 
       <p className="panel-description">

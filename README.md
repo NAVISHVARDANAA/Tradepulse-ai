@@ -94,6 +94,19 @@ compliance boundaries are designed in before execution features are enabled.
 - Email and push channels remain disabled until reviewed delivery providers,
   consent controls and regional privacy requirements are configured.
 
+### Phase 3E — TradePulse Academy and guided onboarding
+
+- Five free launch courses teach platform navigation, AI forecast literacy,
+  stock research, paper trading, portfolio risk and the research copilot.
+- Every lesson includes a server-graded knowledge check with explanations and a
+  70% pass mark; the protected answer bank is never exposed to browser clients.
+- Guests can learn immediately with device-local progress. Authenticated users
+  receive private, cross-device progress protected by row-level security.
+- A restartable five-step product tour and contextual “Learn this” links connect
+  complex dashboard features directly to their relevant lessons.
+- Completion records are certificate-ready but service-issued only. Academy
+  content is education, not personalized advice or authorization to trade.
+
 ## Architecture
 
 ```text
@@ -215,6 +228,11 @@ brokerage or payment route.
 Migration `012_research_copilot.sql` adds private brief preferences, idempotent
 daily briefs, explainable alert evidence and a caller-secured watchlist research
 view. Only the service-side copilot can publish briefs or alert events.
+
+Migration `013_tradepulse_academy.sql` adds the public curriculum, protected
+quiz answer bank, private lesson progress, guided-tour state and service-only
+completion records. All essential launch courses are free and English-first;
+language codes and versioned content support future localization.
 
 ## Production gates
 

@@ -89,6 +89,23 @@ reproduce their stored component scores.
 idempotent, every brief statement resolves to stored evidence, and alert events
 cannot be forged by browser clients.
 
+## Phase 3E — TradePulse Academy and guided onboarding
+
+- Free, versioned courses for platform navigation, forecast literacy, stock
+  research, paper trading, portfolio risk and evidence-linked copilot use.
+- Restartable guided product tour plus contextual learning links from complex
+  trading and research surfaces.
+- Server-graded knowledge checks with a protected answer bank, explanations and
+  an explicit pass threshold.
+- Device-local guest progress and private cross-device progress for signed-in
+  users, with service-only completion issuance for future certificates.
+- Education is separated from personalized financial advice, suitability and
+  authorization to submit any live transaction.
+
+**Exit gate:** public content exposes no answer keys, private learning records
+pass cross-user isolation tests, all dashboard links resolve to published
+lessons, and course completion cannot be forged by browser clients.
+
 ## Phase 4 — regulated brokerage integrations
 
 - Broker adapter behind a separately permissioned execution service.

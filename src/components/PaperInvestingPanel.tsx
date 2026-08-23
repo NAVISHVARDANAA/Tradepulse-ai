@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 import { FormEvent, useEffect, useMemo, useRef, useState } from 'react'
 
+import { AcademyLink } from './AcademyLink'
 import {
   createPaperPortfolio,
   getPaperInstruments,
@@ -239,9 +240,12 @@ export function PaperInvestingPanel({
           <p className="eyebrow">Portfolio lab · Phase 3</p>
           <h2>Authenticated paper investing</h2>
         </div>
-        <span className="status-badge sandbox">
-          <ShieldCheck size={14} /> Simulation only
-        </span>
+        <div className="panel-header-actions">
+          <AcademyLink courseSlug="paper-trading-risk" lessonSlug="paper-orders" />
+          <span className="status-badge sandbox">
+            <ShieldCheck size={14} /> Simulation only
+          </span>
+        </div>
       </div>
 
       <p className="panel-description">

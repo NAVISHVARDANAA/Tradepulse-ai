@@ -14,6 +14,7 @@ import {
 } from 'lucide-react'
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
 
+import { AcademyLink } from './AcademyLink'
 import {
   addResearchWatchlistItem,
   createResearchAlert,
@@ -185,9 +186,12 @@ export function ResearchCopilotPanel({
           <p className="eyebrow">Daily intelligence · Phase 3D</p>
           <h2>AI research copilot</h2>
         </div>
-        <span className="status-badge">
-          <ShieldCheck size={14} /> Private · evidence linked
-        </span>
+        <div className="panel-header-actions">
+          <AcademyLink courseSlug="research-copilot" lessonSlug="daily-evidence-brief" />
+          <span className="status-badge">
+            <ShieldCheck size={14} /> Private · evidence linked
+          </span>
+        </div>
       </div>
 
       <p className="panel-description copilot-description">
