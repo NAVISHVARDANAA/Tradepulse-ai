@@ -1,8 +1,9 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0'
 
 import { hasValidInternalSecret, internalJsonResponse as jsonResponse } from '../_shared/http.ts'
+import { observeEdgeHandler } from '../_shared/observability.ts'
 
-Deno.serve(async (request) => {
+Deno.serve(observeEdgeHandler('broker-operations', async (request) => {
   if (request.method !== 'POST') {
     return jsonResponse({ error: 'Method not allowed' }, 405)
   }
@@ -30,4 +31,4 @@ Deno.serve(async (request) => {
   }
 
   return jsonResponse({ monitoring: data })
-})
+}))

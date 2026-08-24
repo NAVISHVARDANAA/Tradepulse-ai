@@ -67,15 +67,8 @@ function responseBody(body: unknown, status: number, requestId: string) {
   return body
 }
 
-function recordSafeFailure(status: number, requestId: string) {
-  if (status >= 400) {
-    console.warn(JSON.stringify({ event: 'edge_response', status, requestId }))
-  }
-}
-
 export function jsonResponse(body: unknown, status = 200, extraHeaders: HeadersInit = {}) {
   const requestId = crypto.randomUUID()
-  recordSafeFailure(status, requestId)
   return new Response(JSON.stringify(responseBody(body, status, requestId)), {
     status,
     headers: {
@@ -98,7 +91,6 @@ export function corsPreflightResponse() {
 
 export function internalJsonResponse(body: unknown, status = 200) {
   const requestId = crypto.randomUUID()
-  recordSafeFailure(status, requestId)
   return new Response(JSON.stringify(responseBody(body, status, requestId)), {
     status,
     headers: responseHeaders(false, requestId),

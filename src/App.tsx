@@ -10,6 +10,7 @@ import { DeferredSection } from './components/DeferredSection'
 import { GuidedOnboarding } from './components/GuidedOnboarding'
 import { PlatformReadiness } from './components/PlatformReadiness'
 import { ProductErrorBoundary } from './components/ProductErrorBoundary'
+import { SystemStatusPanel } from './components/SystemStatusPanel'
 import {
   getLatestForecasts,
   getMarketAssets,
@@ -77,6 +78,7 @@ const navItems = [
   { label: 'Brokerage readiness', href: '#brokerage-readiness' },
   { label: 'Trade data', href: '#trade-data' },
   { label: 'Payments', href: '#payments' },
+  { label: 'System status', href: '#system-status' },
 ]
 
 const emptyKpis: TradeKpi[] = [
@@ -361,6 +363,8 @@ function App() {
         </section>
 
         <PlatformReadiness />
+
+        <SystemStatusPanel />
 
         <DeferredSection id="stock-research" label="Stock research" minimumHeight={620}>
           <ProductErrorBoundary title="Stock research is temporarily unavailable">

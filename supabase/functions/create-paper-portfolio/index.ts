@@ -5,6 +5,7 @@ import {
   parseJsonBody,
   RequestValidationError,
 } from '../_shared/http.ts'
+import { observeEdgeHandler } from '../_shared/observability.ts'
 
 type PortfolioRequest = {
   name?: string
@@ -22,7 +23,7 @@ function safePortfolioError(message: string) {
   return 'Unable to create the paper portfolio.'
 }
 
-Deno.serve(async (request) => {
+Deno.serve(observeEdgeHandler('paper-portfolio', async (request) => {
   if (request.method === 'OPTIONS') {
     return corsPreflightResponse()
   }
@@ -76,4 +77,4 @@ Deno.serve(async (request) => {
   }
 
   return jsonResponse({ portfolio: data, simulation: true }, 201)
-})
+}))

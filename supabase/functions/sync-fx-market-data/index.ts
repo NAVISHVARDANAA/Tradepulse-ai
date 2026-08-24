@@ -1,6 +1,7 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0'
 
 import { hasValidInternalSecret, internalJsonResponse as jsonResponse } from '../_shared/http.ts'
+import { observeEdgeHandler } from '../_shared/observability.ts'
 
 type FxPair = {
   symbol: string
@@ -20,7 +21,7 @@ const pairs: FxPair[] = [
   { symbol: 'USDINR', base: 'USD', quote: 'INR' },
 ]
 
-Deno.serve(async (request) => {
+Deno.serve(observeEdgeHandler('fx-market-data', async (request) => {
   if (request.method !== 'POST') {
     return jsonResponse({ error: 'Method not allowed' }, 405)
   }
@@ -149,4 +150,4 @@ Deno.serve(async (request) => {
 
     return jsonResponse({ error: 'FX synchronization failed' }, 502)
   }
-})
+}))

@@ -1,6 +1,7 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0'
 
 import { hasValidInternalSecret, internalJsonResponse as jsonResponse } from '../_shared/http.ts'
+import { observeEdgeHandler } from '../_shared/observability.ts'
 
 type NumericValue = number | string | null
 
@@ -237,7 +238,7 @@ function scoreSecurity(
   }
 }
 
-Deno.serve(async (request) => {
+Deno.serve(observeEdgeHandler('equity-research', async (request) => {
   if (request.method !== 'POST') {
     return jsonResponse({ error: 'Method not allowed' }, 405)
   }
@@ -354,4 +355,4 @@ Deno.serve(async (request) => {
   } catch {
     return jsonResponse({ error: 'Equity research generation failed' }, 500)
   }
-})
+}))

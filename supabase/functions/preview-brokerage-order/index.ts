@@ -5,6 +5,7 @@ import {
   parseJsonBody,
   RequestValidationError,
 } from '../_shared/http.ts'
+import { observeEdgeHandler } from '../_shared/observability.ts'
 
 type PreviewRequest = {
   instrumentId?: number
@@ -37,7 +38,7 @@ function numeric(value: unknown) {
   return Number.isFinite(parsed) ? parsed : null
 }
 
-Deno.serve(async (request) => {
+Deno.serve(observeEdgeHandler('brokerage-preview', async (request) => {
   if (request.method === 'OPTIONS') {
     return corsPreflightResponse()
   }
@@ -261,4 +262,4 @@ Deno.serve(async (request) => {
     executable: false,
     disclaimer: 'Readiness preview only. No order was created, routed, or sent to a broker.',
   })
-})
+}))

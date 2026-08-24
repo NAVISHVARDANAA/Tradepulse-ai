@@ -16,6 +16,12 @@
   routing remains disabled in database controls and application behavior.
 - CodeQL, dependency review, production dependency audit, type checks, database
   contract tests and Edge Function tests run before release.
+- Every Edge Function emits a bounded structured completion event with service,
+  support reference, method, status, outcome and latency. Request/response
+  bodies, identities, IP addresses, credentials and provider payloads are excluded.
+- A database-owned five-minute reliability evaluator maintains sanitized,
+  append-only service and incident-transition evidence. Customer status is read
+  from a separate safe projection and dynamically degrades when monitoring stops.
 
 ## Production configuration checklist
 
@@ -40,6 +46,8 @@
    spikes, repeated 401/429 responses, RLS failures and secret rotation.
 8. Publish customer-facing privacy, risk, incident-notification and account
    recovery policies before accepting real customer data or money.
+9. Exercise `docs/INCIDENT_RESPONSE.md`, validate escalation contacts and review
+   `docs/SERVICE_LEVEL_OBJECTIVES.md` against real production evidence quarterly.
 
 ## Customer experience principles
 

@@ -5,6 +5,7 @@ import {
   parseJsonBody,
   RequestValidationError,
 } from '../_shared/http.ts'
+import { observeEdgeHandler } from '../_shared/observability.ts'
 
 type RiskRefreshRequest = {
   portfolioId?: string
@@ -26,7 +27,7 @@ function safeRiskError(message: string) {
   return 'Unable to refresh portfolio risk.'
 }
 
-Deno.serve(async (request) => {
+Deno.serve(observeEdgeHandler('paper-risk', async (request) => {
   if (request.method === 'OPTIONS') {
     return corsPreflightResponse()
   }
@@ -83,4 +84,4 @@ Deno.serve(async (request) => {
       : decisionEvaluation,
     simulation: true,
   })
-})
+}))

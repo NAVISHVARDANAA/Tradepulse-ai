@@ -255,6 +255,26 @@ one browser authentication listener owns session lifecycle state.
 tests, green CodeQL/dependency review, production 401 denial, internal CORS
 isolation and all live execution and fund-movement locks unchanged.
 
+### Phase 4J — platform observability and incident readiness (implemented)
+
+- Versioned service policies define customer visibility, freshness thresholds,
+  availability objectives and initial latency objectives without claiming a
+  contractual SLA.
+- A five-minute database evaluator consolidates sanitized platform, data,
+  forecast and broker-sandbox evidence and dynamically detects stopped
+  monitoring rather than leaving a stale green status.
+- Append-only health and incident-transition evidence drives a customer-safe
+  status panel, 30-day availability measurement and explicit error-budget state.
+- Every Edge Function emits one bounded structured completion record with an
+  interaction reference and no identity, credential, payload or financial data.
+- A NIST-aligned incident runbook defines severity, roles, containment,
+  communications, recovery, evidence and post-incident learning.
+
+**Phase 4J exit gate:** migration 022 parity, scheduler and incident lifecycle
+tests, structured telemetry tests, active protected evaluator, unauthenticated
+HTTP 401 and internal CORS isolation, public status sanitization and all live
+execution and fund-movement locks unchanged.
+
 ### Future regulated activation work
 
 - Sandbox account and order mirroring behind separately permissioned services.

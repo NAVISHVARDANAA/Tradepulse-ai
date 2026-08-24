@@ -78,11 +78,13 @@ jobs:
           deno check supabase/functions/sync-alpaca-sandbox-account-inventory/index.ts
           deno check supabase/functions/evaluate-broker-operations/index.ts
           deno check supabase/functions/evaluate-forecast-governance/index.ts
+          deno check supabase/functions/evaluate-platform-reliability/index.ts
 
       - name: Test shared Edge Function security controls
         run: >-
           deno test --allow-env
           supabase/functions/_shared/http.test.ts
+          supabase/functions/_shared/observability.test.ts
           supabase/functions/_shared/alpacaBrokerSandbox.test.ts
 
   database-migrations:
@@ -147,6 +149,9 @@ jobs:
 
       - name: Test customer trust and API abuse-control contracts
         run: npx --no-install supabase test db supabase/tests/database/customer_trust_security.test.sql
+
+      - name: Test platform observability and incident contracts
+        run: npx --no-install supabase test db supabase/tests/database/platform_observability_incidents.test.sql
 
       - name: Assert production smoke SQL is query-only
         run: bash scripts/assert-read-only-sql.sh supabase/tests/production/brokerage_readiness_smoke.sql

@@ -5,6 +5,7 @@ import {
   parseJsonBody,
   RequestValidationError,
 } from '../_shared/http.ts'
+import { observeEdgeHandler } from '../_shared/observability.ts'
 
 type PaperOrderRequest = {
   portfolioId?: string
@@ -48,7 +49,7 @@ function safeOrderError(message: string) {
   return 'Unable to submit the paper order.'
 }
 
-Deno.serve(async (request) => {
+Deno.serve(observeEdgeHandler('paper-order', async (request) => {
   if (request.method === 'OPTIONS') {
     return corsPreflightResponse()
   }
@@ -127,4 +128,4 @@ Deno.serve(async (request) => {
   }
 
   return jsonResponse({ order: data, simulation: true })
-})
+}))
