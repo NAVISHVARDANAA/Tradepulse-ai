@@ -105,6 +105,9 @@ jobs:
       - name: Test risk-engine database contracts
         run: npx --no-install supabase test db supabase/tests/database/portfolio_risk_engine.test.sql
 
+      - name: Test paper decision-intelligence contracts
+        run: npx --no-install supabase test db supabase/tests/database/paper_decision_intelligence.test.sql
+
       - name: Test equity-research database contracts
         run: npx --no-install supabase test db supabase/tests/database/equity_research_foundation.test.sql
 

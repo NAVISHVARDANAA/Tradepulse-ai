@@ -33,8 +33,8 @@ const capabilities = [
   },
   {
     label: 'Paper investing',
-    status: 'Authenticated simulator',
-    detail: 'Virtual cash, atomic fills, positions and risk checks',
+    status: 'Phase 4F decision intelligence',
+    detail: 'Virtual cash, private theses, AI evidence snapshots and outcome scoring',
     tone: 'active',
     icon: Landmark,
   },

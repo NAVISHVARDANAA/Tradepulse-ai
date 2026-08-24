@@ -1,10 +1,14 @@
 import type { Session } from '@supabase/supabase-js'
 import {
+  BrainCircuit,
   CircleDollarSign,
   LogOut,
   Mail,
+  NotebookPen,
   RefreshCw,
   ShieldCheck,
+  Target,
+  TrendingUp,
   WalletCards,
 } from 'lucide-react'
 import { FormEvent, useEffect, useMemo, useRef, useState } from 'react'
@@ -38,6 +42,19 @@ function displayError(error: unknown) {
   return 'The paper-investing request could not be completed.'
 }
 
+function formatDate(value: string) {
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(new Date(value))
+}
+
+function label(value: string | null) {
+  return value ? value.split('_').join(' ') : 'Not available'
+}
+
 export function PaperInvestingPanel({
   marketAssets,
 }: PaperInvestingPanelProps) {
@@ -55,6 +72,9 @@ export function PaperInvestingPanel({
   const [instrumentId, setInstrumentId] = useState('')
   const [side, setSide] = useState<'buy' | 'sell'>('buy')
   const [quantity, setQuantity] = useState('1')
+  const [thesis, setThesis] = useState('')
+  const [conviction, setConviction] = useState('3')
+  const [plannedHorizonHours, setPlannedHorizonHours] = useState('24')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
@@ -211,6 +231,9 @@ export function PaperInvestingPanel({
         side,
         quantity: Number(quantity),
         clientOrderId: paperOrderId.current,
+        thesis: thesis.trim(),
+        conviction: Number(conviction),
+        plannedHorizonHours: Number(plannedHorizonHours),
       })
       await refreshSnapshot()
       const orderStatus = response?.order?.status
@@ -220,9 +243,10 @@ export function PaperInvestingPanel({
           `Paper order rejected by risk controls: ${response?.order?.reason ?? 'limit exceeded'}.`,
         )
       } else {
+        setThesis('')
         setSuccess(
           orderStatus === 'filled'
-            ? 'Paper order filled in the simulator.'
+            ? 'Paper order filled and its decision evidence was journaled.'
             : `Paper order status: ${orderStatus ?? 'submitted'}.`,
         )
       }
@@ -237,8 +261,8 @@ export function PaperInvestingPanel({
     <section className="panel paper-panel" id="paper-investing">
       <div className="panel-header">
         <div>
-          <p className="eyebrow">Portfolio lab · Phase 3</p>
-          <h2>Authenticated paper investing</h2>
+          <p className="eyebrow">Portfolio lab · Phase 4F</p>
+          <h2>AI-linked paper decision lab</h2>
         </div>
         <div className="panel-header-actions">
           <AcademyLink courseSlug="paper-trading-risk" lessonSlug="paper-orders" />
@@ -250,7 +274,9 @@ export function PaperInvestingPanel({
 
       <p className="panel-description">
         Practise with synchronized prices, virtual cash, recorded fees and
-        pre-trade limits. Nothing here can reach a broker or move real funds.
+        pre-trade limits. Every new decision keeps its private thesis and the
+        point-in-time forecast context so you can measure what actually worked.
+        Nothing here can reach a broker or move real funds.
       </p>
 
       {authLoading ? (
@@ -409,18 +435,66 @@ export function PaperInvestingPanel({
                       onChange={(event) => setQuantity(event.target.value)}
                     />
                   </label>
+                  <label>
+                    Decision thesis
+                    <textarea
+                      required
+                      minLength={8}
+                      maxLength={500}
+                      rows={3}
+                      placeholder="What do you expect, and what evidence could prove you wrong?"
+                      value={thesis}
+                      onChange={(event) => setThesis(event.target.value)}
+                    />
+                    <small>{thesis.length}/500 · stored privately</small>
+                  </label>
+                  <div className="paper-decision-controls">
+                    <label>
+                      Conviction
+                      <select
+                        value={conviction}
+                        onChange={(event) => setConviction(event.target.value)}
+                      >
+                        <option value="1">1 · exploratory</option>
+                        <option value="2">2 · cautious</option>
+                        <option value="3">3 · balanced</option>
+                        <option value="4">4 · strong</option>
+                        <option value="5">5 · highest</option>
+                      </select>
+                    </label>
+                    <label>
+                      Review horizon
+                      <select
+                        value={plannedHorizonHours}
+                        onChange={(event) => setPlannedHorizonHours(event.target.value)}
+                      >
+                        <option value="1">1 hour</option>
+                        <option value="24">1 day</option>
+                        <option value="72">3 days</option>
+                        <option value="168">1 week</option>
+                        <option value="720">30 days</option>
+                      </select>
+                    </label>
+                  </div>
                   <div className="paper-estimate">
                     <span>Reference price</span>
                     <strong>{selectedMarket?.price ? number.format(selectedMarket.price) : 'Awaiting data'}</strong>
                     <span>Estimated notional</span>
                     <strong>{estimatedNotional ? number.format(estimatedNotional) : '—'} {selectedPortfolio?.baseCurrency}</strong>
+                    <span>Evidence snapshot</span>
+                    <strong>Forecast + research captured server-side</strong>
                   </div>
                   <button
                     className="primary-button"
                     type="submit"
-                    disabled={loading || !instrumentId || !selectedMarket?.price}
+                    disabled={
+                      loading ||
+                      !instrumentId ||
+                      !selectedMarket?.price ||
+                      thesis.trim().length < 8
+                    }
                   >
-                    Submit simulated order
+                    Journal and simulate order
                   </button>
                 </form>
 
@@ -447,6 +521,94 @@ export function PaperInvestingPanel({
                   )}
                 </div>
               </div>
+
+              <section className="paper-decision-intelligence">
+                <div className="paper-subheader">
+                  <div>
+                    <strong><BrainCircuit size={17} /> Decision intelligence</strong>
+                    <span>Outcomes are evaluated from later synchronized prices</span>
+                  </div>
+                  <span>Learning analytics—not investment advice</span>
+                </div>
+
+                <div className="paper-decision-scorecard">
+                  <article>
+                    <NotebookPen size={17} />
+                    <span>Journaled decisions</span>
+                    <strong>{snapshot?.decisionScorecard?.totalDecisions ?? 0}</strong>
+                    <small>{snapshot?.decisionScorecard?.completedDecisions ?? 0} evaluated</small>
+                  </article>
+                  <article>
+                    <Target size={17} />
+                    <span>Forecast direction</span>
+                    <strong>
+                      {snapshot?.decisionScorecard?.forecastDirectionalAccuracyPercent === null ||
+                      snapshot?.decisionScorecard?.forecastDirectionalAccuracyPercent === undefined
+                        ? 'Pending'
+                        : `${number.format(snapshot.decisionScorecard.forecastDirectionalAccuracyPercent)}%`}
+                    </strong>
+                    <small>Correct after the chosen horizon</small>
+                  </article>
+                  <article>
+                    <TrendingUp size={17} />
+                    <span>Profitable decisions</span>
+                    <strong>
+                      {snapshot?.decisionScorecard?.profitableDecisionRatePercent === null ||
+                      snapshot?.decisionScorecard?.profitableDecisionRatePercent === undefined
+                        ? 'Pending'
+                        : `${number.format(snapshot.decisionScorecard.profitableDecisionRatePercent)}%`}
+                    </strong>
+                    <small>Paper directional return above zero</small>
+                  </article>
+                  <article>
+                    <BrainCircuit size={17} />
+                    <span>Average forecast error</span>
+                    <strong>
+                      {snapshot?.decisionScorecard?.averageForecastErrorPercent === null ||
+                      snapshot?.decisionScorecard?.averageForecastErrorPercent === undefined
+                        ? 'Pending'
+                        : `${number.format(snapshot.decisionScorecard.averageForecastErrorPercent)}%`}
+                    </strong>
+                    <small>Absolute outcome-price error</small>
+                  </article>
+                </div>
+
+                <div className="paper-decision-journal">
+                  {snapshot?.decisionJournal.length ? (
+                    snapshot.decisionJournal.map((decision) => (
+                      <article key={decision.id}>
+                        <div className="paper-decision-journal-head">
+                          <div>
+                            <strong>{decision.symbol} · {decision.side}</strong>
+                            <span>{formatDate(decision.submittedAt)} · conviction {decision.conviction}/5</span>
+                          </div>
+                          <span className={`decision-outcome ${decision.evaluationStatus}`}>
+                            {label(decision.evaluationStatus)}
+                          </span>
+                        </div>
+                        <p>{decision.thesis}</p>
+                        <dl>
+                          <div><dt>Horizon</dt><dd>{decision.plannedHorizonHours}h</dd></div>
+                          <div><dt>Forecast</dt><dd>{label(decision.forecastDirection)}</dd></div>
+                          <div><dt>Research</dt><dd>{label(decision.researchClassification)}</dd></div>
+                          <div>
+                            <dt>Decision return</dt>
+                            <dd className={(decision.decisionReturnPercent ?? 0) >= 0 ? 'positive-text' : 'negative-text'}>
+                              {decision.decisionReturnPercent === null
+                                ? 'Pending'
+                                : `${number.format(decision.decisionReturnPercent)}%`}
+                            </dd>
+                          </div>
+                        </dl>
+                      </article>
+                    ))
+                  ) : (
+                    <div className="paper-list-empty">
+                      Your first journaled paper decision will appear here.
+                    </div>
+                  )}
+                </div>
+              </section>
 
               <div className="paper-orders">
                 <div className="paper-subheader">

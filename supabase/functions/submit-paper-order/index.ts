@@ -7,6 +7,9 @@ type PaperOrderRequest = {
   clientOrderId?: string
   side?: 'buy' | 'sell'
   quantity?: number
+  thesis?: string
+  conviction?: number
+  plannedHorizonHours?: number
 }
 
 function safeOrderError(message: string) {
@@ -27,6 +30,15 @@ function safeOrderError(message: string) {
   }
   if (message.includes('not found')) {
     return 'The paper portfolio or instrument was not found.'
+  }
+  if (message.includes('thesis')) {
+    return 'Add a paper-trade thesis between 8 and 500 characters.'
+  }
+  if (message.includes('conviction')) {
+    return 'Choose a paper-trade conviction between 1 and 5.'
+  }
+  if (message.includes('horizon')) {
+    return 'Choose one of the supported paper-trade horizons.'
   }
   return 'Unable to submit the paper order.'
 }
@@ -63,6 +75,9 @@ Deno.serve(async (request) => {
   const quantity = Number(input.quantity)
   const side = input.side
   const clientOrderId = input.clientOrderId?.trim() || crypto.randomUUID()
+  const thesis = input.thesis?.trim() ?? ''
+  const conviction = Number(input.conviction)
+  const plannedHorizonHours = Number(input.plannedHorizonHours)
   const uuidPattern =
     /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
@@ -76,19 +91,31 @@ Deno.serve(async (request) => {
     !side ||
     !['buy', 'sell'].includes(side) ||
     clientOrderId.length < 8 ||
-    clientOrderId.length > 100
+    clientOrderId.length > 100 ||
+    thesis.length < 8 ||
+    thesis.length > 500 ||
+    !Number.isInteger(conviction) ||
+    conviction < 1 ||
+    conviction > 5 ||
+    ![1, 24, 72, 168, 720].includes(plannedHorizonHours)
   ) {
     return jsonResponse({ error: 'Invalid paper order details' }, 400)
   }
 
-  const { data, error } = await userContext.admin.rpc('execute_paper_market_order', {
-    p_user_id: userContext.user.id,
-    p_portfolio_id: portfolioId,
-    p_instrument_id: instrumentId,
-    p_client_order_id: clientOrderId,
-    p_side: side,
-    p_quantity: quantity,
-  })
+  const { data, error } = await userContext.admin.rpc(
+    'execute_paper_market_order_with_context',
+    {
+      p_user_id: userContext.user.id,
+      p_portfolio_id: portfolioId,
+      p_instrument_id: instrumentId,
+      p_client_order_id: clientOrderId,
+      p_side: side,
+      p_quantity: quantity,
+      p_thesis: thesis,
+      p_conviction: conviction,
+      p_planned_horizon_hours: plannedHorizonHours,
+    },
+  )
 
   if (error) {
     return jsonResponse({ error: safeOrderError(error.message) }, 409)

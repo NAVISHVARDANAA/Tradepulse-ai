@@ -65,12 +65,53 @@ export type PaperOrder = {
   submittedAt: string
 }
 
+export type PaperDecisionJournalEntry = {
+  id: string
+  orderId: string
+  symbol: string
+  instrumentName: string
+  side: 'buy' | 'sell'
+  quantity: number
+  orderStatus: string
+  thesis: string
+  conviction: number
+  plannedHorizonHours: number
+  entryPrice: number
+  forecastDirection: 'up' | 'down' | 'flat' | null
+  forecastPredictedPrice: number | null
+  forecastConfidence: number | null
+  forecastModel: string | null
+  researchScore: number | null
+  researchClassification: string | null
+  researchRiskFlags: string[]
+  dueAt: string
+  evaluationStatus: 'pending' | 'evaluated' | 'insufficient_data'
+  outcomePrice: number | null
+  decisionReturnPercent: number | null
+  forecastErrorPercent: number | null
+  forecastDirectionCorrect: boolean | null
+  submittedAt: string
+}
+
+export type PaperDecisionScorecard = {
+  totalDecisions: number
+  completedDecisions: number
+  insufficientDataDecisions: number
+  forecastDirectionalAccuracyPercent: number | null
+  profitableDecisionRatePercent: number | null
+  averageDecisionReturnPercent: number | null
+  averageForecastErrorPercent: number | null
+  lastEvaluatedAt: string | null
+}
+
 export type PaperPortfolioSnapshot = {
   cashBalance: number
   availableBalance: number
   currency: string
   positions: PaperPosition[]
   orders: PaperOrder[]
+  decisionJournal: PaperDecisionJournalEntry[]
+  decisionScorecard: PaperDecisionScorecard | null
   riskLimits: {
     maxOrderNotional: number
     maxPositionNotional: number
@@ -130,7 +171,14 @@ export async function getPaperPortfolios(): Promise<PaperPortfolio[]> {
 export async function getPaperPortfolioSnapshot(
   portfolioId: string,
 ): Promise<PaperPortfolioSnapshot> {
-  const [cashResult, positionsResult, ordersResult, limitsResult] =
+  const [
+    cashResult,
+    positionsResult,
+    ordersResult,
+    limitsResult,
+    decisionJournalResult,
+    decisionScorecardResult,
+  ] =
     await Promise.all([
       supabase
         .from('paper_cash_balances')
@@ -179,6 +227,17 @@ export async function getPaperPortfolioSnapshot(
         `)
         .eq('portfolio_id', portfolioId)
         .maybeSingle(),
+      supabase
+        .from('paper_decision_journal')
+        .select('*')
+        .eq('portfolio_id', portfolioId)
+        .order('submitted_at', { ascending: false })
+        .limit(8),
+      supabase
+        .from('paper_decision_scorecard')
+        .select('*')
+        .eq('portfolio_id', portfolioId)
+        .maybeSingle(),
     ])
 
   const firstError = [
@@ -186,6 +245,8 @@ export async function getPaperPortfolioSnapshot(
     positionsResult.error,
     ordersResult.error,
     limitsResult.error,
+    decisionJournalResult.error,
+    decisionScorecardResult.error,
   ].find(Boolean)
 
   if (firstError) {
@@ -231,6 +292,92 @@ export async function getPaperPortfolioSnapshot(
         submittedAt: row.submitted_at,
       }
     }),
+    decisionJournal: (decisionJournalResult.data ?? []).map((row) => ({
+      id: row.id,
+      orderId: row.order_id,
+      symbol: row.symbol,
+      instrumentName: row.instrument_name,
+      side: row.side as PaperDecisionJournalEntry['side'],
+      quantity: toNumber(row.quantity),
+      orderStatus: row.order_status,
+      thesis: row.thesis,
+      conviction: Number(row.conviction),
+      plannedHorizonHours: Number(row.planned_horizon_hours),
+      entryPrice: toNumber(row.entry_price),
+      forecastDirection: row.forecast_direction as PaperDecisionJournalEntry['forecastDirection'],
+      forecastPredictedPrice:
+        row.forecast_predicted_price === null
+          ? null
+          : toNumber(row.forecast_predicted_price),
+      forecastConfidence:
+        row.forecast_confidence === null
+          ? null
+          : toNumber(row.forecast_confidence),
+      forecastModel:
+        row.forecast_model_name && row.forecast_model_version
+          ? `${row.forecast_model_name} v${row.forecast_model_version}`
+          : null,
+      researchScore:
+        row.research_score === null ? null : toNumber(row.research_score),
+      researchClassification: row.research_classification,
+      researchRiskFlags: Array.isArray(row.research_risk_flags)
+        ? row.research_risk_flags.filter(
+            (item: unknown): item is string => typeof item === 'string',
+          )
+        : [],
+      dueAt: row.due_at,
+      evaluationStatus: row.evaluation_status as PaperDecisionJournalEntry['evaluationStatus'],
+      outcomePrice:
+        row.outcome_price === null ? null : toNumber(row.outcome_price),
+      decisionReturnPercent:
+        row.decision_return_percent === null
+          ? null
+          : toNumber(row.decision_return_percent),
+      forecastErrorPercent:
+        row.forecast_error_percent === null
+          ? null
+          : toNumber(row.forecast_error_percent),
+      forecastDirectionCorrect: row.forecast_direction_correct,
+      submittedAt: row.submitted_at,
+    })),
+    decisionScorecard: decisionScorecardResult.data
+      ? {
+          totalDecisions: Number(decisionScorecardResult.data.total_decisions),
+          completedDecisions: Number(
+            decisionScorecardResult.data.completed_decisions,
+          ),
+          insufficientDataDecisions: Number(
+            decisionScorecardResult.data.insufficient_data_decisions,
+          ),
+          forecastDirectionalAccuracyPercent:
+            decisionScorecardResult.data.forecast_directional_accuracy_percent === null
+              ? null
+              : toNumber(
+                  decisionScorecardResult.data
+                    .forecast_directional_accuracy_percent,
+                ),
+          profitableDecisionRatePercent:
+            decisionScorecardResult.data.profitable_decision_rate_percent === null
+              ? null
+              : toNumber(
+                  decisionScorecardResult.data
+                    .profitable_decision_rate_percent,
+                ),
+          averageDecisionReturnPercent:
+            decisionScorecardResult.data.average_decision_return_percent === null
+              ? null
+              : toNumber(
+                  decisionScorecardResult.data.average_decision_return_percent,
+                ),
+          averageForecastErrorPercent:
+            decisionScorecardResult.data.average_forecast_error_percent === null
+              ? null
+              : toNumber(
+                  decisionScorecardResult.data.average_forecast_error_percent,
+                ),
+          lastEvaluatedAt: decisionScorecardResult.data.last_evaluated_at,
+        }
+      : null,
     riskLimits: limitsResult.data
       ? {
           maxOrderNotional: toNumber(
@@ -269,6 +416,9 @@ export async function submitPaperOrder(input: {
   side: 'buy' | 'sell'
   quantity: number
   clientOrderId: string
+  thesis: string
+  conviction: number
+  plannedHorizonHours: number
 }) {
   const { data, error } = await supabase.functions.invoke(
     'submit-paper-order',

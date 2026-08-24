@@ -189,6 +189,22 @@ sync while account connection and all order capabilities remain disabled.
 execution locks green, then one protected production evaluation with only
 sanitized aggregate alert evidence.
 
+### Phase 4F — paper decision intelligence (implemented)
+
+- Private thesis, conviction and review horizon required for each new paper
+  order, with the point-in-time validated forecast and published research state
+  captured server-side.
+- Immutable decision and outcome evidence that prevents hindsight edits and
+  idempotently reuses the original journal entry on request retries.
+- Deterministic learning scorecard for forecast-direction accuracy, paper
+  decision return and forecast error using later synchronized market prices.
+- Automatic evaluation during risk refresh, strict user isolation and service-
+  only writes; all broker and real-money execution paths remain disabled.
+
+**Phase 4F exit gate:** migration 019 parity, decision lifecycle and isolation
+tests, authenticated Edge Function denial checks, and a production paper-order
+exercise showing append-only evidence with no live routing or fund movement.
+
 ### Future regulated activation work
 
 - Sandbox account and order mirroring behind separately permissioned services.
