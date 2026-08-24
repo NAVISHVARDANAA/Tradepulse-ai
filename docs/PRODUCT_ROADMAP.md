@@ -293,6 +293,21 @@ tests, MFA helper tests, active account-security function, production HTTP 401,
 successful enrolled-session step-up and all live execution and fund-movement
 locks unchanged.
 
+### Phase 4L — customer privacy and data control (implemented)
+
+- Private, opt-in product analytics and research-update preferences with no
+  preselected consent and a versioned policy reference.
+- Identity-bound access/export and account-deletion requests with one active
+  request per type, explicit status and customer-visible history.
+- Enrolled accounts require an AAL2 session before a rights request is accepted;
+  browser roles cannot forge, complete or reject a request.
+- Account deletion is queued for protected review and can be cancelled while
+  pending. No browser action directly destroys data or activates execution.
+
+**Phase 4L exit gate:** migration 024 parity, cross-user RLS and privilege tests,
+idempotent request creation, verified-session enforcement for enrolled accounts,
+and all live execution and fund-movement locks unchanged.
+
 ### Future regulated activation work
 
 - Sandbox account and order mirroring behind separately permissioned services.

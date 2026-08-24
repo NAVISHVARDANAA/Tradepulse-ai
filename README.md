@@ -381,7 +381,7 @@ approach them, while one shared authentication provider owns the Supabase sessio
 Production Supabase releases are manual and environment-protected. See
 [`docs/SUPABASE_DEPLOYMENT.md`](docs/SUPABASE_DEPLOYMENT.md) for the required
 GitHub environment secrets, approval gate, read-only verification workflow and
-Phase 4K release procedure. The enforced trust baseline and operational launch
+Phase 4L release procedure. The enforced trust baseline and operational launch
 checklist are documented in
 [`docs/SECURITY_ARCHITECTURE.md`](docs/SECURITY_ARCHITECTURE.md). Reliability
 objectives and incident operations are documented in
@@ -389,6 +389,8 @@ objectives and incident operations are documented in
 [`docs/INCIDENT_RESPONSE.md`](docs/INCIDENT_RESPONSE.md). Account MFA, session
 and recovery controls are documented in
 [`docs/ACCOUNT_SECURITY.md`](docs/ACCOUNT_SECURITY.md).
+Customer consent and data-rights boundaries are documented in
+[`docs/CUSTOMER_PRIVACY.md`](docs/CUSTOMER_PRIVACY.md).
 
 ## ML forecasting service
 
@@ -474,6 +476,12 @@ enrolled-session step-up and explicit session revocation while storing no factor
 secret, one-time code, access token, IP address or device fingerprint. See
 [`docs/ACCOUNT_SECURITY.md`](docs/ACCOUNT_SECURITY.md) for the production setup
 and fail-closed recovery boundary.
+
+Migration `024_customer_privacy_center.sql` adds private, opt-in preferences and
+identity-bound data-access and deletion requests. Browser roles cannot complete,
+reject or directly execute destructive requests, and enrolled accounts require
+a verified session before a request is accepted. See
+[`docs/CUSTOMER_PRIVACY.md`](docs/CUSTOMER_PRIVACY.md).
 
 ## Production gates
 
