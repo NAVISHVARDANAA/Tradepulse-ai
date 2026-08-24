@@ -13,8 +13,12 @@ begin
     or to_regclass('public.broker_operations_policies') is null
     or to_regclass('public.broker_operations_alerts') is null
     or to_regclass('public.broker_operations_health') is null
-    or to_regclass('public.broker_operations_alert_feed') is null then
-    raise exception 'Phase 4E brokerage tables are incomplete';
+    or to_regclass('public.broker_operations_alert_feed') is null
+    or to_regclass('public.paper_decision_contexts') is null
+    or to_regclass('public.paper_decision_outcomes') is null
+    or to_regclass('public.paper_decision_journal') is null
+    or to_regclass('public.paper_decision_scorecard') is null then
+    raise exception 'Phase 4F brokerage and paper-learning tables are incomplete';
   end if;
 
   if not exists (
@@ -131,6 +135,34 @@ begin
     raise exception 'Broker operations monitoring unexpectedly enabled an execution route';
   end if;
 
+  if exists (
+    select 1
+    from public.paper_decision_contexts
+    where not simulation
+      or conviction not between 1 and 5
+      or planned_horizon_hours not in (1, 24, 72, 168, 720)
+      or length(trim(thesis)) not between 8 and 500
+  ) then
+    raise exception 'Paper decision evidence violated its private simulation contract';
+  end if;
+
+  if exists (
+    select 1
+    from public.paper_decision_outcomes
+    where not simulation
+      or evaluation_status not in ('evaluated', 'insufficient_data')
+  ) then
+    raise exception 'A paper decision outcome violated its simulation contract';
+  end if;
+
+  if exists (
+    select 1
+    from public.paper_decision_journal
+    where orders_write_enabled or live_order_routing_enabled or not simulation
+  ) then
+    raise exception 'The paper decision journal unexpectedly enabled execution';
+  end if;
+
   if to_regclass('public.brokerage_orders') is not null then
     raise exception 'A live brokerage order table unexpectedly exists';
   end if;
@@ -179,7 +211,11 @@ begin
     or has_table_privilege('authenticated', 'public.broker_adapter_probes', 'INSERT')
     or has_table_privilege('authenticated', 'public.broker_account_inventory_runs', 'INSERT')
     or has_table_privilege('authenticated', 'public.broker_operations_alerts', 'INSERT')
-    or has_table_privilege('authenticated', 'public.broker_operations_alerts', 'UPDATE') then
+    or has_table_privilege('authenticated', 'public.broker_operations_alerts', 'UPDATE')
+    or has_table_privilege('authenticated', 'public.paper_decision_contexts', 'INSERT')
+    or has_table_privilege('authenticated', 'public.paper_decision_contexts', 'UPDATE')
+    or has_table_privilege('authenticated', 'public.paper_decision_outcomes', 'INSERT')
+    or has_table_privilege('service_role', 'public.paper_decision_outcomes', 'INSERT') then
     raise exception 'A browser role can forge regulated brokerage state';
   end if;
 
@@ -223,6 +259,18 @@ begin
     raise exception 'The browser role can execute the service-only broker operations evaluator';
   end if;
 
+  if has_function_privilege(
+    'authenticated',
+    'public.execute_paper_market_order_with_context(uuid,uuid,bigint,text,text,numeric,text,integer,integer)',
+    'EXECUTE'
+  ) or has_function_privilege(
+    'authenticated',
+    'public.evaluate_paper_decision_outcomes(uuid,uuid)',
+    'EXECUTE'
+  ) then
+    raise exception 'The browser role can execute a service-only paper decision function';
+  end if;
+
   if not has_function_privilege(
     'authenticated',
     'public.record_brokerage_consent(uuid)',
@@ -235,6 +283,6 @@ begin
     raise exception 'Brokerage consent authorization grants are unsafe';
   end if;
 
-  raise notice 'Phase 4E production brokerage, certification, inventory and operations-monitoring locks verified';
+  raise notice 'Phase 4F production brokerage locks and paper decision intelligence boundaries verified';
 end
 $production_smoke$;

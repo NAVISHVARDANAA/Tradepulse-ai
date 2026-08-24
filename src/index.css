@@ -1028,7 +1028,8 @@ tbody tr:hover {
 .portfolio-create select,
 .paper-toolbar select,
 .paper-order-form input,
-.paper-order-form select {
+.paper-order-form select,
+.paper-order-form textarea {
   width: 100%;
   border: 1px solid rgba(148, 163, 184, 0.18);
   border-radius: 11px;
@@ -1043,7 +1044,8 @@ tbody tr:hover {
 .portfolio-create select:focus,
 .paper-toolbar select:focus,
 .paper-order-form input:focus,
-.paper-order-form select:focus {
+.paper-order-form select:focus,
+.paper-order-form textarea:focus {
   border-color: rgba(96, 165, 250, 0.55);
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08);
 }
@@ -1108,6 +1110,25 @@ tbody tr:hover {
   gap: 6px;
   color: var(--muted);
   font-size: 0.68rem;
+}
+
+.paper-order-form textarea {
+  resize: vertical;
+  min-height: 78px;
+  font: inherit;
+  line-height: 1.45;
+}
+
+.paper-order-form label > small {
+  color: var(--muted);
+  font-size: 0.61rem;
+  text-align: right;
+}
+
+.paper-decision-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
 }
 
 .paper-workspace {
@@ -1259,6 +1280,170 @@ tbody tr:hover {
 
 .paper-orders table {
   min-width: 760px;
+}
+
+.paper-decision-intelligence {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid rgba(129, 140, 248, 0.2);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at top right, rgba(99, 102, 241, 0.12), transparent 38%),
+    rgba(15, 23, 42, 0.58);
+}
+
+.paper-decision-intelligence .paper-subheader {
+  margin-bottom: 0;
+}
+
+.paper-decision-intelligence .paper-subheader > div,
+.paper-decision-intelligence .paper-subheader strong,
+.paper-decision-intelligence .paper-subheader span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.paper-decision-intelligence .paper-subheader > div {
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.paper-decision-scorecard {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.paper-decision-scorecard article {
+  padding: 13px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 13px;
+  background: rgba(2, 6, 23, 0.34);
+}
+
+.paper-decision-scorecard svg {
+  color: #a5b4fc;
+}
+
+.paper-decision-scorecard span,
+.paper-decision-scorecard strong,
+.paper-decision-scorecard small {
+  display: block;
+}
+
+.paper-decision-scorecard span {
+  margin-top: 9px;
+  color: var(--muted);
+  font-size: 0.64rem;
+}
+
+.paper-decision-scorecard strong {
+  margin-top: 5px;
+  color: #f8fafc;
+  font-size: 1rem;
+}
+
+.paper-decision-scorecard small {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 0.58rem;
+  line-height: 1.4;
+}
+
+.paper-decision-journal {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.paper-decision-journal > article {
+  padding: 13px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 13px;
+  background: rgba(2, 6, 23, 0.26);
+}
+
+.paper-decision-journal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.paper-decision-journal-head strong,
+.paper-decision-journal-head span {
+  display: block;
+}
+
+.paper-decision-journal-head strong {
+  font-size: 0.78rem;
+  text-transform: capitalize;
+}
+
+.paper-decision-journal-head > div > span {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 0.61rem;
+}
+
+.paper-decision-journal p {
+  margin: 11px 0;
+  color: #cbd5e1;
+  font-size: 0.7rem;
+  line-height: 1.5;
+}
+
+.paper-decision-journal dl {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 7px;
+  margin: 0;
+}
+
+.paper-decision-journal dl div {
+  min-width: 0;
+}
+
+.paper-decision-journal dt,
+.paper-decision-journal dd {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.paper-decision-journal dt {
+  color: var(--muted);
+  font-size: 0.57rem;
+}
+
+.paper-decision-journal dd {
+  margin-top: 3px;
+  color: #e2e8f0;
+  font-size: 0.64rem;
+  text-transform: capitalize;
+}
+
+.decision-outcome {
+  flex: 0 0 auto;
+  padding: 5px 7px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.1);
+  color: var(--muted);
+  font-size: 0.59rem;
+  text-transform: capitalize;
+}
+
+.decision-outcome.evaluated {
+  background: rgba(52, 211, 153, 0.1);
+  color: var(--positive);
+}
+
+.decision-outcome.insufficient_data {
+  background: rgba(251, 191, 36, 0.1);
+  color: #fbbf24;
 }
 
 .order-status {
@@ -4475,8 +4660,18 @@ tbody tr:hover {
   .paper-auth,
   .portfolio-create,
   .paper-summary-grid,
-  .paper-trade-grid {
+  .paper-trade-grid,
+  .paper-decision-scorecard,
+  .paper-decision-journal {
     grid-template-columns: 1fr;
+  }
+
+  .paper-decision-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .paper-decision-journal dl {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .paper-auth-control {

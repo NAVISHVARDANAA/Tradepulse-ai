@@ -70,5 +70,17 @@ Deno.serve(async (request) => {
     return jsonResponse({ error: safeRiskError(error.message) }, 409)
   }
 
-  return jsonResponse({ risk: data, simulation: true })
+  const { data: decisionEvaluation, error: decisionError } =
+    await userContext.admin.rpc('evaluate_paper_decision_outcomes', {
+      p_user_id: userContext.user.id,
+      p_portfolio_id: portfolioId,
+    })
+
+  return jsonResponse({
+    risk: data,
+    decisionEvaluation: decisionError
+      ? { status: 'evaluation_unavailable' }
+      : decisionEvaluation,
+    simulation: true,
+  })
 })

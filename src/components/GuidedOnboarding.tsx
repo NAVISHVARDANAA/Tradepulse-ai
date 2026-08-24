@@ -35,8 +35,8 @@ const steps = [
   {
     selector: '#paper-investing',
     eyebrow: 'Step 4 · Practise',
-    title: 'Practise with virtual cash',
-    body: 'Paper orders use simulation-only balances and reference prices. Nothing in this section can reach a live broker.',
+    title: 'Journal and test each decision',
+    body: 'Record your thesis, conviction and horizon. TradePulse preserves the point-in-time forecast context and later scores the simulated outcome; nothing can reach a live broker.',
   },
   {
     selector: '#risk-command-center',

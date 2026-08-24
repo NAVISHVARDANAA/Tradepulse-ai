@@ -180,6 +180,19 @@ compliance boundaries are designed in before execution features are enabled.
 - The protected evaluator can be called by the existing server-side scheduler
   secret and is also invoked after the broker probe and inventory sync.
 
+### Phase 4F — paper decision intelligence
+
+- Every new simulated order requires a private thesis, conviction level and
+  review horizon. The server captures the validated forecast and published
+  research state available at decision time, preventing hindsight edits.
+- Later synchronized prices evaluate paper decision return, forecast direction
+  and forecast error through an append-only learning record and private scorecard.
+- Idempotent retries reuse the original journal entry. Browser clients cannot
+  forge or rewrite evidence or outcomes, and the evaluator has no provider or
+  HTTP route.
+- This feature remains virtual-cash simulation only. Broker account connection,
+  real orders, custody and fund movement stay disabled.
+
 ## Architecture
 
 ```text
@@ -236,8 +249,8 @@ The repository contains fifteen initial server-side functions:
 | `generate-market-forecasts` | Generate a versioned 24-hour baseline forecast after enough observations exist | `x-sync-secret` |
 | `create-payment-quote` | Persist an authenticated, non-executable indicative quote | Supabase user JWT |
 | `create-paper-portfolio` | Create a plan-limited portfolio with virtual cash and risk limits | Supabase user JWT |
-| `submit-paper-order` | Submit an idempotent, risk-checked simulated market order | Supabase user JWT |
-| `refresh-paper-risk` | Value and reconcile an owned simulation portfolio | Supabase user JWT |
+| `submit-paper-order` | Journal the thesis and point-in-time AI context for an idempotent, risk-checked simulated market order | Supabase user JWT |
+| `refresh-paper-risk` | Value and reconcile an owned simulation portfolio, then evaluate due decision outcomes | Supabase user JWT |
 | `set-paper-trading-control` | Pause or resume user-controlled paper trading | Supabase user JWT |
 | `sync-equity-market-data` | Import approved equity reference data and adjusted daily bars with explicit feed/licensing state | `x-sync-secret` |
 | `generate-equity-research` | Publish versioned, non-personalized research classifications and explanations | `x-sync-secret` |
@@ -350,6 +363,11 @@ Migration `018_broker_operations_monitoring.sql` adds sandbox freshness policy,
 dynamic operational health and a service-controlled alert lifecycle derived only
 from sanitized aggregate evidence. It cannot enable account connections, order
 reads, order writes or live routing.
+
+Migration `019_paper_decision_intelligence.sql` adds private append-only paper
+decision evidence, deterministic outcome evaluation and a forecast-attribution
+scorecard. It can only extend the existing virtual-cash simulator and creates no
+broker, custody, payment or live-execution route.
 
 ## Production gates
 
