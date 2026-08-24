@@ -137,9 +137,17 @@ Deno.serve(async (request) => {
     return jsonResponse({ error: 'Unable to record the broker account inventory' }, 500)
   }
 
+  const { data: monitoring, error: monitoringError } = await admin.rpc(
+    'evaluate_broker_operations_health',
+    { p_provider_code: 'alpaca-broker-sandbox' },
+  )
+
   return jsonResponse(
     {
       inventory: data,
+      monitoring: monitoringError
+        ? { operationalStatus: 'evaluation_unavailable' }
+        : monitoring,
       capability: {
         assetRead: true,
         accountsRead: inventory.status === 'passed',

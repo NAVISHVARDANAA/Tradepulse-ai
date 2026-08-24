@@ -54,8 +54,8 @@ const capabilities = [
   },
   {
     label: 'Live execution',
-    status: 'Phase 4C sandbox adapter active',
-    detail: 'Alpaca read-only health and certification evidence are visible; routing remains hard locked',
+    status: 'Phase 4E operations monitoring',
+    detail: 'Alpaca read-only freshness, reconciliation alerts and certification evidence are visible; routing remains hard locked',
     tone: 'locked',
     icon: ShieldCheck,
   },

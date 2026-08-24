@@ -168,6 +168,18 @@ compliance boundaries are designed in before execution features are enabled.
 - Account creation, account connection, orders, transfers, positions, cash and
   all production hosts remain unimplemented and database-disabled.
 
+### Phase 4E — broker operations monitoring
+
+- A dynamic operations-health view evaluates adapter and inventory freshness,
+  provider failures, aggregate restrictions, page-limit risk and inventory change.
+- A service-only evaluator opens, refreshes and resolves idempotent in-app
+  operational alerts. Every lifecycle transition is recorded in the financial
+  audit trail, while browser clients remain read-only.
+- Alert evidence contains only sanitized status, timestamps and aggregate counts;
+  it contains no customer PII, provider account identifiers or credentials.
+- The protected evaluator can be called by the existing server-side scheduler
+  secret and is also invoked after the broker probe and inventory sync.
+
 ## Architecture
 
 ```text
@@ -216,7 +228,7 @@ server-side secrets. Never expose them through a `VITE_*` variable.
 
 ## Edge Functions
 
-The repository contains fourteen initial server-side functions:
+The repository contains fifteen initial server-side functions:
 
 | Function | Purpose | Authorization |
 | --- | --- | --- |
@@ -234,6 +246,7 @@ The repository contains fourteen initial server-side functions:
 | `preview-brokerage-order` | Persist an authenticated, blocked order-readiness preview with explicit compliance and platform gates | Supabase user JWT |
 | `probe-alpaca-broker-sandbox` | Run the fixed read-only Alpaca Broker API sandbox asset probe and persist sanitized health | `x-sync-secret` |
 | `sync-alpaca-sandbox-account-inventory` | Persist a PII-free aggregate of sandbox account states for reconciliation monitoring | `x-sync-secret` |
+| `evaluate-broker-operations` | Evaluate sanitized broker freshness and reconciliation signals and manage operational alerts | `x-sync-secret` |
 
 Set a strong `SYNC_SECRET` in Supabase secrets before deploying scheduled
 functions. Supabase supplies `SUPABASE_URL`, `SUPABASE_ANON_KEY` and
@@ -278,7 +291,7 @@ Supabase Postgres instance for pull requests and pushes to `main`.
 Production Supabase releases are manual and environment-protected. See
 [`docs/SUPABASE_DEPLOYMENT.md`](docs/SUPABASE_DEPLOYMENT.md) for the required
 GitHub environment secrets, approval gate, read-only verification workflow and
-Phase 4D release procedure.
+Phase 4E release procedure.
 
 ## ML forecasting service
 
@@ -332,6 +345,11 @@ Migration `017_alpaca_sandbox_account_inventory.sql` adds an immutable aggregate
 account-inventory ledger and authenticated health view. It stores no provider
 account identifier or customer PII and cannot enable account connections or any
 order route.
+
+Migration `018_broker_operations_monitoring.sql` adds sandbox freshness policy,
+dynamic operational health and a service-controlled alert lifecycle derived only
+from sanitized aggregate evidence. It cannot enable account connections, order
+reads, order writes or live routing.
 
 ## Production gates
 

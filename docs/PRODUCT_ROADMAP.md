@@ -174,6 +174,21 @@ credential probe before account mirroring work begins.
 and immutability tests, then one successful production-hosted sandbox inventory
 sync while account connection and all order capabilities remain disabled.
 
+### Phase 4E — broker operations monitoring (implemented)
+
+- Policy-driven adapter and account-inventory freshness thresholds with explicit
+  healthy, warning, critical and not-run states.
+- Idempotent operational alert lifecycle for provider failures, stale evidence,
+  page-limit risk, aggregate restrictions and inventory changes.
+- Authenticated control-plane dashboard with next action, open incidents and
+  freshness; no provider account identifiers or customer PII are exposed.
+- Protected evaluation endpoint, automatic evaluation after probe/inventory
+  operations, database authorization tests and production 401 verification.
+
+**Phase 4E exit gate:** migration 018 parity, monitoring lifecycle tests, all
+execution locks green, then one protected production evaluation with only
+sanitized aggregate alert evidence.
+
 ### Future regulated activation work
 
 - Sandbox account and order mirroring behind separately permissioned services.
