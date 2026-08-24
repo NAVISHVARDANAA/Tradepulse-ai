@@ -33,6 +33,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Reject high-severity production dependency vulnerabilities
+        run: npm audit --omit=dev --audit-level=high
+
       - name: Type-check
         run: npm run typecheck
 
@@ -76,8 +79,11 @@ jobs:
           deno check supabase/functions/evaluate-broker-operations/index.ts
           deno check supabase/functions/evaluate-forecast-governance/index.ts
 
-      - name: Test the Alpaca Broker API sandbox route lock
-        run: deno test supabase/functions/_shared/alpacaBrokerSandbox.test.ts
+      - name: Test shared Edge Function security controls
+        run: >-
+          deno test --allow-env
+          supabase/functions/_shared/http.test.ts
+          supabase/functions/_shared/alpacaBrokerSandbox.test.ts
 
   database-migrations:
     runs-on: ubuntu-latest
@@ -138,6 +144,9 @@ jobs:
 
       - name: Test broker operations monitoring contracts
         run: npx --no-install supabase test db supabase/tests/database/broker_operations_monitoring.test.sql
+
+      - name: Test customer trust and API abuse-control contracts
+        run: npx --no-install supabase test db supabase/tests/database/customer_trust_security.test.sql
 
       - name: Assert production smoke SQL is query-only
         run: bash scripts/assert-read-only-sql.sh supabase/tests/production/brokerage_readiness_smoke.sql

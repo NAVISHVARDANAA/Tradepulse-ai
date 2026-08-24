@@ -4,7 +4,16 @@ import { gzipSync } from 'node:zlib'
 
 const assetDirectory = 'dist/assets'
 const indexHtml = readFileSync('dist/index.html', 'utf8')
+const manifest = JSON.parse(readFileSync('dist/.vite/manifest.json', 'utf8'))
+const generatedAssetNames = new Set(
+  Object.values(manifest).flatMap((entry) => [
+    entry.file,
+    ...(entry.css ?? []),
+    ...(entry.assets ?? []),
+  ]).map((file) => basename(file)),
+)
 const assetFiles = readdirSync(assetDirectory)
+  .filter((file) => generatedAssetNames.has(file))
   .filter((file) => file.endsWith('.js') || file.endsWith('.css'))
   .map((file) => ({
     file,

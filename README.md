@@ -342,7 +342,9 @@ approach them, while one shared authentication provider owns the Supabase sessio
 Production Supabase releases are manual and environment-protected. See
 [`docs/SUPABASE_DEPLOYMENT.md`](docs/SUPABASE_DEPLOYMENT.md) for the required
 GitHub environment secrets, approval gate, read-only verification workflow and
-Phase 4E release procedure.
+Phase 4I release procedure. The enforced trust baseline and operational launch
+checklist are documented in
+[`docs/SECURITY_ARCHITECTURE.md`](docs/SECURITY_ARCHITECTURE.md).
 
 ## ML forecasting service
 
@@ -411,6 +413,11 @@ Migration `020_forecast_reliability_governance.sql` adds immutable production
 forecast outcomes, versioned reliability thresholds, drift evidence and a
 display-qualified forecast boundary. Suspended models are removed from product
 views, but the evaluator has no broker, order, custody or payment capability.
+
+Migration `021_customer_trust_security.sql` adds short-lived service-only API
+allowance counters and an atomic abuse-control boundary for authenticated Edge
+Functions. Browser roles cannot inspect or modify the counters, and the release
+does not add live execution, custody or money movement.
 
 ## Production gates
 

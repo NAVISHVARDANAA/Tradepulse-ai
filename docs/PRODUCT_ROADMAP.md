@@ -238,6 +238,23 @@ forecast view.
 green, the initial HTML preloads no chart or deferred product chunk, and exactly
 one browser authentication listener owns session lifecycle state.
 
+### Phase 4I — customer trust and security foundation (implemented)
+
+- Per-user, per-route authenticated API abuse limits with short-lived,
+  service-only database evidence and customer-safe retry responses.
+- Constant-time scheduler-secret validation, internal endpoint CORS isolation,
+  bounded mutation bodies, request identifiers and defensive API headers.
+- CodeQL security-extended analysis for TypeScript, Python and workflows,
+  dependency-diff enforcement, production dependency audit and automated update
+  proposals.
+- Private vulnerability-reporting policy, production security checklist and
+  explicit controls that preserve sandbox-only brokerage and non-executable
+  payment behavior.
+
+**Phase 4I exit gate:** migration 021 parity, abuse-control and Edge security
+tests, green CodeQL/dependency review, production 401 denial, internal CORS
+isolation and all live execution and fund-movement locks unchanged.
+
 ### Future regulated activation work
 
 - Sandbox account and order mirroring behind separately permissioned services.
