@@ -235,8 +235,8 @@ select is(
   'live instrument execution remains disabled'
 );
 select is(
-  (select count(*) from public.brokerage_execution_controls where live_order_routing_enabled),
-  0::bigint,
+  (select execution_enabled from public.brokerage_execution_controls where control_key = 'global-live-orders'),
+  false,
   'live broker order routing remains disabled'
 );
 select lives_ok(
