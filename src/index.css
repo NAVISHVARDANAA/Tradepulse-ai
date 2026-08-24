@@ -4726,6 +4726,28 @@ tbody tr:hover {
   gap: 10px;
 }
 
+.privacy-controls,
+.privacy-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.privacy-controls label {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  min-height: 44px;
+}
+
+.privacy-controls input {
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: var(--accent);
+}
+
 .danger-outline {
   border-color: rgba(248, 113, 113, 0.3) !important;
   color: #fca5a5 !important;

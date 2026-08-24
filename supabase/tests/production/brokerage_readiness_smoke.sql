@@ -28,8 +28,10 @@ begin
     or to_regclass('public.platform_incident_events') is null
     or to_regclass('public.platform_public_status') is null
     or to_regclass('public.account_security_posture') is null
-    or to_regclass('public.account_security_events') is null then
-    raise exception 'Phase 4K brokerage, governance, reliability and account security objects are incomplete';
+    or to_regclass('public.account_security_events') is null
+    or to_regclass('public.customer_privacy_preferences') is null
+    or to_regclass('public.customer_privacy_requests') is null then
+    raise exception 'Phase 4L brokerage, governance, security and privacy objects are incomplete';
   end if;
 
   if not exists (
@@ -442,6 +444,6 @@ begin
     raise exception 'Account security service grants are unsafe';
   end if;
 
-  raise notice 'Phase 4K execution locks, governance, reliability and account security boundaries verified';
+  raise notice 'Phase 4L execution locks, governance, security and privacy boundaries verified';
 end
 $production_smoke$;

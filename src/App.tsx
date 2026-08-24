@@ -34,6 +34,9 @@ const AcademyPanel = lazy(() => import('./components/AcademyPanel').then((module
 const AccountSecurityPanel = lazy(() => import('./components/AccountSecurityPanel').then((module) => ({
   default: module.AccountSecurityPanel,
 })))
+const CustomerPrivacyPanel = lazy(() => import('./components/CustomerPrivacyPanel').then((module) => ({
+  default: module.CustomerPrivacyPanel,
+})))
 const BrokerageReadinessPanel = lazy(() => import('./components/BrokerageReadinessPanel').then((module) => ({
   default: module.BrokerageReadinessPanel,
 })))
@@ -75,6 +78,7 @@ const navItems = [
   { label: 'AI Copilot', href: '#research-copilot' },
   { label: 'Academy', href: '#academy' },
   { label: 'Security', href: '#account-security' },
+  { label: 'Privacy', href: '#customer-privacy' },
   { label: 'Markets', href: '#markets' },
   { label: 'Forecasts', href: '#forecasts' },
   { label: 'Paper investing', href: '#paper-investing' },
@@ -374,6 +378,14 @@ function App() {
           <ProductErrorBoundary title="Account security is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Account Security Center" />}>
               <AccountSecurityPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </DeferredSection>
+
+        <DeferredSection id="customer-privacy" label="Data Control Center" minimumHeight={360}>
+          <ProductErrorBoundary title="Privacy controls are temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Data Control Center" />}>
+              <CustomerPrivacyPanel />
             </Suspense>
           </ProductErrorBoundary>
         </DeferredSection>

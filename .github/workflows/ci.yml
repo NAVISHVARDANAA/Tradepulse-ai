@@ -158,6 +158,9 @@ jobs:
       - name: Test customer account-security contracts
         run: npx --no-install supabase test db supabase/tests/database/account_security_center.test.sql
 
+      - name: Test customer privacy-center contracts
+        run: npx --no-install supabase test db supabase/tests/database/customer_privacy_center.test.sql
+
       - name: Assert production smoke SQL is query-only
         run: bash scripts/assert-read-only-sql.sh supabase/tests/production/brokerage_readiness_smoke.sql
 
