@@ -1,10 +1,13 @@
 import type { Session } from '@supabase/supabase-js'
 import {
+  Activity,
   Ban,
+  BellRing,
   Building2,
   Check,
   CheckCircle2,
   Circle,
+  Clock3,
   ClipboardCheck,
   FileCheck2,
   Landmark,
@@ -51,6 +54,14 @@ function money(value: number | null, currency: string) {
     currency,
     maximumFractionDigits: 2,
   }).format(value)
+}
+
+function freshnessLabel(minutes: number | null) {
+  if (minutes === null) return 'Never run'
+  if (minutes < 1) return 'Current'
+  if (minutes < 60) return `${minutes} min old`
+  const hours = Math.floor(minutes / 60)
+  return hours < 48 ? `${hours} hr old` : `${Math.floor(hours / 24)} days old`
 }
 
 export function BrokerageReadinessPanel() {
@@ -106,6 +117,10 @@ export function BrokerageReadinessPanel() {
   const certificationTests = workspace?.certificationTests.filter((item) => item.providerId === provider?.id) ?? []
   const adapterHealth = workspace?.adapterHealth.find((item) => item.providerId === provider?.id)
   const accountInventory = workspace?.accountInventoryHealth.find((item) => item.providerId === provider?.id)
+  const operationsHealth = workspace?.operationsHealth.find((item) => item.providerId === provider?.id)
+  const operationsAlerts = workspace?.operationsAlerts.filter((item) => (
+    item.providerCode === provider?.code && item.status === 'open'
+  )) ?? []
   const certificationCompleted = certification
     ? certification.passedTests + certification.failedTests
     : 0
@@ -210,7 +225,7 @@ export function BrokerageReadinessPanel() {
     <section className="panel brokerage-panel" id="brokerage-readiness">
       <div className="panel-header">
         <div>
-          <p className="eyebrow">Regulated execution runway · Phase 4D</p>
+          <p className="eyebrow">Regulated execution runway · Phase 4E</p>
           <h2>Global brokerage readiness</h2>
         </div>
         <div className="panel-header-actions">
@@ -268,6 +283,52 @@ export function BrokerageReadinessPanel() {
               </div>
               <ClipboardCheck size={19} />
             </div>
+
+            <div className={`broker-operations-banner ${operationsHealth?.operationalStatus ?? 'not_run'}`}>
+              <Activity size={20} />
+              <div>
+                <span>Broker operations control plane</span>
+                <strong>{operationsHealth?.nextAction ?? 'Run the protected broker probe and inventory sync.'}</strong>
+                <small>Freshness and incidents use sanitized aggregate evidence only.</small>
+              </div>
+              <div className="broker-operations-state">
+                <strong>{statusLabel(operationsHealth?.operationalStatus ?? 'not_run')}</strong>
+                <small>{operationsHealth?.openAlertCount ?? 0} open alert(s)</small>
+              </div>
+            </div>
+
+            <div className="broker-operations-freshness">
+              <div>
+                <Clock3 size={15} />
+                <span>Account inventory</span>
+                <strong>{freshnessLabel(operationsHealth?.inventoryMinutesSinceCheck ?? null)}</strong>
+              </div>
+              <div>
+                <Clock3 size={15} />
+                <span>Adapter probe</span>
+                <strong>{freshnessLabel(operationsHealth?.adapterMinutesSinceCheck ?? null)}</strong>
+              </div>
+              <div>
+                <BellRing size={15} />
+                <span>Active signals</span>
+                <strong>{operationsHealth?.signalCount ?? 0}</strong>
+              </div>
+            </div>
+
+            {operationsAlerts.length ? (
+              <div className="broker-operations-alert-list" aria-label="Open broker operations alerts">
+                {operationsAlerts.slice(0, 4).map((alert) => (
+                  <article key={alert.id} className={alert.severity}>
+                    <BellRing size={16} />
+                    <div>
+                      <strong>{alert.title}</strong>
+                      <span>{alert.message}</span>
+                    </div>
+                    <small>{compactDate(alert.lastDetectedAt)}</small>
+                  </article>
+                ))}
+              </div>
+            ) : null}
 
             <div className={`adapter-health-banner ${adapterHealth?.latestStatus ?? 'not_run'}`}>
               <ScanSearch size={18} />

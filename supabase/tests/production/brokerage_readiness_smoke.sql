@@ -9,8 +9,12 @@ begin
     or to_regclass('public.broker_adapter_probes') is null
     or to_regclass('public.broker_adapter_health') is null
     or to_regclass('public.broker_account_inventory_runs') is null
-    or to_regclass('public.broker_account_inventory_health') is null then
-    raise exception 'Phase 4D brokerage tables are incomplete';
+    or to_regclass('public.broker_account_inventory_health') is null
+    or to_regclass('public.broker_operations_policies') is null
+    or to_regclass('public.broker_operations_alerts') is null
+    or to_regclass('public.broker_operations_health') is null
+    or to_regclass('public.broker_operations_alert_feed') is null then
+    raise exception 'Phase 4E brokerage tables are incomplete';
   end if;
 
   if not exists (
@@ -105,6 +109,28 @@ begin
     raise exception 'A broker account inventory violated the aggregate read-only sandbox lock';
   end if;
 
+  if exists (
+    select 1
+    from public.broker_operations_alerts
+    where environment <> 'sandbox'
+      or severity not in ('warning', 'critical')
+      or status not in ('open', 'resolved')
+      or evidence::text ~* 'account_id|account_number|customer_name|email|phone|address|api_key|secret|access_token|provider_payload'
+  ) then
+    raise exception 'A broker operations alert violated the sanitized sandbox contract';
+  end if;
+
+  if exists (
+    select 1
+    from public.broker_operations_health
+    where orders_read_enabled
+      or orders_write_enabled
+      or account_connection_enabled
+      or live_order_routing_enabled
+  ) then
+    raise exception 'Broker operations monitoring unexpectedly enabled an execution route';
+  end if;
+
   if to_regclass('public.brokerage_orders') is not null then
     raise exception 'A live brokerage order table unexpectedly exists';
   end if;
@@ -151,7 +177,9 @@ begin
     or has_table_privilege('authenticated', 'public.broker_certification_runs', 'INSERT')
     or has_table_privilege('authenticated', 'public.broker_certification_results', 'INSERT')
     or has_table_privilege('authenticated', 'public.broker_adapter_probes', 'INSERT')
-    or has_table_privilege('authenticated', 'public.broker_account_inventory_runs', 'INSERT') then
+    or has_table_privilege('authenticated', 'public.broker_account_inventory_runs', 'INSERT')
+    or has_table_privilege('authenticated', 'public.broker_operations_alerts', 'INSERT')
+    or has_table_privilege('authenticated', 'public.broker_operations_alerts', 'UPDATE') then
     raise exception 'A browser role can forge regulated brokerage state';
   end if;
 
@@ -187,6 +215,14 @@ begin
     raise exception 'The browser role can execute the service-only account inventory writer';
   end if;
 
+  if has_function_privilege(
+    'authenticated',
+    'public.evaluate_broker_operations_health(text)',
+    'EXECUTE'
+  ) then
+    raise exception 'The browser role can execute the service-only broker operations evaluator';
+  end if;
+
   if not has_function_privilege(
     'authenticated',
     'public.record_brokerage_consent(uuid)',
@@ -199,6 +235,6 @@ begin
     raise exception 'Brokerage consent authorization grants are unsafe';
   end if;
 
-  raise notice 'Phase 4D production brokerage, certification, adapter and account inventory locks verified';
+  raise notice 'Phase 4E production brokerage, certification, inventory and operations-monitoring locks verified';
 end
 $production_smoke$;

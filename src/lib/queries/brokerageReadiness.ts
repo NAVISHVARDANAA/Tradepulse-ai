@@ -188,6 +188,50 @@ export type BrokerAccountInventoryHealth = {
   liveOrderRoutingEnabled: boolean
 }
 
+export type BrokerOperationsHealth = {
+  providerId: number
+  providerCode: string
+  displayName: string
+  environment: 'sandbox'
+  operationalStatus: 'healthy' | 'warning' | 'critical' | 'not_run'
+  alertCodes: string[]
+  signalCount: number
+  openAlertCount: number
+  inventoryStatus: 'passed' | 'failed' | 'not_run'
+  inventoryCheckedAt: string | null
+  inventoryMinutesSinceCheck: number | null
+  inventoryWarningMinutes: number
+  inventoryCriticalMinutes: number
+  adapterStatus: 'passed' | 'failed' | 'not_run'
+  adapterCheckedAt: string | null
+  adapterMinutesSinceCheck: number | null
+  adapterWarningMinutes: number
+  adapterCriticalMinutes: number
+  nextAction: string
+  accountsReadEnabled: true
+  ordersReadEnabled: false
+  ordersWriteEnabled: false
+  accountConnectionEnabled: false
+  liveOrderRoutingEnabled: false
+}
+
+export type BrokerOperationsAlert = {
+  id: number
+  providerCode: string
+  displayName: string
+  environment: 'sandbox'
+  alertCode: string
+  severity: 'warning' | 'critical'
+  status: 'open' | 'resolved'
+  title: string
+  message: string
+  evidence: Record<string, unknown>
+  occurrenceCount: number
+  firstDetectedAt: string
+  lastDetectedAt: string
+  resolvedAt: string | null
+}
+
 export type BrokerageWorkspace = {
   readiness: BrokerageReadiness | null
   providers: BrokerProvider[]
@@ -195,6 +239,8 @@ export type BrokerageWorkspace = {
   certificationTests: BrokerCertificationTest[]
   adapterHealth: BrokerAdapterHealth[]
   accountInventoryHealth: BrokerAccountInventoryHealth[]
+  operationsHealth: BrokerOperationsHealth[]
+  operationsAlerts: BrokerOperationsAlert[]
   disclosures: BrokerageDisclosure[]
   instruments: BrokerageInstrument[]
   previews: BrokeragePreview[]
@@ -253,6 +299,8 @@ export async function getBrokerageWorkspace(): Promise<BrokerageWorkspace> {
     certificationTestResult,
     adapterHealthResult,
     accountInventoryHealthResult,
+    operationsHealthResult,
+    operationsAlertResult,
     disclosureResult,
     consentResult,
     instrumentResult,
@@ -280,6 +328,16 @@ export async function getBrokerageWorkspace(): Promise<BrokerageWorkspace> {
       .from('broker_account_inventory_health')
       .select('*')
       .order('provider_code'),
+    supabase
+      .from('broker_operations_health')
+      .select('*')
+      .order('provider_code'),
+    supabase
+      .from('broker_operations_alert_feed')
+      .select('*')
+      .eq('status', 'open')
+      .order('last_detected_at', { ascending: false })
+      .limit(8),
     supabase
       .from('brokerage_disclosures')
       .select('id, code, version, title, summary, required, effective_at')
@@ -309,6 +367,8 @@ export async function getBrokerageWorkspace(): Promise<BrokerageWorkspace> {
     certificationTestResult.error,
     adapterHealthResult.error,
     accountInventoryHealthResult.error,
+    operationsHealthResult.error,
+    operationsAlertResult.error,
     disclosureResult.error,
     consentResult.error,
     instrumentResult.error,
@@ -435,6 +495,50 @@ export async function getBrokerageWorkspace(): Promise<BrokerageWorkspace> {
       ordersReadEnabled: false,
       ordersWriteEnabled: false,
       liveOrderRoutingEnabled: inventory.live_order_routing_enabled,
+    })),
+    operationsHealth: (operationsHealthResult.data ?? []).map((health) => ({
+      providerId: health.provider_id,
+      providerCode: health.provider_code,
+      displayName: health.display_name,
+      environment: 'sandbox',
+      operationalStatus: health.operational_status,
+      alertCodes: stringArray(health.alert_codes),
+      signalCount: health.signal_count,
+      openAlertCount: health.open_alert_count,
+      inventoryStatus: health.inventory_status,
+      inventoryCheckedAt: health.inventory_checked_at,
+      inventoryMinutesSinceCheck: health.inventory_minutes_since_check,
+      inventoryWarningMinutes: health.inventory_warning_minutes,
+      inventoryCriticalMinutes: health.inventory_critical_minutes,
+      adapterStatus: health.adapter_status,
+      adapterCheckedAt: health.adapter_checked_at,
+      adapterMinutesSinceCheck: health.adapter_minutes_since_check,
+      adapterWarningMinutes: health.adapter_warning_minutes,
+      adapterCriticalMinutes: health.adapter_critical_minutes,
+      nextAction: health.next_action,
+      accountsReadEnabled: true,
+      ordersReadEnabled: false,
+      ordersWriteEnabled: false,
+      accountConnectionEnabled: false,
+      liveOrderRoutingEnabled: false,
+    })),
+    operationsAlerts: (operationsAlertResult.data ?? []).map((alert) => ({
+      id: alert.id,
+      providerCode: alert.provider_code,
+      displayName: alert.display_name,
+      environment: 'sandbox',
+      alertCode: alert.alert_code,
+      severity: alert.severity,
+      status: alert.status,
+      title: alert.title,
+      message: alert.message,
+      evidence: alert.evidence && typeof alert.evidence === 'object'
+        ? alert.evidence as Record<string, unknown>
+        : {},
+      occurrenceCount: alert.occurrence_count,
+      firstDetectedAt: alert.first_detected_at,
+      lastDetectedAt: alert.last_detected_at,
+      resolvedAt: alert.resolved_at,
     })),
     disclosures: (disclosureResult.data ?? []).map((disclosure) => ({
       id: disclosure.id,
