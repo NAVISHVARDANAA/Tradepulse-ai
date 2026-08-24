@@ -26,5 +26,8 @@ verify_jwt = false
 [functions.evaluate-platform-reliability]
 verify_jwt = false
 
+[functions.manage-account-security]
+verify_jwt = true
+
 [functions.generate-equity-research]
 verify_jwt = false

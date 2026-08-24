@@ -31,6 +31,9 @@ import type {
 const AcademyPanel = lazy(() => import('./components/AcademyPanel').then((module) => ({
   default: module.AcademyPanel,
 })))
+const AccountSecurityPanel = lazy(() => import('./components/AccountSecurityPanel').then((module) => ({
+  default: module.AccountSecurityPanel,
+})))
 const BrokerageReadinessPanel = lazy(() => import('./components/BrokerageReadinessPanel').then((module) => ({
   default: module.BrokerageReadinessPanel,
 })))
@@ -71,6 +74,7 @@ const navItems = [
   { label: 'Stock research', href: '#stock-research' },
   { label: 'AI Copilot', href: '#research-copilot' },
   { label: 'Academy', href: '#academy' },
+  { label: 'Security', href: '#account-security' },
   { label: 'Markets', href: '#markets' },
   { label: 'Forecasts', href: '#forecasts' },
   { label: 'Paper investing', href: '#paper-investing' },
@@ -365,6 +369,14 @@ function App() {
         <PlatformReadiness />
 
         <SystemStatusPanel />
+
+        <DeferredSection id="account-security" label="Account Security Center" minimumHeight={480}>
+          <ProductErrorBoundary title="Account security is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Account Security Center" />}>
+              <AccountSecurityPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </DeferredSection>
 
         <DeferredSection id="stock-research" label="Stock research" minimumHeight={620}>
           <ProductErrorBoundary title="Stock research is temporarily unavailable">
