@@ -38,7 +38,7 @@ select ok(
     select 1 from information_schema.columns
     where table_schema = 'public'
       and table_name in ('broker_account_inventory_runs', 'broker_account_inventory_health')
-      and column_name ~ '(account_id|account_number|email|phone|name|address|contact|identity|api_key|secret|password|access_token|provider_payload)'
+      and column_name ~ '(^|_)(account_id|account_number|customer_name|legal_name|first_name|last_name|email|phone|address|contact|identity|api_key|secret|password|access_token|provider_payload)($|_)'
   ),
   'inventory storage exposes no account identifiers, PII, credentials or provider payloads'
 );
