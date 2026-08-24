@@ -39,24 +39,26 @@ The dashboard will show `not run`; an authorized probe without credentials fails
 closed and stores only `CONFIGURATION_INVALID`. Never use Alpaca live credentials
 for this adapter.
 
-## Release Phase 4I
+## Release Phase 4J
 
 1. Confirm the CI workflow on `main` is green.
 2. Open **Actions → Deploy Supabase production → Run workflow**.
 3. Select the `main` branch.
-4. Enter `DEPLOY_PHASE_4I` as the confirmation value.
+4. Enter `DEPLOY_PHASE_4J` as the confirmation value.
 5. Approve the `production` environment deployment when prompted.
 
 The workflow performs a database dry run, applies every pending migration in
 filename order and redeploys every customer and internal Edge Function affected
-by the shared security boundary. It verifies migration `021`, checks active
+by the shared security and observability boundary. It verifies migration `022`, checks active
 functions, runs the query-only production lock smoke check and proves that
-unauthenticated brokerage and paper-simulation requests receive HTTP 401.
+unauthenticated brokerage, paper-simulation and platform-evaluation requests
+receive HTTP 401. Migration 022 schedules the database reliability evaluator
+every five minutes without copying a runtime secret into Postgres.
 
 ## Read-only production verification
 
 Run **Actions → Verify Supabase production → Run workflow** after a release or
-operational incident. Select `main` and enter `VERIFY_PHASE_4I`.
+operational incident. Select `main` and enter `VERIFY_PHASE_4J`.
 
 The verification workflow performs no production writes. It confirms local and
 remote migration parity, executes the audited, query-only
@@ -78,8 +80,8 @@ write-capable SQL statement.
   and reviewed.
 
 Live brokerage execution remains database-locked after this deployment. This
-release adds authenticated API abuse limits, scheduler-secret hardening, bounded
-customer mutations and a continuously scanned supply chain. It still creates no live-order route,
+release adds privacy-safe structured telemetry, SLO evidence, a customer status
+surface and an audited incident lifecycle. It still creates no live-order route,
 provider credential store, customer account connection, custody capability or
 money movement.
 

@@ -224,6 +224,31 @@ compliance boundaries are designed in before execution features are enabled.
 - This optimization adds no brokerage, custody, order-routing or money-movement
   capability.
 
+### Phase 4I — customer trust and security foundation
+
+- Customer APIs enforce bounded request bodies and database-backed per-user,
+  per-route allowances while returning retryable, support-friendly errors.
+- Internal jobs use constant-time secret checks and never enable browser CORS.
+- API responses include non-cacheable defensive headers and a support reference
+  without exposing tokens, provider responses or customer financial data.
+- CodeQL, dependency review, production dependency audit and automated security
+  updates protect the software supply chain.
+
+### Phase 4J — platform observability and incident readiness
+
+- A five-minute database scheduler consolidates core-platform, market-data,
+  forecasting and broker-sandbox health while preserving every execution lock.
+- Append-only sanitized health and incident-transition evidence drives a
+  customer-safe status surface with explicit initializing, degraded, outage and
+  operational states.
+- Rolling 30-day SLO and error-budget evidence prevents missing monitoring from
+  being presented as healthy and pauses non-critical releases after budget burn.
+- Every Edge Function emits one bounded structured completion event containing
+  only service, support reference, method, status, outcome and latency.
+- The incident runbook defines severity, containment, customer updates, recovery,
+  evidence handling and post-incident review without placing secrets or PII in
+  logs or public issues.
+
 ## Architecture
 
 ```text
@@ -272,7 +297,7 @@ server-side secrets. Never expose them through a `VITE_*` variable.
 
 ## Edge Functions
 
-The repository contains sixteen initial server-side functions:
+The repository contains seventeen server-side functions:
 
 | Function | Purpose | Authorization |
 | --- | --- | --- |
@@ -292,6 +317,7 @@ The repository contains sixteen initial server-side functions:
 | `sync-alpaca-sandbox-account-inventory` | Persist a PII-free aggregate of sandbox account states for reconciliation monitoring | `x-sync-secret` |
 | `evaluate-broker-operations` | Evaluate sanitized broker freshness and reconciliation signals and manage operational alerts | `x-sync-secret` |
 | `evaluate-forecast-governance` | Score due forecasts, publish reliability evidence and enforce the model display gate | `x-sync-secret` |
+| `evaluate-platform-reliability` | Consolidate sanitized service health, SLO evidence and incident lifecycle without enabling execution | `x-sync-secret` |
 
 Set a strong `SYNC_SECRET` in Supabase secrets before deploying scheduled
 functions. Supabase supplies `SUPABASE_URL`, `SUPABASE_ANON_KEY` and
@@ -342,9 +368,12 @@ approach them, while one shared authentication provider owns the Supabase sessio
 Production Supabase releases are manual and environment-protected. See
 [`docs/SUPABASE_DEPLOYMENT.md`](docs/SUPABASE_DEPLOYMENT.md) for the required
 GitHub environment secrets, approval gate, read-only verification workflow and
-Phase 4I release procedure. The enforced trust baseline and operational launch
+Phase 4J release procedure. The enforced trust baseline and operational launch
 checklist are documented in
-[`docs/SECURITY_ARCHITECTURE.md`](docs/SECURITY_ARCHITECTURE.md).
+[`docs/SECURITY_ARCHITECTURE.md`](docs/SECURITY_ARCHITECTURE.md). Reliability
+objectives and incident operations are documented in
+[`docs/SERVICE_LEVEL_OBJECTIVES.md`](docs/SERVICE_LEVEL_OBJECTIVES.md) and
+[`docs/INCIDENT_RESPONSE.md`](docs/INCIDENT_RESPONSE.md).
 
 ## ML forecasting service
 

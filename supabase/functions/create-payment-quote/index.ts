@@ -5,13 +5,14 @@ import {
   parseJsonBody,
   RequestValidationError,
 } from '../_shared/http.ts'
+import { observeEdgeHandler } from '../_shared/observability.ts'
 
 type QuoteRequest = {
   corridorCode?: string
   sourceAmount?: number
 }
 
-Deno.serve(async (request) => {
+Deno.serve(observeEdgeHandler('payment-quote-sandbox', async (request) => {
   if (request.method === 'OPTIONS') {
     return corsPreflightResponse()
   }
@@ -131,4 +132,4 @@ Deno.serve(async (request) => {
     disclaimer:
       'Indicative only. No funds are reserved or transferred by this quote.',
   })
-})
+}))

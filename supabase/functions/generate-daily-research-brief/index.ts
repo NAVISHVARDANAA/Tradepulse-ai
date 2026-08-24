@@ -5,6 +5,7 @@ import {
 
 import { requireUser, userGuardErrorResponse } from '../_shared/auth.ts'
 import { corsPreflightResponse, hasValidInternalSecret, jsonResponse } from '../_shared/http.ts'
+import { observeEdgeHandler } from '../_shared/observability.ts'
 
 type NumericValue = number | string | null
 
@@ -375,7 +376,7 @@ async function generateForUser(
   }
 }
 
-Deno.serve(async (request) => {
+Deno.serve(observeEdgeHandler('research-brief', async (request) => {
   if (request.method === 'OPTIONS') {
     return corsPreflightResponse()
   }
@@ -442,4 +443,4 @@ Deno.serve(async (request) => {
     console.error('Research brief generation failed:', code)
     return jsonResponse({ error: 'Research brief generation failed' }, 500)
   }
-})
+}))

@@ -7,6 +7,7 @@ import {
   createAlpacaBrokerSandboxAdapter,
 } from '../_shared/alpacaBrokerSandbox.ts'
 import { hasValidInternalSecret, internalJsonResponse as jsonResponse } from '../_shared/http.ts'
+import { observeEdgeHandler } from '../_shared/observability.ts'
 
 type InventoryRecord = {
   status: 'passed' | 'failed'
@@ -46,7 +47,7 @@ function failedInventory(errorCode: string): InventoryRecord {
   }
 }
 
-Deno.serve(async (request) => {
+Deno.serve(observeEdgeHandler('broker-account-inventory', async (request) => {
   if (request.method !== 'POST') {
     return jsonResponse({ error: 'Method not allowed' }, 405)
   }
@@ -152,4 +153,4 @@ Deno.serve(async (request) => {
     },
     inventory.status === 'passed' ? 200 : 503,
   )
-})
+}))

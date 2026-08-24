@@ -1,6 +1,7 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0'
 
 import { hasValidInternalSecret, internalJsonResponse as jsonResponse } from '../_shared/http.ts'
+import { observeEdgeHandler } from '../_shared/observability.ts'
 
 type SyncRequest = { symbols?: string[] }
 type SecTicker = { cik_str: number; ticker: string; title: string }
@@ -88,7 +89,7 @@ function factForPeriod(series: SecFactUnit[], periodEnd: string) {
     .sort((a, b) => b.filed.localeCompare(a.filed))[0] ?? null
 }
 
-Deno.serve(async (request) => {
+Deno.serve(observeEdgeHandler('sec-fundamentals', async (request) => {
   if (request.method !== 'POST') {
     return jsonResponse({ error: 'Method not allowed' }, 405)
   }
@@ -314,4 +315,4 @@ Deno.serve(async (request) => {
 
     return jsonResponse({ error: 'SEC fundamentals synchronization failed' }, 502)
   }
-})
+}))

@@ -5,6 +5,7 @@ import {
   parseJsonBody,
   RequestValidationError,
 } from '../_shared/http.ts'
+import { observeEdgeHandler } from '../_shared/observability.ts'
 
 type TradingControlRequest = {
   portfolioId?: string
@@ -25,7 +26,7 @@ function safeControlError(message: string) {
   return 'Unable to update the paper-trading control.'
 }
 
-Deno.serve(async (request) => {
+Deno.serve(observeEdgeHandler('paper-controls', async (request) => {
   if (request.method === 'OPTIONS') {
     return corsPreflightResponse()
   }
@@ -78,4 +79,4 @@ Deno.serve(async (request) => {
   }
 
   return jsonResponse({ control: data, simulation: true })
-})
+}))

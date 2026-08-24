@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type VERIFY_PHASE_4I to run read-only production security checks
+        description: Type VERIFY_PHASE_4J to run read-only production reliability checks
         required: true
         type: string
 
@@ -38,8 +38,8 @@ jobs:
           VERIFICATION_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$VERIFICATION_CONFIRMATION" = "VERIFY_PHASE_4I" || {
-            echo "Verification confirmation did not match VERIFY_PHASE_4I."
+          test "$VERIFICATION_CONFIRMATION" = "VERIFY_PHASE_4J" || {
+            echo "Verification confirmation did not match VERIFY_PHASE_4J."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -64,13 +64,13 @@ jobs:
       - name: Install the repository-pinned Supabase CLI
         run: npm ci
 
-      - name: Verify migration 021 and remote migration parity
+      - name: Verify migration 022 and remote migration parity
         run: |
           set -eu
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])021([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])022([^0-9]|$)' migration-list.txt
           npx --no-install supabase db push \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" \
@@ -125,6 +125,10 @@ jobs:
             --project-ref "$SUPABASE_PROJECT_REF" \
             --output json | jq -e \
               '.[] | select(.name == "generate-equity-research" and .status == "ACTIVE")'
+          npx --no-install supabase functions list \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --output json | jq -e \
+              '.[] | select(.name == "evaluate-platform-reliability" and .status == "ACTIVE")'
 
       - name: Verify all shared-security functions are active
         run: |
@@ -185,6 +189,28 @@ jobs:
           }
           if grep -qi '^access-control-allow-origin:' broker-probe-headers.txt; then
             echo "Internal broker probe unexpectedly enabled browser CORS."
+            exit 1
+          fi
+
+      - name: Verify unauthenticated platform evaluations remain blocked
+        run: |
+          set -eu
+          status_code="$(curl \
+            --silent \
+            --show-error \
+            --dump-header platform-reliability-headers.txt \
+            --output platform-reliability-response.json \
+            --write-out '%{http_code}' \
+            --request POST \
+            --header 'Content-Type: application/json' \
+            --data '{}' \
+            "https://${SUPABASE_PROJECT_REF}.supabase.co/functions/v1/evaluate-platform-reliability")"
+          test "$status_code" = "401" || {
+            echo "Expected an unauthenticated platform-reliability 401 response; received $status_code."
+            exit 1
+          }
+          if grep -qi '^access-control-allow-origin:' platform-reliability-headers.txt; then
+            echo "Internal platform evaluator unexpectedly enabled browser CORS."
             exit 1
           fi
 

@@ -21,8 +21,13 @@ begin
     or to_regclass('public.forecast_governance_policies') is null
     or to_regclass('public.forecast_reliability_snapshots') is null
     or to_regclass('public.forecast_reliability_latest') is null
-    or to_regclass('public.display_qualified_market_forecasts') is null then
-    raise exception 'Phase 4G brokerage, paper-learning and forecast-governance objects are incomplete';
+    or to_regclass('public.display_qualified_market_forecasts') is null
+    or to_regclass('public.platform_service_policies') is null
+    or to_regclass('public.platform_health_evidence') is null
+    or to_regclass('public.platform_incidents') is null
+    or to_regclass('public.platform_incident_events') is null
+    or to_regclass('public.platform_public_status') is null then
+    raise exception 'Phase 4J brokerage, governance and reliability objects are incomplete';
   end if;
 
   if not exists (
@@ -244,6 +249,37 @@ begin
     raise exception 'Row-level security is disabled for forecast reliability evidence';
   end if;
 
+  if not (
+    select relrowsecurity
+    from pg_class
+    where oid = 'public.platform_health_evidence'::regclass
+  ) or not (
+    select relrowsecurity
+    from pg_class
+    where oid = 'public.platform_incidents'::regclass
+  ) or not (
+    select relrowsecurity
+    from pg_class
+    where oid = 'public.platform_incident_events'::regclass
+  ) then
+    raise exception 'Row-level security is disabled for reliability evidence';
+  end if;
+
+  if exists (
+    select 1
+    from information_schema.columns
+    where table_schema = 'public'
+      and table_name in (
+        'platform_health_evidence',
+        'platform_incidents',
+        'platform_incident_events',
+        'platform_public_status'
+      )
+      and column_name ~ '(^|_)(user_id|account_id|account_number|customer_name|email|phone|address|api_key|secret|password|access_token|provider_payload|request_body|response_body)($|_)'
+  ) then
+    raise exception 'Platform observability contains a prohibited sensitive field';
+  end if;
+
   if has_table_privilege('authenticated', 'public.brokerage_accounts', 'INSERT')
     or has_table_privilege('authenticated', 'public.brokerage_readiness_checks', 'INSERT')
     or has_table_privilege('authenticated', 'public.brokerage_order_previews', 'INSERT')
@@ -261,7 +297,12 @@ begin
     or has_table_privilege('service_role', 'public.forecast_evaluations', 'INSERT')
     or has_table_privilege('authenticated', 'public.forecast_reliability_snapshots', 'INSERT')
     or has_table_privilege('service_role', 'public.forecast_reliability_snapshots', 'INSERT')
-    or has_table_privilege('authenticated', 'public.model_drift_events', 'INSERT') then
+    or has_table_privilege('authenticated', 'public.model_drift_events', 'INSERT')
+    or has_table_privilege('authenticated', 'public.platform_health_evidence', 'INSERT')
+    or has_table_privilege('service_role', 'public.platform_health_evidence', 'INSERT')
+    or has_table_privilege('authenticated', 'public.platform_incidents', 'UPDATE')
+    or has_table_privilege('service_role', 'public.platform_incidents', 'UPDATE')
+    or has_table_privilege('authenticated', 'public.platform_incident_events', 'DELETE') then
     raise exception 'A browser role can forge regulated brokerage state';
   end if;
 
@@ -341,6 +382,22 @@ begin
     raise exception 'Forecast governance evaluator grants are unsafe';
   end if;
 
-  raise notice 'Phase 4G production execution locks, paper learning and forecast governance boundaries verified';
+  if has_function_privilege(
+    'authenticated',
+    'public.evaluate_platform_reliability()',
+    'EXECUTE'
+  ) or not has_function_privilege(
+    'service_role',
+    'public.evaluate_platform_reliability()',
+    'EXECUTE'
+  ) or has_function_privilege(
+    'service_role',
+    'public.run_platform_reliability_cron()',
+    'EXECUTE'
+  ) then
+    raise exception 'Platform reliability evaluator grants are unsafe';
+  end if;
+
+  raise notice 'Phase 4J execution locks, governance and privacy-safe reliability boundaries verified';
 end
 $production_smoke$;
