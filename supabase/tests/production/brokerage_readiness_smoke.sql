@@ -17,8 +17,12 @@ begin
     or to_regclass('public.paper_decision_contexts') is null
     or to_regclass('public.paper_decision_outcomes') is null
     or to_regclass('public.paper_decision_journal') is null
-    or to_regclass('public.paper_decision_scorecard') is null then
-    raise exception 'Phase 4F brokerage and paper-learning tables are incomplete';
+    or to_regclass('public.paper_decision_scorecard') is null
+    or to_regclass('public.forecast_governance_policies') is null
+    or to_regclass('public.forecast_reliability_snapshots') is null
+    or to_regclass('public.forecast_reliability_latest') is null
+    or to_regclass('public.display_qualified_market_forecasts') is null then
+    raise exception 'Phase 4G brokerage, paper-learning and forecast-governance objects are incomplete';
   end if;
 
   if not exists (
@@ -163,6 +167,35 @@ begin
     raise exception 'The paper decision journal unexpectedly enabled execution';
   end if;
 
+  if (select count(*) from public.forecast_governance_policies where active) <> 1 then
+    raise exception 'Forecast governance must have exactly one active policy';
+  end if;
+
+  if exists (
+    select 1
+    from public.forecast_reliability_snapshots
+    where reliability_status not in (
+      'insufficient_evidence', 'qualified', 'watch', 'suspended'
+    )
+      or display_eligible <> (reliability_status <> 'suspended')
+      or reason_codes::text ~* 'api_key|secret|account_number|customer_name|email|phone|address|access_token|provider_payload'
+  ) then
+    raise exception 'Forecast reliability evidence violated its sanitized display contract';
+  end if;
+
+  if exists (
+    select 1
+    from public.display_qualified_market_forecasts displayed
+    join public.forecast_reliability_latest reliability
+      on reliability.asset_id = displayed.asset_id
+      and reliability.model_name = displayed.model_name
+      and reliability.model_version = displayed.model_version
+      and reliability.horizon_hours = displayed.horizon_hours
+    where reliability.reliability_status = 'suspended'
+  ) then
+    raise exception 'A suspended forecast model remains visible';
+  end if;
+
   if to_regclass('public.brokerage_orders') is not null then
     raise exception 'A live brokerage order table unexpectedly exists';
   end if;
@@ -203,6 +236,14 @@ begin
     raise exception 'Row-level security is disabled for brokerage previews';
   end if;
 
+  if not (
+    select relrowsecurity
+    from pg_class
+    where oid = 'public.forecast_reliability_snapshots'::regclass
+  ) then
+    raise exception 'Row-level security is disabled for forecast reliability evidence';
+  end if;
+
   if has_table_privilege('authenticated', 'public.brokerage_accounts', 'INSERT')
     or has_table_privilege('authenticated', 'public.brokerage_readiness_checks', 'INSERT')
     or has_table_privilege('authenticated', 'public.brokerage_order_previews', 'INSERT')
@@ -215,7 +256,12 @@ begin
     or has_table_privilege('authenticated', 'public.paper_decision_contexts', 'INSERT')
     or has_table_privilege('authenticated', 'public.paper_decision_contexts', 'UPDATE')
     or has_table_privilege('authenticated', 'public.paper_decision_outcomes', 'INSERT')
-    or has_table_privilege('service_role', 'public.paper_decision_outcomes', 'INSERT') then
+    or has_table_privilege('service_role', 'public.paper_decision_outcomes', 'INSERT')
+    or has_table_privilege('authenticated', 'public.forecast_evaluations', 'INSERT')
+    or has_table_privilege('service_role', 'public.forecast_evaluations', 'INSERT')
+    or has_table_privilege('authenticated', 'public.forecast_reliability_snapshots', 'INSERT')
+    or has_table_privilege('service_role', 'public.forecast_reliability_snapshots', 'INSERT')
+    or has_table_privilege('authenticated', 'public.model_drift_events', 'INSERT') then
     raise exception 'A browser role can forge regulated brokerage state';
   end if;
 
@@ -283,6 +329,18 @@ begin
     raise exception 'Brokerage consent authorization grants are unsafe';
   end if;
 
-  raise notice 'Phase 4F production brokerage locks and paper decision intelligence boundaries verified';
+  if has_function_privilege(
+    'authenticated',
+    'public.evaluate_forecast_governance(timestamptz)',
+    'EXECUTE'
+  ) or not has_function_privilege(
+    'service_role',
+    'public.evaluate_forecast_governance(timestamptz)',
+    'EXECUTE'
+  ) then
+    raise exception 'Forecast governance evaluator grants are unsafe';
+  end if;
+
+  raise notice 'Phase 4G production execution locks, paper learning and forecast governance boundaries verified';
 end
 $production_smoke$;

@@ -19,3 +19,9 @@ verify_jwt = false
 
 [functions.evaluate-broker-operations]
 verify_jwt = false
+
+[functions.evaluate-forecast-governance]
+verify_jwt = false
+
+[functions.generate-equity-research]
+verify_jwt = false

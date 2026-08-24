@@ -26,8 +26,8 @@ const capabilities = [
   },
   {
     label: 'ML forecasting',
-    status: 'Validation gated',
-    detail: 'Only models that beat the baseline are displayed',
+    status: 'Phase 4G reliability governed',
+    detail: 'Walk-forward, cost and production drift gates control display eligibility',
     tone: 'active',
     icon: BrainCircuit,
   },

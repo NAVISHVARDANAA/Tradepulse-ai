@@ -205,6 +205,24 @@ sanitized aggregate alert evidence.
 tests, authenticated Edge Function denial checks, and a production paper-order
 exercise showing append-only evidence with no live routing or fund movement.
 
+### Phase 4G — forecast reliability and model governance (implemented)
+
+- Deterministic evaluation of matured forecasts against the first eligible
+  synchronized observation after their target time.
+- Versioned rolling reliability policy for model error versus the no-change
+  baseline, direction accuracy, uncertainty calibration and evidence count.
+- Append-only per-asset/model/horizon snapshots with provisional, qualified,
+  watch and suspended states plus sanitized drift events.
+- A display-qualified forecast boundary that automatically removes suspended
+  model versions from both market and equity research dashboards.
+- Cost-aware walk-forward backtests and held-out interval coverage retained in
+  every newly generated ML forecast.
+
+**Phase 4G exit gate:** migration 020 parity, deterministic lifecycle and
+authorization tests, cost-aware ML tests, active protected evaluator, production
+HTTP 401 denial and confirmation that no suspended model appears in a public
+forecast view.
+
 ### Future regulated activation work
 
 - Sandbox account and order mirroring behind separately permissioned services.

@@ -193,6 +193,21 @@ compliance boundaries are designed in before execution features are enabled.
 - This feature remains virtual-cash simulation only. Broker account connection,
   real orders, custody and fund movement stay disabled.
 
+### Phase 4G — forecast reliability and model governance
+
+- Due forecasts are matched only to later synchronized observations inside a
+  bounded evaluation window, producing immutable model error, no-change
+  baseline error, direction and uncertainty-interval outcomes.
+- A versioned policy evaluates rolling production evidence by asset, model and
+  horizon. States remain explicit: provisional, qualified, watch or suspended.
+- Suspended model versions are automatically excluded from forecast and equity
+  research display views. Provisional and watch states stay visibly labeled.
+- The ML validator now records held-out interval coverage plus a transparent
+  turnover- and transaction-cost-aware backtest alongside its leakage-aware
+  walk-forward metrics.
+- Sanitized drift events contain only model and aggregate performance evidence.
+  Governance cannot submit an order, call a broker or enable money movement.
+
 ## Architecture
 
 ```text
@@ -241,7 +256,7 @@ server-side secrets. Never expose them through a `VITE_*` variable.
 
 ## Edge Functions
 
-The repository contains fifteen initial server-side functions:
+The repository contains sixteen initial server-side functions:
 
 | Function | Purpose | Authorization |
 | --- | --- | --- |
@@ -260,6 +275,7 @@ The repository contains fifteen initial server-side functions:
 | `probe-alpaca-broker-sandbox` | Run the fixed read-only Alpaca Broker API sandbox asset probe and persist sanitized health | `x-sync-secret` |
 | `sync-alpaca-sandbox-account-inventory` | Persist a PII-free aggregate of sandbox account states for reconciliation monitoring | `x-sync-secret` |
 | `evaluate-broker-operations` | Evaluate sanitized broker freshness and reconciliation signals and manage operational alerts | `x-sync-secret` |
+| `evaluate-forecast-governance` | Score due forecasts, publish reliability evidence and enforce the model display gate | `x-sync-secret` |
 
 Set a strong `SYNC_SECRET` in Supabase secrets before deploying scheduled
 functions. Supabase supplies `SUPABASE_URL`, `SUPABASE_ANON_KEY` and
@@ -368,6 +384,11 @@ Migration `019_paper_decision_intelligence.sql` adds private append-only paper
 decision evidence, deterministic outcome evaluation and a forecast-attribution
 scorecard. It can only extend the existing virtual-cash simulator and creates no
 broker, custody, payment or live-execution route.
+
+Migration `020_forecast_reliability_governance.sql` adds immutable production
+forecast outcomes, versioned reliability thresholds, drift evidence and a
+display-qualified forecast boundary. Suspended models are removed from product
+views, but the evaluator has no broker, order, custody or payment capability.
 
 ## Production gates
 

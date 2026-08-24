@@ -57,6 +57,21 @@ export async function getGlobalEquityResearch(): Promise<
             baselineMae: toNumber(row.baseline_mae),
             modelMae: toNumber(row.model_mae),
             directionalAccuracy: toNumber(row.directional_accuracy),
+            governanceStatus: row.reliability_status as MarketForecast['governanceStatus'],
+            reliabilityEvaluationCount: row.reliability_evaluation_count ?? 0,
+            productionModelMae: toNumber(row.production_model_mae),
+            productionBaselineMae: toNumber(row.production_baseline_mae),
+            productionMaeImprovementPercent: toNumber(
+              row.production_mae_improvement_pct,
+            ),
+            productionMape: toNumber(row.production_mape),
+            productionDirectionalAccuracy: toNumber(
+              row.production_directional_accuracy,
+            ),
+            productionIntervalCoverage: toNumber(
+              row.production_interval_coverage,
+            ),
+            reliabilityReasons: stringArray(row.reliability_reason_codes),
             generatedAt: row.forecast_generated_at,
             targetAt: row.forecast_target_at,
           }

@@ -1,4 +1,12 @@
-import { BrainCircuit, ShieldCheck, TrendingDown, TrendingUp } from 'lucide-react'
+import {
+  AlertTriangle,
+  BadgeCheck,
+  BrainCircuit,
+  Clock3,
+  ShieldCheck,
+  TrendingDown,
+  TrendingUp,
+} from 'lucide-react'
 
 import type { MarketForecast } from '../types/domain'
 
@@ -14,6 +22,22 @@ function formatPrice(value: number) {
   }).format(value)
 }
 
+function reliabilityLabel(forecast: MarketForecast) {
+  if (forecast.governanceStatus === 'qualified') {
+    return `Production qualified · ${forecast.reliabilityEvaluationCount} outcomes`
+  }
+  if (forecast.governanceStatus === 'watch') {
+    return `Reliability watch · ${forecast.reliabilityEvaluationCount} outcomes`
+  }
+  return `Provisional · ${forecast.reliabilityEvaluationCount} outcomes`
+}
+
+function ReliabilityIcon({ status }: { status: MarketForecast['governanceStatus'] }) {
+  if (status === 'qualified') return <BadgeCheck size={13} />
+  if (status === 'watch') return <AlertTriangle size={13} />
+  return <Clock3 size={13} />
+}
+
 export function ForecastPanel({
   forecasts,
   loading,
@@ -23,7 +47,7 @@ export function ForecastPanel({
     <section className="panel forecast-panel" id="forecasts">
       <div className="panel-header">
         <div>
-          <p className="eyebrow">Forecasting engine · Phase 2</p>
+          <p className="eyebrow">Forecasting engine · Phase 4G</p>
           <h2>Probabilistic market outlook</h2>
         </div>
 
@@ -33,8 +57,10 @@ export function ForecastPanel({
       </div>
 
       <p className="panel-description">
-        Forecasts are versioned, time-stamped and displayed with uncertainty.
-        They are not promises, signals to auto-trade, or financial advice.
+        Forecasts must first beat a walk-forward baseline, then remain subject to
+        production outcome, direction and interval-calibration monitoring.
+        Suspended models disappear automatically. Output is not a promise,
+        auto-trade signal or financial advice.
       </p>
 
       {loading ? (
@@ -49,10 +75,10 @@ export function ForecastPanel({
         <div className="empty-feature" role="status">
           <BrainCircuit size={22} />
           <div>
-            <strong>No production forecast has been generated yet.</strong>
+            <strong>No display-qualified forecast is available.</strong>
             <span>
-              The model pipeline will publish results after enough verified
-              observations are available.
+              The pipeline publishes only after baseline validation and removes
+              models that breach production reliability thresholds.
             </span>
           </div>
         </div>
@@ -75,6 +101,11 @@ export function ForecastPanel({
                   <span className={`direction-pill ${forecast.direction}`}>
                     <DirectionIcon size={13} /> {forecast.direction}
                   </span>
+                </div>
+
+                <div className={`forecast-reliability ${forecast.governanceStatus}`}>
+                  <ReliabilityIcon status={forecast.governanceStatus} />
+                  <span>{reliabilityLabel(forecast)}</span>
                 </div>
 
                 <div className="forecast-value">
@@ -106,7 +137,7 @@ export function ForecastPanel({
                     <dd>{forecast.horizonHours} hours</dd>
                   </div>
                   <div>
-                    <dt>Baseline lift</dt>
+                    <dt>Validation baseline lift</dt>
                     <dd>
                       {forecast.baselineMae === null ||
                       forecast.modelMae === null ||
@@ -122,7 +153,7 @@ export function ForecastPanel({
                     </dd>
                   </div>
                   <div>
-                    <dt>Direction score</dt>
+                    <dt>Validation direction</dt>
                     <dd>
                       {forecast.directionalAccuracy === null
                         ? 'Not scored'
@@ -131,7 +162,34 @@ export function ForecastPanel({
                           )}%`}
                     </dd>
                   </div>
+                  <div>
+                    <dt>Production direction</dt>
+                    <dd>
+                      {forecast.productionDirectionalAccuracy === null
+                        ? 'Building evidence'
+                        : `${Math.round(
+                            forecast.productionDirectionalAccuracy * 100,
+                          )}%`}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Interval coverage</dt>
+                    <dd>
+                      {forecast.productionIntervalCoverage === null
+                        ? 'Building evidence'
+                        : `${Math.round(
+                            forecast.productionIntervalCoverage * 100,
+                          )}%`}
+                    </dd>
+                  </div>
                 </dl>
+
+                {forecast.governanceStatus === 'watch' ? (
+                  <p className="forecast-governance-note">
+                    Production evidence is below one or more qualification
+                    thresholds. Treat this outlook with additional caution.
+                  </p>
+                ) : null}
               </article>
             )
           })}

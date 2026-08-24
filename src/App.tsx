@@ -234,6 +234,18 @@ function App() {
       )
       .on(
         'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'forecast_reliability_snapshots',
+        },
+        () => {
+          void loadForecasts()
+          void loadEquityResearch()
+        },
+      )
+      .on(
+        'postgres_changes',
         { event: '*', schema: 'public', table: 'equity_research_scores' },
         () => void loadEquityResearch(),
       )
