@@ -7,7 +7,7 @@ from datetime import datetime, timedelta, timezone
 import numpy as np
 
 from tradepulse_forecasting import ForecastEngine, Observation
-from tradepulse_forecasting.engine import expanding_window_splits
+from tradepulse_forecasting.engine import cost_aware_backtest, expanding_window_splits
 from tradepulse_forecasting.features import build_feature_dataset
 
 
@@ -72,6 +72,21 @@ class ValidationTests(unittest.TestCase):
             self.assertLess(train_indices.max(), test_indices.min())
             self.assertGreaterEqual(test_indices.min() - train_indices.max(), 2)
 
+    def test_cost_aware_backtest_deducts_turnover_costs(self) -> None:
+        actual = np.asarray([0.02, -0.01, 0.015, -0.005])
+        predicted = np.asarray([0.01, -0.01, 0.01, -0.01])
+        no_cost = cost_aware_backtest(actual, predicted, transaction_cost_bps=0)
+        with_cost = cost_aware_backtest(actual, predicted, transaction_cost_bps=10)
+
+        self.assertGreater(no_cost.net_return, with_cost.net_return)
+        self.assertEqual(with_cost.turnover, 7.0)
+        self.assertGreaterEqual(with_cost.max_drawdown, 0)
+        self.assertLessEqual(with_cost.max_drawdown, 1)
+
+    def test_cost_aware_backtest_rejects_mismatched_shapes(self) -> None:
+        with self.assertRaisesRegex(ValueError, "same shape"):
+            cost_aware_backtest(np.asarray([0.01]), np.asarray([0.01, 0.02]))
+
 
 class ForecastEngineTests(unittest.TestCase):
     def test_engine_returns_auditable_ensemble_forecast(self) -> None:
@@ -90,6 +105,12 @@ class ForecastEngineTests(unittest.TestCase):
         self.assertLess(result.model_mae, result.baseline_mae)
         self.assertGreater(result.feature_snapshot["validation_samples"], 0)
         self.assertEqual(result.feature_snapshot["validation_gap"], 1)
+        self.assertGreater(result.reference_price, 0)
+        self.assertGreaterEqual(result.interval_coverage, 0)
+        self.assertLessEqual(result.interval_coverage, 1)
+        self.assertGreaterEqual(result.cost_adjusted_max_drawdown, 0)
+        self.assertLessEqual(result.cost_adjusted_max_drawdown, 1)
+        self.assertGreater(result.estimated_turnover, 0)
 
     def test_engine_rejects_short_history(self) -> None:
         engine = ForecastEngine(minimum_observations=120)

@@ -154,6 +154,7 @@ def run() -> dict[str, object]:
                     "horizon_hours": horizon_hours,
                     "generated_at": now.isoformat(),
                     "target_at": (now + timedelta(hours=horizon_hours)).isoformat(),
+                    "reference_price": result.reference_price,
                     "predicted_price": result.predicted_price,
                     "lower_bound": result.lower_bound,
                     "upper_bound": result.upper_bound,
@@ -163,6 +164,10 @@ def run() -> dict[str, object]:
                     "baseline_mae": result.baseline_mae,
                     "model_mae": result.model_mae,
                     "directional_accuracy": result.directional_accuracy,
+                    "validation_interval_coverage": result.interval_coverage,
+                    "cost_adjusted_return": result.cost_adjusted_return,
+                    "cost_adjusted_max_drawdown": result.cost_adjusted_max_drawdown,
+                    "estimated_turnover": result.estimated_turnover,
                     "is_latest": True,
                     "feature_snapshot": {
                         **result.feature_snapshot,
@@ -193,6 +198,18 @@ def run() -> dict[str, object]:
                 "completed_at": completed_at.isoformat(),
                 "metrics": metrics,
             },
+        )
+        governance = client.request(
+            "rpc/evaluate_forecast_governance",
+            method="POST",
+            body={},
+        )
+        metrics["governance"] = governance
+        client.request(
+            "forecast_runs",
+            method="PATCH",
+            query={"id": f"eq.{run_id}"},
+            body={"metrics": metrics},
         )
         return metrics
     except Exception as error:

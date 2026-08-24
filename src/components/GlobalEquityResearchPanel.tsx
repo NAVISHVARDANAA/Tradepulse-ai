@@ -474,6 +474,14 @@ export function GlobalEquityResearchPanel({
                             {selected.forecast.direction}
                           </span>
                         </div>
+                        <div className={`forecast-reliability ${selected.forecast.governanceStatus}`}>
+                          {selected.forecast.governanceStatus === 'qualified'
+                            ? 'Production reliability qualified'
+                            : selected.forecast.governanceStatus === 'watch'
+                              ? 'Production reliability watch'
+                              : 'Production evidence building'}
+                          {' · '}{selected.forecast.reliabilityEvaluationCount} outcomes
+                        </div>
                         <dl className="equity-facts">
                           <div><dt>Uncertainty range</dt><dd>
                             {selected.forecast.lowerBound === null || selected.forecast.upperBound === null
@@ -490,13 +498,24 @@ export function GlobalEquityResearchPanel({
                               ? 'Not scored'
                               : `${Math.round(selected.forecast.directionalAccuracy * 100)}%`}
                           </dd></div>
+                          <div><dt>Production direction</dt><dd>
+                            {selected.forecast.productionDirectionalAccuracy === null
+                              ? 'Building evidence'
+                              : `${Math.round(selected.forecast.productionDirectionalAccuracy * 100)}%`}
+                          </dd></div>
+                          <div><dt>Production interval coverage</dt><dd>
+                            {selected.forecast.productionIntervalCoverage === null
+                              ? 'Building evidence'
+                              : `${Math.round(selected.forecast.productionIntervalCoverage * 100)}%`}
+                          </dd></div>
                           <div><dt>Model</dt><dd>{selected.forecast.modelName} v{selected.forecast.modelVersion}</dd></div>
                         </dl>
                       </>
                     ) : (
                       <div className="equity-chart-state">
                         Forecasts appear only after at least 120 correctly spaced
-                        observations and out-of-sample baseline validation.
+                        observations, out-of-sample baseline validation and the
+                        production reliability display gate.
                       </div>
                     )}
                   </section>

@@ -15,6 +15,8 @@ type Forecast = {
   baseline_mae: NumericValue
   model_mae: NumericValue
   generated_at: string
+  reliability_status: 'insufficient_evidence' | 'qualified' | 'watch'
+  reliability_evaluation_count: number
 }
 
 type Fundamentals = {
@@ -135,6 +137,15 @@ function scoreSecurity(
     reasons.push(
       `Display-qualified model outlook is ${(expectedReturn * 100).toFixed(1)}% with ${Math.round(forecastConfidence * 100)}% confidence.`,
     )
+    if (forecast.reliability_status === 'watch') {
+      riskFlags.push(
+        `Forecast production reliability is on watch after ${forecast.reliability_evaluation_count} evaluated outcomes.`,
+      )
+    } else if (forecast.reliability_status === 'insufficient_evidence') {
+      riskFlags.push(
+        `Forecast production reliability is provisional after ${forecast.reliability_evaluation_count} evaluated outcomes.`,
+      )
+    }
   } else {
     riskFlags.push('No display-qualified forecast is available.')
   }
@@ -277,11 +288,9 @@ Deno.serve(async (request) => {
             .order('observed_at', { ascending: false })
             .limit(180),
           admin
-            .from('market_forecasts')
-            .select('predicted_price, confidence_score, baseline_mae, model_mae, generated_at')
+            .from('display_qualified_market_forecasts')
+            .select('predicted_price, confidence_score, baseline_mae, model_mae, generated_at, reliability_status, reliability_evaluation_count')
             .eq('asset_id', security.market_asset_id)
-            .eq('is_latest', true)
-            .eq('validation_status', 'passed')
             .order('generated_at', { ascending: false })
             .limit(1)
             .maybeSingle(),

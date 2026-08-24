@@ -56,6 +56,15 @@ export type MarketForecast = {
   baselineMae: number | null
   modelMae: number | null
   directionalAccuracy: number | null
+  governanceStatus: 'insufficient_evidence' | 'qualified' | 'watch' | 'suspended'
+  reliabilityEvaluationCount: number
+  productionModelMae: number | null
+  productionBaselineMae: number | null
+  productionMaeImprovementPercent: number | null
+  productionMape: number | null
+  productionDirectionalAccuracy: number | null
+  productionIntervalCoverage: number | null
+  reliabilityReasons: string[]
   generatedAt: string
   targetAt: string
 }

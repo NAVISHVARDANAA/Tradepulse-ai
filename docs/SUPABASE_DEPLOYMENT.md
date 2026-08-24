@@ -38,26 +38,27 @@ The dashboard will show `not run`; an authorized probe without credentials fails
 closed and stores only `CONFIGURATION_INVALID`. Never use Alpaca live credentials
 for this adapter.
 
-## Release Phase 4F
+## Release Phase 4G
 
 1. Confirm the CI workflow on `main` is green.
 2. Open **Actions → Deploy Supabase production → Run workflow**.
 3. Select the `main` branch.
-4. Enter `DEPLOY_PHASE_4F` as the confirmation value.
+4. Enter `DEPLOY_PHASE_4G` as the confirmation value.
 5. Approve the `production` environment deployment when prompted.
 
 The workflow performs a database dry run, applies every pending migration in
 filename order, deploys `preview-brokerage-order` and the read-only
 `probe-alpaca-broker-sandbox`, `sync-alpaca-sandbox-account-inventory` and
-`evaluate-broker-operations`, plus the updated `submit-paper-order` and
-`refresh-paper-risk` functions. It verifies migration `019` and all six active
-functions, runs the query-only production lock smoke check and proves that
+`evaluate-broker-operations`, plus `submit-paper-order`, `refresh-paper-risk`
+and the protected `evaluate-forecast-governance` and reliability-gated
+`generate-equity-research` functions. It verifies migration `020` and all eight
+active functions, runs the query-only production lock smoke check and proves that
 unauthenticated brokerage and paper-simulation requests receive HTTP 401.
 
 ## Read-only production verification
 
 Run **Actions → Verify Supabase production → Run workflow** after a release or
-operational incident. Select `main` and enter `VERIFY_PHASE_4F`.
+operational incident. Select `main` and enter `VERIFY_PHASE_4G`.
 
 The verification workflow performs no production writes. It confirms local and
 remote migration parity, executes the audited, query-only
@@ -78,9 +79,10 @@ write-capable SQL statement.
   and reviewed.
 
 Live brokerage execution remains database-locked after this deployment. This
-release adds a private paper-decision journal and outcome scorecard to the
-virtual-cash simulator. It still creates no live-order route, provider credential
-store, customer account connection, custody capability or money movement.
+release adds production forecast evaluation, model drift evidence and an
+automatic display suspension gate. It still creates no live-order route,
+provider credential store, customer account connection, custody capability or
+money movement.
 
 ## Runtime baseline
 

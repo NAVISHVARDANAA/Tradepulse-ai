@@ -28,6 +28,7 @@ class Observation:
 
 @dataclass(frozen=True)
 class ForecastResult:
+    reference_price: float
     predicted_price: float
     lower_bound: float
     upper_bound: float
@@ -37,9 +38,50 @@ class ForecastResult:
     baseline_mae: float
     model_mae: float
     directional_accuracy: float
+    interval_coverage: float
+    cost_adjusted_return: float
+    cost_adjusted_max_drawdown: float
+    estimated_turnover: float
     model_name: str
     model_version: str
     feature_snapshot: dict[str, object]
+
+
+@dataclass(frozen=True)
+class CostAwareBacktest:
+    net_return: float
+    max_drawdown: float
+    turnover: float
+
+
+def cost_aware_backtest(
+    actual_returns: np.ndarray,
+    predicted_returns: np.ndarray,
+    transaction_cost_bps: float = 10.0,
+) -> CostAwareBacktest:
+    if actual_returns.shape != predicted_returns.shape:
+        raise ValueError("actual and predicted returns must have the same shape")
+    if actual_returns.size == 0:
+        raise ValueError("cost-aware backtest requires at least one prediction")
+    if transaction_cost_bps < 0:
+        raise ValueError("transaction_cost_bps cannot be negative")
+
+    positions = np.sign(predicted_returns)
+    previous_positions = np.concatenate(([0.0], positions[:-1]))
+    turnover = np.abs(positions - previous_positions)
+    net_log_returns = (
+        positions * actual_returns
+        - turnover * (transaction_cost_bps / 10_000)
+    )
+    equity_curve = np.exp(np.cumsum(net_log_returns))
+    running_peak = np.maximum.accumulate(np.concatenate(([1.0], equity_curve)))
+    drawdown = 1 - np.concatenate(([1.0], equity_curve)) / running_peak
+
+    return CostAwareBacktest(
+        net_return=float(equity_curve[-1] - 1),
+        max_drawdown=float(np.max(drawdown)),
+        turnover=float(np.sum(turnover)),
+    )
 
 
 def expanding_window_splits(
@@ -171,8 +213,22 @@ class ForecastEngine:
             np.mean(np.sign(ensemble_validation) == np.sign(actual)),
         )
         residuals = actual - ensemble_validation
+        calibration_size = max(6, int(actual.size * 0.6))
+        calibration_residuals = residuals[:calibration_size]
+        coverage_residuals = residuals[calibration_size:]
+        if coverage_residuals.size < 4:
+            raise ValueError("walk-forward validation produced too few calibration outcomes")
+        calibration_lower = float(np.quantile(calibration_residuals, 0.05))
+        calibration_upper = float(np.quantile(calibration_residuals, 0.95))
+        interval_coverage = float(
+            np.mean(
+                (coverage_residuals >= calibration_lower)
+                & (coverage_residuals <= calibration_upper),
+            ),
+        )
         lower_residual = float(np.quantile(residuals, 0.05))
         upper_residual = float(np.quantile(residuals, 0.95))
+        backtest = cost_aware_backtest(actual, ensemble_validation)
 
         next_returns: dict[str, float] = {}
         for name, prototype in self._models.items():
@@ -206,6 +262,7 @@ class ForecastEngine:
         direction = "up" if move_percent > 0.15 else "down" if move_percent < -0.15 else "flat"
 
         return ForecastResult(
+            reference_price=dataset.latest_price,
             predicted_price=predicted_price,
             lower_bound=min(lower_bound, predicted_price),
             upper_bound=max(upper_bound, predicted_price),
@@ -215,6 +272,10 @@ class ForecastEngine:
             baseline_mae=baseline_mae,
             model_mae=model_mae,
             directional_accuracy=directional_accuracy,
+            interval_coverage=interval_coverage,
+            cost_adjusted_return=backtest.net_return,
+            cost_adjusted_max_drawdown=backtest.max_drawdown,
+            estimated_turnover=backtest.turnover,
             model_name=MODEL_NAME,
             model_version=MODEL_VERSION,
             feature_snapshot={
@@ -223,11 +284,17 @@ class ForecastEngine:
                 "model_weights": weights,
                 "component_mae": model_maes,
                 "predicted_log_return": predicted_return,
+                "reference_price": dataset.latest_price,
                 "annualized_volatility": annualized_volatility(dataset.targets),
                 "validation_samples": int(actual.size),
                 "validation_gap": 1,
                 "median_interval_hours": median_interval_hours,
                 "horizon_hours": self.horizon_hours,
+                "validation_interval_coverage": interval_coverage,
+                "cost_adjusted_return": backtest.net_return,
+                "cost_adjusted_max_drawdown": backtest.max_drawdown,
+                "estimated_turnover": backtest.turnover,
+                "transaction_cost_bps": 10.0,
                 "qualified_for_display": validation_status == "passed",
             },
         )

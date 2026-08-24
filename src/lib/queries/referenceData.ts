@@ -20,6 +20,12 @@ function toNumber(value: NumericValue) {
   return Number.isFinite(parsed) ? parsed : null
 }
 
+function stringArray(value: unknown) {
+  return Array.isArray(value)
+    ? value.filter((item): item is string => typeof item === 'string')
+    : []
+}
+
 function formatCompactUsd(value: number | null) {
   if (value === null) {
     return '—'
@@ -301,9 +307,11 @@ export async function getTradeDashboard(): Promise<TradeDashboard> {
 
 export async function getLatestForecasts(): Promise<MarketForecast[]> {
   const { data, error } = await supabase
-    .from('market_forecasts')
+    .from('display_qualified_market_forecasts')
     .select(`
       id,
+      symbol,
+      asset_name,
       horizon_hours,
       predicted_price,
       lower_bound,
@@ -315,15 +323,18 @@ export async function getLatestForecasts(): Promise<MarketForecast[]> {
       baseline_mae,
       model_mae,
       directional_accuracy,
+      reliability_status,
+      reliability_evaluation_count,
+      production_model_mae,
+      production_baseline_mae,
+      production_mae_improvement_pct,
+      production_mape,
+      production_directional_accuracy,
+      production_interval_coverage,
+      reliability_reason_codes,
       generated_at,
-      target_at,
-      market_assets!inner (
-        symbol,
-        name
-      )
+      target_at
     `)
-    .eq('is_latest', true)
-    .eq('validation_status', 'passed')
     .order('generated_at', { ascending: false })
     .limit(12)
 
@@ -332,20 +343,17 @@ export async function getLatestForecasts(): Promise<MarketForecast[]> {
   }
 
   return data.flatMap((row) => {
-    const asset = Array.isArray(row.market_assets)
-      ? row.market_assets[0]
-      : row.market_assets
     const predictedPrice = toNumber(row.predicted_price)
 
-    if (!asset || predictedPrice === null) {
+    if (!row.symbol || !row.asset_name || predictedPrice === null) {
       return []
     }
 
     return [
       {
         id: row.id,
-        symbol: asset.symbol,
-        assetName: asset.name,
+        symbol: row.symbol,
+        assetName: row.asset_name,
         horizonHours: row.horizon_hours,
         predictedPrice,
         lowerBound: toNumber(row.lower_bound),
@@ -357,6 +365,21 @@ export async function getLatestForecasts(): Promise<MarketForecast[]> {
         baselineMae: toNumber(row.baseline_mae),
         modelMae: toNumber(row.model_mae),
         directionalAccuracy: toNumber(row.directional_accuracy),
+        governanceStatus: row.reliability_status as MarketForecast['governanceStatus'],
+        reliabilityEvaluationCount: row.reliability_evaluation_count,
+        productionModelMae: toNumber(row.production_model_mae),
+        productionBaselineMae: toNumber(row.production_baseline_mae),
+        productionMaeImprovementPercent: toNumber(
+          row.production_mae_improvement_pct,
+        ),
+        productionMape: toNumber(row.production_mape),
+        productionDirectionalAccuracy: toNumber(
+          row.production_directional_accuracy,
+        ),
+        productionIntervalCoverage: toNumber(
+          row.production_interval_coverage,
+        ),
+        reliabilityReasons: stringArray(row.reliability_reason_codes),
         generatedAt: row.generated_at,
         targetAt: row.target_at,
       },

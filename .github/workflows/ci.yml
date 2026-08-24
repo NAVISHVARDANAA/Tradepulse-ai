@@ -71,6 +71,7 @@ jobs:
           deno check supabase/functions/probe-alpaca-broker-sandbox/index.ts
           deno check supabase/functions/sync-alpaca-sandbox-account-inventory/index.ts
           deno check supabase/functions/evaluate-broker-operations/index.ts
+          deno check supabase/functions/evaluate-forecast-governance/index.ts
 
       - name: Test the Alpaca Broker API sandbox route lock
         run: deno test supabase/functions/_shared/alpacaBrokerSandbox.test.ts
@@ -107,6 +108,9 @@ jobs:
 
       - name: Test paper decision-intelligence contracts
         run: npx --no-install supabase test db supabase/tests/database/paper_decision_intelligence.test.sql
+
+      - name: Test forecast reliability-governance contracts
+        run: npx --no-install supabase test db supabase/tests/database/forecast_reliability_governance.test.sql
 
       - name: Test equity-research database contracts
         run: npx --no-install supabase test db supabase/tests/database/equity_research_foundation.test.sql
