@@ -11,16 +11,17 @@ async function throwFunctionError(error: unknown): Promise<never> {
   const context = (error as { context?: unknown })?.context
 
   if (context instanceof Response) {
-    let payload: { error?: string } | null = null
+    let payload: { error?: string; requestId?: string } | null = null
 
     try {
-      payload = (await context.clone().json()) as { error?: string }
+      payload = (await context.clone().json()) as { error?: string; requestId?: string }
     } catch {
       // Fall back to the original Functions client error for non-JSON responses.
     }
 
     if (payload?.error) {
-      throw new Error(payload.error)
+      const reference = payload.requestId?.slice(0, 8)
+      throw new Error(`${payload.error}${reference ? ` Reference: ${reference}` : ''}`)
     }
   }
 

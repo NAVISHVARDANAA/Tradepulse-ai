@@ -32,38 +32,37 @@ Function secrets, not browser variables or GitHub workflow inputs:
 | `BROKER_SANDBOX_SYNC_SECRET` | A random scheduler secret shared only by the protected broker sandbox probe and account-inventory sync |
 | `ALPACA_BROKER_API_KEY` | Alpaca Broker API sandbox key |
 | `ALPACA_BROKER_API_SECRET` | Alpaca Broker API sandbox secret |
+| `TRADEPULSE_WEB_ORIGIN` | Exact production web origin, for example `https://app.example.com`, with no trailing slash |
 
 The migration and function can deploy before Alpaca credentials are available.
 The dashboard will show `not run`; an authorized probe without credentials fails
 closed and stores only `CONFIGURATION_INVALID`. Never use Alpaca live credentials
 for this adapter.
 
-## Release Phase 4G
+## Release Phase 4I
 
 1. Confirm the CI workflow on `main` is green.
 2. Open **Actions → Deploy Supabase production → Run workflow**.
 3. Select the `main` branch.
-4. Enter `DEPLOY_PHASE_4G` as the confirmation value.
+4. Enter `DEPLOY_PHASE_4I` as the confirmation value.
 5. Approve the `production` environment deployment when prompted.
 
 The workflow performs a database dry run, applies every pending migration in
-filename order, deploys `preview-brokerage-order` and the read-only
-`probe-alpaca-broker-sandbox`, `sync-alpaca-sandbox-account-inventory` and
-`evaluate-broker-operations`, plus `submit-paper-order`, `refresh-paper-risk`
-and the protected `evaluate-forecast-governance` and reliability-gated
-`generate-equity-research` functions. It verifies migration `020` and all eight
-active functions, runs the query-only production lock smoke check and proves that
+filename order and redeploys every customer and internal Edge Function affected
+by the shared security boundary. It verifies migration `021`, checks active
+functions, runs the query-only production lock smoke check and proves that
 unauthenticated brokerage and paper-simulation requests receive HTTP 401.
 
 ## Read-only production verification
 
 Run **Actions → Verify Supabase production → Run workflow** after a release or
-operational incident. Select `main` and enter `VERIFY_PHASE_4G`.
+operational incident. Select `main` and enter `VERIFY_PHASE_4I`.
 
 The verification workflow performs no production writes. It confirms local and
 remote migration parity, executes the audited, query-only
-`brokerage_readiness_smoke.sql` block, checks that all six Edge Functions are active
-and proves that unauthenticated requests remain blocked. It does not call Alpaca
+`brokerage_readiness_smoke.sql` block, checks that protected Edge Functions are active,
+proves that unauthenticated requests remain blocked and confirms that internal
+broker jobs do not enable browser CORS. It does not call Alpaca
 or write a health result. The GitHub run summary is the deployment-health audit
 record. CI and both production workflows reject the smoke file if it contains a
 write-capable SQL statement.
@@ -79,8 +78,8 @@ write-capable SQL statement.
   and reviewed.
 
 Live brokerage execution remains database-locked after this deployment. This
-release adds production forecast evaluation, model drift evidence and an
-automatic display suspension gate. It still creates no live-order route,
+release adds authenticated API abuse limits, scheduler-secret hardening, bounded
+customer mutations and a continuously scanned supply chain. It still creates no live-order route,
 provider credential store, customer account connection, custody capability or
 money movement.
 

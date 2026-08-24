@@ -1,6 +1,10 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0'
-
-import { corsHeaders, jsonResponse } from '../_shared/http.ts'
+import { requireUser, userGuardErrorResponse } from '../_shared/auth.ts'
+import {
+  corsPreflightResponse,
+  jsonResponse,
+  parseJsonBody,
+  RequestValidationError,
+} from '../_shared/http.ts'
 
 type QuoteRequest = {
   corridorCode?: string
@@ -9,41 +13,30 @@ type QuoteRequest = {
 
 Deno.serve(async (request) => {
   if (request.method === 'OPTIONS') {
-    return new Response('ok', { headers: corsHeaders })
+    return corsPreflightResponse()
   }
 
   if (request.method !== 'POST') {
     return jsonResponse({ error: 'Method not allowed' }, 405)
   }
 
-  const supabaseUrl = Deno.env.get('SUPABASE_URL')
-  const anonKey = Deno.env.get('SUPABASE_ANON_KEY')
-  const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')
-  const authorization = request.headers.get('Authorization')
-
-  if (!supabaseUrl || !anonKey || !serviceRoleKey || !authorization) {
-    return jsonResponse({ error: 'Authentication is required' }, 401)
-  }
-
-  const userClient = createClient(supabaseUrl, anonKey, {
-    global: { headers: { Authorization: authorization } },
-    auth: { persistSession: false },
-  })
-  const {
-    data: { user },
-    error: userError,
-  } = await userClient.auth.getUser()
-
-  if (userError || !user) {
-    return jsonResponse({ error: 'Authentication is required' }, 401)
+  let userContext: Awaited<ReturnType<typeof requireUser>>
+  try {
+    userContext = await requireUser(request)
+  } catch (error) {
+    return userGuardErrorResponse(error)
   }
 
   let input: QuoteRequest
 
   try {
-    input = (await request.json()) as QuoteRequest
-  } catch {
-    return jsonResponse({ error: 'Invalid JSON request' }, 400)
+    input = await parseJsonBody<QuoteRequest>(request)
+  } catch (error) {
+    const validation = error instanceof RequestValidationError ? error : null
+    return jsonResponse(
+      { error: validation?.publicMessage ?? 'Invalid JSON request' },
+      validation?.status ?? 400,
+    )
   }
 
   const sourceAmount = Number(input.sourceAmount)
@@ -57,9 +50,7 @@ Deno.serve(async (request) => {
     return jsonResponse({ error: 'Invalid corridor or source amount' }, 400)
   }
 
-  const admin = createClient(supabaseUrl, serviceRoleKey, {
-    auth: { persistSession: false },
-  })
+  const admin = userContext.admin
   const { data: corridor, error: corridorError } = await admin
     .from('payment_corridors')
     .select('*')
@@ -110,7 +101,7 @@ Deno.serve(async (request) => {
   const { data: quote, error: quoteError } = await admin
     .from('payment_quotes')
     .insert({
-      user_id: user.id,
+      user_id: userContext.user.id,
       corridor_id: corridor.id,
       source_amount: sourceAmount,
       reference_rate: referenceRate,

@@ -3,8 +3,8 @@ import {
   type SupabaseClient,
 } from 'https://esm.sh/@supabase/supabase-js@2.45.0'
 
-import { requireUser } from '../_shared/auth.ts'
-import { corsHeaders, jsonResponse } from '../_shared/http.ts'
+import { requireUser, userGuardErrorResponse } from '../_shared/auth.ts'
+import { corsPreflightResponse, hasValidInternalSecret, jsonResponse } from '../_shared/http.ts'
 
 type NumericValue = number | string | null
 
@@ -377,7 +377,7 @@ async function generateForUser(
 
 Deno.serve(async (request) => {
   if (request.method === 'OPTIONS') {
-    return new Response('ok', { headers: corsHeaders })
+    return corsPreflightResponse()
   }
 
   if (request.method !== 'POST') {
@@ -396,9 +396,7 @@ Deno.serve(async (request) => {
 
   try {
     const body = await request.json().catch(() => ({})) as { userId?: string }
-    const expectedSecret = Deno.env.get('SYNC_SECRET')
-    const suppliedSecret = request.headers.get('x-sync-secret')
-    const scheduled = Boolean(expectedSecret && suppliedSecret === expectedSecret)
+    const scheduled = await hasValidInternalSecret(request, 'SYNC_SECRET')
 
     if (!scheduled) {
       const { user } = await requireUser(request)
@@ -438,8 +436,10 @@ Deno.serve(async (request) => {
     return jsonResponse({ status: 'completed', users: results.length, results })
   } catch (error) {
     const code = error instanceof Error ? error.message : 'unknown_error'
-    const status = code === 'authentication_required' ? 401 : 500
+    if (['authentication_required', 'rate_limited', 'server_configuration'].includes(code)) {
+      return userGuardErrorResponse(error)
+    }
     console.error('Research brief generation failed:', code)
-    return jsonResponse({ error: status === 401 ? 'Authentication required' : 'Research brief generation failed' }, status)
+    return jsonResponse({ error: 'Research brief generation failed' }, 500)
   }
 })

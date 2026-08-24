@@ -6,7 +6,7 @@ import {
   BrokerSandboxError,
   createAlpacaBrokerSandboxAdapter,
 } from '../_shared/alpacaBrokerSandbox.ts'
-import { corsHeaders, jsonResponse } from '../_shared/http.ts'
+import { hasValidInternalSecret, internalJsonResponse as jsonResponse } from '../_shared/http.ts'
 
 type InventoryRecord = {
   status: 'passed' | 'failed'
@@ -47,16 +47,11 @@ function failedInventory(errorCode: string): InventoryRecord {
 }
 
 Deno.serve(async (request) => {
-  if (request.method === 'OPTIONS') {
-    return new Response('ok', { headers: corsHeaders })
-  }
-
   if (request.method !== 'POST') {
     return jsonResponse({ error: 'Method not allowed' }, 405)
   }
 
-  const expectedSecret = Deno.env.get('BROKER_SANDBOX_SYNC_SECRET')
-  if (!expectedSecret || request.headers.get('x-sync-secret') !== expectedSecret) {
+  if (!await hasValidInternalSecret(request, 'BROKER_SANDBOX_SYNC_SECRET')) {
     return jsonResponse({ error: 'Unauthorized' }, 401)
   }
 

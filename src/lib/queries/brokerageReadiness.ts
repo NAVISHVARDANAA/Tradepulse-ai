@@ -13,8 +13,11 @@ async function throwFunctionError(error: unknown): Promise<never> {
 
   if (context instanceof Response) {
     try {
-      const payload = (await context.clone().json()) as { error?: string }
-      if (payload.error) throw new Error(payload.error)
+      const payload = (await context.clone().json()) as { error?: string; requestId?: string }
+      if (payload.error) {
+        const reference = payload.requestId?.slice(0, 8)
+        throw new Error(`${payload.error}${reference ? ` Reference: ${reference}` : ''}`)
+      }
     } catch (responseError) {
       if (responseError instanceof Error && responseError.message) throw responseError
     }

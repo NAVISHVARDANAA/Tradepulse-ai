@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type DEPLOY_PHASE_4G to release forecast reliability governance
+        description: Type DEPLOY_PHASE_4I to release customer trust security controls
         required: true
         type: string
 
@@ -38,8 +38,8 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "DEPLOY_PHASE_4G" || {
-            echo "Release confirmation did not match DEPLOY_PHASE_4G."
+          test "$RELEASE_CONFIRMATION" = "DEPLOY_PHASE_4I" || {
+            echo "Release confirmation did not match DEPLOY_PHASE_4I."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -84,6 +84,36 @@ jobs:
           --project-ref "$SUPABASE_PROJECT_REF"
           --use-api
 
+      - name: Deploy authenticated customer API functions
+        run: |
+          set -eu
+          for function_name in \
+            create-payment-quote \
+            create-paper-portfolio \
+            submit-paper-order \
+            refresh-paper-risk \
+            set-paper-trading-control \
+            generate-daily-research-brief
+          do
+            npx --no-install supabase functions deploy "$function_name" \
+              --project-ref "$SUPABASE_PROJECT_REF" \
+              --use-api
+          done
+
+      - name: Deploy protected market-data and research jobs
+        run: |
+          set -eu
+          for function_name in \
+            sync-fx-market-data \
+            generate-market-forecasts \
+            sync-equity-market-data \
+            sync-sec-equity-fundamentals
+          do
+            npx --no-install supabase functions deploy "$function_name" \
+              --project-ref "$SUPABASE_PROJECT_REF" \
+              --use-api
+          done
+
       - name: Deploy the read-only Alpaca broker sandbox probe
         run: >-
           npx --no-install supabase functions deploy probe-alpaca-broker-sandbox
@@ -103,18 +133,6 @@ jobs:
           npx --no-install supabase functions deploy evaluate-broker-operations
           --project-ref "$SUPABASE_PROJECT_REF"
           --no-verify-jwt
-          --use-api
-
-      - name: Deploy journaled paper-order simulation
-        run: >-
-          npx --no-install supabase functions deploy submit-paper-order
-          --project-ref "$SUPABASE_PROJECT_REF"
-          --use-api
-
-      - name: Deploy paper risk and decision evaluation
-        run: >-
-          npx --no-install supabase functions deploy refresh-paper-risk
-          --project-ref "$SUPABASE_PROJECT_REF"
           --use-api
 
       - name: Deploy forecast reliability governance
@@ -137,7 +155,7 @@ jobs:
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])020([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])021([^0-9]|$)' migration-list.txt
 
       - name: Verify the deployed Edge Function
         run: |
@@ -174,6 +192,29 @@ jobs:
             --project-ref "$SUPABASE_PROJECT_REF" \
             --output json | jq -e \
               '.[] | select(.name == "generate-equity-research" and .status == "ACTIVE")'
+
+      - name: Verify all shared-security functions are active
+        run: |
+          set -eu
+          npx --no-install supabase functions list \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --output json > deployed-functions.json
+          for function_name in \
+            create-payment-quote \
+            create-paper-portfolio \
+            submit-paper-order \
+            refresh-paper-risk \
+            set-paper-trading-control \
+            generate-daily-research-brief \
+            sync-fx-market-data \
+            generate-market-forecasts \
+            sync-equity-market-data \
+            sync-sec-equity-fundamentals
+          do
+            jq -e --arg name "$function_name" \
+              '.[] | select(.name == $name and .status == "ACTIVE")' \
+              deployed-functions.json
+          done
 
       - name: Assert production smoke SQL is query-only
         run: bash scripts/assert-read-only-sql.sh supabase/tests/production/brokerage_readiness_smoke.sql
@@ -327,7 +368,10 @@ jobs:
             echo "## Supabase production deployment"
             echo
             echo "- Commit: \`$GITHUB_SHA\`"
-            echo "- Migration 020: verified"
+            echo "- Migration 021: verified"
+            echo "- Authenticated API rate limiting: deployed"
+            echo "- Internal scheduler CORS isolation: deployed"
+            echo "- API response security headers: deployed"
             echo "- Alpaca Broker API sandbox route lock: verified"
             echo "- preview-brokerage-order: ACTIVE"
             echo "- probe-alpaca-broker-sandbox: ACTIVE"

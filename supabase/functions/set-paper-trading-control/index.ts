@@ -1,5 +1,10 @@
-import { requireUser } from '../_shared/auth.ts'
-import { corsHeaders, jsonResponse } from '../_shared/http.ts'
+import { requireUser, userGuardErrorResponse } from '../_shared/auth.ts'
+import {
+  corsPreflightResponse,
+  jsonResponse,
+  parseJsonBody,
+  RequestValidationError,
+} from '../_shared/http.ts'
 
 type TradingControlRequest = {
   portfolioId?: string
@@ -22,7 +27,7 @@ function safeControlError(message: string) {
 
 Deno.serve(async (request) => {
   if (request.method === 'OPTIONS') {
-    return new Response('ok', { headers: corsHeaders })
+    return corsPreflightResponse()
   }
 
   if (request.method !== 'POST') {
@@ -33,23 +38,18 @@ Deno.serve(async (request) => {
   try {
     userContext = await requireUser(request)
   } catch (error) {
-    const code = error instanceof Error ? error.message : 'authentication_required'
-    return jsonResponse(
-      {
-        error:
-          code === 'server_configuration'
-            ? 'Server configuration is incomplete'
-            : 'Authentication is required',
-      },
-      code === 'server_configuration' ? 500 : 401,
-    )
+    return userGuardErrorResponse(error)
   }
 
   let input: TradingControlRequest
   try {
-    input = (await request.json()) as TradingControlRequest
-  } catch {
-    return jsonResponse({ error: 'Invalid JSON request' }, 400)
+    input = await parseJsonBody<TradingControlRequest>(request)
+  } catch (error) {
+    const validation = error instanceof RequestValidationError ? error : null
+    return jsonResponse(
+      { error: validation?.publicMessage ?? 'Invalid JSON request' },
+      validation?.status ?? 400,
+    )
   }
 
   const portfolioId = input.portfolioId?.trim() ?? ''

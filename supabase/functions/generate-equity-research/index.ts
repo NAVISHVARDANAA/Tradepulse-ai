@@ -1,6 +1,6 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0'
 
-import { corsHeaders, jsonResponse } from '../_shared/http.ts'
+import { hasValidInternalSecret, internalJsonResponse as jsonResponse } from '../_shared/http.ts'
 
 type NumericValue = number | string | null
 
@@ -238,17 +238,11 @@ function scoreSecurity(
 }
 
 Deno.serve(async (request) => {
-  if (request.method === 'OPTIONS') {
-    return new Response('ok', { headers: corsHeaders })
-  }
-
   if (request.method !== 'POST') {
     return jsonResponse({ error: 'Method not allowed' }, 405)
   }
 
-  const expectedSecret = Deno.env.get('SYNC_SECRET')
-
-  if (!expectedSecret || request.headers.get('x-sync-secret') !== expectedSecret) {
+  if (!await hasValidInternalSecret(request, 'SYNC_SECRET')) {
     return jsonResponse({ error: 'Unauthorized' }, 401)
   }
 
