@@ -69,6 +69,7 @@ jobs:
           deno check supabase/functions/generate-daily-research-brief/index.ts
           deno check supabase/functions/preview-brokerage-order/index.ts
           deno check supabase/functions/probe-alpaca-broker-sandbox/index.ts
+          deno check supabase/functions/sync-alpaca-sandbox-account-inventory/index.ts
 
       - name: Test the Alpaca Broker API sandbox route lock
         run: deno test supabase/functions/_shared/alpacaBrokerSandbox.test.ts
@@ -120,6 +121,9 @@ jobs:
 
       - name: Test Alpaca broker-sandbox adapter contracts
         run: npx --no-install supabase test db supabase/tests/database/alpaca_broker_sandbox_adapter.test.sql
+
+      - name: Test Alpaca sandbox account-inventory contracts
+        run: npx --no-install supabase test db supabase/tests/database/alpaca_sandbox_account_inventory.test.sql
 
       - name: Assert production smoke SQL is query-only
         run: bash scripts/assert-read-only-sql.sh supabase/tests/production/brokerage_readiness_smoke.sql

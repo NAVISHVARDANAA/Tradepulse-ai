@@ -13,3 +13,6 @@ sql_paths = []
 
 [functions.probe-alpaca-broker-sandbox]
 verify_jwt = false
+
+[functions.sync-alpaca-sandbox-account-inventory]
+verify_jwt = false

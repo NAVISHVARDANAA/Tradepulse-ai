@@ -160,12 +160,41 @@ export type BrokerAdapterHealth = {
   liveOrderRoutingEnabled: boolean
 }
 
+export type BrokerAccountInventoryHealth = {
+  providerId: number
+  providerCode: string
+  displayName: string
+  environment: 'sandbox'
+  apiOrigin: string
+  latestStatus: 'passed' | 'failed' | 'not_run'
+  httpStatus: number | null
+  latencyMs: number | null
+  attemptCount: number | null
+  totalAccounts: number | null
+  activeAccounts: number | null
+  pendingAccounts: number | null
+  actionRequiredAccounts: number | null
+  rejectedAccounts: number | null
+  closedAccounts: number | null
+  restrictedAccounts: number | null
+  currencies: string[]
+  changedSincePrevious: boolean
+  pageLimitReached: boolean
+  errorCode: string | null
+  checkedAt: string | null
+  accountsReadEnabled: true
+  ordersReadEnabled: false
+  ordersWriteEnabled: false
+  liveOrderRoutingEnabled: boolean
+}
+
 export type BrokerageWorkspace = {
   readiness: BrokerageReadiness | null
   providers: BrokerProvider[]
   certifications: BrokerCertificationSummary[]
   certificationTests: BrokerCertificationTest[]
   adapterHealth: BrokerAdapterHealth[]
+  accountInventoryHealth: BrokerAccountInventoryHealth[]
   disclosures: BrokerageDisclosure[]
   instruments: BrokerageInstrument[]
   previews: BrokeragePreview[]
@@ -223,6 +252,7 @@ export async function getBrokerageWorkspace(): Promise<BrokerageWorkspace> {
     certificationResult,
     certificationTestResult,
     adapterHealthResult,
+    accountInventoryHealthResult,
     disclosureResult,
     consentResult,
     instrumentResult,
@@ -244,6 +274,10 @@ export async function getBrokerageWorkspace(): Promise<BrokerageWorkspace> {
       .order('sequence'),
     supabase
       .from('broker_adapter_health')
+      .select('*')
+      .order('provider_code'),
+    supabase
+      .from('broker_account_inventory_health')
       .select('*')
       .order('provider_code'),
     supabase
@@ -274,6 +308,7 @@ export async function getBrokerageWorkspace(): Promise<BrokerageWorkspace> {
     certificationResult.error,
     certificationTestResult.error,
     adapterHealthResult.error,
+    accountInventoryHealthResult.error,
     disclosureResult.error,
     consentResult.error,
     instrumentResult.error,
@@ -373,6 +408,33 @@ export async function getBrokerageWorkspace(): Promise<BrokerageWorkspace> {
       ordersReadEnabled: false,
       ordersWriteEnabled: false,
       liveOrderRoutingEnabled: adapter.live_order_routing_enabled,
+    })),
+    accountInventoryHealth: (accountInventoryHealthResult.data ?? []).map((inventory) => ({
+      providerId: inventory.provider_id,
+      providerCode: inventory.provider_code,
+      displayName: inventory.display_name,
+      environment: 'sandbox',
+      apiOrigin: inventory.api_origin,
+      latestStatus: inventory.latest_status,
+      httpStatus: inventory.http_status,
+      latencyMs: inventory.latency_ms,
+      attemptCount: inventory.attempt_count,
+      totalAccounts: inventory.total_accounts,
+      activeAccounts: inventory.active_accounts,
+      pendingAccounts: inventory.pending_accounts,
+      actionRequiredAccounts: inventory.action_required_accounts,
+      rejectedAccounts: inventory.rejected_accounts,
+      closedAccounts: inventory.closed_accounts,
+      restrictedAccounts: inventory.restricted_accounts,
+      currencies: stringArray(inventory.currencies),
+      changedSincePrevious: inventory.changed_since_previous ?? false,
+      pageLimitReached: inventory.page_limit_reached ?? false,
+      errorCode: inventory.error_code,
+      checkedAt: inventory.checked_at,
+      accountsReadEnabled: true,
+      ordersReadEnabled: false,
+      ordersWriteEnabled: false,
+      liveOrderRoutingEnabled: inventory.live_order_routing_enabled,
     })),
     disclosures: (disclosureResult.data ?? []).map((disclosure) => ({
       id: disclosure.id,

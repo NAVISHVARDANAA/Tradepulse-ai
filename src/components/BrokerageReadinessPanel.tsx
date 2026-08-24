@@ -105,6 +105,7 @@ export function BrokerageReadinessPanel() {
   const certification = workspace?.certifications.find((item) => item.providerId === provider?.id)
   const certificationTests = workspace?.certificationTests.filter((item) => item.providerId === provider?.id) ?? []
   const adapterHealth = workspace?.adapterHealth.find((item) => item.providerId === provider?.id)
+  const accountInventory = workspace?.accountInventoryHealth.find((item) => item.providerId === provider?.id)
   const certificationCompleted = certification
     ? certification.passedTests + certification.failedTests
     : 0
@@ -209,7 +210,7 @@ export function BrokerageReadinessPanel() {
     <section className="panel brokerage-panel" id="brokerage-readiness">
       <div className="panel-header">
         <div>
-          <p className="eyebrow">Regulated execution runway · Phase 4C</p>
+          <p className="eyebrow">Regulated execution runway · Phase 4D</p>
           <h2>Global brokerage readiness</h2>
         </div>
         <div className="panel-header-actions">
@@ -224,8 +225,8 @@ export function BrokerageReadinessPanel() {
         See exactly what TradePulse, a regulated broker, compliance teams and
         you must complete before live investing could ever be enabled. Order
         previews are auditable readiness checks—not broker instructions.
-        The sandbox certification matrix and provider-bound read-only probe
-        prove adapter safety before a regulated partner can be considered.
+        The sandbox certification matrix, provider-bound probe and aggregate
+        account inventory prove adapter safety without exposing customer data.
       </p>
 
       <div className="brokerage-lock-banner" role="status">
@@ -282,6 +283,52 @@ export function BrokerageReadinessPanel() {
               <div className="adapter-health-state">
                 <strong>{statusLabel(adapterHealth?.latestStatus ?? 'not_run')}</strong>
                 <small>{adapterHealth?.errorCode ? statusLabel(adapterHealth.errorCode) : 'Orders and accounts disabled'}</small>
+              </div>
+            </div>
+
+            <div className={`adapter-health-banner ${accountInventory?.latestStatus ?? 'not_run'}`}>
+              <RefreshCw size={18} />
+              <div>
+                <span>Broker account reconciliation signal</span>
+                <strong>Sandbox account inventory · aggregate only</strong>
+                <small>
+                  {accountInventory?.checkedAt
+                    ? `Checked ${compactDate(accountInventory.checkedAt)} · ${accountInventory.latencyMs ?? 0} ms · ${accountInventory.attemptCount ?? 0} attempt(s)`
+                    : 'Not yet synchronized with the read-only sandbox credential'}
+                </small>
+              </div>
+              <div className="adapter-health-state">
+                <strong>{statusLabel(accountInventory?.latestStatus ?? 'not_run')}</strong>
+                <small>{accountInventory?.errorCode ? statusLabel(accountInventory.errorCode) : 'No account identifiers or PII stored'}</small>
+              </div>
+            </div>
+
+            <div className="certification-overview">
+              <div>
+                <span>Sandbox accounts</span>
+                <strong>{accountInventory?.totalAccounts ?? 0}</strong>
+                <small>
+                  {accountInventory?.pageLimitReached
+                    ? 'Provider page limit reached; totals may be incomplete'
+                    : accountInventory?.currencies.length
+                      ? accountInventory.currencies.join(', ')
+                      : 'No account currency observed'}
+                </small>
+              </div>
+              <div>
+                <span>Active</span>
+                <strong>{accountInventory?.activeAccounts ?? 0}</strong>
+                <small>{accountInventory?.pendingAccounts ?? 0} pending</small>
+              </div>
+              <div>
+                <span>Action required</span>
+                <strong>{accountInventory?.actionRequiredAccounts ?? 0}</strong>
+                <small>{accountInventory?.rejectedAccounts ?? 0} rejected · {accountInventory?.closedAccounts ?? 0} closed</small>
+              </div>
+              <div>
+                <span>Restricted</span>
+                <strong>{accountInventory?.restrictedAccounts ?? 0}</strong>
+                <small>{accountInventory?.changedSincePrevious ? 'Inventory changed since previous sync' : 'No detected inventory change'}</small>
               </div>
             </div>
 

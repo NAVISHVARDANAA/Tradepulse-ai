@@ -155,6 +155,19 @@ compliance boundaries are designed in before execution features are enabled.
   metadata. Browser clients cannot write it, and all live execution locks remain
   enforced independently by the database.
 
+### Phase 4D — aggregate sandbox account inventory
+
+- A second fixed read-only route calls only
+  `GET /v1/accounts?entities=trading_configurations` in Alpaca's Broker API
+  sandbox using the existing server-side read-only credential. The query avoids
+  requesting contact, identity, document, agreement and trusted-contact entities.
+- Provider account IDs, account numbers, names, emails, addresses, identity and
+  raw response objects are discarded in memory and never persisted or returned.
+- The adapter stores only status-bucket counts, currencies, restriction count and
+  a one-way snapshot digest for change detection in an append-only audit ledger.
+- Account creation, account connection, orders, transfers, positions, cash and
+  all production hosts remain unimplemented and database-disabled.
+
 ## Architecture
 
 ```text
@@ -203,7 +216,7 @@ server-side secrets. Never expose them through a `VITE_*` variable.
 
 ## Edge Functions
 
-The repository contains thirteen initial server-side functions:
+The repository contains fourteen initial server-side functions:
 
 | Function | Purpose | Authorization |
 | --- | --- | --- |
@@ -220,6 +233,7 @@ The repository contains thirteen initial server-side functions:
 | `generate-daily-research-brief` | Generate a private evidence-linked watchlist brief and evaluate research alerts | Supabase user JWT or `x-sync-secret` scheduler |
 | `preview-brokerage-order` | Persist an authenticated, blocked order-readiness preview with explicit compliance and platform gates | Supabase user JWT |
 | `probe-alpaca-broker-sandbox` | Run the fixed read-only Alpaca Broker API sandbox asset probe and persist sanitized health | `x-sync-secret` |
+| `sync-alpaca-sandbox-account-inventory` | Persist a PII-free aggregate of sandbox account states for reconciliation monitoring | `x-sync-secret` |
 
 Set a strong `SYNC_SECRET` in Supabase secrets before deploying scheduled
 functions. Supabase supplies `SUPABASE_URL`, `SUPABASE_ANON_KEY` and
@@ -264,7 +278,7 @@ Supabase Postgres instance for pull requests and pushes to `main`.
 Production Supabase releases are manual and environment-protected. See
 [`docs/SUPABASE_DEPLOYMENT.md`](docs/SUPABASE_DEPLOYMENT.md) for the required
 GitHub environment secrets, approval gate, read-only verification workflow and
-Phase 4C release procedure.
+Phase 4D release procedure.
 
 ## ML forecasting service
 
@@ -313,6 +327,11 @@ Migration `016_alpaca_broker_sandbox_adapter.sql` binds the provider registry to
 the Alpaca Broker API sandbox, adds an immutable sanitized adapter-health ledger
 and a service-only writer that refuses any alternate origin or execution-enabled
 provider state. It adds no broker account or order capability.
+
+Migration `017_alpaca_sandbox_account_inventory.sql` adds an immutable aggregate
+account-inventory ledger and authenticated health view. It stores no provider
+account identifier or customer PII and cannot enable account connections or any
+order route.
 
 ## Production gates
 
