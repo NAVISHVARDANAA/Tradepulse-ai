@@ -49,7 +49,7 @@ Deno.serve(observeEdgeHandler('brokerage-preview', async (request) => {
 
   let userContext: Awaited<ReturnType<typeof requireUser>>
   try {
-    userContext = await requireUser(request)
+    userContext = await requireUser(request, { requireVerifiedMfaWhenEnrolled: true })
   } catch (error) {
     return userGuardErrorResponse(error)
   }

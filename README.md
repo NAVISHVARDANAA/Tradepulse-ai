@@ -249,6 +249,19 @@ compliance boundaries are designed in before execution features are enabled.
   evidence handling and post-incident review without placing secrets or PII in
   logs or public issues.
 
+### Phase 4K — customer account security center
+
+- Customers can enroll a TOTP authenticator, complete an accessible six-digit
+  challenge and review a private security history.
+- Accounts with a verified factor fail closed until the session reaches `aal2`;
+  sensitive paper, quote and brokerage-readiness APIs enforce the same rule.
+- Explicit local sign-out and other-session revocation avoid accidentally
+  signing out every device when the customer intended a narrower action.
+- Service-synchronized posture evidence excludes factor secrets, codes, tokens,
+  email addresses, IP addresses and device fingerprints.
+- Recovery remains fail-closed until custom SMTP, security notifications and a
+  dual-control identity-verification procedure are tested.
+
 ## Architecture
 
 ```text
@@ -368,12 +381,14 @@ approach them, while one shared authentication provider owns the Supabase sessio
 Production Supabase releases are manual and environment-protected. See
 [`docs/SUPABASE_DEPLOYMENT.md`](docs/SUPABASE_DEPLOYMENT.md) for the required
 GitHub environment secrets, approval gate, read-only verification workflow and
-Phase 4J release procedure. The enforced trust baseline and operational launch
+Phase 4K release procedure. The enforced trust baseline and operational launch
 checklist are documented in
 [`docs/SECURITY_ARCHITECTURE.md`](docs/SECURITY_ARCHITECTURE.md). Reliability
 objectives and incident operations are documented in
 [`docs/SERVICE_LEVEL_OBJECTIVES.md`](docs/SERVICE_LEVEL_OBJECTIVES.md) and
-[`docs/INCIDENT_RESPONSE.md`](docs/INCIDENT_RESPONSE.md).
+[`docs/INCIDENT_RESPONSE.md`](docs/INCIDENT_RESPONSE.md). Account MFA, session
+and recovery controls are documented in
+[`docs/ACCOUNT_SECURITY.md`](docs/ACCOUNT_SECURITY.md).
 
 ## ML forecasting service
 
@@ -447,6 +462,18 @@ Migration `021_customer_trust_security.sql` adds short-lived service-only API
 allowance counters and an atomic abuse-control boundary for authenticated Edge
 Functions. Browser roles cannot inspect or modify the counters, and the release
 does not add live execution, custody or money movement.
+
+Migration `022_platform_observability_incidents.sql` adds privacy-safe service
+health, SLO and incident evidence plus a sanitized customer status surface. It
+does not copy identities, credentials, request payloads or financial data into
+operational telemetry.
+
+Migration `023_account_security_center.sql` adds private service-synchronized MFA
+posture and append-only security history. The Security Center supports TOTP,
+enrolled-session step-up and explicit session revocation while storing no factor
+secret, one-time code, access token, IP address or device fingerprint. See
+[`docs/ACCOUNT_SECURITY.md`](docs/ACCOUNT_SECURITY.md) for the production setup
+and fail-closed recovery boundary.
 
 ## Production gates
 

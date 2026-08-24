@@ -39,26 +39,25 @@ The dashboard will show `not run`; an authorized probe without credentials fails
 closed and stores only `CONFIGURATION_INVALID`. Never use Alpaca live credentials
 for this adapter.
 
-## Release Phase 4J
+## Release Phase 4K
 
 1. Confirm the CI workflow on `main` is green.
 2. Open **Actions → Deploy Supabase production → Run workflow**.
 3. Select the `main` branch.
-4. Enter `DEPLOY_PHASE_4J` as the confirmation value.
+4. Enter `DEPLOY_PHASE_4K` as the confirmation value.
 5. Approve the `production` environment deployment when prompted.
 
 The workflow performs a database dry run, applies every pending migration in
 filename order and redeploys every customer and internal Edge Function affected
-by the shared security and observability boundary. It verifies migration `022`, checks active
-functions, runs the query-only production lock smoke check and proves that
-unauthenticated brokerage, paper-simulation and platform-evaluation requests
-receive HTTP 401. Migration 022 schedules the database reliability evaluator
-every five minutes without copying a runtime secret into Postgres.
+by the shared security, observability and account-protection boundary. It verifies
+migration `023`, checks active functions, runs the query-only production lock
+smoke check and proves that unauthenticated brokerage, paper-simulation,
+platform-evaluation and account-security requests receive HTTP 401.
 
 ## Read-only production verification
 
 Run **Actions → Verify Supabase production → Run workflow** after a release or
-operational incident. Select `main` and enter `VERIFY_PHASE_4J`.
+operational incident. Select `main` and enter `VERIFY_PHASE_4K`.
 
 The verification workflow performs no production writes. It confirms local and
 remote migration parity, executes the audited, query-only
@@ -80,10 +79,11 @@ write-capable SQL statement.
   and reviewed.
 
 Live brokerage execution remains database-locked after this deployment. This
-release adds privacy-safe structured telemetry, SLO evidence, a customer status
-surface and an audited incident lifecycle. It still creates no live-order route,
-provider credential store, customer account connection, custody capability or
-money movement.
+release adds optional TOTP MFA, mandatory step-up for enrolled accounts, explicit
+session revocation and private security history. Complete
+`docs/ACCOUNT_SECURITY.md` before external beta access. The release still creates
+no live-order route, provider credential store, customer account connection,
+custody capability or money movement.
 
 ## Runtime baseline
 

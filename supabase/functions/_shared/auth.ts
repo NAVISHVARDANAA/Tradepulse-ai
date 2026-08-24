@@ -1,6 +1,14 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0'
 
+import {
+  normalizeAssuranceLevel,
+  requiresMfaStepUp,
+} from './accountSecurity.ts'
 import { jsonResponse } from './http.ts'
+
+type RequireUserOptions = {
+  requireVerifiedMfaWhenEnrolled?: boolean
+}
 
 export function userGuardErrorResponse(error: unknown) {
   const code = error instanceof Error ? error.message : 'authentication_required'
@@ -17,10 +25,20 @@ export function userGuardErrorResponse(error: unknown) {
     return jsonResponse({ error: 'Server configuration is incomplete' }, 500)
   }
 
+  if (code === 'step_up_required') {
+    return jsonResponse(
+      { error: 'Additional account verification is required before this action.' },
+      403,
+    )
+  }
+
   return jsonResponse({ error: 'Authentication is required' }, 401)
 }
 
-export async function requireUser(request: Request) {
+export async function requireUser(
+  request: Request,
+  options: RequireUserOptions = {},
+) {
   const supabaseUrl = Deno.env.get('SUPABASE_URL')
   const anonKey = Deno.env.get('SUPABASE_ANON_KEY')
   const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')
@@ -45,6 +63,28 @@ export async function requireUser(request: Request) {
 
   if (error || !user) {
     throw new Error('authentication_required')
+  }
+
+  const { data: assurance, error: assuranceError } =
+    await userClient.auth.mfa.getAuthenticatorAssuranceLevel()
+
+  if (assuranceError) {
+    throw new Error('server_configuration')
+  }
+
+  const normalizedAssurance = {
+    currentLevel: normalizeAssuranceLevel(assurance.currentLevel),
+    nextLevel: normalizeAssuranceLevel(assurance.nextLevel),
+  }
+
+  if (
+    options.requireVerifiedMfaWhenEnrolled
+    && requiresMfaStepUp(
+      normalizedAssurance.currentLevel,
+      normalizedAssurance.nextLevel,
+    )
+  ) {
+    throw new Error('step_up_required')
   }
 
   const admin = createClient(supabaseUrl, serviceRoleKey, {
@@ -75,6 +115,8 @@ export async function requireUser(request: Request) {
 
   return {
     user,
+    userClient,
     admin,
+    assurance: normalizedAssurance,
   }
 }

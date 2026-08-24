@@ -275,6 +275,24 @@ tests, structured telemetry tests, active protected evaluator, unauthenticated
 HTTP 401 and internal CORS isolation, public status sanitization and all live
 execution and fund-movement locks unchanged.
 
+### Phase 4K — customer account security center (implemented)
+
+- Optional TOTP authenticator enrollment with a fail-closed challenge gate for
+  every account that has a verified factor.
+- Enrolled-session `aal2` step-up enforcement at both the product shell and
+  sensitive paper, indicative quote and brokerage-readiness Edge boundaries.
+- Explicit current-device sign-out and other-session revocation that preserves
+  the verified session instead of relying on ambiguous global sign-out defaults.
+- Private service-synchronized security posture and append-only customer history
+  with no token, factor secret, one-time code, email, IP or device fingerprint.
+- Production MFA, SMTP, redirect, notification, abuse-control and recovery
+  checklist with no administrator recovery bypass.
+
+**Phase 4K exit gate:** migration 023 parity, account isolation and append-only
+tests, MFA helper tests, active account-security function, production HTTP 401,
+successful enrolled-session step-up and all live execution and fund-movement
+locks unchanged.
+
 ### Future regulated activation work
 
 - Sandbox account and order mirroring behind separately permissioned services.

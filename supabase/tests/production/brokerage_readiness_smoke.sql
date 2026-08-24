@@ -26,8 +26,10 @@ begin
     or to_regclass('public.platform_health_evidence') is null
     or to_regclass('public.platform_incidents') is null
     or to_regclass('public.platform_incident_events') is null
-    or to_regclass('public.platform_public_status') is null then
-    raise exception 'Phase 4J brokerage, governance and reliability objects are incomplete';
+    or to_regclass('public.platform_public_status') is null
+    or to_regclass('public.account_security_posture') is null
+    or to_regclass('public.account_security_events') is null then
+    raise exception 'Phase 4K brokerage, governance, reliability and account security objects are incomplete';
   end if;
 
   if not exists (
@@ -265,6 +267,28 @@ begin
     raise exception 'Row-level security is disabled for reliability evidence';
   end if;
 
+  if not (
+    select relrowsecurity
+    from pg_class
+    where oid = 'public.account_security_posture'::regclass
+  ) or not (
+    select relrowsecurity
+    from pg_class
+    where oid = 'public.account_security_events'::regclass
+  ) then
+    raise exception 'Row-level security is disabled for account security evidence';
+  end if;
+
+  if has_table_privilege('anon', 'public.account_security_posture', 'SELECT')
+    or has_table_privilege('anon', 'public.account_security_events', 'SELECT')
+    or has_table_privilege('authenticated', 'public.account_security_posture', 'INSERT')
+    or has_table_privilege('authenticated', 'public.account_security_posture', 'UPDATE')
+    or has_table_privilege('authenticated', 'public.account_security_events', 'INSERT')
+    or has_table_privilege('authenticated', 'public.account_security_events', 'UPDATE')
+    or has_table_privilege('authenticated', 'public.account_security_events', 'DELETE') then
+    raise exception 'Account security evidence grants are unsafe';
+  end if;
+
   if exists (
     select 1
     from information_schema.columns
@@ -398,6 +422,26 @@ begin
     raise exception 'Platform reliability evaluator grants are unsafe';
   end if;
 
-  raise notice 'Phase 4J execution locks, governance and privacy-safe reliability boundaries verified';
+  if has_function_privilege(
+    'authenticated',
+    'public.sync_account_security_posture(uuid,integer,text[],text,text)',
+    'EXECUTE'
+  ) or not has_function_privilege(
+    'service_role',
+    'public.sync_account_security_posture(uuid,integer,text[],text,text)',
+    'EXECUTE'
+  ) or has_function_privilege(
+    'authenticated',
+    'public.record_account_session_action(uuid,text)',
+    'EXECUTE'
+  ) or not has_function_privilege(
+    'service_role',
+    'public.record_account_session_action(uuid,text)',
+    'EXECUTE'
+  ) then
+    raise exception 'Account security service grants are unsafe';
+  end if;
+
+  raise notice 'Phase 4K execution locks, governance, reliability and account security boundaries verified';
 end
 $production_smoke$;

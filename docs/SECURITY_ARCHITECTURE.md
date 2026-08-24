@@ -22,6 +22,12 @@
 - A database-owned five-minute reliability evaluator maintains sanitized,
   append-only service and incident-transition evidence. Customer status is read
   from a separate safe projection and dynamically degrades when monitoring stops.
+- Accounts with a verified Supabase Auth factor fail closed until an `aal2`
+  challenge succeeds. Sensitive customer Edge Functions independently enforce
+  the same enrolled-account step-up boundary.
+- The private Security Center uses explicit local and other-session sign-out
+  scopes and service-synchronized append-only posture evidence. It never copies
+  factor secrets, codes, tokens, IP addresses or device fingerprints.
 
 ## Production configuration checklist
 
@@ -48,6 +54,8 @@
    recovery policies before accepting real customer data or money.
 9. Exercise `docs/INCIDENT_RESPONSE.md`, validate escalation contacts and review
    `docs/SERVICE_LEVEL_OBJECTIVES.md` against real production evidence quarterly.
+10. Complete every production item in `docs/ACCOUNT_SECURITY.md`, including TOTP,
+    custom SMTP, security notifications, exact redirects and recovery testing.
 
 ## Customer experience principles
 

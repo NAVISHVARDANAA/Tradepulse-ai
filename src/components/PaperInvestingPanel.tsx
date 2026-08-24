@@ -297,7 +297,7 @@ export function PaperInvestingPanel({
             <button
               className="text-button"
               type="button"
-              onClick={() => void supabase.auth.signOut()}
+              onClick={() => void supabase.auth.signOut({ scope: 'local' })}
             >
               <LogOut size={14} /> Sign out
             </button>
