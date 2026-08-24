@@ -39,6 +39,9 @@ jobs:
       - name: Build production bundle
         run: npm run build
 
+      - name: Enforce frontend performance budgets
+        run: npm run check:bundle
+
   edge-functions:
     runs-on: ubuntu-latest
     timeout-minutes: 10

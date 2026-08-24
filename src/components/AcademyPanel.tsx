@@ -1,4 +1,3 @@
-import type { Session } from '@supabase/supabase-js'
 import {
   Award,
   BookOpen,
@@ -30,7 +29,7 @@ import {
   type AcademyQuizQuestion,
   type AcademyQuizResult,
 } from '../lib/queries/academy'
-import { supabase } from '../lib/supabase/client'
+import { useAuth } from '../lib/auth/AuthProvider'
 
 const GUEST_PROGRESS_KEY = 'tradepulse-academy-progress-v1'
 
@@ -61,7 +60,7 @@ function progressPercent(course: AcademyCourse, completedCount: number) {
 }
 
 export function AcademyPanel() {
-  const [session, setSession] = useState<Session | null>(null)
+  const { session } = useAuth()
   const [catalog, setCatalog] = useState<AcademyCourse[]>([])
   const [lessons, setLessons] = useState<AcademyLesson[]>([])
   const [questions, setQuestions] = useState<AcademyQuizQuestion[]>([])
@@ -79,14 +78,6 @@ export function AcademyPanel() {
   const [actionLoading, setActionLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [message, setMessage] = useState<string | null>(null)
-
-  useEffect(() => {
-    void supabase.auth.getSession().then(({ data }) => setSession(data.session))
-    const { data } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-      setSession(nextSession)
-    })
-    return () => data.subscription.unsubscribe()
-  }, [])
 
   useEffect(() => {
     void getAcademyCatalog()
@@ -262,7 +253,7 @@ export function AcademyPanel() {
   }
 
   return (
-    <section className="panel academy-panel" id="academy">
+    <section className="panel academy-panel">
       <div className="panel-header">
         <div>
           <p className="eyebrow">TradePulse Academy · Phase 3E</p>

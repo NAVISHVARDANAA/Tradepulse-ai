@@ -1,13 +1,4 @@
-import { useEffect, useState } from 'react'
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import {
   ArrowDownRight,
   ArrowUpRight,
@@ -15,16 +6,10 @@ import {
   TrendingUp,
 } from 'lucide-react'
 
-import { AcademyPanel } from './components/AcademyPanel'
-import { BrokerageReadinessPanel } from './components/BrokerageReadinessPanel'
-import { ForecastPanel } from './components/ForecastPanel'
-import { GlobalEquityResearchPanel } from './components/GlobalEquityResearchPanel'
+import { DeferredSection } from './components/DeferredSection'
 import { GuidedOnboarding } from './components/GuidedOnboarding'
-import { PaymentQuotePanel } from './components/PaymentQuotePanel'
-import { PaperInvestingPanel } from './components/PaperInvestingPanel'
 import { PlatformReadiness } from './components/PlatformReadiness'
-import { PortfolioRiskCommandCenter } from './components/PortfolioRiskCommandCenter'
-import { ResearchCopilotPanel } from './components/ResearchCopilotPanel'
+import { ProductErrorBoundary } from './components/ProductErrorBoundary'
 import {
   getLatestForecasts,
   getMarketAssets,
@@ -41,6 +26,44 @@ import type {
   TradeDashboard,
   TradeKpi,
 } from './types/domain'
+
+const AcademyPanel = lazy(() => import('./components/AcademyPanel').then((module) => ({
+  default: module.AcademyPanel,
+})))
+const BrokerageReadinessPanel = lazy(() => import('./components/BrokerageReadinessPanel').then((module) => ({
+  default: module.BrokerageReadinessPanel,
+})))
+const ForecastPanel = lazy(() => import('./components/ForecastPanel').then((module) => ({
+  default: module.ForecastPanel,
+})))
+const GlobalEquityResearchPanel = lazy(() => import('./components/GlobalEquityResearchPanel').then((module) => ({
+  default: module.GlobalEquityResearchPanel,
+})))
+const PaymentQuotePanel = lazy(() => import('./components/PaymentQuotePanel').then((module) => ({
+  default: module.PaymentQuotePanel,
+})))
+const PaperInvestingPanel = lazy(() => import('./components/PaperInvestingPanel').then((module) => ({
+  default: module.PaperInvestingPanel,
+})))
+const PortfolioRiskCommandCenter = lazy(() => import('./components/PortfolioRiskCommandCenter').then((module) => ({
+  default: module.PortfolioRiskCommandCenter,
+})))
+const ResearchCopilotPanel = lazy(() => import('./components/ResearchCopilotPanel').then((module) => ({
+  default: module.ResearchCopilotPanel,
+})))
+const TradeTrendChart = lazy(() => import('./components/TradeTrendChart').then((module) => ({
+  default: module.TradeTrendChart,
+})))
+
+function SectionLoader({ label }: { label: string }) {
+  return (
+    <div className="deferred-section-placeholder" role="status">
+      <span className="deferred-section-pulse" />
+      <strong>{label}</strong>
+      <small>Loading optimized product module</small>
+    </div>
+  )
+}
 
 const navItems = [
   { label: 'Dashboard', href: '#dashboard' },
@@ -132,6 +155,7 @@ function App() {
   const [forecasts, setForecasts] = useState<MarketForecast[]>([])
   const [equityResearch, setEquityResearch] = useState<EquityResearchSnapshot[]>([])
   const [corridors, setCorridors] = useState<PaymentCorridor[]>([])
+  const [paymentRequested, setPaymentRequested] = useState(false)
   const [marketLoading, setMarketLoading] = useState(true)
   const [tradeLoading, setTradeLoading] = useState(true)
   const [forecastLoading, setForecastLoading] = useState(true)
@@ -192,44 +216,41 @@ function App() {
       }
     }
 
-    const loadPayments = async () => {
-      try {
-        setCorridors(await getPaymentCorridors())
-        setPaymentError(null)
-      } catch (error) {
-        console.error('Failed to load payment corridors:', error)
-        setPaymentError('Payment corridor configuration is unavailable.')
-      } finally {
-        setPaymentLoading(false)
-      }
-    }
-
     void Promise.all([
       loadMarkets(),
       loadTrade(),
       loadForecasts(),
       loadEquityResearch(),
-      loadPayments(),
     ])
+
+    const refreshTimers = new Map<string, number>()
+    const scheduleRefresh = (key: string, refresh: () => void) => {
+      const existing = refreshTimers.get(key)
+      if (existing !== undefined) window.clearTimeout(existing)
+      refreshTimers.set(key, window.setTimeout(() => {
+        refreshTimers.delete(key)
+        refresh()
+      }, 300))
+    }
 
     const channel = supabase
       .channel('tradepulse-dashboard-realtime')
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'market_observations' },
-        () => void loadMarkets(),
+        () => scheduleRefresh('markets', () => void loadMarkets()),
       )
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'trade_observations' },
-        () => void loadTrade(),
+        () => scheduleRefresh('trade', () => void loadTrade()),
       )
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'market_forecasts' },
         () => {
-          void loadForecasts()
-          void loadEquityResearch()
+          scheduleRefresh('forecasts', () => void loadForecasts())
+          scheduleRefresh('equity-research', () => void loadEquityResearch())
         },
       )
       .on(
@@ -240,21 +261,37 @@ function App() {
           table: 'forecast_reliability_snapshots',
         },
         () => {
-          void loadForecasts()
-          void loadEquityResearch()
+          scheduleRefresh('forecasts', () => void loadForecasts())
+          scheduleRefresh('equity-research', () => void loadEquityResearch())
         },
       )
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'equity_research_scores' },
-        () => void loadEquityResearch(),
+        () => scheduleRefresh('equity-research', () => void loadEquityResearch()),
       )
       .subscribe()
 
     return () => {
+      refreshTimers.forEach((timer) => window.clearTimeout(timer))
       void supabase.removeChannel(channel)
     }
   }, [])
+
+  useEffect(() => {
+    if (!paymentRequested) return
+
+    void getPaymentCorridors()
+      .then((nextCorridors) => {
+        setCorridors(nextCorridors)
+        setPaymentError(null)
+      })
+      .catch((error) => {
+        console.error('Failed to load payment corridors:', error)
+        setPaymentError('Payment corridor configuration is unavailable.')
+      })
+      .finally(() => setPaymentLoading(false))
+  }, [paymentRequested])
 
   const markets = marketAssets.map((asset) => {
     const change = asset.change_percent
@@ -325,18 +362,36 @@ function App() {
 
         <PlatformReadiness />
 
-        <GlobalEquityResearchPanel
-          securities={equityResearch}
-          loading={equityResearchLoading}
-          error={equityResearchError}
-        />
+        <DeferredSection id="stock-research" label="Stock research" minimumHeight={620}>
+          <ProductErrorBoundary title="Stock research is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Stock research" />}>
+              <GlobalEquityResearchPanel
+                securities={equityResearch}
+                loading={equityResearchLoading}
+                error={equityResearchError}
+              />
+            </Suspense>
+          </ProductErrorBoundary>
+        </DeferredSection>
 
-        <ResearchCopilotPanel
-          securities={equityResearch}
-          researchLoading={equityResearchLoading}
-        />
+        <DeferredSection id="research-copilot" label="AI research copilot" minimumHeight={460}>
+          <ProductErrorBoundary title="The research copilot is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="AI research copilot" />}>
+              <ResearchCopilotPanel
+                securities={equityResearch}
+                researchLoading={equityResearchLoading}
+              />
+            </Suspense>
+          </ProductErrorBoundary>
+        </DeferredSection>
 
-        <AcademyPanel />
+        <DeferredSection id="academy" label="TradePulse Academy" minimumHeight={420}>
+          <ProductErrorBoundary title="TradePulse Academy is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="TradePulse Academy" />}>
+              <AcademyPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </DeferredSection>
 
         <section className="kpi-grid" aria-label="Trade performance indicators">
           {(tradeDashboard.kpis.length > 0
@@ -361,8 +416,9 @@ function App() {
           })}
         </section>
 
-        <section className="content-grid">
-          <article className="panel market-panel" id="markets">
+        <DeferredSection id="markets" label="Market and trade intelligence" minimumHeight={430}>
+          <section className="content-grid">
+          <article className="panel market-panel">
             <div className="panel-header">
               <div>
                 <p className="eyebrow">Market overview</p>
@@ -405,99 +461,55 @@ function App() {
             </div>
           </article>
 
-          <article className="panel chart-panel">
-            <div className="panel-header">
-              <div>
-                <p className="eyebrow">Global trade trends</p>
-                <h2>Tracked export vs import volume</h2>
-              </div>
-              <span className="source-label">USD billions</span>
-            </div>
+            <ProductErrorBoundary title="Trade trend visualization is temporarily unavailable">
+              <Suspense fallback={<SectionLoader label="Global trade trends" />}>
+                <TradeTrendChart
+                  dashboard={tradeDashboard}
+                  loading={tradeLoading}
+                  error={tradeError}
+                />
+              </Suspense>
+            </ProductErrorBoundary>
+          </section>
+        </DeferredSection>
 
-            {tradeLoading ? (
-              <div className="chart-empty" role="status">
-                Loading trade series…
+        <DeferredSection id="forecasts" label="Forecast intelligence" minimumHeight={360}>
+          <ProductErrorBoundary title="Forecast intelligence is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Forecast intelligence" />}>
+              <div className="feature-grid">
+                <ForecastPanel
+                  forecasts={forecasts}
+                  loading={forecastLoading}
+                  error={forecastError}
+                />
               </div>
-            ) : tradeError ? (
-              <div className="chart-empty" role="alert">
-                {tradeError}
-              </div>
-            ) : tradeDashboard.trend.length === 0 ? (
-              <div className="chart-empty" role="status">
-                The chart will appear after the first verified trade-data sync.
-              </div>
-            ) : (
-              <div className="chart-wrap">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart
-                    data={tradeDashboard.trend}
-                    margin={{ top: 10, right: 16, left: -8, bottom: 0 }}
-                  >
-                    <defs>
-                      <linearGradient id="exportsFill" x1="0" x2="0" y1="0" y2="1">
-                        <stop offset="0%" stopColor="#4f46e5" stopOpacity={0.38} />
-                        <stop offset="100%" stopColor="#4f46e5" stopOpacity={0.04} />
-                      </linearGradient>
-                      <linearGradient id="importsFill" x1="0" x2="0" y1="0" y2="1">
-                        <stop offset="0%" stopColor="#0ea5e9" stopOpacity={0.3} />
-                        <stop offset="100%" stopColor="#0ea5e9" stopOpacity={0.04} />
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid stroke="rgba(148, 163, 184, 0.18)" vertical={false} />
-                    <XAxis
-                      dataKey="period"
-                      tickLine={false}
-                      axisLine={false}
-                      tick={{ fill: '#94a3b8', fontSize: 12 }}
-                    />
-                    <YAxis
-                      tickLine={false}
-                      axisLine={false}
-                      tick={{ fill: '#94a3b8', fontSize: 12 }}
-                    />
-                    <Tooltip
-                      formatter={(value: number | string) => [`$${value}B`, 'Value']}
-                      contentStyle={{
-                        backgroundColor: '#0f172a',
-                        border: '1px solid rgba(148, 163, 184, 0.2)',
-                        borderRadius: 12,
-                        color: '#e2e8f0',
-                      }}
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="exports"
-                      stroke="#4f46e5"
-                      fill="url(#exportsFill)"
-                      strokeWidth={3}
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="imports"
-                      stroke="#0ea5e9"
-                      fill="url(#importsFill)"
-                      strokeWidth={3}
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-            )}
-          </article>
-        </section>
+            </Suspense>
+          </ProductErrorBoundary>
+        </DeferredSection>
 
-        <div className="feature-grid">
-          <ForecastPanel
-            forecasts={forecasts}
-            loading={forecastLoading}
-            error={forecastError}
-          />
-        </div>
+        <DeferredSection id="paper-investing" label="Paper investing" minimumHeight={520}>
+          <ProductErrorBoundary title="Paper investing is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Paper investing" />}>
+              <PaperInvestingPanel marketAssets={marketAssets} />
+            </Suspense>
+          </ProductErrorBoundary>
+        </DeferredSection>
 
-        <PaperInvestingPanel marketAssets={marketAssets} />
+        <DeferredSection id="risk-command-center" label="Portfolio risk command center" minimumHeight={500}>
+          <ProductErrorBoundary title="The risk command center is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Portfolio risk command center" />}>
+              <PortfolioRiskCommandCenter />
+            </Suspense>
+          </ProductErrorBoundary>
+        </DeferredSection>
 
-        <PortfolioRiskCommandCenter />
-
-        <BrokerageReadinessPanel />
+        <DeferredSection id="brokerage-readiness" label="Brokerage readiness" minimumHeight={520}>
+          <ProductErrorBoundary title="Brokerage readiness is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Brokerage readiness" />}>
+              <BrokerageReadinessPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </DeferredSection>
 
         <section className="panel table-panel" id="trade-data">
           <div className="panel-header">
@@ -561,12 +573,23 @@ function App() {
           )}
         </section>
 
-        <PaymentQuotePanel
-          corridors={corridors}
-          marketAssets={marketAssets}
-          loading={paymentLoading}
-          error={paymentError}
-        />
+        <DeferredSection
+          id="payments"
+          label="Cross-border payment sandbox"
+          minimumHeight={360}
+          onVisible={() => setPaymentRequested(true)}
+        >
+          <ProductErrorBoundary title="Payment quotes are temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Cross-border payment sandbox" />}>
+              <PaymentQuotePanel
+                corridors={corridors}
+                marketAssets={marketAssets}
+                loading={paymentLoading}
+                error={paymentError}
+              />
+            </Suspense>
+          </ProductErrorBoundary>
+        </DeferredSection>
 
         <footer className="product-footer">
           <span>TradePulse AI · Research, learning and regulated-trading foundation</span>

@@ -1,4 +1,3 @@
-import type { Session } from '@supabase/supabase-js'
 import {
   Activity,
   Ban,
@@ -20,6 +19,7 @@ import {
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 
 import { AcademyLink } from './AcademyLink'
+import { useAuth } from '../lib/auth/AuthProvider'
 import {
   acceptBrokerageDisclosure,
   createBrokeragePreview,
@@ -27,7 +27,6 @@ import {
   type BrokeragePreview,
   type BrokerageWorkspace,
 } from '../lib/queries/brokerageReadiness'
-import { supabase } from '../lib/supabase/client'
 
 function displayError(error: unknown) {
   if (error instanceof Error && error.message) return error.message
@@ -65,8 +64,7 @@ function freshnessLabel(minutes: number | null) {
 }
 
 export function BrokerageReadinessPanel() {
-  const [session, setSession] = useState<Session | null>(null)
-  const [authLoading, setAuthLoading] = useState(true)
+  const { session, loading: authLoading } = useAuth()
   const [workspace, setWorkspace] = useState<BrokerageWorkspace | null>(null)
   const [instrumentId, setInstrumentId] = useState('')
   const [side, setSide] = useState<'buy' | 'sell'>('buy')
@@ -78,18 +76,6 @@ export function BrokerageReadinessPanel() {
   const [error, setError] = useState<string | null>(null)
   const [message, setMessage] = useState<string | null>(null)
   const clientRequestId = useRef(crypto.randomUUID())
-
-  useEffect(() => {
-    void supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session)
-      setAuthLoading(false)
-    })
-    const { data } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-      setSession(nextSession)
-      setAuthLoading(false)
-    })
-    return () => data.subscription.unsubscribe()
-  }, [])
 
   const refresh = async () => {
     const next = await getBrokerageWorkspace()
@@ -222,7 +208,7 @@ export function BrokerageReadinessPanel() {
   }
 
   return (
-    <section className="panel brokerage-panel" id="brokerage-readiness">
+    <section className="panel brokerage-panel">
       <div className="panel-header">
         <div>
           <p className="eyebrow">Regulated execution runway · Phase 4E</p>

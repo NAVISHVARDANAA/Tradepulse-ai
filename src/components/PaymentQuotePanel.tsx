@@ -40,7 +40,7 @@ export function PaymentQuotePanel({
   )
 
   return (
-    <section className="panel payment-panel" id="payments">
+    <section className="panel payment-panel">
       <div className="panel-header">
         <div>
           <p className="eyebrow">Cross-border payments · Foundation</p>
