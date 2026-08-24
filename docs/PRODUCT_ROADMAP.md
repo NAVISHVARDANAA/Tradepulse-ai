@@ -159,6 +159,21 @@ broker sandbox report before any provider can enter formal certification.
 immutability tests, production lock smoke checks, then one successful sandbox
 credential probe before account mirroring work begins.
 
+### Phase 4D — sanitized Alpaca sandbox account inventory (implemented)
+
+- Exact read-only `GET /v1/accounts?entities=trading_configurations` route with
+  the production and query-string route lock preserved to minimize provider data.
+- In-memory normalization into aggregate account-status and restriction counts;
+  provider identifiers and customer PII are never persisted or returned.
+- Append-only snapshot digest and change signal for reconciliation monitoring,
+  with authenticated aggregate health in the brokerage-readiness dashboard.
+- Dedicated protected Edge Function, database authorization tests, deployment
+  gate for migration 017 and unauthenticated HTTP 401 verification.
+
+**Phase 4D exit gate:** mocked account inventory tests, database reconciliation
+and immutability tests, then one successful production-hosted sandbox inventory
+sync while account connection and all order capabilities remain disabled.
+
 ### Future regulated activation work
 
 - Sandbox account and order mirroring behind separately permissioned services.

@@ -22,14 +22,14 @@ Never paste these values into an issue, pull request, workflow input, log,
 browser client variable or chat. Rotate the access token and database password
 immediately if either is exposed.
 
-## One-time Supabase runtime setup for Phase 4C
+## One-time Supabase runtime setup for Phase 4D
 
 Add these secrets through the Supabase dashboard or CLI; they are runtime Edge
 Function secrets, not browser variables or GitHub workflow inputs:
 
 | Secret | Value |
 | --- | --- |
-| `BROKER_SANDBOX_SYNC_SECRET` | A new random scheduler secret used only for the broker sandbox probe |
+| `BROKER_SANDBOX_SYNC_SECRET` | A random scheduler secret shared only by the protected broker sandbox probe and account-inventory sync |
 | `ALPACA_BROKER_API_KEY` | Alpaca Broker API sandbox key |
 | `ALPACA_BROKER_API_SECRET` | Alpaca Broker API sandbox secret |
 
@@ -38,29 +38,30 @@ The dashboard will show `not run`; an authorized probe without credentials fails
 closed and stores only `CONFIGURATION_INVALID`. Never use Alpaca live credentials
 for this adapter.
 
-## Release Phase 4C
+## Release Phase 4D
 
 1. Confirm the CI workflow on `main` is green.
 2. Open **Actions → Deploy Supabase production → Run workflow**.
 3. Select the `main` branch.
-4. Enter `DEPLOY_PHASE_4C` as the confirmation value.
+4. Enter `DEPLOY_PHASE_4D` as the confirmation value.
 5. Approve the `production` environment deployment when prompted.
 
 The workflow performs a database dry run, applies every pending migration in
 filename order, deploys `preview-brokerage-order` and the read-only
-`probe-alpaca-broker-sandbox`, and verifies that migration `016` and both active
-functions are visible remotely. It also runs the query-only production lock
-smoke check and proves that unauthenticated preview and probe requests receive
-HTTP 401.
+`probe-alpaca-broker-sandbox` and
+`sync-alpaca-sandbox-account-inventory`, and verifies that migration `017` and
+all three active functions are visible remotely. It also runs the query-only
+production lock smoke check and proves that unauthenticated preview, probe and
+inventory requests receive HTTP 401.
 
 ## Read-only production verification
 
 Run **Actions → Verify Supabase production → Run workflow** after a release or
-operational incident. Select `main` and enter `VERIFY_PHASE_4C`.
+operational incident. Select `main` and enter `VERIFY_PHASE_4D`.
 
 The verification workflow performs no production writes. It confirms local and
 remote migration parity, executes the audited, query-only
-`brokerage_readiness_smoke.sql` block, checks that both Edge Functions are active
+`brokerage_readiness_smoke.sql` block, checks that all three Edge Functions are active
 and proves that unauthenticated requests remain blocked. It does not call Alpaca
 or write a health result. The GitHub run summary is the deployment-health audit
 record. CI and both production workflows reject the smoke file if it contains a
@@ -77,8 +78,9 @@ write-capable SQL statement.
   and reviewed.
 
 Live brokerage execution remains database-locked after this deployment. This
-release adds a read-only sandbox asset probe; it still creates no live-order
-route, provider credential store, customer account mirror or custody capability.
+release adds a read-only aggregate sandbox account inventory with no provider
+account identifiers or customer PII. It still creates no live-order route,
+provider credential store, customer account connection or custody capability.
 
 ## Runtime baseline
 
