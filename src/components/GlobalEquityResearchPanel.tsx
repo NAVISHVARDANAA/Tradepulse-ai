@@ -203,7 +203,7 @@ export function GlobalEquityResearchPanel({
   ).length
 
   return (
-    <section className="panel equity-research-panel" id="stock-research">
+    <section className="panel equity-research-panel">
       <div className="panel-header equity-research-header">
         <div>
           <p className="eyebrow">Global equities · Phase 3C</p>

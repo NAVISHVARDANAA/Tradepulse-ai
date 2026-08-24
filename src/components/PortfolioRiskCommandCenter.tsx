@@ -1,4 +1,3 @@
-import type { Session } from '@supabase/supabase-js'
 import {
   Activity,
   AlertTriangle,
@@ -21,6 +20,7 @@ import {
 } from 'recharts'
 
 import { AcademyLink } from './AcademyLink'
+import { useAuth } from '../lib/auth/AuthProvider'
 import {
   getPaperPortfolios,
   type PaperPortfolio,
@@ -31,7 +31,6 @@ import {
   setPaperTradingControl,
   type PortfolioRiskDashboard,
 } from '../lib/queries/riskMonitoring'
-import { supabase } from '../lib/supabase/client'
 
 const number = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 2,
@@ -63,29 +62,14 @@ function formatTimestamp(value: string | null | undefined) {
 }
 
 export function PortfolioRiskCommandCenter() {
-  const [session, setSession] = useState<Session | null>(null)
+  const { session, loading: initialLoading } = useAuth()
   const [portfolios, setPortfolios] = useState<PaperPortfolio[]>([])
   const [portfolioId, setPortfolioId] = useState('')
   const [dashboard, setDashboard] =
     useState<PortfolioRiskDashboard | null>(null)
   const [loading, setLoading] = useState(false)
-  const [initialLoading, setInitialLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
-
-  useEffect(() => {
-    void supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session)
-      setInitialLoading(false)
-    })
-
-    const { data } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-      setSession(nextSession)
-      setInitialLoading(false)
-    })
-
-    return () => data.subscription.unsubscribe()
-  }, [])
 
   useEffect(() => {
     if (!session) {
@@ -235,7 +219,7 @@ export function PortfolioRiskCommandCenter() {
     : []
 
   return (
-    <section className="panel risk-command-panel" id="risk-command-center">
+    <section className="panel risk-command-panel">
       <div className="panel-header">
         <div>
           <p className="eyebrow">Risk command center · Phase 3B</p>

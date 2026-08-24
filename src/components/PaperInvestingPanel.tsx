@@ -1,4 +1,3 @@
-import type { Session } from '@supabase/supabase-js'
 import {
   BrainCircuit,
   CircleDollarSign,
@@ -14,6 +13,7 @@ import {
 import { FormEvent, useEffect, useMemo, useRef, useState } from 'react'
 
 import { AcademyLink } from './AcademyLink'
+import { useAuth } from '../lib/auth/AuthProvider'
 import {
   createPaperPortfolio,
   getPaperInstruments,
@@ -58,8 +58,7 @@ function label(value: string | null) {
 export function PaperInvestingPanel({
   marketAssets,
 }: PaperInvestingPanelProps) {
-  const [session, setSession] = useState<Session | null>(null)
-  const [authLoading, setAuthLoading] = useState(true)
+  const { session, loading: authLoading } = useAuth()
   const [email, setEmail] = useState('')
   const [authMessage, setAuthMessage] = useState<string | null>(null)
   const [portfolios, setPortfolios] = useState<PaperPortfolio[]>([])
@@ -79,20 +78,6 @@ export function PaperInvestingPanel({
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
   const paperOrderId = useRef(crypto.randomUUID())
-
-  useEffect(() => {
-    void supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session)
-      setAuthLoading(false)
-    })
-
-    const { data } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-      setSession(nextSession)
-      setAuthLoading(false)
-    })
-
-    return () => data.subscription.unsubscribe()
-  }, [])
 
   useEffect(() => {
     void getPaperInstruments()
@@ -258,7 +243,7 @@ export function PaperInvestingPanel({
   }
 
   return (
-    <section className="panel paper-panel" id="paper-investing">
+    <section className="panel paper-panel">
       <div className="panel-header">
         <div>
           <p className="eyebrow">Portfolio lab · Phase 4F</p>

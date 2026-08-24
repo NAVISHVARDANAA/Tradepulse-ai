@@ -223,6 +223,21 @@ authorization tests, cost-aware ML tests, active protected evaluator, production
 HTTP 401 denial and confirmation that no suspended model appears in a public
 forecast view.
 
+### Phase 4H — product performance foundation (implemented)
+
+- Shared authentication state with one Supabase session subscription for every
+  private research, Academy, simulation, risk and brokerage surface.
+- Visibility-aware lazy loading for large product modules and chart dependencies,
+  with payment configuration withheld from startup work.
+- Debounced realtime invalidation so synchronized data bursts produce bounded
+  dashboard refreshes instead of one query fan-out per database event.
+- Isolated module error boundaries, reduced-motion loading behavior and explicit
+  browser bundle budgets enforced during CI.
+
+**Phase 4H exit gate:** typecheck and production build pass, bundle budgets remain
+green, the initial HTML preloads no chart or deferred product chunk, and exactly
+one browser authentication listener owns session lifecycle state.
+
 ### Future regulated activation work
 
 - Sandbox account and order mirroring behind separately permissioned services.

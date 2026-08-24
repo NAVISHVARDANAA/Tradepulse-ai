@@ -208,6 +208,22 @@ compliance boundaries are designed in before execution features are enabled.
 - Sanitized drift events contain only model and aggregate performance evidence.
   Governance cannot submit an order, call a broker or enable money movement.
 
+### Phase 4H — product performance foundation
+
+- One application-level authentication provider owns the Supabase session,
+  replacing repeated listeners across authenticated product modules.
+- Heavy stock-research, copilot, Academy, forecasting, paper-investing, risk,
+  brokerage, chart and payment modules are split into independent browser chunks
+  and mounted only as users approach them.
+- Payment-corridor configuration is fetched only when the payment sandbox becomes
+  relevant, and realtime refresh bursts are coalesced before re-querying data.
+- Product-level error boundaries isolate a failed module so the rest of the
+  platform remains usable.
+- CI enforces measured gzip budgets for the initial shell, total JavaScript and
+  the largest generated asset to prevent silent performance regressions.
+- This optimization adds no brokerage, custody, order-routing or money-movement
+  capability.
+
 ## Architecture
 
 ```text
@@ -310,12 +326,18 @@ underlying data source.
 ```bash
 npm run typecheck
 npm run build
+npm run check:bundle
 PYTHONPATH=services/forecasting/src python -m unittest discover -s services/forecasting/tests -v
 ```
 
 GitHub Actions validates the browser application, all Edge Functions, the ML
 forecasting worker, and a clean rebuild of every migration in an isolated
 Supabase Postgres instance for pull requests and pushes to `main`.
+
+The browser build also enforces gzip budgets for the initial application shell,
+the complete JavaScript graph and the largest individual chunk. Heavy research,
+Academy, paper-investing, risk, brokerage and payment modules load only as users
+approach them, while one shared authentication provider owns the Supabase session.
 
 Production Supabase releases are manual and environment-protected. See
 [`docs/SUPABASE_DEPLOYMENT.md`](docs/SUPABASE_DEPLOYMENT.md) for the required

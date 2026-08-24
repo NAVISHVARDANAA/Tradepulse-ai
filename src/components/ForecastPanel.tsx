@@ -44,7 +44,7 @@ export function ForecastPanel({
   error,
 }: ForecastPanelProps) {
   return (
-    <section className="panel forecast-panel" id="forecasts">
+    <section className="panel forecast-panel">
       <div className="panel-header">
         <div>
           <p className="eyebrow">Forecasting engine · Phase 4G</p>

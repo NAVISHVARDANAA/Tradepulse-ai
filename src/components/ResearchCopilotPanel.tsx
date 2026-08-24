@@ -1,4 +1,3 @@
-import type { Session } from '@supabase/supabase-js'
 import {
   Bell,
   BellRing,
@@ -15,6 +14,7 @@ import {
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
 
 import { AcademyLink } from './AcademyLink'
+import { useAuth } from '../lib/auth/AuthProvider'
 import {
   addResearchWatchlistItem,
   createResearchAlert,
@@ -25,7 +25,6 @@ import {
   removeResearchWatchlistItem,
   type ResearchCopilotWorkspace,
 } from '../lib/queries/researchCopilot'
-import { supabase } from '../lib/supabase/client'
 import type { EquityResearchSnapshot } from '../types/domain'
 
 type ResearchCopilotPanelProps = {
@@ -59,8 +58,7 @@ export function ResearchCopilotPanel({
   securities,
   researchLoading,
 }: ResearchCopilotPanelProps) {
-  const [session, setSession] = useState<Session | null>(null)
-  const [authLoading, setAuthLoading] = useState(true)
+  const { session, loading: authLoading } = useAuth()
   const [workspace, setWorkspace] = useState<ResearchCopilotWorkspace | null>(null)
   const [candidateAssetId, setCandidateAssetId] = useState('')
   const [alertAssetId, setAlertAssetId] = useState('')
@@ -71,20 +69,6 @@ export function ResearchCopilotPanel({
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
-
-  useEffect(() => {
-    void supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session)
-      setAuthLoading(false)
-    })
-
-    const { data } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-      setSession(nextSession)
-      setAuthLoading(false)
-    })
-
-    return () => data.subscription.unsubscribe()
-  }, [])
 
   const refreshWorkspace = async () => {
     if (!session) {
@@ -180,7 +164,7 @@ export function ResearchCopilotPanel({
   const unreadEvents = workspace?.events.filter((event) => !event.readAt).length ?? 0
 
   return (
-    <section className="panel copilot-panel" id="research-copilot">
+    <section className="panel copilot-panel">
       <div className="panel-header">
         <div>
           <p className="eyebrow">Daily intelligence · Phase 3D</p>
