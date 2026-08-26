@@ -80,6 +80,7 @@ jobs:
           deno check supabase/functions/evaluate-forecast-governance/index.ts
           deno check supabase/functions/evaluate-platform-reliability/index.ts
           deno check supabase/functions/manage-account-security/index.ts
+          deno check supabase/functions/evaluate-data-quality/index.ts
 
       - name: Test shared Edge Function security controls
         run: >-
@@ -160,6 +161,9 @@ jobs:
 
       - name: Test customer privacy-center contracts
         run: npx --no-install supabase test db supabase/tests/database/customer_privacy_center.test.sql
+
+      - name: Test data-trust and notification contracts
+        run: npx --no-install supabase test db supabase/tests/database/data_trust_notifications.test.sql
 
       - name: Assert production smoke SQL is query-only
         run: bash scripts/assert-read-only-sql.sh supabase/tests/production/brokerage_readiness_smoke.sql

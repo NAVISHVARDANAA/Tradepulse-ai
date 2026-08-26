@@ -30,8 +30,12 @@ begin
     or to_regclass('public.account_security_posture') is null
     or to_regclass('public.account_security_events') is null
     or to_regclass('public.customer_privacy_preferences') is null
-    or to_regclass('public.customer_privacy_requests') is null then
-    raise exception 'Phase 4L brokerage, governance, security and privacy objects are incomplete';
+    or to_regclass('public.customer_privacy_requests') is null
+    or to_regclass('public.data_quality_policies') is null
+    or to_regclass('public.data_quality_evaluations') is null
+    or to_regclass('public.notification_preferences') is null
+    or to_regclass('public.notification_consent_events') is null then
+    raise exception 'Phase 4M brokerage, governance, security, privacy and data-trust objects are incomplete';
   end if;
 
   if not exists (
@@ -444,6 +448,6 @@ begin
     raise exception 'Account security service grants are unsafe';
   end if;
 
-  raise notice 'Phase 4L execution locks, governance, security and privacy boundaries verified';
+  raise notice 'Phase 4M execution locks, governance, privacy and data-trust boundaries verified';
 end
 $production_smoke$;

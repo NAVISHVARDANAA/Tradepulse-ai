@@ -308,6 +308,22 @@ locks unchanged.
 idempotent request creation, verified-session enforcement for enrolled accounts,
 and all live execution and fund-movement locks unchanged.
 
+### Phase 4M — data trust and notification consent (implemented)
+
+- Versioned freshness, completeness, duplicate and synchronization policies for
+  market, trade and source-operation datasets.
+- Protected service evaluation writes append-only sanitized evidence and a
+  customer-visible current state without provider payloads or credentials.
+- Private notification category and channel intent with explicit opt-in defaults,
+  one-click external-channel unsubscribe and append-only consent history.
+- Email and push delivery remain technically disabled until provider, regional
+  privacy, deliverability and abuse-control approval; in-app alerts remain the
+  only active delivery surface.
+
+**Phase 4M exit gate:** migration 025 parity, service-only evaluator tests,
+notification isolation and append-only consent tests, production HTTP 401 and
+internal CORS isolation, with all live execution and fund-movement locks unchanged.
+
 ### Future regulated activation work
 
 - Sandbox account and order mirroring behind separately permissioned services.
