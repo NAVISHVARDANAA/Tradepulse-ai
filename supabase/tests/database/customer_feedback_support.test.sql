@@ -10,7 +10,7 @@ select ok(not has_function_privilege('anon','public.submit_customer_support_requ
 insert into auth.users(id,instance_id,aud,role,email,encrypted_password,email_confirmed_at,created_at,updated_at,raw_app_meta_data,raw_user_meta_data) values('00000000-0000-4000-8000-000000000050','00000000-0000-0000-0000-000000000000','authenticated','authenticated','phase4p@example.test','',now(),now(),now(),'{}','{}');
 select set_config('request.jwt.claim.role','authenticated',true);select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-000000000050',true);
 select is((public.submit_customer_support_request('product_feedback','Useful dashboard','Please add more comparison controls.',5::smallint)).status,'submitted','feedback is submitted');
-select like((select support_reference from public.customer_support_requests where user_id=auth.uid()),'TP-%','customer receives support reference');
+select ok((select support_reference ~ '^TP-[A-F0-9]{12}$' from public.customer_support_requests where user_id=auth.uid()),'customer receives a valid support reference');
 select is((select customer_rating from public.customer_support_requests where user_id=auth.uid()),5::smallint,'optional rating is retained');
 select throws_ok($$select public.submit_customer_support_request('unknown','Valid subject','This message is long enough.',null::smallint)$$,'P0001','Unsupported support request type','unsupported type is rejected');
 select throws_ok($$select public.submit_customer_support_request('bug','No','This message is long enough.',null::smallint)$$,'P0001','Support request content is outside allowed limits','short subject is rejected');
