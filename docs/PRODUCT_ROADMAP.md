@@ -341,6 +341,17 @@ internal CORS isolation, with all live execution and fund-movement locks unchang
 history, trial idempotency, expiry reconciliation and explicit absence of payment
 and live-order objects, with all execution locks unchanged.
 
+### Phase 4O — customer experience foundation (implemented)
+
+- Unified signed-in profile for locale, time zone, theme and display density.
+- Durable guided onboarding across devices with bounded, append-only evidence.
+- User-controlled reduced motion and high contrast preferences.
+- Installable mobile web app with a static-assets-only service-worker boundary.
+- No device fingerprints, behavioral tracking, auth caching or account-data caching.
+
+**Phase 4O exit gate:** migration 027 parity, private preference and onboarding
+tests, static-only PWA cache verification and unchanged payment and execution locks.
+
 ### Future regulated activation work
 
 - Sandbox account and order mirroring behind separately permissioned services.

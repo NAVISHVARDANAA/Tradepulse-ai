@@ -43,6 +43,9 @@ const DataTrustNotificationPanel = lazy(() => import('./components/DataTrustNoti
 const MonetizationPanel = lazy(() => import('./components/MonetizationPanel').then((module) => ({
   default: module.MonetizationPanel,
 })))
+const CustomerExperiencePanel = lazy(() => import('./components/CustomerExperiencePanel').then((module) => ({
+  default: module.CustomerExperiencePanel,
+})))
 const BrokerageReadinessPanel = lazy(() => import('./components/BrokerageReadinessPanel').then((module) => ({
   default: module.BrokerageReadinessPanel,
 })))
@@ -87,6 +90,7 @@ const navItems = [
   { label: 'Privacy', href: '#customer-privacy' },
   { label: 'Data trust', href: '#data-trust' },
   { label: 'Plans', href: '#plans' },
+  { label: 'Experience', href: '#customer-experience' },
   { label: 'Markets', href: '#markets' },
   { label: 'Forecasts', href: '#forecasts' },
   { label: 'Paper investing', href: '#paper-investing' },
@@ -329,6 +333,7 @@ function App() {
 
   return (
     <div className="app-shell" id="dashboard">
+      <a className="skip-link" href="#main-content">Skip to main content</a>
       <GuidedOnboarding />
       <header className="topbar">
         <a className="brand-wrap" href="#dashboard" aria-label="TradePulse AI home">
@@ -357,7 +362,7 @@ function App() {
         <span className="environment-pill">Data intelligence</span>
       </header>
 
-      <main className="dashboard">
+      <main className="dashboard" id="main-content" tabIndex={-1}>
         <section className="page-header">
           <div>
             <p className="eyebrow">Global markets · AI research · risk</p>
@@ -410,6 +415,14 @@ function App() {
           <ProductErrorBoundary title="Commercial plans are temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Plans and Entitlements" />}>
               <MonetizationPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </DeferredSection>
+
+        <DeferredSection id="customer-experience" label="Customer Experience" minimumHeight={440}>
+          <ProductErrorBoundary title="Customer experience controls are temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Customer Experience" />}>
+              <CustomerExperiencePanel />
             </Suspense>
           </ProductErrorBoundary>
         </DeferredSection>

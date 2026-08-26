@@ -382,7 +382,7 @@ approach them, while one shared authentication provider owns the Supabase sessio
 Production Supabase releases are manual and environment-protected. See
 [`docs/SUPABASE_DEPLOYMENT.md`](docs/SUPABASE_DEPLOYMENT.md) for the required
 GitHub environment secrets, approval gate, read-only verification workflow and
-Phase 4N release procedure. The enforced trust baseline and operational launch
+Phase 4O release procedure. The enforced trust baseline and operational launch
 checklist are documented in
 [`docs/SECURITY_ARCHITECTURE.md`](docs/SECURITY_ARCHITECTURE.md). Reliability
 objectives and incident operations are documented in
@@ -493,6 +493,11 @@ Migration `026_monetization_foundation.sql` adds a versioned USD/GBP plan catalo
 private subscriptions, one-time Pro trials, normalized entitlements and
 non-billable usage evidence. Checkout and charge collection remain disabled; see
 [`docs/MONETIZATION_BOUNDARY.md`](docs/MONETIZATION_BOUNDARY.md).
+
+Migration `027_customer_experience_foundation.sql` adds cross-device profile,
+regional, accessibility and durable onboarding preferences. The installable web
+app caches static assets only; see
+[`docs/CUSTOMER_EXPERIENCE.md`](docs/CUSTOMER_EXPERIENCE.md).
 
 ## Production gates
 
