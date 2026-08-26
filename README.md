@@ -502,6 +502,8 @@ app caches static assets only; see
 Migration `028_customer_feedback_support.sql` adds private, rate-limited support
 and product-feedback intake with customer-visible references; see
 [`docs/CUSTOMER_SUPPORT.md`](docs/CUSTOMER_SUPPORT.md).
+Migration `029_support_reference_compatibility.sql` makes opaque support-reference
+generation portable across the production and isolated Supabase environments.
 
 ## Production gates
 
