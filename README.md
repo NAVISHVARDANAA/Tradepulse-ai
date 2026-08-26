@@ -382,7 +382,7 @@ approach them, while one shared authentication provider owns the Supabase sessio
 Production Supabase releases are manual and environment-protected. See
 [`docs/SUPABASE_DEPLOYMENT.md`](docs/SUPABASE_DEPLOYMENT.md) for the required
 GitHub environment secrets, approval gate, read-only verification workflow and
-Phase 4M release procedure. The enforced trust baseline and operational launch
+Phase 4N release procedure. The enforced trust baseline and operational launch
 checklist are documented in
 [`docs/SECURITY_ARCHITECTURE.md`](docs/SECURITY_ARCHITECTURE.md). Reliability
 objectives and incident operations are documented in
@@ -488,6 +488,11 @@ Migration `025_data_trust_notifications.sql` adds versioned data-quality policie
 append-only evaluations, a current trust surface and private notification consent
 history. Email and push remain hard-disabled; see
 [`docs/DATA_TRUST_NOTIFICATIONS.md`](docs/DATA_TRUST_NOTIFICATIONS.md).
+
+Migration `026_monetization_foundation.sql` adds a versioned USD/GBP plan catalog,
+private subscriptions, one-time Pro trials, normalized entitlements and
+non-billable usage evidence. Checkout and charge collection remain disabled; see
+[`docs/MONETIZATION_BOUNDARY.md`](docs/MONETIZATION_BOUNDARY.md).
 
 ## Production gates
 

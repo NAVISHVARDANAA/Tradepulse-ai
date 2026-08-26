@@ -34,8 +34,12 @@ begin
     or to_regclass('public.data_quality_policies') is null
     or to_regclass('public.data_quality_evaluations') is null
     or to_regclass('public.notification_preferences') is null
-    or to_regclass('public.notification_consent_events') is null then
-    raise exception 'Phase 4M brokerage, governance, security, privacy and data-trust objects are incomplete';
+    or to_regclass('public.notification_consent_events') is null
+    or to_regclass('public.commercial_plans') is null
+    or to_regclass('public.customer_subscriptions') is null
+    or to_regclass('public.subscription_events') is null
+    or to_regclass('public.usage_events') is null then
+    raise exception 'Phase 4N trust, security and monetization objects are incomplete';
   end if;
 
   if not exists (
@@ -448,6 +452,22 @@ begin
     raise exception 'Account security service grants are unsafe';
   end if;
 
-  raise notice 'Phase 4M execution locks, governance, privacy and data-trust boundaries verified';
+  if exists (
+    select 1 from public.billing_provider_registry
+    where checkout_enabled or charge_collection_enabled or customer_portal_enabled
+  ) then
+    raise exception 'A production billing execution path is unexpectedly enabled';
+  end if;
+
+  if exists (select 1 from public.usage_meter_definitions where billable) then
+    raise exception 'A usage meter is unexpectedly billable';
+  end if;
+
+  if has_table_privilege('authenticated','public.customer_subscriptions','UPDATE')
+    or has_table_privilege('authenticated','public.usage_events','INSERT') then
+    raise exception 'A browser role can forge commercial access or usage evidence';
+  end if;
+
+  raise notice 'Phase 4N execution locks and monetization boundaries verified';
 end
 $production_smoke$;

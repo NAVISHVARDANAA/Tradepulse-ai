@@ -324,6 +324,23 @@ and all live execution and fund-movement locks unchanged.
 notification isolation and append-only consent tests, production HTTP 401 and
 internal CORS isolation, with all live execution and fund-movement locks unchanged.
 
+### Phase 4N — monetization foundation (implemented)
+
+- Versioned Free, Pro and Business catalog in USD and GBP with normalized,
+  customer-visible entitlements instead of new hard-coded commercial limits.
+- Private subscription lifecycle, append-only events and hourly fail-closed
+  reconciliation of expired trials back to Free access.
+- A one-time 14-day Pro trial requires authentication, collects no payment method
+  and cannot create a checkout session, charge, refund or fund movement.
+- Service-only, idempotent, non-billable usage evidence supports future plan
+  analytics without becoming a financial or accounting ledger.
+- Billing-provider abstraction is database-locked with checkout, charge collection
+  and customer portal disabled until provider, tax and entity approval.
+
+**Phase 4N exit gate:** migration 026 parity, subscription isolation, append-only
+history, trial idempotency, expiry reconciliation and explicit absence of payment
+and live-order objects, with all execution locks unchanged.
+
 ### Future regulated activation work
 
 - Sandbox account and order mirroring behind separately permissioned services.
