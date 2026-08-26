@@ -64,13 +64,13 @@ jobs:
       - name: Install the repository-pinned Supabase CLI
         run: npm ci
 
-      - name: Verify migration 028 and remote migration parity
+      - name: Verify migration 029 and remote migration parity
         run: |
           set -eu
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])028([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])029([^0-9]|$)' migration-list.txt
           npx --no-install supabase db push \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" \
@@ -367,7 +367,7 @@ jobs:
             echo "## Supabase production verification"
             echo
             echo "- Commit: \`$GITHUB_SHA\`"
-            echo "- Migration history: synchronized through 028"
+            echo "- Migration history: synchronized through 029"
             echo "- Private customer feedback and support boundary: verified"
             echo "- Customer preferences and durable onboarding: verified"
             echo "- Subscription reconciliation: verified"

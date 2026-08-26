@@ -50,7 +50,7 @@ for this adapter.
 The workflow performs a database dry run, applies every pending migration in
 filename order and redeploys every customer and internal Edge Function affected
 by the shared security, observability and account-protection boundary. It verifies
-migration `028`, checks active functions, runs the query-only production lock
+migration `029`, checks active functions, runs the query-only production lock
 smoke check and proves that unauthenticated brokerage, paper-simulation,
 platform-evaluation and account-security requests receive HTTP 401.
 

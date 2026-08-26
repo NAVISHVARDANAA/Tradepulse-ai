@@ -12,3 +12,7 @@ fingerprints, provider payloads, payment details or trade instructions.
 
 After merge, deploy with `DEPLOY_PHASE_4P`, then run the query-only production
 verification with `VERIFY_PHASE_4P`.
+
+Migration `029_support_reference_compatibility.sql` replaces the optional
+`gen_random_bytes` dependency with the Supabase-supported UUID primitive while
+preserving the same opaque support-reference format.
