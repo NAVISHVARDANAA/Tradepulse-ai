@@ -16,3 +16,6 @@ treatment, VAT/GST evidence, refund/cancellation policy, invoice requirements,
 chargeback handling, webhook verification, reconciliation, customer support and
 data-processing terms. Provider references must be stored only as irreversible
 digests in the product database; payment credentials must remain provider-hosted.
+
+Migration `030_deterministic_trial_window.sql` captures one timestamp for trial
+start, end and current-period end, guaranteeing an exact fourteen-day window.

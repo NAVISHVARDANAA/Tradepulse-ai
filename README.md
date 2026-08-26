@@ -504,6 +504,8 @@ and product-feedback intake with customer-visible references; see
 [`docs/CUSTOMER_SUPPORT.md`](docs/CUSTOMER_SUPPORT.md).
 Migration `029_support_reference_compatibility.sql` makes opaque support-reference
 generation portable across the production and isolated Supabase environments.
+Migration `030_deterministic_trial_window.sql` guarantees exact fourteen-day Pro
+trial windows by deriving every boundary from one captured timestamp.
 
 ## Production gates
 
