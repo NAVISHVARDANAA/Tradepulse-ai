@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type VERIFY_PHASE_4O to run read-only customer-experience checks
+        description: Type VERIFY_PHASE_4P to run read-only customer-support checks
         required: true
         type: string
 
@@ -38,8 +38,8 @@ jobs:
           VERIFICATION_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$VERIFICATION_CONFIRMATION" = "VERIFY_PHASE_4O" || {
-            echo "Verification confirmation did not match VERIFY_PHASE_4O."
+          test "$VERIFICATION_CONFIRMATION" = "VERIFY_PHASE_4P" || {
+            echo "Verification confirmation did not match VERIFY_PHASE_4P."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -64,13 +64,13 @@ jobs:
       - name: Install the repository-pinned Supabase CLI
         run: npm ci
 
-      - name: Verify migration 027 and remote migration parity
+      - name: Verify migration 028 and remote migration parity
         run: |
           set -eu
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])027([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])028([^0-9]|$)' migration-list.txt
           npx --no-install supabase db push \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" \
@@ -367,7 +367,8 @@ jobs:
             echo "## Supabase production verification"
             echo
             echo "- Commit: \`$GITHUB_SHA\`"
-            echo "- Migration history: synchronized through 027"
+            echo "- Migration history: synchronized through 028"
+            echo "- Private customer feedback and support boundary: verified"
             echo "- Customer preferences and durable onboarding: verified"
             echo "- Subscription reconciliation: verified"
             echo "- Checkout and charge collection: disabled"

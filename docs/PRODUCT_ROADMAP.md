@@ -352,6 +352,16 @@ and live-order objects, with all execution locks unchanged.
 **Phase 4O exit gate:** migration 027 parity, private preference and onboarding
 tests, static-only PWA cache verification and unchanged payment and execution locks.
 
+### Phase 4P — customer feedback and support (implemented)
+
+- Authenticated, private intake for bugs, product feedback, data questions and account help.
+- Customer-visible opaque support references and request history.
+- Server-side content bounds and per-account abuse controls.
+- No attachments, credentials, device fingerprints, provider payloads or trade instructions.
+
+**Phase 4P exit gate:** migration 028 parity, cross-user isolation, protected
+status history and unchanged payment, brokerage and execution locks.
+
 ### Future regulated activation work
 
 - Sandbox account and order mirroring behind separately permissioned services.

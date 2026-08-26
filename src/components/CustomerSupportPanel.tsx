@@ -1,0 +1,18 @@
+import { CheckCircle2, Headphones, LoaderCircle, MessageSquareText } from 'lucide-react'
+import { useCallback,useEffect,useState } from 'react'
+import { useAuth } from '../lib/auth/AuthProvider'
+import { getSupportRequests,submitSupportRequest,type SupportRequest,type SupportRequestType } from '../lib/queries/customerSupport'
+
+export function CustomerSupportPanel(){
+  const{session}=useAuth();const[items,setItems]=useState<SupportRequest[]>([]);const[type,setType]=useState<SupportRequestType>('product_feedback');const[subject,setSubject]=useState('');const[message,setMessage]=useState('');const[rating,setRating]=useState<number|null>(null);const[loading,setLoading]=useState(false);const[notice,setNotice]=useState<string|null>(null);const[error,setError]=useState<string|null>(null)
+  const refresh=useCallback(async()=>{if(!session)return;try{setItems(await getSupportRequests())}catch{setError('Support history could not be loaded.')}},[session])
+  useEffect(()=>{void refresh()},[refresh]);if(!session)return null
+  const submit=async()=>{setLoading(true);setError(null);setNotice(null);try{const created=await submitSupportRequest(type,subject,message,rating);setNotice(`Request received. Reference ${created.supportReference}`);setSubject('');setMessage('');setRating(null);await refresh()}catch{setError('The request could not be submitted safely. Check the fields and try again.')}finally{setLoading(false)}}
+  return <section className="panel support-panel"><div className="panel-header"><div><p className="eyebrow">Feedback + support · Phase 4P</p><h2>Help us improve TradePulse</h2></div><span className="status-badge"><Headphones size={14}/> Private</span></div>
+    <p className="panel-description">Report a problem, ask about data or share product feedback. Never include passwords, API keys, payment details or brokerage credentials.</p>
+    {error&&<p className="error-message" role="alert">{error}</p>}{notice&&<p className="success-message" role="status">{notice}</p>}
+    <div className="support-form"><label><span>Request type</span><select value={type} onChange={e=>setType(e.target.value as SupportRequestType)}><option value="product_feedback">Product feedback</option><option value="bug">Report a bug</option><option value="data_question">Data question</option><option value="account_help">Account help</option></select></label><label><span>Subject</span><input value={subject} minLength={3} maxLength={120} onChange={e=>setSubject(e.target.value)}/></label><label className="support-message"><span>Message</span><textarea value={message} minLength={10} maxLength={2000} rows={5} onChange={e=>setMessage(e.target.value)}/></label><label><span>Optional experience rating</span><select value={rating??''} onChange={e=>setRating(e.target.value?Number(e.target.value):null)}><option value="">No rating</option>{[5,4,3,2,1].map(value=><option key={value} value={value}>{value} / 5</option>)}</select></label></div>
+    <button className="primary-button" disabled={loading||subject.trim().length<3||message.trim().length<10} onClick={()=>void submit()}>{loading?<LoaderCircle className="spinning" size={16}/>:<MessageSquareText size={16}/>} Submit securely</button>
+    {items.length>0&&<div className="support-history"><h3>Recent requests</h3>{items.map(item=><div className="support-row" key={item.id}><CheckCircle2 size={16}/><div><strong>{item.subject}</strong><span>{item.supportReference} · {item.status.replace('_',' ')}</span></div></div>)}</div>}
+  </section>
+}
