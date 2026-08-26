@@ -39,25 +39,25 @@ The dashboard will show `not run`; an authorized probe without credentials fails
 closed and stores only `CONFIGURATION_INVALID`. Never use Alpaca live credentials
 for this adapter.
 
-## Release Phase 4L
+## Release Phase 4M
 
 1. Confirm the CI workflow on `main` is green.
 2. Open **Actions → Deploy Supabase production → Run workflow**.
 3. Select the `main` branch.
-4. Enter `DEPLOY_PHASE_4L` as the confirmation value.
+4. Enter `DEPLOY_PHASE_4M` as the confirmation value.
 5. Approve the `production` environment deployment when prompted.
 
 The workflow performs a database dry run, applies every pending migration in
 filename order and redeploys every customer and internal Edge Function affected
 by the shared security, observability and account-protection boundary. It verifies
-migration `024`, checks active functions, runs the query-only production lock
+migration `025`, checks active functions, runs the query-only production lock
 smoke check and proves that unauthenticated brokerage, paper-simulation,
 platform-evaluation and account-security requests receive HTTP 401.
 
 ## Read-only production verification
 
 Run **Actions → Verify Supabase production → Run workflow** after a release or
-operational incident. Select `main` and enter `VERIFY_PHASE_4L`.
+operational incident. Select `main` and enter `VERIFY_PHASE_4M`.
 
 The verification workflow performs no production writes. It confirms local and
 remote migration parity, executes the audited, query-only

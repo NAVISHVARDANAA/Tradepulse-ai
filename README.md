@@ -331,6 +331,7 @@ The repository contains seventeen server-side functions:
 | `evaluate-broker-operations` | Evaluate sanitized broker freshness and reconciliation signals and manage operational alerts | `x-sync-secret` |
 | `evaluate-forecast-governance` | Score due forecasts, publish reliability evidence and enforce the model display gate | `x-sync-secret` |
 | `evaluate-platform-reliability` | Consolidate sanitized service health, SLO evidence and incident lifecycle without enabling execution | `x-sync-secret` |
+| `evaluate-data-quality` | Evaluate freshness, completeness, duplicate and synchronization evidence against versioned policies | `x-sync-secret` |
 
 Set a strong `SYNC_SECRET` in Supabase secrets before deploying scheduled
 functions. Supabase supplies `SUPABASE_URL`, `SUPABASE_ANON_KEY` and
@@ -381,7 +382,7 @@ approach them, while one shared authentication provider owns the Supabase sessio
 Production Supabase releases are manual and environment-protected. See
 [`docs/SUPABASE_DEPLOYMENT.md`](docs/SUPABASE_DEPLOYMENT.md) for the required
 GitHub environment secrets, approval gate, read-only verification workflow and
-Phase 4L release procedure. The enforced trust baseline and operational launch
+Phase 4M release procedure. The enforced trust baseline and operational launch
 checklist are documented in
 [`docs/SECURITY_ARCHITECTURE.md`](docs/SECURITY_ARCHITECTURE.md). Reliability
 objectives and incident operations are documented in
@@ -482,6 +483,11 @@ identity-bound data-access and deletion requests. Browser roles cannot complete,
 reject or directly execute destructive requests, and enrolled accounts require
 a verified session before a request is accepted. See
 [`docs/CUSTOMER_PRIVACY.md`](docs/CUSTOMER_PRIVACY.md).
+
+Migration `025_data_trust_notifications.sql` adds versioned data-quality policies,
+append-only evaluations, a current trust surface and private notification consent
+history. Email and push remain hard-disabled; see
+[`docs/DATA_TRUST_NOTIFICATIONS.md`](docs/DATA_TRUST_NOTIFICATIONS.md).
 
 ## Production gates
 

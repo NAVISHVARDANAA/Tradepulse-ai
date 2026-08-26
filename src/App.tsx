@@ -37,6 +37,9 @@ const AccountSecurityPanel = lazy(() => import('./components/AccountSecurityPane
 const CustomerPrivacyPanel = lazy(() => import('./components/CustomerPrivacyPanel').then((module) => ({
   default: module.CustomerPrivacyPanel,
 })))
+const DataTrustNotificationPanel = lazy(() => import('./components/DataTrustNotificationPanel').then((module) => ({
+  default: module.DataTrustNotificationPanel,
+})))
 const BrokerageReadinessPanel = lazy(() => import('./components/BrokerageReadinessPanel').then((module) => ({
   default: module.BrokerageReadinessPanel,
 })))
@@ -79,6 +82,7 @@ const navItems = [
   { label: 'Academy', href: '#academy' },
   { label: 'Security', href: '#account-security' },
   { label: 'Privacy', href: '#customer-privacy' },
+  { label: 'Data trust', href: '#data-trust' },
   { label: 'Markets', href: '#markets' },
   { label: 'Forecasts', href: '#forecasts' },
   { label: 'Paper investing', href: '#paper-investing' },
@@ -386,6 +390,14 @@ function App() {
           <ProductErrorBoundary title="Privacy controls are temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Data Control Center" />}>
               <CustomerPrivacyPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </DeferredSection>
+
+        <DeferredSection id="data-trust" label="Data Trust and Notifications" minimumHeight={420}>
+          <ProductErrorBoundary title="Data trust controls are temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Data Trust and Notifications" />}>
+              <DataTrustNotificationPanel />
             </Suspense>
           </ProductErrorBoundary>
         </DeferredSection>
