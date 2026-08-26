@@ -372,6 +372,16 @@ status history and unchanged payment, brokerage and execution locks.
 **Phase 4Q exit gate:** migration 031 parity, cross-workspace isolation, role
 escalation prevention, append-only evidence and unchanged execution locks.
 
+### Phase 4R — Business team access (implemented)
+
+- Seven-day in-app invitations matched to a verified signed-in email.
+- Owner/admin member visibility and protected non-owner removal.
+- Seat-limit enforcement across active memberships and pending invitations.
+- External email, organization billing, shared portfolios and trading remain disabled.
+
+**Phase 4R exit gate:** migration 032 parity, invitation identity matching,
+single-use acceptance, owner protection and unchanged billing and execution locks.
+
 ### Future regulated activation work
 
 - Sandbox account and order mirroring behind separately permissioned services.

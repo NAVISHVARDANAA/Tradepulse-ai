@@ -42,8 +42,9 @@ begin
     or to_regclass('public.customer_experience_events') is null
     or to_regclass('public.customer_support_requests') is null
     or to_regclass('public.business_workspaces') is null
-    or to_regclass('public.business_workspace_memberships') is null then
-    raise exception 'Phase 4Q trust, security and Business-workspace objects are incomplete';
+    or to_regclass('public.business_workspace_memberships') is null
+    or to_regclass('public.business_workspace_invitations') is null then
+    raise exception 'Phase 4R trust, security and Business-team objects are incomplete';
   end if;
 
   if not exists (
@@ -472,6 +473,6 @@ begin
     raise exception 'A browser role can forge commercial access or usage evidence';
   end if;
 
-  raise notice 'Phase 4Q execution locks and Business-workspace boundaries verified';
+  raise notice 'Phase 4R execution locks and Business-team boundaries verified';
 end
 $production_smoke$;
