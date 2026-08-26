@@ -1,0 +1,34 @@
+begin;select plan(26);
+select ok(to_regclass('public.business_workspace_invitations') is not null,'workspace invitations exist');
+select ok((select relrowsecurity from pg_class where oid='public.business_workspace_invitations'::regclass),'invitations use RLS');
+select ok(not has_table_privilege('authenticated','public.business_workspace_invitations','INSERT'),'browser cannot forge invitations');
+select ok(not has_table_privilege('authenticated','public.business_workspace_invitations','UPDATE'),'browser cannot accept invitations directly');
+select ok(has_function_privilege('authenticated','public.invite_business_workspace_member(uuid,text,text)','EXECUTE'),'authenticated admins may invoke invitation boundary');
+select ok(has_function_privilege('authenticated','public.accept_business_workspace_invitation(uuid)','EXECUTE'),'authenticated invitee may accept through boundary');
+select ok(has_function_privilege('authenticated','public.remove_business_workspace_member(uuid,uuid)','EXECUTE'),'authenticated admins may invoke removal boundary');
+select ok(not has_function_privilege('anon','public.invite_business_workspace_member(uuid,text,text)','EXECUTE'),'anonymous invitation is blocked');
+insert into auth.users(id,instance_id,aud,role,email,encrypted_password,email_confirmed_at,created_at,updated_at,raw_app_meta_data,raw_user_meta_data) values
+('00000000-0000-4000-8000-000000000052','00000000-0000-0000-0000-000000000000','authenticated','authenticated','owner4r@example.test','',now(),now(),now(),'{}','{}'),
+('00000000-0000-4000-8000-000000000053','00000000-0000-0000-0000-000000000000','authenticated','authenticated','member4r@example.test','',now(),now(),now(),'{}','{}');
+select set_config('request.jwt.claim.role','authenticated',true);select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-000000000052',true);select set_config('request.jwt.claims','{"role":"authenticated","sub":"00000000-0000-4000-8000-000000000052","email":"owner4r@example.test"}',true);
+select is((public.create_business_workspace('Phase 4R Team','phase-4r-team')).status,'setup','owner creates workspace');
+select is((public.invite_business_workspace_member((select id from public.business_workspaces where owner_user_id=auth.uid()),'MEMBER4R@EXAMPLE.TEST','analyst')).status,'pending','admin creates pending invitation');
+select is((select invited_email from public.business_workspace_invitations),'member4r@example.test','invited email is normalized');
+select is((select expires_at-created_at from public.business_workspace_invitations),interval '7 days','invitation expires after seven days');
+select throws_ok($$select public.invite_business_workspace_member((select id from public.business_workspaces where owner_user_id=auth.uid()),'bad-address','viewer')$$,'P0001','Invalid workspace invitation','invalid email is rejected');
+select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-000000000053',true);select set_config('request.jwt.claims','{"role":"authenticated","sub":"00000000-0000-4000-8000-000000000053","email":"member4r@example.test"}',true);
+select is((public.accept_business_workspace_invitation((select id from public.business_workspace_invitations))).role,'analyst','matching invitee accepts assigned role');
+select is((select status from public.business_workspace_invitations),'accepted','invitation becomes accepted');
+select is((select count(*) from public.business_workspace_memberships where status='active'),2::bigint,'workspace has two active members');
+select throws_ok($$select public.accept_business_workspace_invitation((select id from public.business_workspace_invitations))$$,'P0001','Active invitation not found','invitation cannot be reused');
+select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-000000000052',true);select set_config('request.jwt.claims','{"role":"authenticated","sub":"00000000-0000-4000-8000-000000000052","email":"owner4r@example.test"}',true);
+select lives_ok($$select public.remove_business_workspace_member((select id from public.business_workspaces where owner_user_id=auth.uid()),'00000000-0000-4000-8000-000000000053')$$,'owner removes non-owner member');
+select is((select status from public.business_workspace_memberships where user_id='00000000-0000-4000-8000-000000000053'),'suspended','removed membership is suspended');
+select throws_ok($$select public.remove_business_workspace_member((select id from public.business_workspaces where owner_user_id=auth.uid()),auth.uid())$$,'P0001','Workspace owner membership is protected','owner cannot be removed');
+select is((select count(*) from public.business_workspace_events where event_type='membership_changed'),3::bigint,'invitation, acceptance and removal evidence recorded');
+select ok(to_regclass('public.organization_billing_accounts') is null,'organization billing remains absent');
+select ok(to_regclass('public.shared_brokerage_accounts') is null,'shared brokerage remains absent');
+select is((select count(*) from public.billing_provider_registry where checkout_enabled or charge_collection_enabled),0::bigint,'billing execution remains disabled');
+select is((select count(*) from public.broker_provider_registry where live_order_routing_enabled),0::bigint,'live broker routes remain disabled');
+select is((select execution_enabled from public.brokerage_execution_controls where control_key='global-live-orders'),false,'global execution remains disabled');
+select * from finish();rollback;

@@ -57,6 +57,11 @@
 .workspace-create button { grid-column:1/-1;width:max-content; }
 .workspace-list { display:grid;gap:.7rem;margin:1.25rem 0; }.workspace-list article { display:flex;align-items:center;gap:.8rem;padding:1rem;border:1px solid var(--border);border-radius:.8rem;background:var(--panel-soft); }
 .workspace-list article div { display:grid;flex:1; }.workspace-list article div span,.workspace-seats { color:var(--muted);font-size:.82rem;text-transform:capitalize; }.workspace-seats { display:flex;align-items:center;gap:.4rem; }
+.workspace-invite,.workspace-invite-form { display:flex;align-items:center;gap:.8rem;padding:1rem;margin:1rem 0;border:1px solid var(--border);border-radius:.8rem;background:var(--panel-soft); }
+.workspace-invite div { display:grid;flex:1; }.workspace-invite div span { color:var(--muted);font-size:.82rem;text-transform:capitalize; }
+.workspace-invite-form { display:grid;grid-template-columns:2fr 1fr auto;align-items:end; }.workspace-invite-form label { display:grid;gap:.4rem; }.workspace-invite-form label span { color:var(--muted);font-size:.82rem;font-weight:650; }
+.workspace-invite-form input,.workspace-invite-form select { min-height:44px;padding:.65rem .75rem;color:inherit;background:rgba(9,22,38,.8);border:1px solid var(--border);border-radius:.6rem; }
+.workspace-members { margin:1rem 0; }.workspace-members > div { display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:.8rem;padding:.65rem 0;border-bottom:1px solid var(--border); }.workspace-members > div span { overflow-wrap:anywhere; }.workspace-members > div strong { color:var(--muted);font-size:.82rem;text-transform:capitalize; }.workspace-members button { display:grid;place-items:center;padding:.4rem;color:var(--negative);background:transparent;border:1px solid var(--border);border-radius:.45rem; }
 
 html[data-density='compact'] .panel { padding: 1rem; }
 html[data-density='compact'] .dashboard { gap: .8rem; }
@@ -76,6 +81,7 @@ html.user-reduced-motion *, html.user-reduced-motion *::before, html.user-reduce
   .accessibility-options { grid-column: auto; flex-direction: column; align-items: flex-start; gap: .25rem; }
   .support-form { grid-template-columns:1fr; }.support-message { grid-column:auto; }
   .workspace-create { grid-template-columns:1fr; }.workspace-create button { grid-column:auto; }.workspace-list article { align-items:flex-start;flex-wrap:wrap; }
+  .workspace-invite-form { grid-template-columns:1fr; }.workspace-members > div { grid-template-columns:1fr auto; }.workspace-members button { grid-column:2; }
 }
 
 * {

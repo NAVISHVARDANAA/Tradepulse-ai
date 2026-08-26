@@ -177,6 +177,9 @@ jobs:
       - name: Test Business workspace contracts
         run: npx --no-install supabase test db supabase/tests/database/business_workspace_foundation.test.sql
 
+      - name: Test Business team-access contracts
+        run: npx --no-install supabase test db supabase/tests/database/business_team_access.test.sql
+
       - name: Assert production smoke SQL is query-only
         run: bash scripts/assert-read-only-sql.sh supabase/tests/production/brokerage_readiness_smoke.sql
 
