@@ -46,6 +46,9 @@ const MonetizationPanel = lazy(() => import('./components/MonetizationPanel').th
 const CustomerExperiencePanel = lazy(() => import('./components/CustomerExperiencePanel').then((module) => ({
   default: module.CustomerExperiencePanel,
 })))
+const CustomerSupportPanel = lazy(() => import('./components/CustomerSupportPanel').then((module) => ({
+  default: module.CustomerSupportPanel,
+})))
 const BrokerageReadinessPanel = lazy(() => import('./components/BrokerageReadinessPanel').then((module) => ({
   default: module.BrokerageReadinessPanel,
 })))
@@ -91,6 +94,7 @@ const navItems = [
   { label: 'Data trust', href: '#data-trust' },
   { label: 'Plans', href: '#plans' },
   { label: 'Experience', href: '#customer-experience' },
+  { label: 'Support', href: '#customer-support' },
   { label: 'Markets', href: '#markets' },
   { label: 'Forecasts', href: '#forecasts' },
   { label: 'Paper investing', href: '#paper-investing' },
@@ -423,6 +427,14 @@ function App() {
           <ProductErrorBoundary title="Customer experience controls are temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Customer Experience" />}>
               <CustomerExperiencePanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </DeferredSection>
+
+        <DeferredSection id="customer-support" label="Customer Support" minimumHeight={500}>
+          <ProductErrorBoundary title="Customer support is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Customer Support" />}>
+              <CustomerSupportPanel />
             </Suspense>
           </ProductErrorBoundary>
         </DeferredSection>
