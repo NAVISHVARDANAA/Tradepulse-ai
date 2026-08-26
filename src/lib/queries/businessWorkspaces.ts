@@ -1,0 +1,5 @@
+import { supabase } from '../supabase/client'
+export type BusinessWorkspace={id:string;name:string;slug:string;status:'setup'|'active'|'suspended';seatLimit:number;role:'owner'|'admin'|'analyst'|'viewer'}
+type MembershipRow={role:BusinessWorkspace['role'];business_workspaces:{id:string;name:string;slug:string;status:BusinessWorkspace['status'];seat_limit:number}|null}
+export async function getBusinessWorkspaces(){const{data:auth}=await supabase.auth.getUser();if(!auth.user)throw new Error('Authentication required');const{data,error}=await supabase.from('business_workspace_memberships').select('role,business_workspaces(id,name,slug,status,seat_limit)').eq('status','active');if(error)throw error;return(data as unknown as MembershipRow[]).flatMap(row=>row.business_workspaces?[{...row.business_workspaces,seatLimit:row.business_workspaces.seat_limit,role:row.role}]:[])}
+export async function createBusinessWorkspace(name:string,slug:string){const{error}=await supabase.rpc('create_business_workspace',{p_name:name,p_slug:slug});if(error)throw error}

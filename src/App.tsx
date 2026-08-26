@@ -49,6 +49,9 @@ const CustomerExperiencePanel = lazy(() => import('./components/CustomerExperien
 const CustomerSupportPanel = lazy(() => import('./components/CustomerSupportPanel').then((module) => ({
   default: module.CustomerSupportPanel,
 })))
+const BusinessWorkspacePanel = lazy(() => import('./components/BusinessWorkspacePanel').then((module) => ({
+  default: module.BusinessWorkspacePanel,
+})))
 const BrokerageReadinessPanel = lazy(() => import('./components/BrokerageReadinessPanel').then((module) => ({
   default: module.BrokerageReadinessPanel,
 })))
@@ -95,6 +98,7 @@ const navItems = [
   { label: 'Plans', href: '#plans' },
   { label: 'Experience', href: '#customer-experience' },
   { label: 'Support', href: '#customer-support' },
+  { label: 'Business', href: '#business-workspace' },
   { label: 'Markets', href: '#markets' },
   { label: 'Forecasts', href: '#forecasts' },
   { label: 'Paper investing', href: '#paper-investing' },
@@ -435,6 +439,14 @@ function App() {
           <ProductErrorBoundary title="Customer support is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Customer Support" />}>
               <CustomerSupportPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </DeferredSection>
+
+        <DeferredSection id="business-workspace" label="Business Workspace" minimumHeight={420}>
+          <ProductErrorBoundary title="Business workspace is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Business Workspace" />}>
+              <BusinessWorkspacePanel />
             </Suspense>
           </ProductErrorBoundary>
         </DeferredSection>

@@ -362,6 +362,16 @@ tests, static-only PWA cache verification and unchanged payment and execution lo
 **Phase 4P exit gate:** migration 028 parity, cross-user isolation, protected
 status history and unchanged payment, brokerage and execution locks.
 
+### Phase 4Q — Business workspace foundation (implemented)
+
+- Private organization profiles and customer-visible workspace identity.
+- Owner, admin, analyst and viewer role vocabulary with server-controlled membership.
+- Append-only workspace evidence and one owned workspace per customer.
+- Invitations, shared portfolios, organization billing and trading remain disabled.
+
+**Phase 4Q exit gate:** migration 031 parity, cross-workspace isolation, role
+escalation prevention, append-only evidence and unchanged execution locks.
+
 ### Future regulated activation work
 
 - Sandbox account and order mirroring behind separately permissioned services.
