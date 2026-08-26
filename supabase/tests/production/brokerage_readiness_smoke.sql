@@ -38,8 +38,9 @@ begin
     or to_regclass('public.commercial_plans') is null
     or to_regclass('public.customer_subscriptions') is null
     or to_regclass('public.subscription_events') is null
-    or to_regclass('public.usage_events') is null then
-    raise exception 'Phase 4N trust, security and monetization objects are incomplete';
+    or to_regclass('public.usage_events') is null
+    or to_regclass('public.customer_experience_events') is null then
+    raise exception 'Phase 4O trust, security and customer-experience objects are incomplete';
   end if;
 
   if not exists (
@@ -468,6 +469,6 @@ begin
     raise exception 'A browser role can forge commercial access or usage evidence';
   end if;
 
-  raise notice 'Phase 4N execution locks and monetization boundaries verified';
+  raise notice 'Phase 4O execution locks and customer-experience boundaries verified';
 end
 $production_smoke$;

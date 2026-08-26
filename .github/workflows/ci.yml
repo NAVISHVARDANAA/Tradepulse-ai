@@ -168,6 +168,9 @@ jobs:
       - name: Test monetization-foundation contracts
         run: npx --no-install supabase test db supabase/tests/database/monetization_foundation.test.sql
 
+      - name: Test customer-experience contracts
+        run: npx --no-install supabase test db supabase/tests/database/customer_experience_foundation.test.sql
+
       - name: Assert production smoke SQL is query-only
         run: bash scripts/assert-read-only-sql.sh supabase/tests/production/brokerage_readiness_smoke.sql
 

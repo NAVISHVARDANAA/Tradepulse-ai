@@ -24,6 +24,43 @@
   --shadow: 0 20px 45px rgba(15, 23, 42, 0.35);
 }
 
+.skip-link {
+  position: fixed; left: 1rem; top: -4rem; z-index: 1000; padding: .7rem 1rem;
+  color: #06111f; background: #7dd3fc; border-radius: .55rem; font-weight: 700;
+}
+.skip-link:focus { top: 1rem; }
+.experience-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 1.25rem; }
+.experience-grid > label { display: grid; gap: .45rem; }
+.experience-grid label > span { color: var(--muted); font-size: .82rem; font-weight: 650; }
+.experience-grid input:not([type='checkbox']), .experience-grid select {
+  width: 100%; min-height: 44px; padding: .65rem .75rem; color: inherit;
+  background: rgba(9, 22, 38, .8); border: 1px solid var(--border); border-radius: .6rem;
+}
+.accessibility-options { display: flex; align-items: center; gap: 1.25rem; grid-column: 1 / -1; }
+.accessibility-options label { display: flex; align-items: center; gap: .55rem; min-height: 44px; }
+.accessibility-options input { width: 1.1rem; height: 1.1rem; accent-color: #38bdf8; }
+.experience-actions { display: flex; align-items: center; flex-wrap: wrap; gap: .8rem; margin-top: 1.25rem; }
+.install-status { display: inline-flex; align-items: center; gap: .45rem; color: var(--muted); font-size: .84rem; }
+.success-message { color: #86efac; }
+
+html[data-density='compact'] .panel { padding: 1rem; }
+html[data-density='compact'] .dashboard { gap: .8rem; }
+html.high-contrast { --border: rgba(255,255,255,.62); --muted: #e2e8f0; }
+html[data-theme='light'] { color-scheme: light; }
+html[data-theme='light'] body { color: #102033; background: #eef6ff; }
+html[data-theme='light'] .panel, html[data-theme='light'] .topbar { background: rgba(255,255,255,.92); border-color: #a9bed3; }
+html[data-theme='light'] .experience-grid input:not([type='checkbox']), html[data-theme='light'] .experience-grid select { background: #fff; border-color: #94a9be; }
+html.user-reduced-motion *, html.user-reduced-motion *::before, html.user-reduced-motion *::after {
+  scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+@media (max-width: 680px) {
+  .experience-grid { grid-template-columns: 1fr; }
+  .accessibility-options { grid-column: auto; flex-direction: column; align-items: flex-start; gap: .25rem; }
+}
+
 * {
   box-sizing: border-box;
 }

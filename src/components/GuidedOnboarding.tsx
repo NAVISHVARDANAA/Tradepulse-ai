@@ -9,9 +9,9 @@ import {
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
-import { saveAcademyOnboarding } from '../lib/queries/academy'
+import { saveCustomerOnboarding } from '../lib/queries/customerExperience'
 
-const TOUR_KEY = 'tradepulse-product-tour-v2'
+const TOUR_KEY = 'tradepulse-product-tour-v3'
 
 const steps = [
   {
@@ -66,7 +66,7 @@ export function GuidedOnboarding() {
       behavior: 'smooth',
       block: 'start',
     })
-    void saveAcademyOnboarding({ currentStep: step })
+    void saveCustomerOnboarding(step, 'in_progress')
   }, [mode, step])
 
   useEffect(() => {
@@ -85,13 +85,13 @@ export function GuidedOnboarding() {
   const skip = () => {
     localStorage.setItem(TOUR_KEY, 'skipped')
     setMode(null)
-    void saveAcademyOnboarding({ currentStep: step, skipped: true })
+    void saveCustomerOnboarding(step, 'skipped')
   }
 
   const complete = () => {
     localStorage.setItem(TOUR_KEY, 'completed')
     setMode(null)
-    void saveAcademyOnboarding({ currentStep: steps.length, completed: true })
+    void saveCustomerOnboarding(steps.length, 'completed')
     document.getElementById('dashboard')?.scrollIntoView({ behavior: 'smooth' })
   }
 
