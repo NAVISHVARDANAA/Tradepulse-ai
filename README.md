@@ -382,7 +382,7 @@ approach them, while one shared authentication provider owns the Supabase sessio
 Production Supabase releases are manual and environment-protected. See
 [`docs/SUPABASE_DEPLOYMENT.md`](docs/SUPABASE_DEPLOYMENT.md) for the required
 GitHub environment secrets, approval gate, read-only verification workflow and
-Phase 4P release procedure. The enforced trust baseline and operational launch
+Phase 4Q release procedure. The enforced trust baseline and operational launch
 checklist are documented in
 [`docs/SECURITY_ARCHITECTURE.md`](docs/SECURITY_ARCHITECTURE.md). Reliability
 objectives and incident operations are documented in
@@ -506,6 +506,9 @@ Migration `029_support_reference_compatibility.sql` makes opaque support-referen
 generation portable across the production and isolated Supabase environments.
 Migration `030_deterministic_trial_window.sql` guarantees exact fourteen-day Pro
 trial windows by deriving every boundary from one captured timestamp.
+Migration `031_business_workspace_foundation.sql` adds private organization and
+role foundations without invitations, organization billing or shared trading;
+see [`docs/BUSINESS_WORKSPACES.md`](docs/BUSINESS_WORKSPACES.md).
 
 ## Production gates
 
