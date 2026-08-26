@@ -40,6 +40,9 @@ const CustomerPrivacyPanel = lazy(() => import('./components/CustomerPrivacyPane
 const DataTrustNotificationPanel = lazy(() => import('./components/DataTrustNotificationPanel').then((module) => ({
   default: module.DataTrustNotificationPanel,
 })))
+const MonetizationPanel = lazy(() => import('./components/MonetizationPanel').then((module) => ({
+  default: module.MonetizationPanel,
+})))
 const BrokerageReadinessPanel = lazy(() => import('./components/BrokerageReadinessPanel').then((module) => ({
   default: module.BrokerageReadinessPanel,
 })))
@@ -83,6 +86,7 @@ const navItems = [
   { label: 'Security', href: '#account-security' },
   { label: 'Privacy', href: '#customer-privacy' },
   { label: 'Data trust', href: '#data-trust' },
+  { label: 'Plans', href: '#plans' },
   { label: 'Markets', href: '#markets' },
   { label: 'Forecasts', href: '#forecasts' },
   { label: 'Paper investing', href: '#paper-investing' },
@@ -398,6 +402,14 @@ function App() {
           <ProductErrorBoundary title="Data trust controls are temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Data Trust and Notifications" />}>
               <DataTrustNotificationPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </DeferredSection>
+
+        <DeferredSection id="plans" label="Plans and Entitlements" minimumHeight={520}>
+          <ProductErrorBoundary title="Commercial plans are temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Plans and Entitlements" />}>
+              <MonetizationPanel />
             </Suspense>
           </ProductErrorBoundary>
         </DeferredSection>

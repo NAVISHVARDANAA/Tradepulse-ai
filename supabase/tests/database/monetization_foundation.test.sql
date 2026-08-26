@@ -1,0 +1,53 @@
+begin;
+select plan(41);
+
+select ok(to_regclass('public.commercial_plans') is not null,'plan catalog exists');
+select ok(to_regclass('public.plan_entitlements') is not null,'plan entitlements exist');
+select ok(to_regclass('public.billing_provider_registry') is not null,'billing provider boundary exists');
+select ok(to_regclass('public.customer_subscriptions') is not null,'private subscriptions exist');
+select ok(to_regclass('public.subscription_events') is not null,'subscription history exists');
+select ok(to_regclass('public.usage_events') is not null,'usage evidence exists');
+select ok(to_regclass('public.customer_entitlements') is not null,'customer entitlement view exists');
+select is((select count(*) from public.commercial_plans where active),3::bigint,'three launch plans are active');
+select is((select count(*) from public.plan_entitlements),18::bigint,'every plan has six entitlements');
+select is((select trial_days from public.commercial_plans where code='pro'),14::smallint,'Pro trial is fourteen days');
+select is((select count(*) from public.billing_provider_registry where checkout_enabled or charge_collection_enabled or customer_portal_enabled),0::bigint,'all billing execution is disabled');
+select is((select count(*) from public.usage_meter_definitions where billable),0::bigint,'usage meters are non-billable');
+select ok((select relrowsecurity from pg_class where oid='public.customer_subscriptions'::regclass),'subscriptions use RLS');
+select ok((select relrowsecurity from pg_class where oid='public.subscription_events'::regclass),'subscription events use RLS');
+select ok((select relrowsecurity from pg_class where oid='public.usage_events'::regclass),'usage events use RLS');
+select ok(not has_table_privilege('authenticated','public.customer_subscriptions','INSERT'),'browser cannot forge subscriptions');
+select ok(not has_table_privilege('authenticated','public.customer_subscriptions','UPDATE'),'browser cannot upgrade access');
+select ok(not has_table_privilege('authenticated','public.subscription_events','INSERT'),'browser cannot forge subscription events');
+select ok(not has_table_privilege('authenticated','public.usage_events','INSERT'),'browser cannot forge usage');
+select ok(has_function_privilege('authenticated','public.start_pro_trial()','EXECUTE'),'authenticated user may start bounded trial');
+select ok(not has_function_privilege('anon','public.start_pro_trial()','EXECUTE'),'anonymous user cannot start trial');
+select ok(not has_function_privilege('authenticated','public.record_usage_event(uuid,text,integer,text)','EXECUTE'),'browser cannot write metering evidence');
+select ok(has_function_privilege('service_role','public.record_usage_event(uuid,text,integer,text)','EXECUTE'),'usage service can write metering evidence');
+select ok(not has_function_privilege('authenticated','public.reconcile_subscription_access()','EXECUTE'),'browser cannot reconcile access');
+select ok(exists(select 1 from pg_trigger where tgname='subscription_events_append_only' and not tgisinternal),'subscription history is append-only');
+select ok(exists(select 1 from pg_trigger where tgname='usage_events_append_only' and not tgisinternal),'usage evidence is append-only');
+select is((select count(*) from cron.job where jobname='tradepulse-subscription-reconciliation'),1::bigint,'subscription reconciliation is scheduled once');
+select ok(not exists(select 1 from information_schema.columns where table_schema='public' and table_name like '%subscription%' and column_name ~ '(card|bank|cvv|pan|account_number|secret|token|payload)'),'commercial tables contain no payment credentials or raw payloads');
+
+insert into auth.users(id,instance_id,aud,role,email,encrypted_password,email_confirmed_at,created_at,updated_at,raw_app_meta_data,raw_user_meta_data)
+values('00000000-0000-4000-8000-00000000004e','00000000-0000-0000-0000-000000000000','authenticated','authenticated','phase4n@example.test','',now(),now(),now(),'{}'::jsonb,'{"display_name":"Phase 4N Test"}'::jsonb);
+select is((select status from public.customer_subscriptions where user_id='00000000-0000-4000-8000-00000000004e'),'free','new customer starts on Free');
+select set_config('request.jwt.claim.role','authenticated',true);
+select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-00000000004e',true);
+select is((public.start_pro_trial()).status,'trialing','authenticated customer starts Pro trial');
+select is((select plan from public.profiles where id='00000000-0000-4000-8000-00000000004e'),'pro','trial updates legacy access bridge');
+select ok((select trial_ends_at-trial_started_at=interval '14 days' from public.customer_subscriptions where user_id='00000000-0000-4000-8000-00000000004e'),'trial duration is exactly fourteen days');
+select throws_ok($$select public.start_pro_trial()$$,'P0001','The introductory trial is unavailable for this account','trial cannot be reused');
+select set_config('request.jwt.claim.role','service_role',true);
+select is(public.reconcile_subscription_access(),0,'active trial is not expired early');
+select ok(to_regclass('public.payment_transactions') is null,'no payment transaction table exists');
+select ok(to_regclass('public.charges') is null,'no charge table exists');
+select ok(to_regclass('public.refunds') is null,'no refund table exists');
+select ok(to_regclass('public.brokerage_orders') is null,'no live brokerage order table exists');
+select is((select count(*) from public.broker_provider_registry where live_order_routing_enabled),0::bigint,'broker routes remain disabled');
+select is((select execution_enabled from public.brokerage_execution_controls where control_key='global-live-orders'),false,'global execution remains disabled');
+select is((select count(*) from public.investment_instruments where live_execution_enabled),0::bigint,'instrument execution remains disabled');
+
+select * from finish();
+rollback;
