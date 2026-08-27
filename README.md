@@ -392,6 +392,8 @@ and recovery controls are documented in
 [`docs/ACCOUNT_SECURITY.md`](docs/ACCOUNT_SECURITY.md).
 Customer consent and data-rights boundaries are documented in
 [`docs/CUSTOMER_PRIVACY.md`](docs/CUSTOMER_PRIVACY.md).
+The host-neutral production web artifact and required public-client secret are
+documented in [`docs/WEB_RELEASE.md`](docs/WEB_RELEASE.md).
 
 ## ML forecasting service
 
@@ -513,6 +515,10 @@ Migration `032_business_team_access.sql` adds bounded, in-app team invitations
 and protected member administration without external email or shared execution.
 Migration `033_business_shared_research.sql` adds role-controlled team research
 collections and non-executing evidence notes.
+
+Phase 4T adds hardened browser runtime validation, security headers, SPA routing
+and an environment-protected production web-artifact workflow. It does not
+publish to a hosting provider.
 
 ## Production gates
 

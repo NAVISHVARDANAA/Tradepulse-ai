@@ -392,6 +392,21 @@ single-use acceptance, owner protection and unchanged billing and execution lock
 **Phase 4S exit gate:** migration 033 parity, viewer write denial, collection and
 item bounds, append-only evidence and unchanged billing and execution locks.
 
+### Phase 4T — production web-release foundation (implemented)
+
+- Validated public Supabase runtime configuration with server-secret rejection.
+- Host-neutral SPA routing, PWA assets, cache controls and browser security headers.
+- Release artifact checks reject source maps, local environment files and secret markers.
+- Manual, environment-protected and commit-addressed web artifact workflow.
+
+**Phase 4T exit gate:** green application build, bundle budgets, release-boundary
+checks and successful `BUILD_PHASE_4T` artifact creation from `main`.
+
+### Controlled-beta finish line
+
+Three milestones remain after Phase 4T: navigation/mobile UX consolidation,
+end-to-end accessibility/security regression testing, and the beta release-candidate audit.
+
 ### Future regulated activation work
 
 - Sandbox account and order mirroring behind separately permissioned services.

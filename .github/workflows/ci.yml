@@ -45,6 +45,9 @@ jobs:
       - name: Enforce frontend performance budgets
         run: npm run check:bundle
 
+      - name: Verify production web artifact boundary
+        run: npm run check:release
+
   edge-functions:
     runs-on: ubuntu-latest
     timeout-minutes: 10
