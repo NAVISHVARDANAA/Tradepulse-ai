@@ -16,5 +16,12 @@ email, bounded by the workspace seat limit. Owners and admins can view members
 and suspend non-owner access. External invitation email, organization billing,
 shared portfolios and trading remain disabled.
 
-After merge, deploy with `DEPLOY_PHASE_4R`, then run the query-only production
-verification with `VERIFY_PHASE_4R`.
+The Phase 4R team-access boundary was deployed and verified before shared
+research was enabled.
+
+Phase 4S adds shared research collections. Owners, admins and analysts can curate
+covered instruments and evidence-based research stances; viewers remain read-only.
+The content is non-personalized research and cannot route or execute an order.
+
+After merge, deploy with `DEPLOY_PHASE_4S`, then run the query-only production
+verification with `VERIFY_PHASE_4S`.

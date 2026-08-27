@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type VERIFY_PHASE_4R to run read-only Business-team checks
+        description: Type VERIFY_PHASE_4S to run read-only shared-research checks
         required: true
         type: string
 
@@ -38,8 +38,8 @@ jobs:
           VERIFICATION_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$VERIFICATION_CONFIRMATION" = "VERIFY_PHASE_4R" || {
-            echo "Verification confirmation did not match VERIFY_PHASE_4R."
+          test "$VERIFICATION_CONFIRMATION" = "VERIFY_PHASE_4S" || {
+            echo "Verification confirmation did not match VERIFY_PHASE_4S."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -64,13 +64,13 @@ jobs:
       - name: Install the repository-pinned Supabase CLI
         run: npm ci
 
-      - name: Verify migration 032 and remote migration parity
+      - name: Verify migration 033 and remote migration parity
         run: |
           set -eu
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])032([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])033([^0-9]|$)' migration-list.txt
           npx --no-install supabase db push \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" \
@@ -367,7 +367,8 @@ jobs:
             echo "## Supabase production verification"
             echo
             echo "- Commit: \`$GITHUB_SHA\`"
-            echo "- Migration history: synchronized through 032"
+            echo "- Migration history: synchronized through 033"
+            echo "- Role-controlled shared Business research: verified"
             echo "- Bounded Business invitations and role administration: verified"
             echo "- Private Business workspace and role boundary: verified"
             echo "- Deterministic fourteen-day trial window: verified"

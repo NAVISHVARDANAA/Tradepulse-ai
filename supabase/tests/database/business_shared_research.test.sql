@@ -1,0 +1,40 @@
+begin;select plan(29);
+select ok(to_regclass('public.business_research_collections') is not null,'shared research collections exist');
+select ok(to_regclass('public.business_research_items') is not null,'shared research items exist');
+select ok(to_regclass('public.business_research_events') is not null,'shared research evidence exists');
+select ok((select relrowsecurity from pg_class where oid='public.business_research_collections'::regclass),'collections use RLS');
+select ok((select relrowsecurity from pg_class where oid='public.business_research_items'::regclass),'items use RLS');
+select ok((select relrowsecurity from pg_class where oid='public.business_research_events'::regclass),'research evidence uses RLS');
+select ok(not has_table_privilege('authenticated','public.business_research_collections','INSERT'),'browser cannot forge collections');
+select ok(not has_table_privilege('authenticated','public.business_research_items','INSERT'),'browser cannot forge shared items');
+select ok(not has_table_privilege('authenticated','public.business_research_items','UPDATE'),'browser cannot bypass editor roles');
+select ok(has_function_privilege('authenticated','public.create_business_research_collection(uuid,text,text)','EXECUTE'),'authenticated editors may invoke collection boundary');
+select ok(has_function_privilege('authenticated','public.upsert_business_research_item(uuid,bigint,text,text)','EXECUTE'),'authenticated editors may invoke item boundary');
+select ok(not has_function_privilege('anon','public.create_business_research_collection(uuid,text,text)','EXECUTE'),'anonymous collection creation is blocked');
+select ok(not has_function_privilege('anon','public.upsert_business_research_item(uuid,bigint,text,text)','EXECUTE'),'anonymous item writes are blocked');
+select ok(exists(select 1 from pg_trigger where tgname='business_research_events_append_only' and not tgisinternal),'research evidence is append-only');
+insert into auth.users(id,instance_id,aud,role,email,encrypted_password,email_confirmed_at,created_at,updated_at,raw_app_meta_data,raw_user_meta_data) values
+('00000000-0000-4000-8000-000000000054','00000000-0000-0000-0000-000000000000','authenticated','authenticated','owner4s@example.test','',now(),now(),now(),'{}','{}'),
+('00000000-0000-4000-8000-000000000055','00000000-0000-0000-0000-000000000000','authenticated','authenticated','viewer4s@example.test','',now(),now(),now(),'{}','{}'),
+('00000000-0000-4000-8000-000000000056','00000000-0000-0000-0000-000000000000','authenticated','authenticated','analyst4s@example.test','',now(),now(),now(),'{}','{}');
+select set_config('request.jwt.claim.role','authenticated',true);select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-000000000054',true);
+select is((public.create_business_workspace('Phase 4S Team','phase-4s-team')).status,'setup','owner creates workspace');
+insert into public.business_workspace_memberships(workspace_id,user_id,role) select id,'00000000-0000-4000-8000-000000000055','viewer' from public.business_workspaces where owner_user_id=auth.uid();
+insert into public.business_workspace_memberships(workspace_id,user_id,role) select id,'00000000-0000-4000-8000-000000000056','analyst' from public.business_workspaces where owner_user_id=auth.uid();
+select is((public.create_business_research_collection((select id from public.business_workspaces where owner_user_id=auth.uid()),'Global opportunities','Evidence-based team coverage')).revision,1,'owner creates collection');
+select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-000000000055',true);
+select throws_ok($$select public.create_business_research_collection((select workspace_id from public.business_workspace_memberships where user_id=auth.uid()),'Viewer write','Should remain blocked')$$,'P0001','Research editor access required','viewer cannot edit research');
+select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-000000000056',true);
+select is((public.upsert_business_research_item((select id from public.business_research_collections limit 1),(select min(id) from public.investment_instruments),'Covered asset has a documented team research rationale.','positive')).research_stance,'positive','analyst saves research item');
+select is((select research_stance from public.business_research_items),'positive','shared stance is retained');
+select is((select thesis from public.business_research_items),'Covered asset has a documented team research rationale.','shared thesis is retained');
+select is((select revision from public.business_research_collections),2,'collection revision advances');
+select is((select count(*) from public.business_research_events),2::bigint,'collection and item evidence recorded');
+select throws_ok($$select public.upsert_business_research_item((select id from public.business_research_collections limit 1),-1,'This unsupported instrument must not be saved.','watch')$$,'P0001','Research instrument unavailable','unsupported instrument is rejected');
+select throws_ok($$update public.business_research_events set event_type='item_removed'$$,'P0001','Business research evidence is append-only','research evidence cannot be rewritten');
+select ok(to_regclass('public.shared_brokerage_accounts') is null,'shared brokerage remains absent');
+select is((select count(*) from public.billing_provider_registry where checkout_enabled or charge_collection_enabled),0::bigint,'billing execution remains disabled');
+select is((select count(*) from public.broker_provider_registry where live_order_routing_enabled),0::bigint,'live broker routes remain disabled');
+select is((select execution_enabled from public.brokerage_execution_controls where control_key='global-live-orders'),false,'global execution remains disabled');
+select is((select count(*) from public.investment_instruments where live_execution_enabled),0::bigint,'instrument execution remains disabled');
+select * from finish();rollback;
