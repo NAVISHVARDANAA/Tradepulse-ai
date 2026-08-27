@@ -46,8 +46,15 @@ test.beforeEach(async ({ page }) => {
   ).toBeVisible()
 })
 
-test('core landmarks pass automated WCAG A and AA checks', async ({ page }) => {
-  await expect(page.getByRole('navigation', { name: 'Product navigation' })).toBeAttached()
+test('core landmarks pass automated WCAG A and AA checks', async ({ page }, testInfo) => {
+  if (testInfo.project.name === 'mobile-chromium') {
+    const toggle = page.getByRole('button', { name: 'Open product navigation' })
+    await expect(toggle).toBeVisible()
+    await expect(toggle).toHaveAttribute('aria-controls', 'mobile-product-navigation')
+    await expect(page.locator('#mobile-product-navigation')).toBeAttached()
+  } else {
+    await expect(page.getByRole('navigation', { name: 'Product navigation' })).toBeVisible()
+  }
   await expect(page.getByRole('main')).toHaveAttribute('id', 'main-content')
 
   const results = await new AxeBuilder({ page })
