@@ -101,6 +101,15 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Set up Node.js for shared type dependencies
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install locked shared type dependencies
+        run: npm ci --ignore-scripts
+
       - name: Set up Deno
         uses: denoland/setup-deno@v2
         with:
