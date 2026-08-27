@@ -10,6 +10,7 @@ import { DeferredSection } from './components/DeferredSection'
 import { GuidedOnboarding } from './components/GuidedOnboarding'
 import { PlatformReadiness } from './components/PlatformReadiness'
 import { ProductErrorBoundary } from './components/ProductErrorBoundary'
+import { ProductNavigation } from './components/ProductNavigation'
 import { SystemStatusPanel } from './components/SystemStatusPanel'
 import {
   getLatestForecasts,
@@ -89,29 +90,6 @@ function SectionLoader({ label }: { label: string }) {
     </div>
   )
 }
-
-const navItems = [
-  { label: 'Dashboard', href: '#dashboard' },
-  { label: 'Stock research', href: '#stock-research' },
-  { label: 'AI Copilot', href: '#research-copilot' },
-  { label: 'Academy', href: '#academy' },
-  { label: 'Security', href: '#account-security' },
-  { label: 'Privacy', href: '#customer-privacy' },
-  { label: 'Data trust', href: '#data-trust' },
-  { label: 'Plans', href: '#plans' },
-  { label: 'Experience', href: '#customer-experience' },
-  { label: 'Support', href: '#customer-support' },
-  { label: 'Business', href: '#business-workspace' },
-  { label: 'Team research', href: '#business-research' },
-  { label: 'Markets', href: '#markets' },
-  { label: 'Forecasts', href: '#forecasts' },
-  { label: 'Paper investing', href: '#paper-investing' },
-  { label: 'Risk center', href: '#risk-command-center' },
-  { label: 'Brokerage readiness', href: '#brokerage-readiness' },
-  { label: 'Trade data', href: '#trade-data' },
-  { label: 'Payments', href: '#payments' },
-  { label: 'System status', href: '#system-status' },
-]
 
 const emptyKpis: TradeKpi[] = [
   {
@@ -355,21 +333,11 @@ function App() {
 
           <div className="brand-copy">
             <span className="brand-name">TradePulse AI</span>
-            <span className="brand-stage">Platform foundation</span>
+            <span className="brand-stage">Controlled beta</span>
           </div>
         </a>
 
-        <nav className="main-nav" aria-label="Main navigation">
-          {navItems.map((item, index) => (
-            <a
-              key={item.label}
-              className={index === 0 ? 'nav-item active' : 'nav-item'}
-              href={item.href}
-            >
-              {item.label}
-            </a>
-          ))}
-        </nav>
+        <ProductNavigation />
 
         <span className="environment-pill">Data intelligence</span>
       </header>

@@ -48,6 +48,9 @@ jobs:
       - name: Verify production web artifact boundary
         run: npm run check:release
 
+      - name: Verify product navigation contract
+        run: npm run check:navigation
+
   edge-functions:
     runs-on: ubuntu-latest
     timeout-minutes: 10
