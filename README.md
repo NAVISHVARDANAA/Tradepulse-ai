@@ -382,7 +382,7 @@ approach them, while one shared authentication provider owns the Supabase sessio
 Production Supabase releases are manual and environment-protected. See
 [`docs/SUPABASE_DEPLOYMENT.md`](docs/SUPABASE_DEPLOYMENT.md) for the required
 GitHub environment secrets, approval gate, read-only verification workflow and
-Phase 4R release procedure. The enforced trust baseline and operational launch
+Phase 4S release procedure. The enforced trust baseline and operational launch
 checklist are documented in
 [`docs/SECURITY_ARCHITECTURE.md`](docs/SECURITY_ARCHITECTURE.md). Reliability
 objectives and incident operations are documented in
@@ -511,6 +511,8 @@ role foundations without invitations, organization billing or shared trading;
 see [`docs/BUSINESS_WORKSPACES.md`](docs/BUSINESS_WORKSPACES.md).
 Migration `032_business_team_access.sql` adds bounded, in-app team invitations
 and protected member administration without external email or shared execution.
+Migration `033_business_shared_research.sql` adds role-controlled team research
+collections and non-executing evidence notes.
 
 ## Production gates
 

@@ -52,6 +52,9 @@ const CustomerSupportPanel = lazy(() => import('./components/CustomerSupportPane
 const BusinessWorkspacePanel = lazy(() => import('./components/BusinessWorkspacePanel').then((module) => ({
   default: module.BusinessWorkspacePanel,
 })))
+const BusinessResearchPanel = lazy(() => import('./components/BusinessResearchPanel').then((module) => ({
+  default: module.BusinessResearchPanel,
+})))
 const BrokerageReadinessPanel = lazy(() => import('./components/BrokerageReadinessPanel').then((module) => ({
   default: module.BrokerageReadinessPanel,
 })))
@@ -99,6 +102,7 @@ const navItems = [
   { label: 'Experience', href: '#customer-experience' },
   { label: 'Support', href: '#customer-support' },
   { label: 'Business', href: '#business-workspace' },
+  { label: 'Team research', href: '#business-research' },
   { label: 'Markets', href: '#markets' },
   { label: 'Forecasts', href: '#forecasts' },
   { label: 'Paper investing', href: '#paper-investing' },
@@ -447,6 +451,14 @@ function App() {
           <ProductErrorBoundary title="Business workspace is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Business Workspace" />}>
               <BusinessWorkspacePanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </DeferredSection>
+
+        <DeferredSection id="business-research" label="Shared Business Research" minimumHeight={520}>
+          <ProductErrorBoundary title="Shared Business research is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Shared Business Research" />}>
+              <BusinessResearchPanel />
             </Suspense>
           </ProductErrorBoundary>
         </DeferredSection>

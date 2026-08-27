@@ -382,6 +382,16 @@ escalation prevention, append-only evidence and unchanged execution locks.
 **Phase 4R exit gate:** migration 032 parity, invitation identity matching,
 single-use acceptance, owner protection and unchanged billing and execution locks.
 
+### Phase 4S — shared Business research (implemented)
+
+- Role-controlled team research collections over covered instruments.
+- Evidence-based research theses and bounded watch/positive/neutral/cautious stances.
+- Owner, admin and analyst editors with read-only viewers.
+- Append-only research evidence without personalized advice or order routing.
+
+**Phase 4S exit gate:** migration 033 parity, viewer write denial, collection and
+item bounds, append-only evidence and unchanged billing and execution locks.
+
 ### Future regulated activation work
 
 - Sandbox account and order mirroring behind separately permissioned services.

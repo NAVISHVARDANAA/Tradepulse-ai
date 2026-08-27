@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type DEPLOY_PHASE_4R to release Business team access
+        description: Type DEPLOY_PHASE_4S to release shared Business research
         required: true
         type: string
 
@@ -38,8 +38,8 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "DEPLOY_PHASE_4R" || {
-            echo "Release confirmation did not match DEPLOY_PHASE_4R."
+          test "$RELEASE_CONFIRMATION" = "DEPLOY_PHASE_4S" || {
+            echo "Release confirmation did not match DEPLOY_PHASE_4S."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -170,7 +170,7 @@ jobs:
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])032([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])033([^0-9]|$)' migration-list.txt
 
       - name: Verify the deployed Edge Function
         run: |

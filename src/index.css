@@ -62,6 +62,12 @@
 .workspace-invite-form { display:grid;grid-template-columns:2fr 1fr auto;align-items:end; }.workspace-invite-form label { display:grid;gap:.4rem; }.workspace-invite-form label span { color:var(--muted);font-size:.82rem;font-weight:650; }
 .workspace-invite-form input,.workspace-invite-form select { min-height:44px;padding:.65rem .75rem;color:inherit;background:rgba(9,22,38,.8);border:1px solid var(--border);border-radius:.6rem; }
 .workspace-members { margin:1rem 0; }.workspace-members > div { display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:.8rem;padding:.65rem 0;border-bottom:1px solid var(--border); }.workspace-members > div span { overflow-wrap:anywhere; }.workspace-members > div strong { color:var(--muted);font-size:.82rem;text-transform:capitalize; }.workspace-members button { display:grid;place-items:center;padding:.4rem;color:var(--negative);background:transparent;border:1px solid var(--border);border-radius:.45rem; }
+.business-research-create { display:grid;grid-template-columns:1fr 2fr auto;gap:.8rem;align-items:end;margin:1rem 0;padding:1rem;border:1px solid var(--border);border-radius:.8rem;background:var(--panel-soft); }
+.business-research-create label { display:grid;gap:.4rem; }.business-research-create label span { color:var(--muted);font-size:.82rem;font-weight:650; }
+.business-research-create input,.business-research-create select,.business-research-create textarea { width:100%;min-height:44px;padding:.65rem .75rem;color:inherit;background:rgba(9,22,38,.8);border:1px solid var(--border);border-radius:.6rem; }
+.research-item-form { grid-template-columns:1fr 1.5fr 1fr; }.research-thesis { grid-column:1/-1; }.research-item-form button { grid-column:1/-1;width:max-content; }
+.business-research-list { display:grid;gap:1rem;margin:1.2rem 0; }.business-research-list article { padding:1rem;border:1px solid var(--border);border-radius:.8rem; }.business-research-list article header { display:flex;gap:.7rem;align-items:flex-start;margin-bottom:.7rem; }.business-research-list article header div { display:grid; }.business-research-list article header span { color:var(--muted);font-size:.82rem; }
+.business-research-item { display:grid;grid-template-columns:1fr auto auto;gap:.7rem;align-items:start;padding:.8rem 0;border-top:1px solid var(--border); }.business-research-item div { display:grid; }.business-research-item div span { color:var(--muted);font-size:.82rem; }.business-research-item p { grid-column:1/-1;margin:0;color:var(--muted);white-space:pre-wrap; }.research-stance { padding:.2rem .5rem;border:1px solid var(--border);border-radius:999px;font-size:.75rem;text-transform:capitalize; }.research-stance.positive { color:var(--positive); }.research-stance.cautious { color:var(--warning); }
 
 html[data-density='compact'] .panel { padding: 1rem; }
 html[data-density='compact'] .dashboard { gap: .8rem; }
@@ -82,6 +88,7 @@ html.user-reduced-motion *, html.user-reduced-motion *::before, html.user-reduce
   .support-form { grid-template-columns:1fr; }.support-message { grid-column:auto; }
   .workspace-create { grid-template-columns:1fr; }.workspace-create button { grid-column:auto; }.workspace-list article { align-items:flex-start;flex-wrap:wrap; }
   .workspace-invite-form { grid-template-columns:1fr; }.workspace-members > div { grid-template-columns:1fr auto; }.workspace-members button { grid-column:2; }
+  .business-research-create,.research-item-form { grid-template-columns:1fr; }.research-thesis,.research-item-form button { grid-column:auto; }
 }
 
 * {

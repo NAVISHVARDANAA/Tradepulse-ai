@@ -180,6 +180,9 @@ jobs:
       - name: Test Business team-access contracts
         run: npx --no-install supabase test db supabase/tests/database/business_team_access.test.sql
 
+      - name: Test shared Business-research contracts
+        run: npx --no-install supabase test db supabase/tests/database/business_shared_research.test.sql
+
       - name: Assert production smoke SQL is query-only
         run: bash scripts/assert-read-only-sql.sh supabase/tests/production/brokerage_readiness_smoke.sql
 
