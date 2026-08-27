@@ -12,8 +12,11 @@
     "check:bundle": "node scripts/assert-frontend-budgets.mjs",
     "check:navigation": "node scripts/assert-product-navigation.mjs",
     "check:release": "node scripts/assert-web-release.mjs",
+    "check:security": "node scripts/assert-security-regression.mjs",
     "preview": "vite preview",
-    "typecheck": "tsc -b --noEmit"
+    "test:e2e": "playwright test",
+    "typecheck": "tsc -b --noEmit",
+    "typecheck:e2e": "tsc -p tsconfig.e2e.json"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.0",
@@ -23,6 +26,9 @@
     "recharts": "^2.12.7"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.4.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",

@@ -413,10 +413,20 @@ checks and successful `BUILD_PHASE_4T` artifact creation from `main`.
 budgets, navigation contract and successful `BUILD_PHASE_4U` artifact creation
 from `main`.
 
+### Phase 4V — accessibility, security and browser regression (implemented)
+
+- Desktop and mobile Chromium exercise the controlled-beta customer journey.
+- WCAG A/AA automation covers the product shell and first-run guide.
+- Keyboard focus, grouped navigation, mobile overflow and guest execution locks are pinned.
+- Security contracts guard browser policy, unsafe DOM use and customer/internal Edge Functions.
+
+**Phase 4V exit gate:** green desktop/mobile browser suite, accessibility scan,
+security contract, shared authentication tests and successful `BUILD_PHASE_4V`
+artifact creation from `main`.
+
 ### Controlled-beta finish line
 
-Two milestones remain after Phase 4U: end-to-end accessibility/security
-regression testing and the beta release-candidate audit.
+One milestone remains after Phase 4V: the beta release-candidate audit.
 
 ### Future regulated activation work
 

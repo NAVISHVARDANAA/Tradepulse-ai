@@ -7,7 +7,7 @@ import {
   ShieldCheck,
   X,
 } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { saveCustomerOnboarding } from '../lib/queries/customerExperience'
 
@@ -55,6 +55,9 @@ const steps = [
 export function GuidedOnboarding() {
   const [mode, setMode] = useState<'welcome' | 'tour' | null>(null)
   const [step, setStep] = useState(0)
+  const launcherRef = useRef<HTMLButtonElement>(null)
+  const welcomeRef = useRef<HTMLElement>(null)
+  const tourRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     if (!localStorage.getItem(TOUR_KEY)) setMode('welcome')
@@ -67,15 +70,26 @@ export function GuidedOnboarding() {
       block: 'start',
     })
     void saveCustomerOnboarding(step, 'in_progress')
+    tourRef.current?.focus()
   }, [mode, step])
 
   useEffect(() => {
+    if (mode !== 'welcome') return
+    welcomeRef.current?.focus()
+  }, [mode])
+
+  const close = useCallback(() => {
+    setMode(null)
+    requestAnimationFrame(() => launcherRef.current?.focus())
+  }, [])
+
+  useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && mode) setMode(null)
+      if (event.key === 'Escape' && mode) close()
     }
     window.addEventListener('keydown', handleEscape)
     return () => window.removeEventListener('keydown', handleEscape)
-  }, [mode])
+  }, [close, mode])
 
   const start = () => {
     setStep(0)
@@ -84,7 +98,7 @@ export function GuidedOnboarding() {
 
   const skip = () => {
     localStorage.setItem(TOUR_KEY, 'skipped')
-    setMode(null)
+    close()
     void saveCustomerOnboarding(step, 'skipped')
   }
 
@@ -92,25 +106,52 @@ export function GuidedOnboarding() {
     localStorage.setItem(TOUR_KEY, 'completed')
     setMode(null)
     void saveCustomerOnboarding(steps.length, 'completed')
-    document.getElementById('dashboard')?.scrollIntoView({ behavior: 'smooth' })
+    requestAnimationFrame(() => {
+      document.getElementById('dashboard')?.scrollIntoView({ behavior: 'smooth' })
+      document.getElementById('main-content')?.focus()
+    })
   }
 
   return (
     <>
-      <button className="tour-launcher" type="button" onClick={() => setMode('welcome')}>
+      <button ref={launcherRef} className="tour-launcher" type="button" onClick={() => setMode('welcome')}>
         <Compass size={16} /> Guide
       </button>
 
       {mode === 'welcome' ? (
         <div className="tour-overlay" role="presentation">
-          <section className="tour-welcome" role="dialog" aria-modal="true" aria-labelledby="tour-welcome-title">
-            <button className="tour-close" type="button" aria-label="Close guide" onClick={() => setMode(null)}>
+          <section
+            ref={welcomeRef}
+            className="tour-welcome"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="tour-welcome-title"
+            aria-describedby="tour-welcome-description"
+            tabIndex={-1}
+            onKeyDown={(event) => {
+              if (event.key !== 'Tab') return
+              const controls = welcomeRef.current?.querySelectorAll<HTMLElement>(
+                'button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled])',
+              )
+              if (!controls?.length) return
+              const first = controls[0]
+              const last = controls[controls.length - 1]
+              if (event.shiftKey && (document.activeElement === first || document.activeElement === welcomeRef.current)) {
+                event.preventDefault()
+                last.focus()
+              } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault()
+                first.focus()
+              }
+            }}
+          >
+            <button className="tour-close" type="button" aria-label="Close guide" onClick={close}>
               <X size={18} />
             </button>
             <div className="tour-welcome-icon"><GraduationCap size={28} /></div>
             <p className="eyebrow">Welcome to TradePulse AI</p>
             <h2 id="tour-welcome-title">Learn before you invest</h2>
-            <p>
+            <p id="tour-welcome-description">
               Take a six-step product tour, then continue with free Academy
               lessons on forecasts, evidence, paper trading and risk.
             </p>
@@ -129,12 +170,12 @@ export function GuidedOnboarding() {
       ) : null}
 
       {mode === 'tour' ? (
-        <aside className="tour-step-card" role="dialog" aria-modal="false" aria-live="polite">
+        <aside ref={tourRef} className="tour-step-card" role="dialog" aria-modal="false" aria-live="polite" aria-labelledby="tour-step-title" tabIndex={-1}>
           <div className="tour-step-head">
             <span>{steps[step].eyebrow}</span>
-            <button type="button" aria-label="Close tour" onClick={() => setMode(null)}><X size={16} /></button>
+            <button type="button" aria-label="Close tour" onClick={close}><X size={16} /></button>
           </div>
-          <h3>{steps[step].title}</h3>
+          <h3 id="tour-step-title">{steps[step].title}</h3>
           <p>{steps[step].body}</p>
           <div className="tour-step-dots" aria-label={`Step ${step + 1} of ${steps.length}`}>
             {steps.map((item, index) => <span key={item.selector} className={index === step ? 'active' : ''} />)}
