@@ -1,0 +1,52 @@
+name: Build production web release
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: Type BUILD_PHASE_4T to create a production web artifact
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: production
+    env:
+      SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+      VITE_SUPABASE_ANON_KEY: ${{ secrets.WEB_SUPABASE_ANON_KEY }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Validate release confirmation and public web configuration
+        env:
+          RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
+        run: |
+          set -eu
+          test "$RELEASE_CONFIRMATION" = "BUILD_PHASE_4T"
+          test -n "$SUPABASE_PROJECT_REF"
+          test -n "$VITE_SUPABASE_ANON_KEY"
+          case "$VITE_SUPABASE_ANON_KEY" in *service_role*|*secret*) echo "A server credential cannot be used by the web client."; exit 1;; esac
+          echo "VITE_SUPABASE_URL=https://${SUPABASE_PROJECT_REF}.supabase.co" >> "$GITHUB_ENV"
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+      - run: npm run check:bundle
+      - run: npm run check:release
+      - name: Upload immutable web release candidate
+        uses: actions/upload-artifact@v6
+        with:
+          name: tradepulse-web-${{ github.sha }}
+          path: dist
+          if-no-files-found: error
+          retention-days: 14

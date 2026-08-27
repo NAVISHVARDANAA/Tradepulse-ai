@@ -1,0 +1,8 @@
+import{readdir,readFile,stat}from'node:fs/promises';import{join,relative}from'node:path'
+const root=new URL('../dist/',import.meta.url);const required=['index.html','.vite/manifest.json','manifest.webmanifest','sw.js','_headers','_redirects','robots.txt'];
+for(const file of required){try{if(!(await stat(new URL(file,root))).isFile())throw new Error()}catch{throw new Error(`Release artifact is missing ${file}`)}}
+const files=[];async function walk(directory){for(const entry of await readdir(directory,{withFileTypes:true})){const path=join(directory,entry.name);if(entry.isDirectory())await walk(path);else files.push(path)}}await walk(root.pathname)
+for(const file of files){const name=relative(root.pathname,file);if(name.endsWith('.map')||name.startsWith('.env'))throw new Error(`Forbidden release artifact: ${name}`);const content=await readFile(file,'utf8').catch(()=>null);if(content&&/(SUPABASE_SERVICE_ROLE_KEY|BROKER_SANDBOX_SYNC_SECRET|sourceMappingURL=)/.test(content))throw new Error(`Sensitive or debug marker found in ${name}`)}
+const headers=await readFile(new URL('_headers',root),'utf8');for(const header of ['Content-Security-Policy','Strict-Transport-Security','X-Content-Type-Options','Permissions-Policy'])if(!headers.includes(header))throw new Error(`Security header missing: ${header}`)
+const worker=await readFile(new URL('sw.js',root),'utf8');if(!worker.includes("url.origin!==self.location.origin")||!worker.includes("url.pathname.startsWith('/functions/')")||!worker.includes("url.pathname.includes('supabase')"))throw new Error('Service worker network-only exclusions are missing')
+console.log(`Web release artifact verified: ${files.length} files, no source maps or server-secret markers.`)
