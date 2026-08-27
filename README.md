@@ -368,6 +368,9 @@ npm run typecheck
 npm run build
 npm run check:bundle
 npm run check:navigation
+npm run check:security
+npm run typecheck:e2e
+npm run test:e2e
 PYTHONPATH=services/forecasting/src python -m unittest discover -s services/forecasting/tests -v
 ```
 
@@ -397,6 +400,9 @@ The host-neutral production web artifact and required public-client secret are
 documented in [`docs/WEB_RELEASE.md`](docs/WEB_RELEASE.md).
 The grouped desktop and mobile product-navigation contract is documented in
 [`docs/NAVIGATION_MOBILE_UX.md`](docs/NAVIGATION_MOBILE_UX.md).
+The controlled-beta accessibility, browser and security regression gate is
+documented in
+[`docs/ACCESSIBILITY_SECURITY_REGRESSION.md`](docs/ACCESSIBILITY_SECURITY_REGRESSION.md).
 
 ## ML forecasting service
 
@@ -526,6 +532,9 @@ publish to a hosting provider.
 Phase 4U consolidates every existing product destination into five responsive,
 keyboard-operable navigation groups without changing data, authorization or
 execution boundaries.
+
+Phase 4V adds automated desktop/mobile accessibility, keyboard, guest-boundary
+and browser-security regression checks ahead of the beta release-candidate audit.
 
 ## Production gates
 
