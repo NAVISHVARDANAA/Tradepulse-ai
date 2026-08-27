@@ -402,10 +402,21 @@ item bounds, append-only evidence and unchanged billing and execution locks.
 **Phase 4T exit gate:** green application build, bundle budgets, release-boundary
 checks and successful `BUILD_PHASE_4T` artifact creation from `main`.
 
+### Phase 4U — navigation and mobile UX consolidation (implemented)
+
+- Five stable product groups replace the crowded flat application navigation.
+- All 20 existing destinations remain available across desktop and mobile.
+- Active-section state, keyboard escape handling and mobile touch targets are explicit.
+- CI and production web releases enforce the navigation-to-section contract.
+
+**Phase 4U exit gate:** green type-check, application build, bundle and release
+budgets, navigation contract and successful `BUILD_PHASE_4U` artifact creation
+from `main`.
+
 ### Controlled-beta finish line
 
-Three milestones remain after Phase 4T: navigation/mobile UX consolidation,
-end-to-end accessibility/security regression testing, and the beta release-candidate audit.
+Two milestones remain after Phase 4U: end-to-end accessibility/security
+regression testing and the beta release-candidate audit.
 
 ### Future regulated activation work
 

@@ -24,6 +24,23 @@
   --shadow: 0 20px 45px rgba(15, 23, 42, 0.35);
 }
 
+/* Phase 4U: grouped, responsive product navigation */
+.topbar { position:sticky;top:12px;z-index:80;overflow:visible; }
+.product-nav-desktop { display:flex;align-items:center;justify-content:center;gap:.35rem;flex:1; }
+.nav-group { position:relative; }.nav-group[open] { z-index:2; }.nav-group summary { display:flex;align-items:center;gap:.3rem;min-height:44px;padding:.55rem .75rem;border:1px solid transparent;border-radius:999px;color:var(--muted);cursor:pointer;list-style:none;user-select:none; }.nav-group summary::-webkit-details-marker { display:none; }.nav-group summary svg { transition:transform .18s ease; }.nav-group[open] summary svg { transform:rotate(180deg); }.nav-group.active summary,.nav-group summary:hover,.nav-group summary:focus-visible { color:#f8fafc;background:rgba(148,163,184,.1);border-color:var(--border);outline:none; }.nav-group summary:focus-visible,.nav-menu a:focus-visible,.mobile-nav-toggle:focus-visible,.mobile-product-nav a:focus-visible { box-shadow:inset 0 0 0 2px var(--cyan); }
+.nav-menu { position:absolute;top:calc(100% + .45rem);left:50%;transform:translateX(-50%);display:grid;min-width:210px;padding:.45rem;border:1px solid var(--border);border-radius:.8rem;background:#0d1a2b;box-shadow:var(--shadow); }.nav-menu a { min-height:42px;display:flex;align-items:center;padding:.55rem .7rem;border-radius:.55rem;color:#cbd5e1;text-decoration:none; }.nav-menu a:hover,.nav-menu a:focus-visible,.nav-menu a[aria-current='page'] { color:#fff;background:rgba(79,70,229,.22);outline:none; }
+.mobile-nav-toggle { display:none;align-items:center;justify-content:center;gap:.45rem;min-height:44px;padding:.55rem .75rem;color:inherit;background:rgba(148,163,184,.08);border:1px solid var(--border);border-radius:.65rem; }
+.mobile-product-nav { display:none; }.mobile-product-nav.open { display:grid;position:absolute;top:calc(100% + .5rem);left:0;right:0;max-height:min(72vh,680px);overflow:auto;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;padding:1rem;border:1px solid var(--border);border-radius:1rem;background:#0d1a2b;box-shadow:var(--shadow); }.mobile-product-nav section { display:grid;align-content:start;gap:.2rem; }.mobile-product-nav h2 { margin:.2rem .45rem;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em; }.mobile-product-nav a { min-height:44px;display:flex;align-items:center;padding:.55rem .65rem;border-radius:.55rem;color:#dbeafe;text-decoration:none; }.mobile-product-nav a:hover,.mobile-product-nav a:focus-visible,.mobile-product-nav a[aria-current='page'] { background:rgba(79,70,229,.22);outline:none; }
+.dashboard > [id] { scroll-margin-top:100px; }
+html[data-theme='light'] .nav-menu,html[data-theme='light'] .mobile-product-nav.open { background:#fff;color:#102033; }.high-contrast .nav-group summary,.high-contrast .nav-menu,.high-contrast .mobile-product-nav.open { border-color:currentColor; }
+
+@media (max-width:1040px) {
+  .product-nav-desktop { display:none; }.mobile-nav-toggle { display:flex; }.topbar { justify-content:space-between; }.environment-pill { display:none; }
+}
+@media (max-width:760px) {
+  .topbar { flex-wrap:nowrap;justify-content:space-between;padding:12px; }.brand-wrap { width:auto;justify-content:flex-start;min-width:0; }.brand-stage { display:none; }.mobile-product-nav.open { grid-template-columns:1fr; }.dashboard > [id] { scroll-margin-top:88px; }
+}
+
 .skip-link {
   position: fixed; left: 1rem; top: -4rem; z-index: 1000; padding: .7rem 1rem;
   color: #06111f; background: #7dd3fc; border-radius: .55rem; font-weight: 700;
@@ -5435,5 +5452,28 @@ tbody tr:hover {
 
   .account-security-actions button {
     justify-content: center;
+  }
+}
+
+/* Keep the compact navigation header authoritative after legacy mobile rules. */
+@media (max-width: 760px) {
+  .topbar {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding: 12px;
+  }
+
+  .brand-wrap {
+    width: auto;
+    min-width: 0;
+    justify-content: flex-start;
+  }
+
+  .brand-stage {
+    display: none;
+  }
+
+  .mobile-product-nav.open {
+    grid-template-columns: 1fr;
   }
 }

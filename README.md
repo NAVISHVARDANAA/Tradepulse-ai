@@ -367,6 +367,7 @@ underlying data source.
 npm run typecheck
 npm run build
 npm run check:bundle
+npm run check:navigation
 PYTHONPATH=services/forecasting/src python -m unittest discover -s services/forecasting/tests -v
 ```
 
@@ -394,6 +395,8 @@ Customer consent and data-rights boundaries are documented in
 [`docs/CUSTOMER_PRIVACY.md`](docs/CUSTOMER_PRIVACY.md).
 The host-neutral production web artifact and required public-client secret are
 documented in [`docs/WEB_RELEASE.md`](docs/WEB_RELEASE.md).
+The grouped desktop and mobile product-navigation contract is documented in
+[`docs/NAVIGATION_MOBILE_UX.md`](docs/NAVIGATION_MOBILE_UX.md).
 
 ## ML forecasting service
 
@@ -519,6 +522,10 @@ collections and non-executing evidence notes.
 Phase 4T adds hardened browser runtime validation, security headers, SPA routing
 and an environment-protected production web-artifact workflow. It does not
 publish to a hosting provider.
+
+Phase 4U consolidates every existing product destination into five responsive,
+keyboard-operable navigation groups without changing data, authorization or
+execution boundaries.
 
 ## Production gates
 
