@@ -424,9 +424,21 @@ from `main`.
 security contract, shared authentication tests and successful `BUILD_PHASE_4V`
 artifact creation from `main`.
 
+### Phase 4W — controlled-beta release candidate (implemented)
+
+- Machine-readable artifact manifest states audience, release status and hard locks.
+- One readiness contract joins build, browser, security, migration and release evidence.
+- Customer capabilities, deliberate limitations and manual launch prerequisites are explicit.
+- The protected workflow emits an immutable commit-addressed beta candidate artifact.
+
+**Phase 4W exit gate:** green application, browser, security and beta-readiness
+checks plus successful `BUILD_PHASE_4W` artifact creation from `main`.
+
 ### Controlled-beta finish line
 
-One milestone remains after Phase 4V: the beta release-candidate audit.
+The planned engineering foundation is complete after Phase 4W. The candidate
+remains internal and artifact-only until its documented hosting, operational,
+privacy, security and tester-approval prerequisites are complete.
 
 ### Future regulated activation work
 
