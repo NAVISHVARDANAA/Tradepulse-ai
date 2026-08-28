@@ -117,6 +117,25 @@ export function bootstrapAuthSession() {
   return bootstrapPromise
 }
 
+export function scrollToAuthReturnTarget() {
+  const target = window.location.hash.slice(1)
+  if (!returnTargets.has(target)) return
+
+  let attempts = 0
+  const scrollWhenMounted = () => {
+    const element = document.getElementById(target)
+    if (element) {
+      element.scrollIntoView({ block: 'start' })
+      return
+    }
+
+    attempts += 1
+    if (attempts < 10) window.requestAnimationFrame(scrollWhenMounted)
+  }
+
+  window.requestAnimationFrame(scrollWhenMounted)
+}
+
 export function authRedirectUrl(target: 'account-security' | 'paper-investing') {
   const url = new URL(window.location.href)
   url.search = ''

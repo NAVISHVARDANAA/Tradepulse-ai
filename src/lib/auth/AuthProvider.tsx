@@ -10,7 +10,10 @@ import {
 } from 'react'
 
 import { supabase } from '../supabase/client'
-import { bootstrapAuthSession } from './browserCallback'
+import {
+  bootstrapAuthSession,
+  scrollToAuthReturnTarget,
+} from './browserCallback'
 
 type AuthContextValue = {
   session: Session | null
@@ -43,6 +46,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setSession(result.session)
         setError(result.error)
         setLoading(false)
+        scrollToAuthReturnTarget()
       })
       .catch(() => {
         if (!active) return
