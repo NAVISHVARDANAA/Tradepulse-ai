@@ -434,11 +434,22 @@ artifact creation from `main`.
 **Phase 4W exit gate:** green application, browser, security and beta-readiness
 checks plus successful `BUILD_PHASE_4W` artifact creation from `main`.
 
+### Phase 4X — Cloudflare Pages deployment foundation (implemented)
+
+- Cloudflare Pages is selected for the controlled-beta static web application.
+- A protected manual workflow rebuilds, validates and deploys an immutable commit.
+- Live HTTPS smoke checks prove security headers, release identity and hard locks.
+- Public-domain approval, Auth redirects and external tester invitations stay manual.
+
+**Phase 4X exit gate:** green application and hosting contracts, successful
+`BUILD_PHASE_4X` RC2 artifact creation, then a reviewed `DEPLOY_PHASE_4X` run.
+
 ### Controlled-beta finish line
 
-The planned engineering foundation is complete after Phase 4W. The candidate
-remains internal and artifact-only until its documented hosting, operational,
-privacy, security and tester-approval prerequisites are complete.
+The planned product engineering foundation is complete after Phase 4W. Phase
+4X adds the selected hosting deployment path. The candidate remains closed to
+external testers until its documented domain, operational, privacy, security
+and tester-approval prerequisites are complete.
 
 ### Future regulated activation work
 

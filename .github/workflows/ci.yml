@@ -57,6 +57,9 @@ jobs:
       - name: Verify controlled-beta release readiness
         run: npm run check:beta
 
+      - name: Verify Cloudflare Pages hosting contract
+        run: npm run check:hosting
+
   browser-regression:
     runs-on: ubuntu-latest
     timeout-minutes: 15

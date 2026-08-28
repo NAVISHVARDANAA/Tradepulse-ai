@@ -2,10 +2,10 @@
 
 ## Artifact-only status
 
-Phase 4W produces the first controlled-beta engineering release candidate. It
-is an immutable, commit-addressed web artifact for internal release review. It
-does not select a hosting provider, configure a public URL, approve external
-customer invitations or activate regulated execution.
+Phase 4W produced the first controlled-beta engineering release candidate.
+Phase 4X selects Cloudflare Pages and prepares RC2 for a protected, manual
+deployment. It does not approve a production domain, configure Supabase Auth
+redirects, approve external customer invitations or activate regulated execution.
 
 The artifact contains `beta-release.json`, a machine-readable statement of its
 scope. Live brokerage, payment execution, charge collection, custody and
@@ -31,7 +31,7 @@ personalized advice remain false. Search indexing also remains disabled.
 
 ## Manual prerequisites before external invitations
 
-1. Select the production host and domain; validate SPA routing, caching and rollback.
+1. Select and validate the production domain, SPA routing, caching and rollback.
 2. Configure exact web origin, Supabase Auth redirects and the deployed HTTPS URL.
 3. Configure custom Auth SMTP, CAPTCHA/rate limits and customer security notifications.
 4. Publish the controller entity, privacy/terms/risk policies and staffed support contacts.
@@ -58,14 +58,15 @@ Record the merge commit, GitHub workflow run ID and artifact name in the
 restricted release record. Never place secrets, customer data or raw operational
 evidence in a public issue or artifact.
 
-## Final engineering release procedure
+## Hosting deployment procedure
 
-After PR #38 is merged and all `main` checks pass:
+After the Phase 4X PR is merged and all `main` checks pass:
 
 1. Open **Actions → Build production web release**.
-2. Select `main`, enter `BUILD_PHASE_4W` and run the workflow.
-3. Confirm the workflow is green and record the `tradepulse-beta-rc-<commit>` artifact.
-4. Keep the artifact internal until every manual prerequisite above is approved.
+2. Select `main`, enter `BUILD_PHASE_4X` and run the workflow.
+3. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
+4. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
+5. Do not invite external testers until every manual prerequisite above is approved.
 
 This phase has no database migration or deployed Edge Function change. Do not
-run Supabase deployment or production verification for PR #38.
+run Supabase deployment or production verification for the Phase 4X PR.

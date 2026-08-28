@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "release": "controlled-beta-rc1",
-  "phase": "4W",
-  "status": "engineering_release_candidate",
+  "release": "controlled-beta-rc2",
+  "phase": "4X",
+  "status": "hosting_deployment_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -12,7 +12,7 @@
     "personalizedAdvice": false
   },
   "distribution": {
-    "hostingProviderSelected": false,
+    "hostingProviderSelected": true,
     "publicUrlConfigured": false,
     "externalInvitationsApproved": false
   },
@@ -25,11 +25,12 @@
     "check:navigation",
     "check:security",
     "check:beta",
+    "check:hosting",
     "test:e2e",
     "production-dependency-audit"
   ],
   "manualPrerequisites": [
-    "production-host-and-domain",
+    "production-domain-and-rollback-validation",
     "exact-web-origin-and-auth-redirects",
     "custom-auth-smtp-and-abuse-controls",
     "controller-privacy-terms-and-support-contacts",

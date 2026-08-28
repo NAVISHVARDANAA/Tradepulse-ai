@@ -544,6 +544,10 @@ Phase 4W packages the artifact-only controlled-beta release candidate with a
 machine-readable scope, consolidated readiness contract and explicit manual
 prerequisites. It does not activate public distribution or regulated execution.
 
+Phase 4X selects Cloudflare Pages and adds a protected manual web deployment
+with live HTTPS, security-header and release-lock verification. External tester
+invitations remain disabled until the domain, Auth and operational gates pass.
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction

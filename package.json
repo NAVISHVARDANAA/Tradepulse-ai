@@ -11,11 +11,13 @@
     "build": "tsc -b && vite build",
     "check:bundle": "node scripts/assert-frontend-budgets.mjs",
     "check:beta": "node scripts/assert-beta-readiness.mjs",
+    "check:hosting": "node scripts/assert-cloudflare-hosting.mjs",
     "check:navigation": "node scripts/assert-product-navigation.mjs",
     "check:release": "node scripts/assert-web-release.mjs",
     "check:security": "node scripts/assert-security-regression.mjs",
     "preview": "vite preview",
     "test:e2e": "playwright test",
+    "verify:web-deployment": "node scripts/verify-web-deployment.mjs",
     "typecheck": "tsc -b --noEmit",
     "typecheck:e2e": "tsc -p tsconfig.e2e.json"
   },
