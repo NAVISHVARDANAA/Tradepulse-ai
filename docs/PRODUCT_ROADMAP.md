@@ -454,11 +454,24 @@ checks plus successful `BUILD_PHASE_4W` artifact creation from `main`.
 **Phase 4Y exit gate:** migration 034 parity, successful anonymous REST smoke
 checks and unchanged HTTP 401 protection for every private execution surface.
 
+### Phase 4Z — deterministic passwordless authentication (implemented)
+
+- Browser callbacks establish the Supabase session before private modules load.
+- Access and refresh tokens are removed from browser history immediately.
+- Expired, consumed and incomplete links fail closed with actionable guidance.
+- Paper Investing and Security Center return links use approved destinations.
+- Browser regression tests prove both successful and failed callback behavior.
+
+**Phase 4Z exit gate:** green callback regression checks, successful
+`BUILD_PHASE_4Z` artifact creation, reviewed `DEPLOY_PHASE_4Z` deployment and a
+production passwordless sign-in that exposes only private simulation controls.
+
 ### Controlled-beta finish line
 
 The planned product engineering foundation is complete after Phase 4W. Phase
-4X adds the selected hosting deployment path, and Phase 4Y verifies the live
-public-data authorization boundary. The candidate remains closed to
+4X adds the selected hosting deployment path, Phase 4Y verifies the live
+public-data authorization boundary, and Phase 4Z repairs the passwordless
+customer-session callback. The candidate remains closed to
 external testers until its documented domain, operational, privacy, security
 and tester-approval prerequisites are complete.
 

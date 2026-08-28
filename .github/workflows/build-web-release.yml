@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type BUILD_PHASE_4X to create the Cloudflare Pages deployment candidate
+        description: Type BUILD_PHASE_4Z to create the passwordless-auth repair candidate
         required: true
         type: string
 
@@ -29,7 +29,7 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "BUILD_PHASE_4X"
+          test "$RELEASE_CONFIRMATION" = "BUILD_PHASE_4Z"
           test -n "$SUPABASE_PROJECT_REF"
           test -n "$VITE_SUPABASE_ANON_KEY"
           case "$VITE_SUPABASE_ANON_KEY" in *service_role*|*secret*) echo "A server credential cannot be used by the web client."; exit 1;; esac

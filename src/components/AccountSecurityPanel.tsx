@@ -13,6 +13,7 @@ import {
 import { FormEvent, useCallback, useEffect, useState } from 'react'
 
 import { useAuth } from '../lib/auth/AuthProvider'
+import { authRedirectUrl } from '../lib/auth/browserCallback'
 import {
   getAccountSecurityEvents,
   getAccountSecurityStatus,
@@ -44,7 +45,12 @@ function formatDate(value: string | null) {
 }
 
 export function AccountSecurityPanel() {
-  const { session, loading: authLoading } = useAuth()
+  const {
+    session,
+    loading: authLoading,
+    error: authError,
+    clearError: clearAuthError,
+  } = useAuth()
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<AccountSecurityStatus | null>(null)
   const [events, setEvents] = useState<AccountSecurityEvent[]>([])
@@ -81,11 +87,12 @@ export function AccountSecurityPanel() {
   const sendMagicLink = async (event: FormEvent) => {
     event.preventDefault()
     setLoading(true)
+    clearAuthError()
     setError(null)
     setMessage(null)
     const { error: signInError } = await supabase.auth.signInWithOtp({
       email: email.trim(),
-      options: { emailRedirectTo: `${window.location.origin}${window.location.pathname}#account-security` },
+      options: { emailRedirectTo: authRedirectUrl('account-security') },
     })
     setLoading(false)
 
@@ -233,6 +240,7 @@ export function AccountSecurityPanel() {
             Send secure link
           </button>
         </form>
+        {authError ? <div className="error-message" role="alert">{authError}</div> : null}
         {error ? <div className="error-message" role="alert">{error}</div> : null}
         {message ? <div className="success-message" role="status">{message}</div> : null}
       </section>

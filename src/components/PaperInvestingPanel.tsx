@@ -14,6 +14,7 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from 'react'
 
 import { AcademyLink } from './AcademyLink'
 import { useAuth } from '../lib/auth/AuthProvider'
+import { authRedirectUrl } from '../lib/auth/browserCallback'
 import {
   createPaperPortfolio,
   getPaperInstruments,
@@ -58,7 +59,12 @@ function label(value: string | null) {
 export function PaperInvestingPanel({
   marketAssets,
 }: PaperInvestingPanelProps) {
-  const { session, loading: authLoading } = useAuth()
+  const {
+    session,
+    loading: authLoading,
+    error: authError,
+    clearError: clearAuthError,
+  } = useAuth()
   const [email, setEmail] = useState('')
   const [authMessage, setAuthMessage] = useState<string | null>(null)
   const [portfolios, setPortfolios] = useState<PaperPortfolio[]>([])
@@ -166,12 +172,13 @@ export function PaperInvestingPanel({
   const handleMagicLink = async (event: FormEvent) => {
     event.preventDefault()
     setAuthMessage(null)
+    clearAuthError()
     setError(null)
     setLoading(true)
 
     const { error: signInError } = await supabase.auth.signInWithOtp({
       email: email.trim(),
-      options: { emailRedirectTo: window.location.origin },
+      options: { emailRedirectTo: authRedirectUrl('paper-investing') },
     })
 
     setLoading(false)
@@ -288,6 +295,7 @@ export function PaperInvestingPanel({
               Send sign-in link
             </button>
           </div>
+          {authError ? <span className="inline-message error" role="alert">{authError}</span> : null}
           {authMessage ? <span className="success-message">{authMessage}</span> : null}
         </form>
       ) : (
