@@ -197,6 +197,9 @@ jobs:
       - name: Test TradePulse Academy database contracts
         run: npx --no-install supabase test db supabase/tests/database/tradepulse_academy.test.sql
 
+      - name: Test public web runtime read boundary
+        run: npx --no-install supabase test db supabase/tests/database/public_runtime_read_boundary.test.sql
+
       - name: Test brokerage-readiness database contracts
         run: npx --no-install supabase test db supabase/tests/database/brokerage_readiness.test.sql
 

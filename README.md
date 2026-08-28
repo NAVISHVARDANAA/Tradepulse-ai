@@ -528,6 +528,10 @@ Migration `032_business_team_access.sql` adds bounded, in-app team invitations
 and protected member administration without external email or shared execution.
 Migration `033_business_shared_research.sql` adds role-controlled team research
 collections and non-executing evidence notes.
+Migration `034_public_runtime_read_boundary.sql` makes the intended anonymous
+read boundary explicit for public market, forecast, equity, Academy, paper-
+instrument and indicative-corridor surfaces while retaining RLS and denying
+guest access to private customer, execution, payment and quiz-answer records.
 
 Phase 4T adds hardened browser runtime validation, security headers, SPA routing
 and an environment-protected production web-artifact workflow. It does not
@@ -547,6 +551,10 @@ prerequisites. It does not activate public distribution or regulated execution.
 Phase 4X selects Cloudflare Pages and adds a protected manual web deployment
 with live HTTPS, security-header and release-lock verification. External tester
 invitations remain disabled until the domain, Auth and operational gates pass.
+
+Phase 4Y repairs the production public-data authorization boundary discovered
+during the first live smoke test. CI and the query-only production verifier now
+exercise the same anonymous REST reads used by the browser.
 
 ## Production gates
 
