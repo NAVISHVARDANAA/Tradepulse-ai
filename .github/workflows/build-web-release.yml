@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type BUILD_PHASE_4W to create the controlled-beta release candidate
+        description: Type BUILD_PHASE_4X to create the Cloudflare Pages deployment candidate
         required: true
         type: string
 
@@ -29,7 +29,7 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "BUILD_PHASE_4W"
+          test "$RELEASE_CONFIRMATION" = "BUILD_PHASE_4X"
           test -n "$SUPABASE_PROJECT_REF"
           test -n "$VITE_SUPABASE_ANON_KEY"
           case "$VITE_SUPABASE_ANON_KEY" in *service_role*|*secret*) echo "A server credential cannot be used by the web client."; exit 1;; esac
@@ -47,10 +47,11 @@ jobs:
       - run: npm run check:navigation
       - run: npm run check:security
       - run: npm run check:beta
+      - run: npm run check:hosting
       - name: Upload immutable web release candidate
         uses: actions/upload-artifact@v6
         with:
-          name: tradepulse-beta-rc-${{ github.sha }}
+          name: tradepulse-beta-rc2-${{ github.sha }}
           path: dist
           if-no-files-found: error
           retention-days: 14
