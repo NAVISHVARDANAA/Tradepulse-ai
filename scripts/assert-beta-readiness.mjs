@@ -12,10 +12,10 @@ const manifest = JSON.parse(sourceManifestText)
 const artifactManifest = JSON.parse(artifactManifestText)
 
 assert(manifest.schemaVersion === 1, 'Unexpected beta manifest schema')
-assert(manifest.release === 'controlled-beta-rc1', 'Unexpected beta release identifier')
-assert(manifest.phase === '4W', 'Beta manifest is not on Phase 4W')
+assert(manifest.release === 'controlled-beta-rc2', 'Unexpected beta release identifier')
+assert(manifest.phase === '4X', 'Beta manifest is not on Phase 4X')
 assert(
-  manifest.status === 'engineering_release_candidate',
+  manifest.status === 'hosting_deployment_candidate',
   'Beta manifest overstates the release status',
 )
 assert(manifest.audience === 'internal_release_review', 'Beta audience boundary changed')
@@ -28,8 +28,12 @@ for (const [lock, enabled] of Object.entries(manifest.hardLocks ?? {})) {
   assert(enabled === false, `Controlled-beta hard lock is not false: ${lock}`)
 }
 assert(Object.keys(manifest.hardLocks ?? {}).length === 5, 'Beta hard-lock inventory changed')
-for (const [gate, enabled] of Object.entries(manifest.distribution ?? {})) {
-  assert(enabled === false, `Unapproved beta distribution state: ${gate}`)
+assert(
+  manifest.distribution?.hostingProviderSelected === true,
+  'Cloudflare Pages hosting selection is missing',
+)
+for (const gate of ['publicUrlConfigured', 'externalInvitationsApproved']) {
+  assert(manifest.distribution?.[gate] === false, `Unapproved beta distribution state: ${gate}`)
 }
 assert(
   Array.isArray(manifest.manualPrerequisites) && manifest.manualPrerequisites.length === 6,
@@ -46,6 +50,7 @@ const expectedChecks = [
   'check:navigation',
   'check:security',
   'check:beta',
+  'check:hosting',
   'test:e2e',
 ]
 for (const check of expectedChecks) {
@@ -57,32 +62,44 @@ assert(
   'Production dependency audit is absent from the beta manifest',
 )
 
-const [buildWorkflow, ciWorkflow, securityWorkflow, roadmap, candidateDoc, robots] =
+const [buildWorkflow, deployWorkflow, ciWorkflow, securityWorkflow, roadmap, candidateDoc, hostingDoc, robots] =
   await Promise.all([
     read('.github/workflows/build-web-release.yml'),
+    read('.github/workflows/deploy-web-production.yml'),
     read('.github/workflows/ci.yml'),
     read('.github/workflows/security.yml'),
     read('docs/PRODUCT_ROADMAP.md'),
     read('docs/BETA_RELEASE_CANDIDATE.md'),
+    read('docs/CLOUDFLARE_PAGES_HOSTING.md'),
     read('public/robots.txt'),
   ])
 
 for (const contract of [
-  'BUILD_PHASE_4W',
+  'BUILD_PHASE_4X',
   'npm run check:beta',
-  'tradepulse-beta-rc-${{ github.sha }}',
+  'tradepulse-beta-rc2-${{ github.sha }}',
   'environment: production',
 ]) {
   assert(buildWorkflow.includes(contract), `Beta build workflow contract missing: ${contract}`)
 }
-for (const contract of ['browser-regression:', 'npm run test:e2e', 'npm run check:security']) {
+for (const contract of ['DEPLOY_PHASE_4X', 'cloudflare/wrangler-action@v3', 'verify:web-deployment']) {
+  assert(deployWorkflow.includes(contract), `Beta deploy workflow contract missing: ${contract}`)
+}
+for (const contract of [
+  'browser-regression:',
+  'npm run test:e2e',
+  'npm run check:security',
+  'npm run check:hosting',
+]) {
   assert(ciWorkflow.includes(contract), `CI beta contract missing: ${contract}`)
 }
 for (const contract of ['dependency-review-action', 'security-extended', 'javascript-typescript']) {
   assert(securityWorkflow.includes(contract), `Security workflow contract missing: ${contract}`)
 }
 assert(roadmap.includes('Phase 4W — controlled-beta release candidate'), 'Roadmap omits Phase 4W')
+assert(roadmap.includes('Phase 4X — Cloudflare Pages deployment foundation'), 'Roadmap omits Phase 4X')
 assert(candidateDoc.includes('Artifact-only status'), 'Candidate documentation omits artifact status')
+assert(hostingDoc.includes('External invitations remain disabled'), 'Hosting documentation omits invitation boundary')
 assert(robots.includes('Disallow: /'), 'Release candidate became indexable before approval')
 
 const [brokerageMigration, paymentMigration, monetizationMigration] = await Promise.all([
@@ -110,5 +127,5 @@ for (const lock of ['checkout_enabled', 'charge_collection_enabled', 'customer_p
 }
 
 console.log(
-  'Controlled-beta readiness passed: artifact-only RC1, 5 execution locks, 6 manual prerequisites.',
+  'Controlled-beta readiness passed: Cloudflare RC2 candidate, 5 execution locks, 6 manual prerequisites.',
 )
