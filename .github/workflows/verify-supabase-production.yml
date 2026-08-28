@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type VERIFY_PHASE_4S to run read-only shared-research checks
+        description: Type VERIFY_PHASE_4Y to run read-only public-runtime checks
         required: true
         type: string
 
@@ -26,6 +26,7 @@ jobs:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
       SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+      WEB_SUPABASE_ANON_KEY: ${{ secrets.WEB_SUPABASE_ANON_KEY }}
 
     steps:
       - name: Check out main without persisted credentials
@@ -38,8 +39,8 @@ jobs:
           VERIFICATION_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$VERIFICATION_CONFIRMATION" = "VERIFY_PHASE_4S" || {
-            echo "Verification confirmation did not match VERIFY_PHASE_4S."
+          test "$VERIFICATION_CONFIRMATION" = "VERIFY_PHASE_4Y" || {
+            echo "Verification confirmation did not match VERIFY_PHASE_4Y."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -54,6 +55,10 @@ jobs:
             echo "SUPABASE_PROJECT_REF is not configured in the production environment."
             exit 1
           }
+          test -n "$WEB_SUPABASE_ANON_KEY" || {
+            echo "WEB_SUPABASE_ANON_KEY is not configured in the production environment."
+            exit 1
+          }
 
       - name: Set up Node.js LTS
         uses: actions/setup-node@v7
@@ -64,13 +69,13 @@ jobs:
       - name: Install the repository-pinned Supabase CLI
         run: npm ci
 
-      - name: Verify migration 033 and remote migration parity
+      - name: Verify migration 034 and remote migration parity
         run: |
           set -eu
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])033([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])034([^0-9]|$)' migration-list.txt
           npx --no-install supabase db push \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" \
@@ -79,6 +84,9 @@ jobs:
             echo "Remote production has pending migrations."
             exit 1
           fi
+
+      - name: Verify production public web reads
+        run: bash scripts/verify-public-runtime-read.sh
 
       - name: Assert production smoke SQL is query-only
         run: bash scripts/assert-read-only-sql.sh supabase/tests/production/brokerage_readiness_smoke.sql
@@ -367,7 +375,8 @@ jobs:
             echo "## Supabase production verification"
             echo
             echo "- Commit: \`$GITHUB_SHA\`"
-            echo "- Migration history: synchronized through 033"
+            echo "- Migration history: synchronized through 034"
+            echo "- Public market, forecast, equity, Academy and indicative-corridor reads: verified"
             echo "- Role-controlled shared Business research: verified"
             echo "- Bounded Business invitations and role administration: verified"
             echo "- Private Business workspace and role boundary: verified"

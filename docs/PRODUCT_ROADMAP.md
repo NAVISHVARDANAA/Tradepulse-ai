@@ -444,10 +444,21 @@ checks plus successful `BUILD_PHASE_4W` artifact creation from `main`.
 **Phase 4X exit gate:** green application and hosting contracts, successful
 `BUILD_PHASE_4X` RC2 artifact creation, then a reviewed `DEPLOY_PHASE_4X` run.
 
+### Phase 4Y — production public-read boundary (implemented)
+
+- Explicit grants replace environment-dependent defaults for public web data.
+- Security-invoker views retain RLS filtering across their base relations.
+- Private customer, execution, payment and quiz-answer records remain denied.
+- Production verification runs the browser's anonymous REST read contract.
+
+**Phase 4Y exit gate:** migration 034 parity, successful anonymous REST smoke
+checks and unchanged HTTP 401 protection for every private execution surface.
+
 ### Controlled-beta finish line
 
 The planned product engineering foundation is complete after Phase 4W. Phase
-4X adds the selected hosting deployment path. The candidate remains closed to
+4X adds the selected hosting deployment path, and Phase 4Y verifies the live
+public-data authorization boundary. The candidate remains closed to
 external testers until its documented domain, operational, privacy, security
 and tester-approval prerequisites are complete.
 

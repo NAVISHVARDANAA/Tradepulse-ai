@@ -17,6 +17,7 @@ requires an explicit release phrase.
    | `SUPABASE_ACCESS_TOKEN` | A scoped Supabase personal access token used only by GitHub Actions |
    | `SUPABASE_DB_PASSWORD` | The database password for the target Supabase project |
    | `SUPABASE_PROJECT_REF` | The target project's reference ID |
+   | `WEB_SUPABASE_ANON_KEY` | The public anonymous key used only for browser-equivalent read smoke checks |
 
 Never paste these values into an issue, pull request, workflow input, log,
 browser client variable or chat. Rotate the access token and database password
@@ -39,31 +40,33 @@ The dashboard will show `not run`; an authorized probe without credentials fails
 closed and stores only `CONFIGURATION_INVALID`. Never use Alpaca live credentials
 for this adapter.
 
-## Release Phase 4S
+## Release Phase 4Y
 
 1. Confirm the CI workflow on `main` is green.
 2. Open **Actions → Deploy Supabase production → Run workflow**.
 3. Select the `main` branch.
-4. Enter `DEPLOY_PHASE_4S` as the confirmation value.
+4. Enter `DEPLOY_PHASE_4Y` as the confirmation value.
 5. Approve the `production` environment deployment when prompted.
 
 The workflow performs a database dry run, applies every pending migration in
 filename order and redeploys every customer and internal Edge Function affected
 by the shared security, observability and account-protection boundary. It verifies
-migration `033`, checks active functions, runs the query-only production lock
-smoke check and proves that unauthenticated brokerage, paper-simulation,
-platform-evaluation and account-security requests receive HTTP 401.
+migration `034`, checks active functions, verifies that approved public runtime
+reads return HTTP 2xx, runs the query-only production lock smoke check and proves
+that unauthenticated brokerage, paper-simulation, platform-evaluation and
+account-security requests receive HTTP 401.
 
 ## Read-only production verification
 
 Run **Actions → Verify Supabase production → Run workflow** after a release or
-operational incident. Select `main` and enter `VERIFY_PHASE_4S`.
+operational incident. Select `main` and enter `VERIFY_PHASE_4Y`.
 
 The verification workflow performs no production writes. It confirms local and
 remote migration parity, executes the audited, query-only
 `brokerage_readiness_smoke.sql` block, checks that protected Edge Functions are active,
-proves that unauthenticated requests remain blocked and confirms that internal
-broker jobs do not enable browser CORS. It does not call Alpaca
+proves that approved anonymous browser reads work, confirms that protected
+unauthenticated requests remain blocked and confirms that internal broker jobs
+do not enable browser CORS. It does not call Alpaca
 or write a health result. The GitHub run summary is the deployment-health audit
 record. CI and both production workflows reject the smoke file if it contains a
 write-capable SQL statement.
