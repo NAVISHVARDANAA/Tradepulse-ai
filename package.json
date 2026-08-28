@@ -10,6 +10,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "check:bundle": "node scripts/assert-frontend-budgets.mjs",
+    "check:beta": "node scripts/assert-beta-readiness.mjs",
     "check:navigation": "node scripts/assert-product-navigation.mjs",
     "check:release": "node scripts/assert-web-release.mjs",
     "check:security": "node scripts/assert-security-regression.mjs",

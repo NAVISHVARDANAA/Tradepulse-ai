@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "release": "controlled-beta-rc1",
+  "phase": "4W",
+  "status": "engineering_release_candidate",
+  "audience": "internal_release_review",
+  "hardLocks": {
+    "liveBrokerageExecution": false,
+    "paymentExecution": false,
+    "chargeCollection": false,
+    "custody": false,
+    "personalizedAdvice": false
+  },
+  "distribution": {
+    "hostingProviderSelected": false,
+    "publicUrlConfigured": false,
+    "externalInvitationsApproved": false
+  },
+  "requiredChecks": [
+    "typecheck",
+    "typecheck:e2e",
+    "build",
+    "check:bundle",
+    "check:release",
+    "check:navigation",
+    "check:security",
+    "check:beta",
+    "test:e2e",
+    "production-dependency-audit"
+  ],
+  "manualPrerequisites": [
+    "production-host-and-domain",
+    "exact-web-origin-and-auth-redirects",
+    "custom-auth-smtp-and-abuse-controls",
+    "controller-privacy-terms-and-support-contacts",
+    "monitoring-on-call-and-incident-exercise",
+    "approved-tester-list-and-feedback-process"
+  ]
+}

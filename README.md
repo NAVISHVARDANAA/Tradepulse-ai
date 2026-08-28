@@ -367,6 +367,7 @@ underlying data source.
 npm run typecheck
 npm run build
 npm run check:bundle
+npm run check:beta
 npm run check:navigation
 npm run check:security
 npm run typecheck:e2e
@@ -403,6 +404,9 @@ The grouped desktop and mobile product-navigation contract is documented in
 The controlled-beta accessibility, browser and security regression gate is
 documented in
 [`docs/ACCESSIBILITY_SECURITY_REGRESSION.md`](docs/ACCESSIBILITY_SECURITY_REGRESSION.md).
+The final engineering candidate scope, hard locks and manual launch prerequisites
+are documented in
+[`docs/BETA_RELEASE_CANDIDATE.md`](docs/BETA_RELEASE_CANDIDATE.md).
 
 ## ML forecasting service
 
@@ -535,6 +539,10 @@ execution boundaries.
 
 Phase 4V adds automated desktop/mobile accessibility, keyboard, guest-boundary
 and browser-security regression checks ahead of the beta release-candidate audit.
+
+Phase 4W packages the artifact-only controlled-beta release candidate with a
+machine-readable scope, consolidated readiness contract and explicit manual
+prerequisites. It does not activate public distribution or regulated execution.
 
 ## Production gates
 

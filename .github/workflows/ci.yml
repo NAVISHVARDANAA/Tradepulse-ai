@@ -54,6 +54,9 @@ jobs:
       - name: Verify security regression contract
         run: npm run check:security
 
+      - name: Verify controlled-beta release readiness
+        run: npm run check:beta
+
   browser-regression:
     runs-on: ubuntu-latest
     timeout-minutes: 15
