@@ -2,6 +2,7 @@ import {
   BarChart3,
   BrainCircuit,
   ArrowUpRight,
+  Blocks,
   Gauge,
   Globe2,
   GraduationCap,
@@ -11,6 +12,14 @@ import {
 } from 'lucide-react'
 
 const capabilities = [
+  {
+    label: 'Analytics Studio',
+    status: 'Enterprise semantic reporting',
+    detail: 'Certified KPIs, slicers, drill-through, saved views, export and lineage',
+    tone: 'active',
+    href: '#analytics-studio',
+    icon: Blocks,
+  },
   {
     label: 'Global stock research',
     status: 'Coverage registry active',

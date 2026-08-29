@@ -106,7 +106,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(20)
+  await expect(navigation.getByRole('link')).toHaveCount(21)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -142,5 +142,18 @@ test('hash navigation renders one focused product workspace at a time', async ({
   await page.goto('/#stock-research')
   await expect(page.getByRole('heading', { level: 1, name: 'Interactive stock intelligence' })).toBeVisible()
   await expect(page.locator('#stock-research')).toBeVisible()
+  await expect(page.locator('#forecasts')).toHaveCount(0)
+})
+
+test('Analytics Studio exposes governed interactive reporting controls', async ({ page }) => {
+  await page.goto('/#analytics-studio')
+  await expect(page.getByRole('heading', { level: 1, name: 'Governed Analytics Studio' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Governed Analytics Studio', exact: true })).toBeVisible()
+  await expect(page.getByLabel('Subject area')).toBeVisible()
+  await expect(page.getByLabel('Search report')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Save view' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Export CSV' })).toBeDisabled()
+  await expect(page.getByText('Snowflake adapter: not connected')).toBeVisible()
+  await expect(page.getByText('Semantic metric dictionary')).toBeVisible()
   await expect(page.locator('#forecasts')).toHaveCount(0)
 })

@@ -53,18 +53,26 @@ async function sourceFiles(directory) {
 }
 
 const applicationFiles = await sourceFiles(join(repositoryRoot, 'src'))
+const reviewedBrowserStorage = new Map([
+  ['src/components/AcademyPanel.tsx', 'tradepulse-academy-progress-v1'],
+  ['src/components/AnalyticsStudioPanel.tsx', 'tradepulse-analytics-views-v1'],
+  ['src/components/GuidedOnboarding.tsx', 'tradepulse-product-tour-v3'],
+])
 for (const { path, content } of applicationFiles) {
+  const repositoryPath = relative(repositoryRoot, path)
   const unsafe = [
     ['dangerouslySetInnerHTML', /dangerouslySetInnerHTML/],
     ['direct innerHTML assignment', /\.innerHTML\s*=/],
     ['eval', /\beval\s*\(/],
     ['Function constructor', /\bnew\s+Function\s*\(/],
   ].find(([, pattern]) => pattern.test(content))
-  if (unsafe) throw new Error(`${unsafe[0]} is forbidden in ${relative(repositoryRoot, path)}`)
+  if (unsafe) throw new Error(`${unsafe[0]} is forbidden in ${repositoryPath}`)
 
-  const storageAllowed = path.endsWith('AcademyPanel.tsx') || path.endsWith('GuidedOnboarding.tsx')
-  if (!storageAllowed && /(?:local|session)Storage/.test(content)) {
-    throw new Error(`Unreviewed browser storage use in ${relative(repositoryRoot, path)}`)
+  const reviewedStorageKey = reviewedBrowserStorage.get(repositoryPath)
+  if (/(?:local|session)Storage/.test(content) && (
+    !reviewedStorageKey || !content.includes(`'${reviewedStorageKey}'`)
+  )) {
+    throw new Error(`Unreviewed browser storage use in ${repositoryPath}`)
   }
 }
 

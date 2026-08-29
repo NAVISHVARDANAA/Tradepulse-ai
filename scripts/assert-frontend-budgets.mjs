@@ -39,7 +39,9 @@ const largestAsset = assetFiles.reduce((largest, asset) => (
 
 const budgets = {
   initialGzipBytes: 160 * 1024,
-  totalJavaScriptGzipBytes: 280 * 1024,
+  // Phase 5B adds a 5.1 KiB gzip Analytics Studio chunk without increasing
+  // the initial shell. Keep the reviewed total-growth allowance bounded.
+  totalJavaScriptGzipBytes: 288 * 1024,
   largestAssetGzipBytes: 90 * 1024,
 }
 

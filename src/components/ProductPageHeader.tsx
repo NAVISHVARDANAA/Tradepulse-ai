@@ -28,6 +28,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Review freshness, completeness and duplicate checks, then manage private notification preferences.',
     boundary: 'Evidence before alerts',
   },
+  '#analytics-studio': {
+    eyebrow: 'Enterprise decision intelligence',
+    title: 'Governed Analytics Studio',
+    description: 'Explore reusable semantic KPIs with slicers, cross-filtering, drill-through, saved views, export and visible source lineage.',
+    boundary: 'Certified metrics',
+  },
   '#stock-research': {
     eyebrow: 'Global equity research',
     title: 'Interactive stock intelligence',

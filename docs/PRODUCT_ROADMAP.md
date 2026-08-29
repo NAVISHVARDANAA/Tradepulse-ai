@@ -478,6 +478,19 @@ production passwordless sign-in that exposes only private simulation controls.
 security and hosting checks, successful `BUILD_PHASE_5A` artifact creation and
 a reviewed `DEPLOY_PHASE_5A` deployment.
 
+### Phase 5B — governed enterprise analytics (implemented)
+
+- Analytics Studio introduces reusable subject areas for markets, forecasts, equities and trade.
+- Certified metric definitions expose formula, grain and source-to-report lineage.
+- Report consumers can apply slicers, cross-filter distributions, sort rows and drill into governed evidence.
+- Saved views remain device-local and filtered report rows can be exported as CSV.
+- Freshness and completeness stay visible; missing evidence is never converted into a live signal.
+- The current runtime remains Supabase Postgres behind RLS. The semantic contract is warehouse-ready, but no Snowflake connection is claimed or configured.
+
+**Phase 5B exit gate:** green Analytics Studio contract, desktop/mobile browser
+regression, bundle, security and hosting checks, successful `BUILD_PHASE_5B`
+artifact creation and a reviewed `DEPLOY_PHASE_5B` deployment.
+
 ### Controlled-beta finish line
 
 The planned product engineering foundation is complete after Phase 4W. Phase
