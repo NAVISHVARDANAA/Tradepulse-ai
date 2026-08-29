@@ -16,7 +16,7 @@ const [workflow, manifestText, headers, redirects, documentation] = await Promis
 const manifest = JSON.parse(manifestText)
 
 for (const contract of [
-  'DEPLOY_PHASE_4X',
+  'DEPLOY_PHASE_4Z',
   'environment: production',
   'CLOUDFLARE_API_TOKEN',
   'CLOUDFLARE_ACCOUNT_ID',

@@ -75,14 +75,14 @@ const [buildWorkflow, deployWorkflow, ciWorkflow, securityWorkflow, roadmap, can
   ])
 
 for (const contract of [
-  'BUILD_PHASE_4X',
+  'BUILD_PHASE_4Z',
   'npm run check:beta',
   'tradepulse-beta-rc2-${{ github.sha }}',
   'environment: production',
 ]) {
   assert(buildWorkflow.includes(contract), `Beta build workflow contract missing: ${contract}`)
 }
-for (const contract of ['DEPLOY_PHASE_4X', 'cloudflare/wrangler-action@v3', 'verify:web-deployment']) {
+for (const contract of ['DEPLOY_PHASE_4Z', 'cloudflare/wrangler-action@v3', 'verify:web-deployment']) {
   assert(deployWorkflow.includes(contract), `Beta deploy workflow contract missing: ${contract}`)
 }
 for (const contract of [
@@ -98,6 +98,7 @@ for (const contract of ['dependency-review-action', 'security-extended', 'javasc
 }
 assert(roadmap.includes('Phase 4W — controlled-beta release candidate'), 'Roadmap omits Phase 4W')
 assert(roadmap.includes('Phase 4X — Cloudflare Pages deployment foundation'), 'Roadmap omits Phase 4X')
+assert(roadmap.includes('Phase 4Z — deterministic passwordless authentication'), 'Roadmap omits Phase 4Z')
 assert(candidateDoc.includes('Artifact-only status'), 'Candidate documentation omits artifact status')
 assert(hostingDoc.includes('External invitations remain disabled'), 'Hosting documentation omits invitation boundary')
 assert(robots.includes('Disallow: /'), 'Release candidate became indexable before approval')

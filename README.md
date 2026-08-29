@@ -556,6 +556,13 @@ Phase 4Y repairs the production public-data authorization boundary discovered
 during the first live smoke test. CI and the query-only production verifier now
 exercise the same anonymous REST reads used by the browser.
 
+Phase 4Z makes passwordless authentication deterministic in the hosted SPA.
+The application owns the callback exchange, removes credentials and error
+details from browser history, preserves an approved return destination and
+shows safe recovery guidance when a link is expired, consumed or incomplete.
+Build the repair with `BUILD_PHASE_4Z`, then deploy it through the protected
+Cloudflare workflow with `DEPLOY_PHASE_4Z`.
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction

@@ -31,9 +31,9 @@ is intentionally public and is still constrained by RLS and server-side auth.
 After this PR is merged and all `main` checks pass:
 
 1. Open **Actions → Build production web release**, choose `main`, enter
-   `BUILD_PHASE_4X` and record the green RC2 artifact.
+   `BUILD_PHASE_4Z` and record the green RC2 repair artifact.
 2. Open **Actions → Deploy controlled beta web**, choose `main`, enter
-   `DEPLOY_PHASE_4X` and approve the protected production environment.
+   `DEPLOY_PHASE_4Z` and approve the protected production environment.
 3. Record the immutable commit, workflow run and Cloudflare deployment URL from
    the job summary. The workflow verifies HTTPS, browser security headers, the
    release manifest and every hard lock after upload.

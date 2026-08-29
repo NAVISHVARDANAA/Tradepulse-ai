@@ -1,6 +1,7 @@
 import type { Session } from '@supabase/supabase-js'
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -9,10 +10,16 @@ import {
 } from 'react'
 
 import { supabase } from '../supabase/client'
+import {
+  bootstrapAuthSession,
+  scrollToAuthReturnTarget,
+} from './browserCallback'
 
 type AuthContextValue = {
   session: Session | null
   loading: boolean
+  error: string | null
+  clearError: () => void
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
@@ -20,27 +27,35 @@ const AuthContext = createContext<AuthContextValue | null>(null)
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const clearError = useCallback(() => setError(null), [])
 
   useEffect(() => {
     let active = true
+    let bootstrapped = false
 
-    void supabase.auth.getSession()
-      .then(({ data }) => {
+    const { data } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+      if (!active || !bootstrapped) return
+      setSession(nextSession)
+      if (nextSession) setError(null)
+      setLoading(false)
+    })
+
+    void bootstrapAuthSession()
+      .then((result) => {
         if (!active) return
-        setSession(data.session)
+        bootstrapped = true
+        setSession(result.session)
+        setError(result.error)
         setLoading(false)
+        scrollToAuthReturnTarget()
       })
       .catch(() => {
         if (!active) return
         setSession(null)
+        setError('Your secure session could not be restored. Please sign in again.')
         setLoading(false)
       })
-
-    const { data } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-      if (!active) return
-      setSession(nextSession)
-      setLoading(false)
-    })
 
     return () => {
       active = false
@@ -48,7 +63,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
-  const value = useMemo(() => ({ session, loading }), [loading, session])
+  const value = useMemo(
+    () => ({ session, loading, error, clearError }),
+    [clearError, error, loading, session],
+  )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
