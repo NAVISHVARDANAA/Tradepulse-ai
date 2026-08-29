@@ -32,9 +32,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let active = true
+    let bootstrapped = false
 
     const { data } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-      if (!active) return
+      if (!active || !bootstrapped) return
       setSession(nextSession)
       if (nextSession) setError(null)
       setLoading(false)
@@ -43,6 +44,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     void bootstrapAuthSession()
       .then((result) => {
         if (!active) return
+        bootstrapped = true
         setSession(result.session)
         setError(result.error)
         setLoading(false)
