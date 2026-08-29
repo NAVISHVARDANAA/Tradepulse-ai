@@ -60,7 +60,13 @@ export function GuidedOnboarding() {
   const tourRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    if (!localStorage.getItem(TOUR_KEY)) setMode('welcome')
+    const authenticationReturn =
+      window.location.hash === '#paper-investing' ||
+      window.location.hash === '#account-security'
+
+    if (!authenticationReturn && !localStorage.getItem(TOUR_KEY)) {
+      setMode('welcome')
+    }
   }, [])
 
   useEffect(() => {

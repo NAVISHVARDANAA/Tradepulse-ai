@@ -70,6 +70,7 @@ test('passwordless callback establishes and cleans the customer session', async 
   )
 
   await expect(page).toHaveURL(/\/#paper-investing$/)
+  await expect(page.getByRole('dialog', { name: 'Learn before you invest' })).toHaveCount(0)
   await expect(page.getByText('Signed in as customer@example.test')).toBeVisible()
   await expect(page.getByText('Create your first simulation portfolio')).toBeVisible()
   expect(await page.evaluate(() => window.location.href)).not.toContain('access_token')
