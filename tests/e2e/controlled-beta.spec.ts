@@ -42,7 +42,7 @@ test.beforeEach(async ({ page }) => {
     await welcome.getByRole('button', { name: 'Explore on my own' }).click()
   }
   await expect(
-    page.getByRole('heading', { level: 1, name: 'Research every covered stock with evidence' }),
+    page.getByRole('heading', { level: 1, name: 'One platform. Focused workspaces.' }),
   ).toBeVisible()
 })
 
@@ -91,13 +91,12 @@ test('desktop grouped navigation is keyboard operable', async ({ page }, testInf
   const navigation = page.getByRole('navigation', { name: 'Product navigation' })
   const research = navigation.locator('details').filter({ hasText: 'Research' })
   const summary = research.locator('summary')
-  await summary.focus()
-  await page.keyboard.press('Enter')
-  await expect(research).toHaveAttribute('open', '')
+  await summary.press('Enter')
+  await expect(research).toHaveJSProperty('open', true)
   await expect(navigation.getByRole('link', { name: 'Stock research' })).toBeVisible()
 
   await page.keyboard.press('Escape')
-  await expect(research).not.toHaveAttribute('open', '')
+  await expect(research).toHaveJSProperty('open', false)
 })
 
 test('mobile menu keeps every destination reachable without horizontal overflow', async ({ page }, testInfo) => {
@@ -112,6 +111,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
   await expect(navigation).toBeHidden()
+  await expect(page.getByRole('heading', { level: 1, name: 'Production reliability' })).toBeVisible()
   const overflow = await page.evaluate(
     () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
   )
@@ -119,15 +119,28 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
 })
 
 test('guest brokerage, paper and payment execution boundaries stay closed', async ({ page }) => {
-  await page.locator('#paper-investing').scrollIntoViewIfNeeded()
+  await page.goto('/#paper-investing')
   await expect(page.getByText('Sign in to create a private paper portfolio')).toBeVisible()
 
-  await page.locator('#brokerage-readiness').scrollIntoViewIfNeeded()
+  await page.goto('/#brokerage-readiness')
   await expect(
     page.getByText('Sign in through Paper Investing to view disclosures and create a non-executable preview.'),
   ).toBeVisible()
 
-  await page.locator('#payments').scrollIntoViewIfNeeded()
+  await page.goto('/#payments')
   await expect(page.getByText('Sandbox · no money movement')).toBeVisible()
   await expect(page.getByRole('button', { name: /execute|place live|submit live/i })).toHaveCount(0)
+})
+
+test('hash navigation renders one focused product workspace at a time', async ({ page }) => {
+  await page.goto('/#forecasts')
+  await expect(page.getByRole('heading', { level: 1, name: 'Forecast governance dashboard' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Probabilistic market outlook' })).toBeVisible()
+  await expect(page.locator('#stock-research')).toHaveCount(0)
+  await expect(page.locator('#paper-investing')).toHaveCount(0)
+
+  await page.goto('/#stock-research')
+  await expect(page.getByRole('heading', { level: 1, name: 'Interactive stock intelligence' })).toBeVisible()
+  await expect(page.locator('#stock-research')).toBeVisible()
+  await expect(page.locator('#forecasts')).toHaveCount(0)
 })

@@ -52,11 +52,15 @@ for (const contract of [
   'aria-expanded=',
   'aria-controls=',
   "event.key !== 'Escape'",
-  'IntersectionObserver',
+  'productHrefFromHash',
 ]) {
   if (!navigation.includes(contract)) {
     throw new Error(`Missing navigation accessibility contract: ${contract}`)
   }
+}
+
+if (!applicationSource.includes("addEventListener('hashchange'")) {
+  throw new Error('Application does not react to hash-route changes')
 }
 
 console.log('Product navigation contract passed: 5 groups, 20 valid destinations.')

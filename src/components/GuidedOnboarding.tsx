@@ -71,12 +71,18 @@ export function GuidedOnboarding() {
 
   useEffect(() => {
     if (mode !== 'tour') return
-    document.querySelector(steps[step].selector)?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    })
+    const destination = steps[step].selector
+    if (window.location.hash !== destination) window.location.hash = destination
+
+    const focusDestination = window.setTimeout(() => {
+      document.querySelector(destination)?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
+      tourRef.current?.focus()
+    }, 80)
     void saveCustomerOnboarding(step, 'in_progress')
-    tourRef.current?.focus()
+    return () => window.clearTimeout(focusDestination)
   }, [mode, step])
 
   useEffect(() => {
@@ -112,10 +118,11 @@ export function GuidedOnboarding() {
     localStorage.setItem(TOUR_KEY, 'completed')
     setMode(null)
     void saveCustomerOnboarding(steps.length, 'completed')
-    requestAnimationFrame(() => {
-      document.getElementById('dashboard')?.scrollIntoView({ behavior: 'smooth' })
+    window.location.hash = '#dashboard'
+    window.setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
       document.getElementById('main-content')?.focus()
-    })
+    }, 80)
   }
 
   return (

@@ -2,15 +2,18 @@ import { lazy, Suspense, useEffect, useState } from 'react'
 import {
   ArrowDownRight,
   ArrowUpRight,
-  DatabaseZap,
   TrendingUp,
 } from 'lucide-react'
 
-import { DeferredSection } from './components/DeferredSection'
 import { GuidedOnboarding } from './components/GuidedOnboarding'
 import { PlatformReadiness } from './components/PlatformReadiness'
 import { ProductErrorBoundary } from './components/ProductErrorBoundary'
-import { ProductNavigation } from './components/ProductNavigation'
+import { ProductPageHeader } from './components/ProductPageHeader'
+import {
+  ProductNavigation,
+  productHrefFromHash,
+  type ProductHref,
+} from './components/ProductNavigation'
 import { SystemStatusPanel } from './components/SystemStatusPanel'
 import {
   getLatestForecasts,
@@ -160,6 +163,9 @@ function formatGrowth(value: number | null) {
 }
 
 function App() {
+  const [activeHref, setActiveHref] = useState<ProductHref>(() =>
+    productHrefFromHash(window.location.hash),
+  )
   const [marketAssets, setMarketAssets] = useState<MarketAssetSnapshot[]>([])
   const [tradeDashboard, setTradeDashboard] = useState<TradeDashboard>(
     emptyTradeDashboard,
@@ -178,6 +184,24 @@ function App() {
   const [forecastError, setForecastError] = useState<string | null>(null)
   const [equityResearchError, setEquityResearchError] = useState<string | null>(null)
   const [paymentError, setPaymentError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const followRoute = () => setActiveHref(productHrefFromHash(window.location.hash))
+    window.addEventListener('hashchange', followRoute)
+    followRoute()
+    return () => window.removeEventListener('hashchange', followRoute)
+  }, [])
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      document.querySelector(activeHref)?.scrollIntoView({ block: 'start' })
+    })
+    return () => window.cancelAnimationFrame(frame)
+  }, [activeHref])
+
+  useEffect(() => {
+    if (activeHref === '#payments') setPaymentRequested(true)
+  }, [activeHref])
 
   useEffect(() => {
     const loadMarkets = async () => {
@@ -337,101 +361,88 @@ function App() {
           </div>
         </a>
 
-        <ProductNavigation />
+        <ProductNavigation activeHref={activeHref} />
 
         <span className="environment-pill">Data intelligence</span>
       </header>
 
       <main className="dashboard" id="main-content" tabIndex={-1}>
-        <section className="page-header">
-          <div>
-            <p className="eyebrow">Global markets · AI research · risk</p>
-            <h1>Research every covered stock with evidence</h1>
-            <p className="subtitle">
-              Search licensed market coverage, compare transparent opportunity
-              rankings, inspect per-stock forecast uncertainty, and test ideas
-              in paper portfolios under measurable risk controls.
-            </p>
+        <ProductPageHeader activeHref={activeHref} />
+
+        {activeHref === '#dashboard' ? (
+          <div className="overview-workspace" aria-label="TradePulse workspaces">
+            <PlatformReadiness />
+            <SystemStatusPanel />
           </div>
+        ) : null}
 
-          <div className="data-trust-card">
-            <DatabaseZap size={18} />
-            <div>
-              <strong>Truth before prediction</strong>
-              <span>Missing data stays missing—never presented as a live signal.</span>
-            </div>
-          </div>
-        </section>
+        {activeHref === '#system-status' ? <SystemStatusPanel /> : null}
 
-        <PlatformReadiness />
-
-        <SystemStatusPanel />
-
-        <DeferredSection id="account-security" label="Account Security Center" minimumHeight={480}>
+        {activeHref === '#account-security' ? <section id="account-security" className="product-workspace">
           <ProductErrorBoundary title="Account security is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Account Security Center" />}>
               <AccountSecurityPanel />
             </Suspense>
           </ProductErrorBoundary>
-        </DeferredSection>
+        </section> : null}
 
-        <DeferredSection id="customer-privacy" label="Data Control Center" minimumHeight={360}>
+        {activeHref === '#customer-privacy' ? <section id="customer-privacy" className="product-workspace">
           <ProductErrorBoundary title="Privacy controls are temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Data Control Center" />}>
               <CustomerPrivacyPanel />
             </Suspense>
           </ProductErrorBoundary>
-        </DeferredSection>
+        </section> : null}
 
-        <DeferredSection id="data-trust" label="Data Trust and Notifications" minimumHeight={420}>
+        {activeHref === '#data-trust' ? <section id="data-trust" className="product-workspace">
           <ProductErrorBoundary title="Data trust controls are temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Data Trust and Notifications" />}>
               <DataTrustNotificationPanel />
             </Suspense>
           </ProductErrorBoundary>
-        </DeferredSection>
+        </section> : null}
 
-        <DeferredSection id="plans" label="Plans and Entitlements" minimumHeight={520}>
+        {activeHref === '#plans' ? <section id="plans" className="product-workspace">
           <ProductErrorBoundary title="Commercial plans are temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Plans and Entitlements" />}>
               <MonetizationPanel />
             </Suspense>
           </ProductErrorBoundary>
-        </DeferredSection>
+        </section> : null}
 
-        <DeferredSection id="customer-experience" label="Customer Experience" minimumHeight={440}>
+        {activeHref === '#customer-experience' ? <section id="customer-experience" className="product-workspace">
           <ProductErrorBoundary title="Customer experience controls are temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Customer Experience" />}>
               <CustomerExperiencePanel />
             </Suspense>
           </ProductErrorBoundary>
-        </DeferredSection>
+        </section> : null}
 
-        <DeferredSection id="customer-support" label="Customer Support" minimumHeight={500}>
+        {activeHref === '#customer-support' ? <section id="customer-support" className="product-workspace">
           <ProductErrorBoundary title="Customer support is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Customer Support" />}>
               <CustomerSupportPanel />
             </Suspense>
           </ProductErrorBoundary>
-        </DeferredSection>
+        </section> : null}
 
-        <DeferredSection id="business-workspace" label="Business Workspace" minimumHeight={420}>
+        {activeHref === '#business-workspace' ? <section id="business-workspace" className="product-workspace">
           <ProductErrorBoundary title="Business workspace is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Business Workspace" />}>
               <BusinessWorkspacePanel />
             </Suspense>
           </ProductErrorBoundary>
-        </DeferredSection>
+        </section> : null}
 
-        <DeferredSection id="business-research" label="Shared Business Research" minimumHeight={520}>
+        {activeHref === '#business-research' ? <section id="business-research" className="product-workspace">
           <ProductErrorBoundary title="Shared Business research is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Shared Business Research" />}>
               <BusinessResearchPanel />
             </Suspense>
           </ProductErrorBoundary>
-        </DeferredSection>
+        </section> : null}
 
-        <DeferredSection id="stock-research" label="Stock research" minimumHeight={620}>
+        {activeHref === '#stock-research' ? <section id="stock-research" className="product-workspace">
           <ProductErrorBoundary title="Stock research is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Stock research" />}>
               <GlobalEquityResearchPanel
@@ -441,9 +452,9 @@ function App() {
               />
             </Suspense>
           </ProductErrorBoundary>
-        </DeferredSection>
+        </section> : null}
 
-        <DeferredSection id="research-copilot" label="AI research copilot" minimumHeight={460}>
+        {activeHref === '#research-copilot' ? <section id="research-copilot" className="product-workspace">
           <ProductErrorBoundary title="The research copilot is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="AI research copilot" />}>
               <ResearchCopilotPanel
@@ -452,17 +463,17 @@ function App() {
               />
             </Suspense>
           </ProductErrorBoundary>
-        </DeferredSection>
+        </section> : null}
 
-        <DeferredSection id="academy" label="TradePulse Academy" minimumHeight={420}>
+        {activeHref === '#academy' ? <section id="academy" className="product-workspace">
           <ProductErrorBoundary title="TradePulse Academy is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="TradePulse Academy" />}>
               <AcademyPanel />
             </Suspense>
           </ProductErrorBoundary>
-        </DeferredSection>
+        </section> : null}
 
-        <section className="kpi-grid" aria-label="Trade performance indicators">
+        {activeHref === '#markets' ? <section className="kpi-grid" aria-label="Trade performance indicators">
           {(tradeDashboard.kpis.length > 0
             ? tradeDashboard.kpis
             : emptyKpis
@@ -483,9 +494,9 @@ function App() {
               </article>
             )
           })}
-        </section>
+        </section> : null}
 
-        <DeferredSection id="markets" label="Market and trade intelligence" minimumHeight={430}>
+        {activeHref === '#markets' ? <section id="markets" className="product-workspace">
           <section className="content-grid">
           <article className="panel market-panel">
             <div className="panel-header">
@@ -540,9 +551,9 @@ function App() {
               </Suspense>
             </ProductErrorBoundary>
           </section>
-        </DeferredSection>
+        </section> : null}
 
-        <DeferredSection id="forecasts" label="Forecast intelligence" minimumHeight={360}>
+        {activeHref === '#forecasts' ? <section id="forecasts" className="product-workspace">
           <ProductErrorBoundary title="Forecast intelligence is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Forecast intelligence" />}>
               <div className="feature-grid">
@@ -554,33 +565,33 @@ function App() {
               </div>
             </Suspense>
           </ProductErrorBoundary>
-        </DeferredSection>
+        </section> : null}
 
-        <DeferredSection id="paper-investing" label="Paper investing" minimumHeight={520}>
+        {activeHref === '#paper-investing' ? <section id="paper-investing" className="product-workspace">
           <ProductErrorBoundary title="Paper investing is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Paper investing" />}>
               <PaperInvestingPanel marketAssets={marketAssets} />
             </Suspense>
           </ProductErrorBoundary>
-        </DeferredSection>
+        </section> : null}
 
-        <DeferredSection id="risk-command-center" label="Portfolio risk command center" minimumHeight={500}>
+        {activeHref === '#risk-command-center' ? <section id="risk-command-center" className="product-workspace">
           <ProductErrorBoundary title="The risk command center is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Portfolio risk command center" />}>
               <PortfolioRiskCommandCenter />
             </Suspense>
           </ProductErrorBoundary>
-        </DeferredSection>
+        </section> : null}
 
-        <DeferredSection id="brokerage-readiness" label="Brokerage readiness" minimumHeight={520}>
+        {activeHref === '#brokerage-readiness' ? <section id="brokerage-readiness" className="product-workspace">
           <ProductErrorBoundary title="Brokerage readiness is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Brokerage readiness" />}>
               <BrokerageReadinessPanel />
             </Suspense>
           </ProductErrorBoundary>
-        </DeferredSection>
+        </section> : null}
 
-        <section className="panel table-panel" id="trade-data">
+        {activeHref === '#trade-data' ? <section className="panel table-panel product-workspace" id="trade-data">
           <div className="panel-header">
             <div>
               <p className="eyebrow">Country intelligence</p>
@@ -640,14 +651,9 @@ function App() {
               </table>
             </div>
           )}
-        </section>
+        </section> : null}
 
-        <DeferredSection
-          id="payments"
-          label="Cross-border payment sandbox"
-          minimumHeight={360}
-          onVisible={() => setPaymentRequested(true)}
-        >
+        {activeHref === '#payments' ? <section id="payments" className="product-workspace">
           <ProductErrorBoundary title="Payment quotes are temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Cross-border payment sandbox" />}>
               <PaymentQuotePanel
@@ -658,7 +664,7 @@ function App() {
               />
             </Suspense>
           </ProductErrorBoundary>
-        </DeferredSection>
+        </section> : null}
 
         <footer className="product-footer">
           <span>TradePulse AI · Research, learning and regulated-trading foundation</span>

@@ -466,6 +466,18 @@ checks and unchanged HTTP 401 protection for every private execution surface.
 `BUILD_PHASE_4Z` artifact creation, reviewed `DEPLOY_PHASE_4Z` deployment and a
 production passwordless sign-in that exposes only private simulation controls.
 
+### Phase 5A — layered product workspaces (implemented)
+
+- The executive dashboard is a concise launchpad instead of one long product scroll.
+- Research, forecasting, markets, simulation, risk, business and account tools render as focused hash-routed workspaces.
+- Forecast reporting adds instrument, governance and direction filters, report sorting and live summary counts.
+- Desktop and mobile navigation, deep links, passwordless return routes and the six-step guide follow the same workspace model.
+- Database, model-governance, security and live-execution locks remain unchanged.
+
+**Phase 5A exit gate:** green type, build, bundle, navigation, accessibility,
+security and hosting checks, successful `BUILD_PHASE_5A` artifact creation and
+a reviewed `DEPLOY_PHASE_5A` deployment.
+
 ### Controlled-beta finish line
 
 The planned product engineering foundation is complete after Phase 4W. Phase

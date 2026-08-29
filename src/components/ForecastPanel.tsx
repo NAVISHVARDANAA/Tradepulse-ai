@@ -7,6 +7,7 @@ import {
   TrendingDown,
   TrendingUp,
 } from 'lucide-react'
+import { useMemo, useState } from 'react'
 
 import type { MarketForecast } from '../types/domain'
 
@@ -43,6 +44,33 @@ export function ForecastPanel({
   loading,
   error,
 }: ForecastPanelProps) {
+  const [symbol, setSymbol] = useState('all')
+  const [governance, setGovernance] = useState('all')
+  const [direction, setDirection] = useState('all')
+  const [sort, setSort] = useState('confidence')
+  const symbols = useMemo(
+    () => Array.from(new Set(forecasts.map((forecast) => forecast.symbol))).sort(),
+    [forecasts],
+  )
+  const filteredForecasts = useMemo(() => {
+    const filtered = forecasts.filter((forecast) =>
+      (symbol === 'all' || forecast.symbol === symbol) &&
+      (governance === 'all' || forecast.governanceStatus === governance) &&
+      (direction === 'all' || forecast.direction === direction),
+    )
+
+    return [...filtered].sort((left, right) => {
+      if (sort === 'horizon') return left.horizonHours - right.horizonHours
+      if (sort === 'symbol') return left.symbol.localeCompare(right.symbol)
+      return (right.confidence ?? -1) - (left.confidence ?? -1)
+    })
+  }, [direction, forecasts, governance, sort, symbol])
+  const qualified = forecasts.filter((forecast) => forecast.governanceStatus === 'qualified').length
+  const monitored = forecasts.filter((forecast) => forecast.governanceStatus === 'watch').length
+  const averageConfidence = forecasts.length
+    ? Math.round(forecasts.reduce((total, forecast) => total + (forecast.confidence ?? 0), 0) / forecasts.length * 100)
+    : null
+
   return (
     <section className="panel forecast-panel">
       <div className="panel-header">
@@ -63,6 +91,50 @@ export function ForecastPanel({
         auto-trade signal or financial advice.
       </p>
 
+      <div className="forecast-report-summary" aria-label="Forecast report summary">
+        <div><span>Display-qualified</span><strong>{qualified}</strong></div>
+        <div><span>Reliability watch</span><strong>{monitored}</strong></div>
+        <div><span>Average confidence</span><strong>{averageConfidence === null ? '—' : `${averageConfidence}%`}</strong></div>
+        <div><span>Visible after filters</span><strong>{filteredForecasts.length}</strong></div>
+      </div>
+
+      {forecasts.length > 0 ? (
+        <div className="forecast-filter-bar" aria-label="Forecast report controls">
+          <label>
+            <span>Instrument</span>
+            <select value={symbol} onChange={(event) => setSymbol(event.target.value)}>
+              <option value="all">All instruments</option>
+              {symbols.map((item) => <option key={item}>{item}</option>)}
+            </select>
+          </label>
+          <label>
+            <span>Governance</span>
+            <select value={governance} onChange={(event) => setGovernance(event.target.value)}>
+              <option value="all">All statuses</option>
+              <option value="qualified">Production qualified</option>
+              <option value="watch">Reliability watch</option>
+              <option value="provisional">Provisional</option>
+            </select>
+          </label>
+          <label>
+            <span>Direction</span>
+            <select value={direction} onChange={(event) => setDirection(event.target.value)}>
+              <option value="all">Up and down</option>
+              <option value="up">Up</option>
+              <option value="down">Down</option>
+            </select>
+          </label>
+          <label>
+            <span>Sort report</span>
+            <select value={sort} onChange={(event) => setSort(event.target.value)}>
+              <option value="confidence">Highest confidence</option>
+              <option value="horizon">Shortest horizon</option>
+              <option value="symbol">Instrument A–Z</option>
+            </select>
+          </label>
+        </div>
+      ) : null}
+
       {loading ? (
         <div className="market-state" role="status">
           Loading model output…
@@ -82,9 +154,17 @@ export function ForecastPanel({
             </span>
           </div>
         </div>
+      ) : filteredForecasts.length === 0 ? (
+        <div className="empty-feature" role="status">
+          <BrainCircuit size={22} />
+          <div>
+            <strong>No forecast matches these report filters.</strong>
+            <span>Adjust the instrument, governance or direction controls to widen the report.</span>
+          </div>
+        </div>
       ) : (
         <div className="forecast-grid">
-          {forecasts.map((forecast) => {
+          {filteredForecasts.map((forecast) => {
             const DirectionIcon =
               forecast.direction === 'down' ? TrendingDown : TrendingUp
 

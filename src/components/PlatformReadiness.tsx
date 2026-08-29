@@ -1,6 +1,7 @@
 import {
   BarChart3,
   BrainCircuit,
+  ArrowUpRight,
   Gauge,
   Globe2,
   GraduationCap,
@@ -15,6 +16,7 @@ const capabilities = [
     status: 'Coverage registry active',
     detail: 'Search, evidence, risk flags and per-stock forecast states',
     tone: 'active',
+    href: '#stock-research',
     icon: BarChart3,
   },
   {
@@ -22,6 +24,7 @@ const capabilities = [
     status: 'Foundation active',
     detail: 'Markets, trade, countries and source provenance',
     tone: 'active',
+    href: '#markets',
     icon: Globe2,
   },
   {
@@ -29,6 +32,7 @@ const capabilities = [
     status: 'Phase 4G reliability governed',
     detail: 'Walk-forward, cost and production drift gates control display eligibility',
     tone: 'active',
+    href: '#forecasts',
     icon: BrainCircuit,
   },
   {
@@ -36,6 +40,7 @@ const capabilities = [
     status: 'Phase 4F decision intelligence',
     detail: 'Virtual cash, private theses, AI evidence snapshots and outcome scoring',
     tone: 'active',
+    href: '#paper-investing',
     icon: Landmark,
   },
   {
@@ -43,6 +48,7 @@ const capabilities = [
     status: 'Command center active',
     detail: 'NAV, scenarios, limits, reconciliation and kill switch',
     tone: 'active',
+    href: '#risk-command-center',
     icon: Gauge,
   },
   {
@@ -50,6 +56,7 @@ const capabilities = [
     status: 'Guided learning active',
     detail: 'Courses, product tour, quizzes and private progress',
     tone: 'active',
+    href: '#academy',
     icon: GraduationCap,
   },
   {
@@ -57,6 +64,7 @@ const capabilities = [
     status: 'Phase 4E operations monitoring',
     detail: 'Alpaca read-only freshness, reconciliation alerts and certification evidence are visible; routing remains hard locked',
     tone: 'locked',
+    href: '#brokerage-readiness',
     icon: ShieldCheck,
   },
   {
@@ -64,6 +72,7 @@ const capabilities = [
     status: 'Deferred to final phase',
     detail: 'Indicative quotes only; custody and settlement remain disabled',
     tone: 'locked',
+    href: '#payments',
     icon: WalletCards,
   },
 ]
@@ -75,7 +84,7 @@ export function PlatformReadiness() {
         const Icon = capability.icon
 
         return (
-          <article key={capability.label} className="readiness-card">
+          <a key={capability.label} className="readiness-card" href={capability.href}>
             <div className={`readiness-icon ${capability.tone}`}>
               <Icon size={16} />
             </div>
@@ -85,8 +94,9 @@ export function PlatformReadiness() {
                 {capability.status}
               </span>
               <p>{capability.detail}</p>
+              <span className="readiness-action">Open workspace <ArrowUpRight size={14} /></span>
             </div>
-          </article>
+          </a>
         )
       })}
     </section>

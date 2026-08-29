@@ -1,8 +1,9 @@
 import { ChevronDown, Menu, X } from 'lucide-react'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { MouseEvent as ReactMouseEvent } from 'react'
 
-type NavItem = { label: string; href: `#${string}` }
+export type ProductHref = `#${string}`
+type NavItem = { label: string; href: ProductHref }
 type NavGroup = { label: string; items: NavItem[] }
 
 export const productNavigation: NavGroup[] = [
@@ -53,37 +54,20 @@ export const productNavigation: NavGroup[] = [
   },
 ]
 
-export function ProductNavigation() {
-  const [activeHref, setActiveHref] = useState<string>('#dashboard')
+const productHrefs = new Set(
+  productNavigation.flatMap((group) => group.items.map((item) => item.href)),
+)
+
+export function productHrefFromHash(hash: string): ProductHref {
+  return productHrefs.has(hash as ProductHref)
+    ? hash as ProductHref
+    : '#dashboard'
+}
+
+export function ProductNavigation({ activeHref }: { activeHref: ProductHref }) {
   const [mobileOpen, setMobileOpen] = useState(false)
-  const allItems = useMemo(
-    () => productNavigation.flatMap((group) => group.items),
-    [],
-  )
 
   useEffect(() => {
-    const targets = allItems
-      .filter((item) => item.href !== '#dashboard')
-      .map((item) => document.querySelector(item.href))
-      .filter((value): value is Element => Boolean(value))
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort(
-            (a, b) =>
-              Math.abs(a.boundingClientRect.top) -
-              Math.abs(b.boundingClientRect.top),
-          )
-        if (visible[0]) setActiveHref(`#${visible[0].target.id}`)
-      },
-      { rootMargin: '-18% 0px -68% 0px', threshold: [0, 0.01] },
-    )
-    targets.forEach((target) => observer.observe(target))
-
-    const onScroll = () => {
-      if (window.scrollY < 260) setActiveHref('#dashboard')
-    }
     const onKey = (event: KeyboardEvent) => {
       if (event.key !== 'Escape') return
       setMobileOpen(false)
@@ -91,16 +75,12 @@ export function ProductNavigation() {
         .querySelectorAll<HTMLDetailsElement>('.nav-group[open]')
         .forEach((details) => details.removeAttribute('open'))
     }
-    window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('keydown', onKey)
-    onScroll()
 
     return () => {
-      observer.disconnect()
-      window.removeEventListener('scroll', onScroll)
       window.removeEventListener('keydown', onKey)
     }
-  }, [allItems])
+  }, [])
 
   const activeGroup =
     productNavigation.find((group) =>
@@ -108,7 +88,6 @@ export function ProductNavigation() {
     )?.label ?? 'Overview'
 
   const follow = (event: ReactMouseEvent<HTMLAnchorElement>) => {
-    setActiveHref(event.currentTarget.hash)
     setMobileOpen(false)
     event.currentTarget.closest('details')?.removeAttribute('open')
   }
