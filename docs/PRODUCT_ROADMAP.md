@@ -523,13 +523,35 @@ production-experience contracts, successful `BUILD_PHASE_5D`, reviewed
 `DEPLOY_PHASE_5D`, and read-only `VERIFY_WEB_PHASE_5D` evidence. No database,
 Edge Function, live-trading, payment, custody or advice boundary changes.
 
+### Phase 5E — controlled-beta onboarding and operations (implemented)
+
+- A dedicated Beta launch center replaces scattered onboarding instructions
+  with one focused, customer-facing operations workspace.
+- Approved testers can see private readiness signals for their identity,
+  experience profile, notification controls and support route without exposing
+  administrative data or other customers.
+- Independent checks use partial-failure handling so a delayed security or
+  support service does not hide the remaining customer recovery actions.
+- Guided links connect Academy, experience preferences, notification controls,
+  Security Center and private support into one ordered beta journey.
+- Authenticator enrollment remains recommended rather than falsely mandatory;
+  browser-based tester approval and implicit signup remain disabled.
+- Research, education and simulation remain separated from advice, live
+  execution, checkout, payments, custody and money movement.
+
+**Phase 5E exit gate:** green beta operations, invite-only access, browser,
+security, release and production-experience contracts, successful
+`BUILD_PHASE_5E`, reviewed `DEPLOY_PHASE_5E`, and read-only
+`VERIFY_WEB_PHASE_5E` evidence. No database or Edge Function deployment.
+
 ### Controlled-beta finish line
 
 The planned product engineering foundation is complete after Phase 4W. Phase
 4X adds the selected hosting deployment path, Phase 4Y verifies the live
 public-data authorization boundary, and Phase 4Z repairs the passwordless
 customer-session callback. Phase 5D makes the deployed account boundary
-explicitly invite-only. The candidate remains closed to
+explicitly invite-only, and Phase 5E gives approved testers a private launch
+center for onboarding and operational recovery. The candidate remains closed to
 external testers until its documented domain, operational, privacy, security
 and tester-approval prerequisites are complete.
 

@@ -48,6 +48,9 @@ jobs:
       - name: Verify invite-only controlled-beta access
         run: npm run check:beta-access
 
+      - name: Verify controlled-beta operations workspace
+        run: npm run check:beta-operations
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 

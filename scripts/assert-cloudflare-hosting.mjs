@@ -17,7 +17,7 @@ const [workflow, verifyWorkflow, manifestText, headers, redirects, documentation
 const manifest = JSON.parse(manifestText)
 
 for (const contract of [
-  'DEPLOY_PHASE_5D',
+  'DEPLOY_PHASE_5E',
   'environment: production',
   'CLOUDFLARE_API_TOKEN',
   'CLOUDFLARE_ACCOUNT_ID',
@@ -29,7 +29,7 @@ for (const contract of [
 ]) {
   assert(workflow.includes(contract), `Cloudflare deployment contract missing: ${contract}`)
 }
-for (const contract of ['VERIFY_WEB_PHASE_5D', 'environment: production', 'npm run test:e2e:production']) {
+for (const contract of ['VERIFY_WEB_PHASE_5E', 'environment: production', 'npm run test:e2e:production']) {
   assert(verifyWorkflow.includes(contract), `Cloudflare verification contract missing: ${contract}`)
 }
 assert(manifest.phase === '4X', 'Hosting candidate is not on Phase 4X')

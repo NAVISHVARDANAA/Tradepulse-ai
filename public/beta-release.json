@@ -20,12 +20,18 @@
     "model": "preprovisioned_invite_only",
     "implicitSignupEnabled": false
   },
+  "operations": {
+    "workspaceEnabled": true,
+    "privateSignals": ["profile", "security", "notifications", "support"],
+    "browserTesterApprovalEnabled": false
+  },
   "requiredChecks": [
     "typecheck",
     "typecheck:e2e",
     "build",
     "check:analytics",
     "check:beta-access",
+    "check:beta-operations",
     "check:production-experience",
     "check:bundle",
     "check:release",

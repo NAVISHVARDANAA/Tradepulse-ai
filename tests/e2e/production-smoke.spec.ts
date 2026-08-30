@@ -15,6 +15,7 @@ const publicWorkspaces = [
   ['#data-trust', 'Data trust and notifications'],
   ['#payments', 'Indicative payment corridors'],
   ['#system-status', 'Production reliability'],
+  ['#beta-operations', 'Beta launch center'],
 ] as const
 
 const failureCopy = /unable to load|could not load|server request could not be completed|temporarily unavailable|configuration is unavailable/i
@@ -102,6 +103,10 @@ test('production Analytics Studio filters, saves and drills into governed eviden
 
 test('production execution boundaries remain closed to guests', async ({ page }) => {
   const failures = observeRuntimeFailures(page)
+
+  await page.goto('/#beta-operations', { waitUntil: 'domcontentloaded' })
+  await dismissWelcome(page)
+  await expect(page.getByText(/never approves or creates users/)).toBeVisible()
 
   await page.goto('/#paper-investing', { waitUntil: 'domcontentloaded' })
   await dismissWelcome(page)
