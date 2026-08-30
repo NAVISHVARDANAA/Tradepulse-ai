@@ -1,0 +1,58 @@
+name: Verify web production
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: Type VERIFY_WEB_PHASE_5C to test the live controlled beta
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-controlled-beta-web-production
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: production
+    env:
+      CLOUDFLARE_PAGES_PROJECT: ${{ vars.CLOUDFLARE_PAGES_PROJECT }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Validate verification confirmation and origin
+        env:
+          RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
+        run: |
+          set -eu
+          test "$RELEASE_CONFIRMATION" = "VERIFY_WEB_PHASE_5C"
+          test -n "$CLOUDFLARE_PAGES_PROJECT"
+          case "$CLOUDFLARE_PAGES_PROJECT" in *[!a-z0-9-]*) echo "Invalid Cloudflare Pages project name."; exit 1;; esac
+          echo "WEB_PRODUCTION_URL=https://${CLOUDFLARE_PAGES_PROJECT}.pages.dev" >> "$GITHUB_ENV"
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck:e2e
+      - run: npm run check:production-experience
+      - run: npm run verify:web-deployment -- "$WEB_PRODUCTION_URL"
+      - name: Install Chromium
+        run: npx --no-install playwright install --with-deps --only-shell chromium
+      - name: Test live customer experience
+        run: npm run test:e2e:production
+      - name: Upload production browser report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: production-browser-report-${{ github.sha }}
+          path: playwright-production-report
+          if-no-files-found: error
+          retention-days: 14

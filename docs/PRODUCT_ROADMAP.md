@@ -491,6 +491,20 @@ a reviewed `DEPLOY_PHASE_5A` deployment.
 regression, bundle, security and hosting checks, successful `BUILD_PHASE_5B`
 artifact creation and a reviewed `DEPLOY_PHASE_5B` deployment.
 
+### Phase 5C — production experience assurance (implemented)
+
+- A production-only Playwright contract visits every public high-risk workspace on desktop and mobile.
+- Console errors, uncaught page errors and HTTP 4xx/5xx responses from TradePulse or Supabase fail the release gate.
+- Analytics Studio subject switching, cross-filtering, saved views and governed drill-through are exercised against the deployed runtime.
+- Guest paper, brokerage and payment execution boundaries are re-proved after deployment.
+- The protected deployment workflow runs the browser gate automatically, while a separate read-only workflow can repeat it after releases or incidents.
+- No database, Edge Function, authorization, live trading, payment or custody boundary changes in this phase.
+
+**Phase 5C exit gate:** green production-experience contract, desktop/mobile
+deployed browser smoke, CI, Security and release checks, successful
+`BUILD_PHASE_5C`, reviewed `DEPLOY_PHASE_5C`, and read-only
+`VERIFY_WEB_PHASE_5C` evidence.
+
 ### Controlled-beta finish line
 
 The planned product engineering foundation is complete after Phase 4W. Phase

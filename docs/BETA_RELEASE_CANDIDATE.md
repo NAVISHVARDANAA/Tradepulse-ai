@@ -63,10 +63,12 @@ evidence in a public issue or artifact.
 After the Phase 4X PR is merged and all `main` checks pass:
 
 1. Open **Actions → Build production web release**.
-2. Select `main`, enter `BUILD_PHASE_5B` and run the workflow.
+2. Select `main`, enter `BUILD_PHASE_5C` and run the workflow.
 3. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 4. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-5. Do not invite external testers until every manual prerequisite above is approved.
+5. Run **Verify web production** with `VERIFY_WEB_PHASE_5C` after the deployment
+   or any customer-facing operational incident.
+6. Do not invite external testers until every manual prerequisite above is approved.
 
 This phase has no database migration or deployed Edge Function change. Do not
 run Supabase deployment or production verification for the Phase 4X PR.
