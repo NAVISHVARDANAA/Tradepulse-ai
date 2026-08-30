@@ -67,13 +67,16 @@ test('production Analytics Studio filters, saves and drills into governed eviden
   await expect(page.getByLabel('Governance state')).toBeVisible()
   await subject.selectOption({ label: 'Market observations' })
 
-  const initialRows = await page.locator('.analytics-table-panel tbody tr').count()
+  const reportRows = page.locator('.analytics-table-panel tbody tr')
+  await expect(reportRows.first()).toBeVisible()
+  const initialRows = await reportRows.count()
   expect(initialRows).toBeGreaterThan(0)
 
   const distribution = page.locator('.analytics-bars button')
-  expect(await distribution.count()).toBeGreaterThan(0)
+  await expect(distribution.first()).toBeVisible()
   await distribution.first().click()
-  const filteredRows = await page.locator('.analytics-table-panel tbody tr').count()
+  await expect(reportRows.first()).toBeVisible()
+  const filteredRows = await reportRows.count()
   expect(filteredRows).toBeGreaterThan(0)
   expect(filteredRows).toBeLessThanOrEqual(initialRows)
 
