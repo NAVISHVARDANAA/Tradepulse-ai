@@ -45,6 +45,9 @@ jobs:
       - name: Verify governed Analytics Studio contract
         run: npm run check:analytics
 
+      - name: Verify production experience contract
+        run: npm run check:production-experience
+
       - name: Enforce frontend performance budgets
         run: npm run check:bundle
 

@@ -6,8 +6,9 @@ const assert = (condition, message) => {
   if (!condition) throw new Error(message)
 }
 
-const [workflow, manifestText, headers, redirects, documentation] = await Promise.all([
+const [workflow, verifyWorkflow, manifestText, headers, redirects, documentation] = await Promise.all([
   read('.github/workflows/deploy-web-production.yml'),
+  read('.github/workflows/verify-web-production.yml'),
   read('public/beta-release.json'),
   read('public/_headers'),
   read('public/_redirects'),
@@ -16,7 +17,7 @@ const [workflow, manifestText, headers, redirects, documentation] = await Promis
 const manifest = JSON.parse(manifestText)
 
 for (const contract of [
-  'DEPLOY_PHASE_5B',
+  'DEPLOY_PHASE_5C',
   'environment: production',
   'CLOUDFLARE_API_TOKEN',
   'CLOUDFLARE_ACCOUNT_ID',
@@ -24,8 +25,12 @@ for (const contract of [
   'cloudflare/wrangler-action@v3',
   '--commit-hash=${{ github.sha }}',
   'npm run verify:web-deployment',
+  'npm run test:e2e:production',
 ]) {
   assert(workflow.includes(contract), `Cloudflare deployment contract missing: ${contract}`)
+}
+for (const contract of ['VERIFY_WEB_PHASE_5C', 'environment: production', 'npm run test:e2e:production']) {
+  assert(verifyWorkflow.includes(contract), `Cloudflare verification contract missing: ${contract}`)
 }
 assert(manifest.phase === '4X', 'Hosting candidate is not on Phase 4X')
 assert(manifest.status === 'hosting_deployment_candidate', 'Hosting status changed unexpectedly')

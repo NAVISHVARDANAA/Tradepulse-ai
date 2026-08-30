@@ -21,6 +21,7 @@
     "typecheck:e2e",
     "build",
     "check:analytics",
+    "check:production-experience",
     "check:bundle",
     "check:release",
     "check:navigation",
@@ -28,6 +29,7 @@
     "check:beta",
     "check:hosting",
     "test:e2e",
+    "test:e2e:production",
     "production-dependency-audit"
   ],
   "manualPrerequisites": [

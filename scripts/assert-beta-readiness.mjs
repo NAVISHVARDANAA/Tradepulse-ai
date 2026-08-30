@@ -46,6 +46,7 @@ const expectedChecks = [
   'typecheck:e2e',
   'build',
   'check:analytics',
+  'check:production-experience',
   'check:bundle',
   'check:release',
   'check:navigation',
@@ -53,6 +54,7 @@ const expectedChecks = [
   'check:beta',
   'check:hosting',
   'test:e2e',
+  'test:e2e:production',
 ]
 for (const check of expectedChecks) {
   assert(manifest.requiredChecks.includes(check), `Beta manifest omits ${check}`)
@@ -63,10 +65,11 @@ assert(
   'Production dependency audit is absent from the beta manifest',
 )
 
-const [buildWorkflow, deployWorkflow, ciWorkflow, securityWorkflow, roadmap, candidateDoc, hostingDoc, robots] =
+const [buildWorkflow, deployWorkflow, verifyWebWorkflow, ciWorkflow, securityWorkflow, roadmap, candidateDoc, hostingDoc, robots] =
   await Promise.all([
     read('.github/workflows/build-web-release.yml'),
     read('.github/workflows/deploy-web-production.yml'),
+    read('.github/workflows/verify-web-production.yml'),
     read('.github/workflows/ci.yml'),
     read('.github/workflows/security.yml'),
     read('docs/PRODUCT_ROADMAP.md'),
@@ -76,15 +79,18 @@ const [buildWorkflow, deployWorkflow, ciWorkflow, securityWorkflow, roadmap, can
   ])
 
 for (const contract of [
-  'BUILD_PHASE_5B',
+  'BUILD_PHASE_5C',
   'npm run check:beta',
   'tradepulse-beta-rc2-${{ github.sha }}',
   'environment: production',
 ]) {
   assert(buildWorkflow.includes(contract), `Beta build workflow contract missing: ${contract}`)
 }
-for (const contract of ['DEPLOY_PHASE_5B', 'cloudflare/wrangler-action@v3', 'verify:web-deployment']) {
+for (const contract of ['DEPLOY_PHASE_5C', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
   assert(deployWorkflow.includes(contract), `Beta deploy workflow contract missing: ${contract}`)
+}
+for (const contract of ['VERIFY_WEB_PHASE_5C', 'verify:web-deployment', 'test:e2e:production']) {
+  assert(verifyWebWorkflow.includes(contract), `Beta web verification workflow contract missing: ${contract}`)
 }
 for (const contract of [
   'browser-regression:',
@@ -102,6 +108,7 @@ assert(roadmap.includes('Phase 4X — Cloudflare Pages deployment foundation'), 
 assert(roadmap.includes('Phase 4Z — deterministic passwordless authentication'), 'Roadmap omits Phase 4Z')
 assert(roadmap.includes('Phase 5A — layered product workspaces'), 'Roadmap omits Phase 5A')
 assert(roadmap.includes('Phase 5B — governed enterprise analytics'), 'Roadmap omits Phase 5B')
+assert(roadmap.includes('Phase 5C — production experience assurance'), 'Roadmap omits Phase 5C')
 assert(candidateDoc.includes('Artifact-only status'), 'Candidate documentation omits artifact status')
 assert(hostingDoc.includes('External invitations remain disabled'), 'Hosting documentation omits invitation boundary')
 assert(robots.includes('Disallow: /'), 'Release candidate became indexable before approval')

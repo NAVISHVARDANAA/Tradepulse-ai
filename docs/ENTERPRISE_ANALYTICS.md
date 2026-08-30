@@ -50,3 +50,11 @@ Before connecting Snowflake or another enterprise warehouse:
 
 No warehouse connection is an authorization to trade, charge, transfer, settle
 or move customer funds.
+
+## Production assurance
+
+Phase 5C exercises Analytics Studio against the deployed HTTPS origin on both
+desktop and mobile. It fails on TradePulse/Supabase HTTP errors, application
+console errors, broken public routes, missing report interactions or weakened
+guest execution locks. The check is run after guarded deployments and can be
+repeated through the read-only **Verify web production** workflow.
