@@ -368,6 +368,7 @@ npm run typecheck
 npm run build
 npm run check:beta-access
 npm run check:beta-operations
+npm run check:data-loading
 npm run check:bundle
 npm run check:beta
 npm run check:navigation
@@ -576,6 +577,13 @@ private identity, experience, notification and support readiness with ordered
 links to Academy, Security Center and customer support. Checks fail partially
 and safely, authenticator enrollment stays optional, and the workspace cannot
 approve testers or unlock trading, payments, checkout or money movement.
+
+Phase 5F makes shared product data route-aware. Focused workspaces now request
+only their declared market, trade, forecast or equity domains, and realtime
+listeners are created and removed with the active route. Dashboard, account,
+support, privacy and beta-operations pages no longer pay the reliability or
+performance cost of unrelated research queries. See
+[`docs/ROUTE_AWARE_DATA_LOADING.md`](docs/ROUTE_AWARE_DATA_LOADING.md).
 
 ## Production gates
 

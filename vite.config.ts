@@ -6,7 +6,9 @@ export default defineConfig({
   build: {
     emptyOutDir: true,
     manifest: true,
+    modulePreload: { polyfill: false },
     sourcemap: false,
+    target: 'es2022',
     rollupOptions: {
       output: {
         manualChunks(id) {

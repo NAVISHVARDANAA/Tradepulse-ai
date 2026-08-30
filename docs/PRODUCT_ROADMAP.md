@@ -544,6 +544,26 @@ security, release and production-experience contracts, successful
 `BUILD_PHASE_5E`, reviewed `DEPLOY_PHASE_5E`, and read-only
 `VERIFY_WEB_PHASE_5E` evidence. No database or Edge Function deployment.
 
+### Phase 5F — route-aware data loading (implemented)
+
+- Every focused workspace declares the market, trade, forecast and equity data
+  domains it actually renders instead of inheriting dashboard-wide startup work.
+- Dashboard, status, account, privacy, support, experience and beta-operations
+  routes issue no shared research-data query and create no shared realtime channel.
+- Query modules load on demand; route-scoped realtime subscriptions are removed
+  and rebuilt when customers move between workspaces.
+- Forecast-linked equity research continues to refresh from forecast reliability
+  changes, while unrelated workspaces remain isolated from those events.
+- Desktop/mobile browser evidence proves both negative isolation and the positive
+  Forecasts loading path; a repository contract pins the complete route matrix.
+- Research truth states, invite-only access and every execution hard lock remain
+  unchanged.
+
+**Phase 5F exit gate:** green route-aware data, browser, bundle, security,
+release and production-experience contracts, successful `BUILD_PHASE_5F`,
+reviewed `DEPLOY_PHASE_5F`, and read-only `VERIFY_WEB_PHASE_5F` evidence. No
+database or Edge Function deployment.
+
 ### Controlled-beta finish line
 
 The planned product engineering foundation is complete after Phase 4W. Phase
@@ -551,7 +571,8 @@ The planned product engineering foundation is complete after Phase 4W. Phase
 public-data authorization boundary, and Phase 4Z repairs the passwordless
 customer-session callback. Phase 5D makes the deployed account boundary
 explicitly invite-only, and Phase 5E gives approved testers a private launch
-center for onboarding and operational recovery. The candidate remains closed to
+center for onboarding and operational recovery. Phase 5F limits shared queries
+and realtime work to the active product workspace. The candidate remains closed to
 external testers until its documented domain, operational, privacy, security
 and tester-approval prerequisites are complete.
 

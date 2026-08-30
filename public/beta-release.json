@@ -25,6 +25,11 @@
     "privateSignals": ["profile", "security", "notifications", "support"],
     "browserTesterApprovalEnabled": false
   },
+  "performance": {
+    "routeAwareDataLoading": true,
+    "routeScopedRealtime": true,
+    "sharedDataDomains": ["markets", "trade", "forecasts", "equity"]
+  },
   "requiredChecks": [
     "typecheck",
     "typecheck:e2e",
@@ -32,6 +37,7 @@
     "check:analytics",
     "check:beta-access",
     "check:beta-operations",
+    "check:data-loading",
     "check:production-experience",
     "check:bundle",
     "check:release",
