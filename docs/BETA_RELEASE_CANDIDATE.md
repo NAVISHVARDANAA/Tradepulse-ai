@@ -6,6 +6,8 @@ Phase 4W produced the first controlled-beta engineering release candidate.
 Phase 4X selects Cloudflare Pages and prepares RC2 for a protected, manual
 deployment. It does not approve a production domain, configure Supabase Auth
 redirects, approve external customer invitations or activate regulated execution.
+Phase 5D prevents the browser from implicitly creating Auth users: private
+features are available only to pre-provisioned approved testers.
 
 The artifact contains `beta-release.json`, a machine-readable statement of its
 scope. Live brokerage, payment execution, charge collection, custody and
@@ -28,6 +30,19 @@ personalized advice remain false. Search indexing also remains disabled.
 - Personalized investment advice, suitability approval or guaranteed forecasts.
 - Automatic privacy-request fulfillment or destructive account deletion.
 - Public discovery, unrestricted signup or unsupported external beta invitations.
+
+## Invite-only access procedure
+
+1. Approve the tester, supported jurisdiction and feedback/escalation owner
+   outside the public repository.
+2. Pre-provision the exact approved email through **Supabase → Authentication →
+   Users → Add user**. Never commit tester addresses or distribute a shared login.
+3. The tester requests a passwordless link from TradePulse. The browser passes
+   `shouldCreateUser: false`, so an unapproved address cannot create an account.
+4. The product always returns the same customer-safe acknowledgement and does
+   not reveal whether an address is registered.
+5. Remove access through the reviewed Auth administration process when the test
+   period ends. This does not bypass the separate privacy-request workflow.
 
 ## Manual prerequisites before external invitations
 
@@ -60,15 +75,15 @@ evidence in a public issue or artifact.
 
 ## Hosting deployment procedure
 
-After the Phase 4X PR is merged and all `main` checks pass:
+After the Phase 5D PR is merged and all `main` checks pass:
 
 1. Open **Actions → Build production web release**.
-2. Select `main`, enter `BUILD_PHASE_5C` and run the workflow.
+2. Select `main`, enter `BUILD_PHASE_5D` and run the workflow.
 3. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 4. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-5. Run **Verify web production** with `VERIFY_WEB_PHASE_5C` after the deployment
+5. Run **Verify web production** with `VERIFY_WEB_PHASE_5D` after the deployment
    or any customer-facing operational incident.
 6. Do not invite external testers until every manual prerequisite above is approved.
 
 This phase has no database migration or deployed Edge Function change. Do not
-run Supabase deployment or production verification for the Phase 4X PR.
+run Supabase deployment or production verification for the Phase 5D PR.

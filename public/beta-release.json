@@ -16,11 +16,16 @@
     "publicUrlConfigured": false,
     "externalInvitationsApproved": false
   },
+  "access": {
+    "model": "preprovisioned_invite_only",
+    "implicitSignupEnabled": false
+  },
   "requiredChecks": [
     "typecheck",
     "typecheck:e2e",
     "build",
     "check:analytics",
+    "check:beta-access",
     "check:production-experience",
     "check:bundle",
     "check:release",

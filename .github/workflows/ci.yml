@@ -45,6 +45,9 @@ jobs:
       - name: Verify governed Analytics Studio contract
         run: npm run check:analytics
 
+      - name: Verify invite-only controlled-beta access
+        run: npm run check:beta-access
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 

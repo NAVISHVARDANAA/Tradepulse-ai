@@ -366,6 +366,7 @@ underlying data source.
 ```bash
 npm run typecheck
 npm run build
+npm run check:beta-access
 npm run check:bundle
 npm run check:beta
 npm run check:navigation
@@ -562,6 +563,12 @@ details from browser history, preserves an approved return destination and
 shows safe recovery guidance when a link is expired, consumed or incomplete.
 Build the repair with `BUILD_PHASE_4Z`, then deploy it through the protected
 Cloudflare workflow with `DEPLOY_PHASE_4Z`.
+
+Phase 5D makes controlled-beta authentication genuinely invite-only. Both
+passwordless entry points use one reviewed helper with implicit Supabase user
+creation disabled, normalized email handling and non-enumerating feedback.
+Approved testers must be pre-provisioned through the protected Auth
+administration process; the browser cannot approve or create an account.
 
 ## Production gates
 

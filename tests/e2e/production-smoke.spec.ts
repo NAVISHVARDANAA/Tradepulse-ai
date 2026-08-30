@@ -106,6 +106,10 @@ test('production execution boundaries remain closed to guests', async ({ page })
   await page.goto('/#paper-investing', { waitUntil: 'domcontentloaded' })
   await dismissWelcome(page)
   await expect(page.getByText('Sign in to create a private paper portfolio')).toBeVisible()
+  await expect(page.getByText(/Approved beta testers receive/)).toBeVisible()
+
+  await page.goto('/#account-security', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByText(/Controlled-beta access is limited to approved email addresses/)).toBeVisible()
 
   await page.goto('/#brokerage-readiness', { waitUntil: 'domcontentloaded' })
   await expect(page.getByText(/create a non-executable preview/i)).toBeVisible()
