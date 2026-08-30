@@ -124,6 +124,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Manage passwordless access, authenticator verification, protected sessions and private security history.',
     boundary: 'Identity required',
   },
+  '#beta-operations': {
+    eyebrow: 'Controlled-beta operations',
+    title: 'Beta launch center',
+    description: 'Follow approved onboarding, private account checks, customer-controlled notifications and evidence-linked support from one focused workspace.',
+    boundary: 'Invite-only access',
+  },
   '#customer-privacy': {
     eyebrow: 'Privacy controls',
     title: 'Data control center',

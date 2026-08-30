@@ -41,6 +41,9 @@ const AnalyticsStudioPanel = lazy(() => import('./components/AnalyticsStudioPane
 const AccountSecurityPanel = lazy(() => import('./components/AccountSecurityPanel').then((module) => ({
   default: module.AccountSecurityPanel,
 })))
+const BetaOperationsPanel = lazy(() => import('./components/BetaOperationsPanel').then((module) => ({
+  default: module.BetaOperationsPanel,
+})))
 const CustomerPrivacyPanel = lazy(() => import('./components/CustomerPrivacyPanel').then((module) => ({
   default: module.CustomerPrivacyPanel,
 })))
@@ -398,6 +401,14 @@ function App() {
           <ProductErrorBoundary title="Account security is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Account Security Center" />}>
               <AccountSecurityPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#beta-operations' ? <section id="beta-operations" className="product-workspace">
+          <ProductErrorBoundary title="Beta operations are temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Controlled-beta launch center" />}>
+              <BetaOperationsPanel />
             </Suspense>
           </ProductErrorBoundary>
         </section> : null}

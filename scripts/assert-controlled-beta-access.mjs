@@ -64,12 +64,12 @@ assert(manifest.access?.implicitSignupEnabled === false, 'Implicit controlled-be
 assert(manifest.distribution?.externalInvitationsApproved === false, 'External invitations were approved in code')
 
 for (const [name, workflow, confirmation] of [
-  ['build', buildWorkflow, 'BUILD_PHASE_5D'],
-  ['deploy', deployWorkflow, 'DEPLOY_PHASE_5D'],
-  ['verify', verifyWorkflow, 'VERIFY_WEB_PHASE_5D'],
+  ['build', buildWorkflow, 'BUILD_PHASE_5E'],
+  ['deploy', deployWorkflow, 'DEPLOY_PHASE_5E'],
+  ['verify', verifyWorkflow, 'VERIFY_WEB_PHASE_5E'],
 ]) {
-  assert(workflow.includes(confirmation), `Phase 5D ${name} confirmation is missing`)
-  assert(workflow.includes('check:beta-access'), `Phase 5D ${name} omits the beta access contract`)
+  assert(workflow.includes(confirmation), `Current ${name} confirmation is missing`)
+  assert(workflow.includes('check:beta-access'), `Current ${name} omits the beta access contract`)
 }
 
 assert(roadmap.includes('Phase 5D — invite-only controlled-beta access'), 'Roadmap omits Phase 5D')

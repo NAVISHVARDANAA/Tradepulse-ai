@@ -367,6 +367,7 @@ underlying data source.
 npm run typecheck
 npm run build
 npm run check:beta-access
+npm run check:beta-operations
 npm run check:bundle
 npm run check:beta
 npm run check:navigation
@@ -569,6 +570,12 @@ passwordless entry points use one reviewed helper with implicit Supabase user
 creation disabled, normalized email handling and non-enumerating feedback.
 Approved testers must be pre-provisioned through the protected Auth
 administration process; the browser cannot approve or create an account.
+
+Phase 5E adds a dedicated Beta launch center for approved testers. It combines
+private identity, experience, notification and support readiness with ordered
+links to Academy, Security Center and customer support. Checks fail partially
+and safely, authenticator enrollment stays optional, and the workspace cannot
+approve testers or unlock trading, payments, checkout or money movement.
 
 ## Production gates
 

@@ -48,6 +48,7 @@ export const productNavigation: NavGroup[] = [
   {
     label: 'Account',
     items: [
+      { label: 'Beta operations', href: '#beta-operations' },
       { label: 'Security', href: '#account-security' },
       { label: 'Privacy', href: '#customer-privacy' },
       { label: 'Experience', href: '#customer-experience' },
