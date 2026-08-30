@@ -73,8 +73,10 @@ test('production Analytics Studio filters, saves and drills into governed eviden
   expect(initialRows).toBeGreaterThan(0)
 
   const distribution = page.locator('.analytics-bars button')
-  await expect(distribution.first()).toBeVisible()
-  await distribution.first().click()
+  const firstSegment = distribution.first()
+  await expect(firstSegment).toBeVisible()
+  await firstSegment.dispatchEvent('click')
+  await expect(firstSegment).toHaveAttribute('aria-pressed', 'true')
   await expect(reportRows.first()).toBeVisible()
   const filteredRows = await reportRows.count()
   expect(filteredRows).toBeGreaterThan(0)
