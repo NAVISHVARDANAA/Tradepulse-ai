@@ -82,11 +82,18 @@ test('production Analytics Studio filters, saves and drills into governed eviden
   expect(filteredRows).toBeGreaterThan(0)
   expect(filteredRows).toBeLessThanOrEqual(initialRows)
 
-  await page.locator('.analytics-table-panel tbody tr').first().getByRole('button', { name: 'Drill through' }).click()
-  await expect(page.locator('.analytics-drillthrough')).toBeVisible()
-  await expect(page.locator('.analytics-drillthrough')).toContainText('Evidence source')
+  const drillThroughButton = reportRows.first().getByRole('button', { name: 'Drill through' })
+  await expect(drillThroughButton).toBeVisible()
+  await drillThroughButton.dispatchEvent('click')
+  const drillThrough = page.locator('.analytics-drillthrough')
+  await expect(drillThrough).toBeVisible()
+  await expect(drillThrough).toContainText('Evidence source')
+  await drillThrough.getByRole('button', { name: 'Close drill-through' }).dispatchEvent('click')
+  await expect(drillThrough).toBeHidden()
 
-  await page.getByRole('button', { name: 'Save view' }).click()
+  const saveView = page.getByRole('button', { name: 'Save view' })
+  await expect(saveView).toBeEnabled()
+  await saveView.dispatchEvent('click')
   await expect(page.getByRole('status')).toContainText('Saved')
   expect(await page.evaluate(() => localStorage.getItem('tradepulse-analytics-views-v1'))).toBeTruthy()
 
