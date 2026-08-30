@@ -121,6 +121,10 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
 test('guest brokerage, paper and payment execution boundaries stay closed', async ({ page }) => {
   await page.goto('/#paper-investing')
   await expect(page.getByText('Sign in to create a private paper portfolio')).toBeVisible()
+  await expect(page.getByText(/Approved beta testers receive/)).toBeVisible()
+
+  await page.goto('/#account-security')
+  await expect(page.getByText(/Controlled-beta access is limited to approved email addresses/)).toBeVisible()
 
   await page.goto('/#brokerage-readiness')
   await expect(

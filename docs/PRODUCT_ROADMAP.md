@@ -505,12 +505,31 @@ deployed browser smoke, CI, Security and release checks, successful
 `BUILD_PHASE_5C`, reviewed `DEPLOY_PHASE_5C`, and read-only
 `VERIFY_WEB_PHASE_5C` evidence.
 
+### Phase 5D — invite-only controlled-beta access (implemented)
+
+- Passwordless entry points share one reviewed access helper and never create a
+  new Supabase user implicitly.
+- Only pre-provisioned approved email addresses can receive a controlled-beta
+  sign-in link; the browser cannot add, approve or invite a tester.
+- Customer feedback is intentionally non-enumerating, so an unknown address
+  cannot be distinguished from an approved address through the product UI.
+- The release manifest, CI, desktop/mobile browser suite and deployed production
+  checks pin the invite-only boundary while public research remains available.
+- Tester approval, supported jurisdiction, custom SMTP and external invitation
+  decisions remain manual launch prerequisites outside the browser application.
+
+**Phase 5D exit gate:** green invite-only access, browser, security, release and
+production-experience contracts, successful `BUILD_PHASE_5D`, reviewed
+`DEPLOY_PHASE_5D`, and read-only `VERIFY_WEB_PHASE_5D` evidence. No database,
+Edge Function, live-trading, payment, custody or advice boundary changes.
+
 ### Controlled-beta finish line
 
 The planned product engineering foundation is complete after Phase 4W. Phase
 4X adds the selected hosting deployment path, Phase 4Y verifies the live
 public-data authorization boundary, and Phase 4Z repairs the passwordless
-customer-session callback. The candidate remains closed to
+customer-session callback. Phase 5D makes the deployed account boundary
+explicitly invite-only. The candidate remains closed to
 external testers until its documented domain, operational, privacy, security
 and tester-approval prerequisites are complete.
 

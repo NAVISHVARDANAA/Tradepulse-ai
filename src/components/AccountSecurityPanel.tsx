@@ -13,7 +13,10 @@ import {
 import { FormEvent, useCallback, useEffect, useState } from 'react'
 
 import { useAuth } from '../lib/auth/AuthProvider'
-import { authRedirectUrl } from '../lib/auth/browserCallback'
+import {
+  CONTROLLED_BETA_SIGN_IN_MESSAGE,
+  requestControlledBetaSignIn,
+} from '../lib/auth/controlledBetaAccess'
 import {
   getAccountSecurityEvents,
   getAccountSecurityStatus,
@@ -90,18 +93,9 @@ export function AccountSecurityPanel() {
     clearAuthError()
     setError(null)
     setMessage(null)
-    const { error: signInError } = await supabase.auth.signInWithOtp({
-      email: email.trim(),
-      options: { emailRedirectTo: authRedirectUrl('account-security') },
-    })
+    await requestControlledBetaSignIn(email, 'account-security')
     setLoading(false)
-
-    if (signInError) {
-      setError('The secure sign-in link could not be sent. Please check the address and try again.')
-      return
-    }
-
-    setMessage('Secure sign-in link sent. Check your email to continue.')
+    setMessage(CONTROLLED_BETA_SIGN_IN_MESSAGE)
   }
 
   const beginEnrollment = async () => {
@@ -222,7 +216,8 @@ export function AccountSecurityPanel() {
         </div>
         <p className="panel-description">
           Sign in with a passwordless email link to manage authenticator verification,
-          protect enrolled sessions, and review your private security history.
+          protect enrolled sessions, and review your private security history. Controlled-beta
+          access is limited to approved email addresses.
         </p>
         <form className="account-security-signin" onSubmit={sendMagicLink}>
           <label>

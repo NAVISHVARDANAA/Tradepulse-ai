@@ -46,6 +46,7 @@ const expectedChecks = [
   'typecheck:e2e',
   'build',
   'check:analytics',
+  'check:beta-access',
   'check:production-experience',
   'check:bundle',
   'check:release',
@@ -79,22 +80,23 @@ const [buildWorkflow, deployWorkflow, verifyWebWorkflow, ciWorkflow, securityWor
   ])
 
 for (const contract of [
-  'BUILD_PHASE_5C',
+  'BUILD_PHASE_5D',
   'npm run check:beta',
   'tradepulse-beta-rc2-${{ github.sha }}',
   'environment: production',
 ]) {
   assert(buildWorkflow.includes(contract), `Beta build workflow contract missing: ${contract}`)
 }
-for (const contract of ['DEPLOY_PHASE_5C', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['DEPLOY_PHASE_5D', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
   assert(deployWorkflow.includes(contract), `Beta deploy workflow contract missing: ${contract}`)
 }
-for (const contract of ['VERIFY_WEB_PHASE_5C', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['VERIFY_WEB_PHASE_5D', 'verify:web-deployment', 'test:e2e:production']) {
   assert(verifyWebWorkflow.includes(contract), `Beta web verification workflow contract missing: ${contract}`)
 }
 for (const contract of [
   'browser-regression:',
   'npm run test:e2e',
+  'npm run check:beta-access',
   'npm run check:security',
   'npm run check:hosting',
 ]) {
@@ -109,6 +111,7 @@ assert(roadmap.includes('Phase 4Z — deterministic passwordless authentication'
 assert(roadmap.includes('Phase 5A — layered product workspaces'), 'Roadmap omits Phase 5A')
 assert(roadmap.includes('Phase 5B — governed enterprise analytics'), 'Roadmap omits Phase 5B')
 assert(roadmap.includes('Phase 5C — production experience assurance'), 'Roadmap omits Phase 5C')
+assert(roadmap.includes('Phase 5D — invite-only controlled-beta access'), 'Roadmap omits Phase 5D')
 assert(candidateDoc.includes('Artifact-only status'), 'Candidate documentation omits artifact status')
 assert(hostingDoc.includes('External invitations remain disabled'), 'Hosting documentation omits invitation boundary')
 assert(robots.includes('Disallow: /'), 'Release candidate became indexable before approval')

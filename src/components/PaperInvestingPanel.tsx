@@ -14,7 +14,10 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from 'react'
 
 import { AcademyLink } from './AcademyLink'
 import { useAuth } from '../lib/auth/AuthProvider'
-import { authRedirectUrl } from '../lib/auth/browserCallback'
+import {
+  CONTROLLED_BETA_SIGN_IN_MESSAGE,
+  requestControlledBetaSignIn,
+} from '../lib/auth/controlledBetaAccess'
 import {
   createPaperPortfolio,
   getPaperInstruments,
@@ -176,17 +179,9 @@ export function PaperInvestingPanel({
     setError(null)
     setLoading(true)
 
-    const { error: signInError } = await supabase.auth.signInWithOtp({
-      email: email.trim(),
-      options: { emailRedirectTo: authRedirectUrl('paper-investing') },
-    })
-
+    await requestControlledBetaSignIn(email, 'paper-investing')
     setLoading(false)
-    if (signInError) {
-      setError(signInError.message)
-      return
-    }
-    setAuthMessage('Secure sign-in link sent. Check your email.')
+    setAuthMessage(CONTROLLED_BETA_SIGN_IN_MESSAGE)
   }
 
   const handleCreatePortfolio = async (event: FormEvent) => {
@@ -280,7 +275,7 @@ export function PaperInvestingPanel({
           <div className="paper-auth-icon"><Mail size={20} /></div>
           <div>
             <strong>Sign in to create a private paper portfolio</strong>
-            <p>A secure email link is used—no password is stored by TradePulse AI.</p>
+            <p>Approved beta testers receive a secure email link—no password is stored by TradePulse AI.</p>
           </div>
           <div className="paper-auth-control">
             <input
