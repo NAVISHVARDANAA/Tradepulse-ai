@@ -35,6 +35,9 @@ import type {
 const AcademyPanel = lazy(() => import('./components/AcademyPanel').then((module) => ({
   default: module.AcademyPanel,
 })))
+const AnalyticsStudioPanel = lazy(() => import('./components/AnalyticsStudioPanel').then((module) => ({
+  default: module.AnalyticsStudioPanel,
+})))
 const AccountSecurityPanel = lazy(() => import('./components/AccountSecurityPanel').then((module) => ({
   default: module.AccountSecurityPanel,
 })))
@@ -377,6 +380,19 @@ function App() {
         ) : null}
 
         {activeHref === '#system-status' ? <SystemStatusPanel /> : null}
+
+        {activeHref === '#analytics-studio' ? <section id="analytics-studio" className="product-workspace">
+          <ProductErrorBoundary title="Analytics Studio is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Governed Analytics Studio" />}>
+              <AnalyticsStudioPanel
+                marketAssets={marketAssets}
+                forecasts={forecasts}
+                equityResearch={equityResearch}
+                tradeDashboard={tradeDashboard}
+              />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
 
         {activeHref === '#account-security' ? <section id="account-security" className="product-workspace">
           <ProductErrorBoundary title="Account security is temporarily unavailable">

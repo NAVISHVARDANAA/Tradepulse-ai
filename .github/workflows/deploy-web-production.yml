@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type DEPLOY_PHASE_5A to deploy the layered product workspaces
+        description: Type DEPLOY_PHASE_5B to deploy the governed Analytics Studio
         required: true
         type: string
 
@@ -36,7 +36,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "DEPLOY_PHASE_5A"
+          test "$RELEASE_CONFIRMATION" = "DEPLOY_PHASE_5B"
           test -n "$CLOUDFLARE_API_TOKEN"
           test -n "$CLOUDFLARE_ACCOUNT_ID"
           test -n "$CLOUDFLARE_PAGES_PROJECT"
@@ -54,6 +54,7 @@ jobs:
       - run: npm run typecheck
       - run: npm run typecheck:e2e
       - run: npm run build
+      - run: npm run check:analytics
       - run: npm run check:bundle
       - run: npm run check:release
       - run: npm run check:navigation

@@ -20,6 +20,7 @@
     "typecheck",
     "typecheck:e2e",
     "build",
+    "check:analytics",
     "check:bundle",
     "check:release",
     "check:navigation",
