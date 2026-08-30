@@ -48,6 +48,7 @@ const expectedChecks = [
   'check:analytics',
   'check:beta-access',
   'check:beta-operations',
+  'check:data-loading',
   'check:production-experience',
   'check:bundle',
   'check:release',
@@ -81,17 +82,17 @@ const [buildWorkflow, deployWorkflow, verifyWebWorkflow, ciWorkflow, securityWor
   ])
 
 for (const contract of [
-  'BUILD_PHASE_5E',
+  'BUILD_PHASE_5F',
   'npm run check:beta',
   'tradepulse-beta-rc2-${{ github.sha }}',
   'environment: production',
 ]) {
   assert(buildWorkflow.includes(contract), `Beta build workflow contract missing: ${contract}`)
 }
-for (const contract of ['DEPLOY_PHASE_5E', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['DEPLOY_PHASE_5F', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
   assert(deployWorkflow.includes(contract), `Beta deploy workflow contract missing: ${contract}`)
 }
-for (const contract of ['VERIFY_WEB_PHASE_5E', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['VERIFY_WEB_PHASE_5F', 'verify:web-deployment', 'test:e2e:production']) {
   assert(verifyWebWorkflow.includes(contract), `Beta web verification workflow contract missing: ${contract}`)
 }
 for (const contract of [
@@ -99,6 +100,7 @@ for (const contract of [
   'npm run test:e2e',
   'npm run check:beta-access',
   'npm run check:beta-operations',
+  'npm run check:data-loading',
   'npm run check:security',
   'npm run check:hosting',
 ]) {
@@ -115,6 +117,7 @@ assert(roadmap.includes('Phase 5B — governed enterprise analytics'), 'Roadmap 
 assert(roadmap.includes('Phase 5C — production experience assurance'), 'Roadmap omits Phase 5C')
 assert(roadmap.includes('Phase 5D — invite-only controlled-beta access'), 'Roadmap omits Phase 5D')
 assert(roadmap.includes('Phase 5E — controlled-beta onboarding and operations'), 'Roadmap omits Phase 5E')
+assert(roadmap.includes('Phase 5F — route-aware data loading'), 'Roadmap omits Phase 5F')
 assert(candidateDoc.includes('Artifact-only status'), 'Candidate documentation omits artifact status')
 assert(hostingDoc.includes('External invitations remain disabled'), 'Hosting documentation omits invitation boundary')
 assert(robots.includes('Disallow: /'), 'Release candidate became indexable before approval')

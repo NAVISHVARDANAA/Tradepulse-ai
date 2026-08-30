@@ -154,6 +154,36 @@ test('hash navigation renders one focused product workspace at a time', async ({
   await expect(page.locator('#forecasts')).toHaveCount(0)
 })
 
+test('shared product data loads only for the active workspace', async ({ page }) => {
+  const sharedDataPaths: string[] = []
+  page.on('request', (request) => {
+    const path = new URL(request.url()).pathname
+    if (
+      /\/rest\/v1\/(market_assets|market_observations|trade_observations|display_qualified_market_forecasts|equity_research_dashboard)/.test(
+        path,
+      )
+    ) {
+      sharedDataPaths.push(path)
+    }
+  })
+
+  await page.goto('/#beta-operations')
+  await expect(page.getByRole('heading', { level: 1, name: 'Beta launch center' })).toBeVisible()
+  await page.waitForTimeout(250)
+  expect(sharedDataPaths).toEqual([])
+
+  await page.goto('/#forecasts')
+  await expect(page.getByRole('heading', { level: 1, name: 'Forecast governance dashboard' })).toBeVisible()
+  await expect.poll(
+    () => sharedDataPaths.some((path) => path.includes('/display_qualified_market_forecasts')),
+  ).toBe(true)
+  expect(sharedDataPaths.some((path) => path.includes('/market_assets'))).toBe(false)
+  expect(sharedDataPaths.some((path) => path.includes('/trade_observations'))).toBe(false)
+  expect(
+    sharedDataPaths.some((path) => path.includes('/equity_research_dashboard')),
+  ).toBe(false)
+})
+
 test('Analytics Studio exposes governed interactive reporting controls', async ({ page }) => {
   await page.goto('/#analytics-studio')
   await expect(page.getByRole('heading', { level: 1, name: 'Governed Analytics Studio' })).toBeVisible()

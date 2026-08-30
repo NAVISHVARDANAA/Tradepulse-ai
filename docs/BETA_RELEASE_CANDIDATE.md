@@ -12,6 +12,9 @@ Phase 5E adds a dedicated **Beta launch center** that summarizes each approved
 tester's private profile, security, notification and support readiness. It is a
 customer operations view—not an administrator console—and cannot approve a
 tester, create an account or change any execution boundary.
+Phase 5F makes shared product data route-aware: account and operations pages no
+longer start unrelated market, trade, forecast or equity queries, while each
+research workspace retains the exact data and realtime updates it needs.
 
 The artifact contains `beta-release.json`, a machine-readable statement of its
 scope. Live brokerage, payment execution, charge collection, custody and
@@ -79,15 +82,15 @@ evidence in a public issue or artifact.
 
 ## Hosting deployment procedure
 
-After the Phase 5E PR is merged and all `main` checks pass:
+After the Phase 5F PR is merged and all `main` checks pass:
 
 1. Open **Actions → Build production web release**.
-2. Select `main`, enter `BUILD_PHASE_5E` and run the workflow.
+2. Select `main`, enter `BUILD_PHASE_5F` and run the workflow.
 3. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 4. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-5. Run **Verify web production** with `VERIFY_WEB_PHASE_5E` after the deployment
+5. Run **Verify web production** with `VERIFY_WEB_PHASE_5F` after the deployment
    or any customer-facing operational incident.
 6. Do not invite external testers until every manual prerequisite above is approved.
 
 This phase has no database migration or deployed Edge Function change. Do not
-run Supabase deployment or production verification for the Phase 5E PR.
+run Supabase deployment or production verification for the Phase 5F PR.

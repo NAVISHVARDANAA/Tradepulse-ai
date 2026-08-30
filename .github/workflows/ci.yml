@@ -51,6 +51,9 @@ jobs:
       - name: Verify controlled-beta operations workspace
         run: npm run check:beta-operations
 
+      - name: Verify route-aware data loading
+        run: npm run check:data-loading
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 

@@ -15,13 +15,7 @@ import {
   type ProductHref,
 } from './components/ProductNavigation'
 import { SystemStatusPanel } from './components/SystemStatusPanel'
-import {
-  getLatestForecasts,
-  getMarketAssets,
-  getPaymentCorridors,
-  getTradeDashboard,
-} from './lib/queries/referenceData'
-import { getGlobalEquityResearch } from './lib/queries/equityResearch'
+import { productDataRequirements } from './lib/productDataRequirements'
 import { supabase } from './lib/supabase/client'
 import type {
   MarketAssetSnapshot,
@@ -168,6 +162,25 @@ function formatGrowth(value: number | null) {
   return `${value >= 0 ? '+' : ''}${value.toFixed(1)}%`
 }
 
+async function loadProductData<T>(
+  query: () => Promise<T>,
+  setValue: (value: T) => void,
+  setLoading: (value: boolean) => void,
+  setError: (value: string | null) => void,
+  errorMessage: string,
+) {
+  setLoading(true)
+  try {
+    setValue(await query())
+    setError(null)
+  } catch (error) {
+    console.error(errorMessage, error)
+    setError(errorMessage)
+  } finally {
+    setLoading(false)
+  }
+}
+
 function App() {
   const [activeHref, setActiveHref] = useState<ProductHref>(() =>
     productHrefFromHash(window.location.hash),
@@ -179,7 +192,6 @@ function App() {
   const [forecasts, setForecasts] = useState<MarketForecast[]>([])
   const [equityResearch, setEquityResearch] = useState<EquityResearchSnapshot[]>([])
   const [corridors, setCorridors] = useState<PaymentCorridor[]>([])
-  const [paymentRequested, setPaymentRequested] = useState(false)
   const [marketLoading, setMarketLoading] = useState(true)
   const [tradeLoading, setTradeLoading] = useState(true)
   const [forecastLoading, setForecastLoading] = useState(true)
@@ -206,64 +218,47 @@ function App() {
   }, [activeHref])
 
   useEffect(() => {
-    if (activeHref === '#payments') setPaymentRequested(true)
-  }, [activeHref])
+    const dataRequirements = productDataRequirements(activeHref)
+    if (dataRequirements.length === 0) return
 
-  useEffect(() => {
-    const loadMarkets = async () => {
-      try {
-        setMarketAssets(await getMarketAssets())
-        setMarketError(null)
-      } catch (error) {
-        console.error('Failed to load market assets:', error)
-        setMarketError('Unable to load synchronized market data.')
-      } finally {
-        setMarketLoading(false)
-      }
+    const referenceData = () => import('./lib/queries/referenceData')
+    const loadMarkets = () => loadProductData(
+      () => referenceData().then(({ getMarketAssets }) => getMarketAssets()),
+      setMarketAssets,
+      setMarketLoading,
+      setMarketError,
+      'Unable to load synchronized market data.',
+    )
+    const loadTrade = () => loadProductData(
+      () => referenceData().then(({ getTradeDashboard }) => getTradeDashboard()),
+      setTradeDashboard,
+      setTradeLoading,
+      setTradeError,
+      'Unable to load synchronized trade data.',
+    )
+    const loadForecasts = () => loadProductData(
+      () => referenceData().then(({ getLatestForecasts }) => getLatestForecasts()),
+      setForecasts,
+      setForecastLoading,
+      setForecastError,
+      'Forecast output is temporarily unavailable.',
+    )
+    const loadEquityResearch = () => loadProductData(
+      () => import('./lib/queries/equityResearch')
+        .then(({ getGlobalEquityResearch }) => getGlobalEquityResearch()),
+      setEquityResearch,
+      setEquityResearchLoading,
+      setEquityResearchError,
+      'Unable to load the equity research registry.',
+    )
+
+    const loaders = {
+      markets: loadMarkets,
+      trade: loadTrade,
+      forecasts: loadForecasts,
+      equity: loadEquityResearch,
     }
-
-    const loadTrade = async () => {
-      try {
-        setTradeDashboard(await getTradeDashboard())
-        setTradeError(null)
-      } catch (error) {
-        console.error('Failed to load trade intelligence:', error)
-        setTradeError('Unable to load synchronized trade data.')
-      } finally {
-        setTradeLoading(false)
-      }
-    }
-
-    const loadForecasts = async () => {
-      try {
-        setForecasts(await getLatestForecasts())
-        setForecastError(null)
-      } catch (error) {
-        console.error('Failed to load forecasts:', error)
-        setForecastError('Forecast output is temporarily unavailable.')
-      } finally {
-        setForecastLoading(false)
-      }
-    }
-
-    const loadEquityResearch = async () => {
-      try {
-        setEquityResearch(await getGlobalEquityResearch())
-        setEquityResearchError(null)
-      } catch (error) {
-        console.error('Failed to load equity research:', error)
-        setEquityResearchError('Unable to load the equity research registry.')
-      } finally {
-        setEquityResearchLoading(false)
-      }
-    }
-
-    void Promise.all([
-      loadMarkets(),
-      loadTrade(),
-      loadForecasts(),
-      loadEquityResearch(),
-    ])
+    dataRequirements.forEach((domain) => void loaders[domain]())
 
     const refreshTimers = new Map<string, number>()
     const scheduleRefresh = (key: string, refresh: () => void) => {
@@ -275,65 +270,60 @@ function App() {
       }, 300))
     }
 
-    const channel = supabase
-      .channel('tradepulse-dashboard-realtime')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'market_observations' },
-        () => scheduleRefresh('markets', () => void loadMarkets()),
-      )
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'trade_observations' },
-        () => scheduleRefresh('trade', () => void loadTrade()),
-      )
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'market_forecasts' },
-        () => {
-          scheduleRefresh('forecasts', () => void loadForecasts())
-          scheduleRefresh('equity-research', () => void loadEquityResearch())
-        },
-      )
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'forecast_reliability_snapshots',
-        },
-        () => {
-          scheduleRefresh('forecasts', () => void loadForecasts())
-          scheduleRefresh('equity-research', () => void loadEquityResearch())
-        },
-      )
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'equity_research_scores' },
-        () => scheduleRefresh('equity-research', () => void loadEquityResearch()),
-      )
-      .subscribe()
+    const has = (domain: keyof typeof loaders) => dataRequirements.includes(domain)
+    const scheduleDomain = (domain: keyof typeof loaders) => {
+      scheduleRefresh(domain, () => void loaders[domain]())
+    }
+    const refreshForecastConsumers = () => {
+      if (has('forecasts')) scheduleDomain('forecasts')
+      if (has('equity')) scheduleDomain('equity')
+    }
+
+    const forecastConsumers = has('forecasts') || has('equity')
+    const subscriptions: Array<[
+      boolean,
+      string,
+      () => void,
+      ('*' | 'INSERT')?,
+    ]> = [
+      [has('markets'), 'market_observations', () => scheduleDomain('markets')],
+      [has('trade'), 'trade_observations', () => scheduleDomain('trade')],
+      [forecastConsumers, 'market_forecasts', refreshForecastConsumers],
+      [forecastConsumers, 'forecast_reliability_snapshots', refreshForecastConsumers, 'INSERT'],
+      [has('equity'), 'equity_research_scores', () => scheduleDomain('equity')],
+    ]
+
+    let scopedChannel = supabase.channel(`tradepulse-product-data-${activeHref.slice(1)}`)
+    subscriptions.forEach(([enabled, table, refresh, event = '*']) => {
+      if (enabled) {
+        scopedChannel = scopedChannel.on(
+          'postgres_changes',
+          { event, schema: 'public', table },
+          refresh,
+        )
+      }
+    })
+
+    const channel = scopedChannel.subscribe()
 
     return () => {
       refreshTimers.forEach((timer) => window.clearTimeout(timer))
       void supabase.removeChannel(channel)
     }
-  }, [])
+  }, [activeHref])
 
   useEffect(() => {
-    if (!paymentRequested) return
+    if (activeHref !== '#payments') return
 
-    void getPaymentCorridors()
-      .then((nextCorridors) => {
-        setCorridors(nextCorridors)
-        setPaymentError(null)
-      })
-      .catch((error) => {
-        console.error('Failed to load payment corridors:', error)
-        setPaymentError('Payment corridor configuration is unavailable.')
-      })
-      .finally(() => setPaymentLoading(false))
-  }, [paymentRequested])
+    void loadProductData(
+      () => import('./lib/queries/referenceData')
+        .then(({ getPaymentCorridors }) => getPaymentCorridors()),
+      setCorridors,
+      setPaymentLoading,
+      setPaymentError,
+      'Payment corridor configuration is unavailable.',
+    )
+  }, [activeHref])
 
   const markets = marketAssets.map((asset) => {
     const change = asset.change_percent
