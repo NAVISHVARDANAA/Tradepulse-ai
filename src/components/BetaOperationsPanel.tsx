@@ -81,6 +81,13 @@ const journey = [
     action: 'Open support',
     icon: Headphones,
   },
+  {
+    label: 'Run approved pilot missions',
+    detail: 'If assigned to an active cohort, accept the pilot agreement and complete the bounded evaluation plan.',
+    href: '#approved-pilot',
+    action: 'Open pilot workspace',
+    icon: CheckCircle2,
+  },
 ]
 
 export function BetaOperationsPanel() {

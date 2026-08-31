@@ -1,6 +1,6 @@
 import { supabase } from '../supabase/client'
 
-export type SupportRequestType='bug'|'product_feedback'|'data_question'|'account_help'
+export type SupportRequestType='bug'|'product_feedback'|'data_question'|'account_help'|'pilot_feedback'|'pilot_incident'
 export type SupportRequest={id:string;requestType:SupportRequestType;subject:string;status:'submitted'|'in_review'|'resolved'|'closed';supportReference:string;createdAt:string}
 type Row={id:string;request_type:SupportRequestType;subject:string;status:SupportRequest['status'];support_reference:string;created_at:string}
 const map=(row:Row):SupportRequest=>({id:row.id,requestType:row.request_type,subject:row.subject,status:row.status,supportReference:row.support_reference,createdAt:row.created_at})

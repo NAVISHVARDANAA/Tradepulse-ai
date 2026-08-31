@@ -142,6 +142,345 @@ html.user-reduced-motion *, html.user-reduced-motion *::before, html.user-reduce
   .beta-guest-boundary,.beta-operations-summary,.beta-security-recommendation { grid-template-columns:1fr; }.beta-check-grid { grid-template-columns:1fr; }.beta-journey-grid { grid-template-columns:1fr; }.beta-journey-grid > a { min-height:0; }.beta-operations-summary progress { min-width:0; }
 }
 
+/* Phase 5H — approved tester pilot */
+.pilot-panel {
+  display: grid;
+  gap: 18px;
+}
+
+.pilot-loading,
+.pilot-access-boundary,
+.pilot-progress,
+.pilot-agreement,
+.pilot-escalation {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.7);
+}
+
+.pilot-loading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 18px;
+  color: var(--muted);
+}
+
+.pilot-access-boundary {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  color: var(--positive);
+}
+
+.pilot-access-boundary.attention {
+  border-color: rgba(251, 191, 36, 0.28);
+  color: #fbbf24;
+}
+
+.pilot-access-boundary strong,
+.pilot-access-boundary span {
+  display: block;
+}
+
+.pilot-access-boundary strong {
+  color: #f8fafc;
+}
+
+.pilot-access-boundary span {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.73rem;
+  line-height: 1.5;
+}
+
+.pilot-cohort-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.pilot-cohort-summary > div {
+  min-width: 0;
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.7);
+}
+
+.pilot-cohort-summary span,
+.pilot-cohort-summary strong,
+.pilot-cohort-summary small {
+  display: block;
+}
+
+.pilot-cohort-summary span {
+  color: var(--muted);
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.pilot-cohort-summary strong {
+  margin-top: 7px;
+  color: #f8fafc;
+  font-size: 0.8rem;
+  overflow-wrap: anywhere;
+}
+
+.pilot-cohort-summary small {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.66rem;
+}
+
+.pilot-agreement {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+}
+
+.pilot-agreement h3,
+.pilot-escalation h3,
+.pilot-mission-grid h3 {
+  margin: 0;
+  color: #f8fafc;
+}
+
+.pilot-agreement ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 20px;
+  color: #cbd5e1;
+  font-size: 0.74rem;
+  line-height: 1.5;
+}
+
+.pilot-agreement li::marker {
+  color: var(--positive);
+}
+
+.pilot-agreement-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  color: #dbeafe;
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+.pilot-agreement-check input {
+  margin-top: 2px;
+}
+
+.pilot-agreement .primary-button,
+.pilot-escalation .primary-button {
+  display: inline-flex;
+  justify-self: start;
+  align-items: center;
+  gap: 7px;
+}
+
+.pilot-note {
+  margin: 0;
+  color: #fbbf24;
+  font-size: 0.7rem;
+}
+
+.pilot-progress {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 0.55fr);
+  align-items: center;
+  gap: 16px;
+  padding: 16px 18px;
+}
+
+.pilot-progress strong,
+.pilot-progress span {
+  display: block;
+}
+
+.pilot-progress strong {
+  color: #f8fafc;
+}
+
+.pilot-progress span {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 0.68rem;
+}
+
+.pilot-progress progress {
+  width: 100%;
+}
+
+.pilot-mission-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.pilot-mission-grid article {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  padding: 17px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.7);
+}
+
+.pilot-mission-grid article.complete {
+  border-color: rgba(52, 211, 153, 0.3);
+  background: rgba(6, 78, 59, 0.13);
+}
+
+.pilot-mission-number {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  background: rgba(79, 70, 229, 0.2);
+  color: #c7d2fe;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.pilot-mission-grid h3 {
+  font-size: 0.9rem;
+}
+
+.pilot-mission-grid p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.7rem;
+  line-height: 1.5;
+}
+
+.pilot-mission-actions {
+  display: flex;
+  grid-column: 2;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.pilot-mission-actions a,
+.pilot-mission-actions button {
+  color: #a5b4fc;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.pilot-mission-actions button {
+  min-height: 34px;
+  border: 1px solid rgba(129, 140, 248, 0.25);
+  border-radius: 10px;
+  background: rgba(79, 70, 229, 0.12);
+  padding: 6px 9px;
+}
+
+.pilot-mission-actions button[aria-pressed='true'] {
+  border-color: rgba(52, 211, 153, 0.28);
+  color: #6ee7b7;
+  background: rgba(6, 78, 59, 0.2);
+}
+
+.pilot-escalation {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+}
+
+.pilot-escalation > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #7dd3fc;
+}
+
+.pilot-response-targets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pilot-response-targets span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.08);
+  color: #bae6fd;
+  padding: 7px 10px;
+  font-size: 0.68rem;
+}
+
+.pilot-escalation > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+html[data-theme='light'] .pilot-loading,
+html[data-theme='light'] .pilot-access-boundary,
+html[data-theme='light'] .pilot-progress,
+html[data-theme='light'] .pilot-agreement,
+html[data-theme='light'] .pilot-escalation,
+html[data-theme='light'] .pilot-cohort-summary > div,
+html[data-theme='light'] .pilot-mission-grid article {
+  border-color: #b9cadb;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+html[data-theme='light'] .pilot-access-boundary strong,
+html[data-theme='light'] .pilot-cohort-summary strong,
+html[data-theme='light'] .pilot-agreement h3,
+html[data-theme='light'] .pilot-escalation h3,
+html[data-theme='light'] .pilot-mission-grid h3,
+html[data-theme='light'] .pilot-progress strong {
+  color: #102033;
+}
+
+html[data-theme='light'] .pilot-agreement ul,
+html[data-theme='light'] .pilot-agreement-check {
+  color: #334155;
+}
+
+@media (max-width: 960px) {
+  .pilot-cohort-summary,
+  .pilot-mission-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .pilot-access-boundary,
+  .pilot-progress,
+  .pilot-cohort-summary,
+  .pilot-mission-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pilot-access-boundary .secondary-button {
+    justify-self: start;
+  }
+
+  .pilot-mission-grid article {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .pilot-mission-actions {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
 * {
   box-sizing: border-box;
 }

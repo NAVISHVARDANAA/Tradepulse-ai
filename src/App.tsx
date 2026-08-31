@@ -40,6 +40,9 @@ const AccountSecurityPanel = lazy(() => import('./components/AccountSecurityPane
 const BetaOperationsPanel = lazy(() => import('./components/BetaOperationsPanel').then((module) => ({
   default: module.BetaOperationsPanel,
 })))
+const ApprovedTesterPilotPanel = lazy(() => import('./components/ApprovedTesterPilotPanel').then((module) => ({
+  default: module.ApprovedTesterPilotPanel,
+})))
 const CustomerPrivacyPanel = lazy(() => import('./components/CustomerPrivacyPanel').then((module) => ({
   default: module.CustomerPrivacyPanel,
 })))
@@ -456,6 +459,14 @@ function App() {
           <ProductErrorBoundary title="Customer support is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Customer Support" />}>
               <CustomerSupportPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#approved-pilot' ? <section id="approved-pilot" className="product-workspace">
+          <ProductErrorBoundary title="The approved tester pilot is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Approved Tester Pilot" />}>
+              <ApprovedTesterPilotPanel />
             </Suspense>
           </ProductErrorBoundary>
         </section> : null}

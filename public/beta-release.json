@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "5G",
+  "phase": "5H",
   "status": "hosting_deployment_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
@@ -38,6 +38,15 @@
     "experienceModes": ["guided", "professional"],
     "persistentFinancialDataInBrowser": false
   },
+  "approvedTesterPilot": {
+    "workspaceEnabled": true,
+    "manualApprovalRequired": true,
+    "browserEnrollmentEnabled": false,
+    "boundedCohorts": true,
+    "identityBoundAgreement": true,
+    "privateMissionProgress": true,
+    "staffedFeedbackAndIncidentRoutes": true
+  },
   "requiredChecks": [
     "typecheck",
     "typecheck:e2e",
@@ -47,6 +56,7 @@
     "check:beta-operations",
     "check:data-loading",
     "check:trust-layer",
+    "check:approved-pilot",
     "check:production-experience",
     "check:bundle",
     "check:release",

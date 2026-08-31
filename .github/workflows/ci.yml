@@ -57,6 +57,9 @@ jobs:
       - name: Verify customer trust layer
         run: npm run check:trust-layer
 
+      - name: Verify approved-tester pilot
+        run: npm run check:approved-pilot
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 
@@ -256,6 +259,9 @@ jobs:
 
       - name: Test customer feedback and support contracts
         run: npx --no-install supabase test db supabase/tests/database/customer_feedback_support.test.sql
+
+      - name: Test approved-tester pilot contracts
+        run: npx --no-install supabase test db supabase/tests/database/approved_tester_pilot.test.sql
 
       - name: Test Business workspace contracts
         run: npx --no-install supabase test db supabase/tests/database/business_workspace_foundation.test.sql

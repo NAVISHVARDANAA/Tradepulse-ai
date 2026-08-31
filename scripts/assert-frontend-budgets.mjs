@@ -39,9 +39,9 @@ const largestAsset = assetFiles.reduce((largest, asset) => (
 
 const budgets = {
   initialGzipBytes: 160 * 1024,
-  // Phase 5G adds a 2.6 KiB gzip Trust Center chunk without increasing the
-  // initial shell. Keep the reviewed total-growth allowance bounded.
-  totalJavaScriptGzipBytes: 292 * 1024,
+  // Phase 5H adds a 3.4 KiB gzip, route-deferred pilot workspace while the
+  // initial shell remains below 160 KiB. Keep total growth explicitly bounded.
+  totalJavaScriptGzipBytes: 296 * 1024,
   largestAssetGzipBytes: 90 * 1024,
 }
 

@@ -74,13 +74,13 @@ assert(vite.includes("target: 'es2022'"), 'Production build is not pinned to the
 assert(vite.includes('modulePreload: { polyfill: false }'), 'Native module preloading is not pinned')
 
 for (const [name, workflow, confirmation] of [
-  ['build', build, 'BUILD_PHASE_5G'],
-  ['deploy', deploy, 'DEPLOY_PHASE_5G'],
-  ['verify', verify, 'VERIFY_WEB_PHASE_5G'],
+  ['build', build, 'BUILD_PHASE_5H'],
+  ['deploy', deploy, 'DEPLOY_PHASE_5H'],
+  ['verify', verify, 'VERIFY_WEB_PHASE_5H'],
   ['CI', ci, 'check:data-loading'],
 ]) {
-  assert(workflow.includes(confirmation), `Phase 5G ${name} contract is missing`)
-  assert(workflow.includes('check:data-loading'), `Phase 5G ${name} omits the data-loading check`)
+  assert(workflow.includes(confirmation), `Phase 5H ${name} contract is missing`)
+  assert(workflow.includes('check:data-loading'), `Phase 5H ${name} omits the data-loading check`)
 }
 
 assert(roadmap.includes('Phase 5F — route-aware data loading'), 'Roadmap omits Phase 5F')

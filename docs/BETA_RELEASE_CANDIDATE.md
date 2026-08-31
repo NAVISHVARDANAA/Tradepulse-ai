@@ -19,6 +19,11 @@ Phase 5G adds a focused Trust Center with evidence-receipt standards,
 customer-safe reliability alerts, a local-only activity trail, safe support
 context and guided/professional explanation modes. It does not unlock any
 regulated action.
+Phase 5H adds a separate approved-tester pilot workspace. Cohort capacity,
+schedule and agreement version are database enforced; the browser cannot
+approve or enroll a tester. Active members can follow four bounded missions and
+use private staffed feedback or incident escalation. No cohort or external
+invitation is activated by code.
 
 The artifact contains `beta-release.json`, a machine-readable statement of its
 scope. Live brokerage, payment execution, charge collection, custody and
@@ -86,15 +91,17 @@ evidence in a public issue or artifact.
 
 ## Hosting deployment procedure
 
-After the Phase 5G PR is merged and all `main` checks pass:
+After the Phase 5H PR is merged and all `main` checks pass:
 
-1. Open **Actions → Build production web release**.
-2. Select `main`, enter `BUILD_PHASE_5G` and run the workflow.
-3. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
-4. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-5. Run **Verify web production** with `VERIFY_WEB_PHASE_5G` after the deployment
+1. Deploy and verify migration 035 using `DEPLOY_DATA_PHASE_5H` and
+   `VERIFY_DATA_PHASE_5H`.
+2. Open **Actions → Build production web release**.
+3. Select `main`, enter `BUILD_PHASE_5H` and run the workflow.
+4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
+5. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
+6. Run **Verify web production** with `VERIFY_WEB_PHASE_5H` after the deployment
    or any customer-facing operational incident.
-6. Do not invite external testers until every manual prerequisite above is approved.
+7. Do not invite external testers until every manual prerequisite above is approved.
 
-This phase has no database migration or deployed Edge Function change. Do not
-run Supabase deployment or production verification for the Phase 5G PR.
+This phase adds migration 035 and no Edge Function. Apply and verify the data
+boundary before deploying the web candidate.

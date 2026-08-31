@@ -106,7 +106,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(23)
+  await expect(navigation.getByRole('link')).toHaveCount(24)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -123,6 +123,12 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByRole('heading', { level: 1, name: 'Beta launch center' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Approved beta access required' })).toBeVisible()
   await expect(page.getByText(/never approves or creates users/)).toBeVisible()
+
+  await page.goto('/#approved-pilot')
+  await expect(page.getByRole('heading', { level: 1, name: 'Private pilot workspace' })).toBeVisible()
+  await expect(page.getByText(/cannot approve, enroll or create a tester/)).toBeVisible()
+  await expect(page.getByText('No execution or money movement')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Accept and begin pilot' })).toHaveCount(0)
 
   await page.goto('/#paper-investing')
   await expect(page.getByText('Sign in to create a private paper portfolio')).toBeVisible()
@@ -169,6 +175,11 @@ test('shared product data loads only for the active workspace', async ({ page })
 
   await page.goto('/#beta-operations')
   await expect(page.getByRole('heading', { level: 1, name: 'Beta launch center' })).toBeVisible()
+  await page.waitForTimeout(250)
+  expect(sharedDataPaths).toEqual([])
+
+  await page.goto('/#approved-pilot')
+  await expect(page.getByRole('heading', { level: 1, name: 'Private pilot workspace' })).toBeVisible()
   await page.waitForTimeout(250)
   expect(sharedDataPaths).toEqual([])
 

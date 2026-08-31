@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type DEPLOY_PHASE_4Y to restore public runtime reads
+        description: Type DEPLOY_DATA_PHASE_5H to deploy the approved-tester pilot schema
         required: true
         type: string
 
@@ -39,8 +39,8 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "DEPLOY_PHASE_4Y" || {
-            echo "Release confirmation did not match DEPLOY_PHASE_4Y."
+          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_5H" || {
+            echo "Release confirmation did not match DEPLOY_DATA_PHASE_5H."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -175,7 +175,15 @@ jobs:
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])034([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])035([^0-9]|$)' migration-list.txt
+
+      - name: Verify approved-tester pilot production boundary
+        run: |
+          bash scripts/assert-read-only-sql.sh supabase/tests/production/approved_tester_pilot_smoke.sql
+          npx --no-install supabase db query \
+            --linked \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --file supabase/tests/production/approved_tester_pilot_smoke.sql
 
       - name: Verify production public web reads
         run: bash scripts/verify-public-runtime-read.sh
