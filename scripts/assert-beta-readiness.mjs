@@ -13,7 +13,7 @@ const artifactManifest = JSON.parse(artifactManifestText)
 
 assert(manifest.schemaVersion === 1, 'Unexpected beta manifest schema')
 assert(manifest.release === 'controlled-beta-rc2', 'Unexpected beta release identifier')
-assert(manifest.phase === '5G', 'Beta manifest is not on Phase 5G')
+assert(manifest.phase === '5H', 'Beta manifest is not on Phase 5H')
 assert(
   manifest.status === 'hosting_deployment_candidate',
   'Beta manifest overstates the release status',
@@ -50,6 +50,7 @@ const expectedChecks = [
   'check:beta-operations',
   'check:data-loading',
   'check:trust-layer',
+  'check:approved-pilot',
   'check:production-experience',
   'check:bundle',
   'check:release',
@@ -83,17 +84,17 @@ const [buildWorkflow, deployWorkflow, verifyWebWorkflow, ciWorkflow, securityWor
   ])
 
 for (const contract of [
-  'BUILD_PHASE_5G',
+  'BUILD_PHASE_5H',
   'npm run check:beta',
   'tradepulse-beta-rc2-${{ github.sha }}',
   'environment: production',
 ]) {
   assert(buildWorkflow.includes(contract), `Beta build workflow contract missing: ${contract}`)
 }
-for (const contract of ['DEPLOY_PHASE_5G', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['DEPLOY_PHASE_5H', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
   assert(deployWorkflow.includes(contract), `Beta deploy workflow contract missing: ${contract}`)
 }
-for (const contract of ['VERIFY_WEB_PHASE_5G', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['VERIFY_WEB_PHASE_5H', 'verify:web-deployment', 'test:e2e:production']) {
   assert(verifyWebWorkflow.includes(contract), `Beta web verification workflow contract missing: ${contract}`)
 }
 for (const contract of [
@@ -103,6 +104,7 @@ for (const contract of [
   'npm run check:beta-operations',
   'npm run check:data-loading',
   'npm run check:trust-layer',
+  'npm run check:approved-pilot',
   'npm run check:security',
   'npm run check:hosting',
 ]) {
@@ -119,6 +121,7 @@ assert(roadmap.includes('Phase 5B — governed enterprise analytics'), 'Roadmap 
 assert(roadmap.includes('Phase 5C — production experience assurance'), 'Roadmap omits Phase 5C')
 assert(roadmap.includes('Phase 5D — invite-only controlled-beta access'), 'Roadmap omits Phase 5D')
 assert(roadmap.includes('Phase 5G — customer trust layer'), 'Roadmap omits Phase 5G')
+assert(roadmap.includes('Phase 5H — approved tester pilot'), 'Roadmap omits Phase 5H')
 assert(roadmap.includes('Phase 5E — controlled-beta onboarding and operations'), 'Roadmap omits Phase 5E')
 assert(roadmap.includes('Phase 5F — route-aware data loading'), 'Roadmap omits Phase 5F')
 assert(candidateDoc.includes('Artifact-only status'), 'Candidate documentation omits artifact status')

@@ -17,6 +17,7 @@ const publicWorkspaces = [
   ['#payments', 'Indicative payment corridors'],
   ['#system-status', 'Production reliability'],
   ['#beta-operations', 'Beta launch center'],
+  ['#approved-pilot', 'Private pilot workspace'],
 ] as const
 
 const failureCopy = /unable to load|could not load|server request could not be completed|temporarily unavailable|configuration is unavailable/i
@@ -108,6 +109,9 @@ test('production execution boundaries remain closed to guests', async ({ page })
   await page.goto('/#beta-operations', { waitUntil: 'domcontentloaded' })
   await dismissWelcome(page)
   await expect(page.getByText(/never approves or creates users/)).toBeVisible()
+
+  await page.goto('/#approved-pilot', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByText(/cannot approve, enroll or create a tester/)).toBeVisible()
 
   await page.goto('/#paper-investing', { waitUntil: 'domcontentloaded' })
   await dismissWelcome(page)

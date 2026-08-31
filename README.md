@@ -593,6 +593,13 @@ context. Guided and Professional modes change explanation density without
 changing evidence or permissions. See
 [`docs/CUSTOMER_TRUST_LAYER.md`](docs/CUSTOMER_TRUST_LAYER.md).
 
+Phase 5H adds a separate approved-tester pilot workspace backed by
+capacity-bounded cohorts, identity-bound agreement acceptance, four private
+evaluation missions and dedicated staffed feedback/incident routes. The browser
+cannot approve or enroll a tester, and all execution and money-movement locks
+remain unchanged. See
+[`docs/APPROVED_TESTER_PILOT.md`](docs/APPROVED_TESTER_PILOT.md).
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction

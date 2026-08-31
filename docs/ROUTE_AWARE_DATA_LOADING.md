@@ -3,7 +3,7 @@
 ## Customer experience contract
 
 Phase 5F assigns each focused workspace only the shared data domains it renders.
-The dashboard, account, support, privacy, experience and beta-operations routes
+The dashboard, account, support, privacy, experience, beta-operations and approved-pilot routes
 do not start market, trade, forecast or equity-research queries. No shared-data request
 or realtime subscription is created until a customer enters a workspace
 that declares the corresponding domain.
@@ -32,7 +32,7 @@ that delivery contract.
 `npm run check:data-loading` pins the route matrix, dynamic query imports,
 scoped channel lifecycle, browser regression, release manifest and Phase 5F
 workflow confirmations. The desktop/mobile Playwright suite also proves that
-Beta Operations makes no shared data request, while Forecasts requests forecast
+Beta Operations and Approved Pilot make no shared data request, while Forecasts requests forecast
 data without loading market, trade or equity-research datasets.
 
 No execution boundary changes are included. Live trading, payment execution,

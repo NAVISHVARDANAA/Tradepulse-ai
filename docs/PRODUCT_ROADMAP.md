@@ -600,10 +600,29 @@ and tester-approval prerequisites are complete. Phase 5G adds the visible trust
 and recovery foundation needed before controlled testers evaluate more complex
 financial workflows.
 
-### Planned controlled-beta completion
+### Controlled-beta completion
 
-- **Phase 5H — approved tester pilot:** manual tester approval, bounded cohort,
-  staffed feedback and incident escalation with no implicit signup.
+#### Phase 5H — approved tester pilot (implemented)
+
+- A separate private pilot workspace keeps launch operations and tester missions
+  out of the executive dashboard.
+- Cohort capacity, schedule and agreement version are database enforced; the
+  browser cannot create a cohort, approve a tester or increase capacity.
+- Approved testers accept the exact current pilot agreement before recording
+  private progress across four fixed research, trust, simulation and recovery
+  missions.
+- Dedicated pilot feedback and incident categories use the existing private,
+  rate-limited support intake with staffed response targets.
+- No cohort or tester is activated by code. Jurisdiction, support, legal,
+  privacy, security and operational approvals remain manual prerequisites.
+
+**Phase 5H exit gate:** green approved-pilot, database, browser, security,
+release and production-experience contracts; reviewed `DEPLOY_DATA_PHASE_5H`;
+read-only `VERIFY_DATA_PHASE_5H`; successful `BUILD_PHASE_5H`; reviewed
+`DEPLOY_PHASE_5H`; and read-only `VERIFY_WEB_PHASE_5H` evidence. Public signup,
+live orders, custody, checkout, payment execution and money movement remain
+hard locked.
+
 - **Phase 5I — beta hardening:** evidence-based usability fixes, recovery drills,
   accessibility, performance and release-readiness closure.
 

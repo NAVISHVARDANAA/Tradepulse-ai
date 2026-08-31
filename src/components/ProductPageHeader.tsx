@@ -136,6 +136,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Follow approved onboarding, private account checks, customer-controlled notifications and evidence-linked support from one focused workspace.',
     boundary: 'Invite-only access',
   },
+  '#approved-pilot': {
+    eyebrow: 'Approved tester pilot',
+    title: 'Private pilot workspace',
+    description: 'Accept the current pilot agreement, follow bounded evaluation missions and use staffed feedback or incident escalation.',
+    boundary: 'Manual approval required',
+  },
   '#customer-privacy': {
     eyebrow: 'Privacy controls',
     title: 'Data control center',
