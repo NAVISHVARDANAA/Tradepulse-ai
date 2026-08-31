@@ -17,7 +17,7 @@ const [workflow, verifyWorkflow, manifestText, headers, redirects, documentation
 const manifest = JSON.parse(manifestText)
 
 for (const contract of [
-  'DEPLOY_PHASE_5I',
+  'DEPLOY_PHASE_6A',
   'environment: production',
   'CLOUDFLARE_API_TOKEN',
   'CLOUDFLARE_ACCOUNT_ID',
@@ -29,11 +29,11 @@ for (const contract of [
 ]) {
   assert(workflow.includes(contract), `Cloudflare deployment contract missing: ${contract}`)
 }
-for (const contract of ['VERIFY_WEB_PHASE_5I', 'environment: production', 'npm run test:e2e:production']) {
+for (const contract of ['VERIFY_WEB_PHASE_6A', 'environment: production', 'npm run test:e2e:production']) {
   assert(verifyWorkflow.includes(contract), `Cloudflare verification contract missing: ${contract}`)
 }
-assert(manifest.phase === '5I', 'Hosting candidate is not on Phase 5I')
-assert(manifest.status === 'hosting_deployment_candidate', 'Hosting status changed unexpectedly')
+assert(manifest.phase === '6A', 'Hosting candidate is not on Phase 6A')
+assert(manifest.status === 'regulated_preflight_candidate', 'Hosting status changed unexpectedly')
 assert(manifest.distribution?.hostingProviderSelected === true, 'Cloudflare Pages is not selected')
 assert(manifest.distribution?.publicUrlConfigured === false, 'Public URL cannot be pre-approved by code')
 assert(manifest.distribution?.externalInvitationsApproved === false, 'External invitations became enabled')

@@ -142,6 +142,12 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
     page.getByText('Sign in through Paper Investing to view disclosures and create a non-executable preview.'),
   ).toBeVisible()
 
+  await page.goto('/#regulated-preflight')
+  await expect(page.getByRole('heading', { level: 1, name: 'Preflight evidence review' })).toBeVisible()
+  await expect(page.getByText('Your preflight evidence is private.')).toBeVisible()
+  await expect(page.getByText(/Every saved review is database-constrained to blocked/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /submit order|place order|execute/i })).toHaveCount(0)
+
   await page.goto('/#payments')
   await expect(page.getByText('Sandbox · no money movement')).toBeVisible()
   await expect(page.getByRole('button', { name: /execute|place live|submit live/i })).toHaveCount(0)

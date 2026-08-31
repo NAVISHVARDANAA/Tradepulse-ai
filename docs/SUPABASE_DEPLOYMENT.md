@@ -45,13 +45,13 @@ for this adapter.
 1. Confirm the CI workflow on `main` is green.
 2. Open **Actions → Deploy Supabase production → Run workflow**.
 3. Select the `main` branch.
-4. Enter `DEPLOY_DATA_PHASE_5H` as the confirmation value.
+4. Enter `DEPLOY_DATA_PHASE_6A` as the confirmation value.
 5. Approve the `production` environment deployment when prompted.
 
 The workflow performs a database dry run, applies every pending migration in
 filename order and redeploys every customer and internal Edge Function affected
 by the shared security, observability and account-protection boundary. It verifies
-migration `035`, checks active functions, verifies the private approved-tester
+migration `036`, checks active functions, verifies the private regulated-preflight
 pilot boundary and approved public runtime
 reads return HTTP 2xx, runs the query-only production lock smoke check and proves
 that unauthenticated brokerage, paper-simulation, platform-evaluation and
@@ -60,7 +60,7 @@ account-security requests receive HTTP 401.
 ## Read-only production verification
 
 Run **Actions → Verify Supabase production → Run workflow** after a release or
-operational incident. Select `main` and enter `VERIFY_DATA_PHASE_5H`.
+operational incident. Select `main` and enter `VERIFY_DATA_PHASE_6A`.
 
 The verification workflow performs no production writes. It confirms local and
 remote migration parity, executes the audited, query-only

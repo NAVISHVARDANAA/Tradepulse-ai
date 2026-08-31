@@ -16,6 +16,7 @@
     "check:trust-layer": "node scripts/assert-trust-layer.mjs",
     "check:approved-pilot": "node scripts/assert-approved-tester-pilot.mjs",
     "check:beta-hardening": "node scripts/assert-beta-hardening.mjs",
+    "check:regulated-preflight": "node scripts/assert-regulated-preflight.mjs",
     "check:bundle": "node scripts/assert-frontend-budgets.mjs",
     "check:beta": "node scripts/assert-beta-readiness.mjs",
     "check:hosting": "node scripts/assert-cloudflare-hosting.mjs",
