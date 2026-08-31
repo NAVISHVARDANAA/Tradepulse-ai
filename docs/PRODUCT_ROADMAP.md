@@ -623,8 +623,28 @@ read-only `VERIFY_DATA_PHASE_5H`; successful `BUILD_PHASE_5H`; reviewed
 live orders, custody, checkout, payment execution and money movement remain
 hard locked.
 
-- **Phase 5I — beta hardening:** evidence-based usability fixes, recovery drills,
-  accessibility, performance and release-readiness closure.
+#### Phase 5I — beta hardening (implemented)
+
+- A focused hardening workspace turns final beta review into four explicit
+  customer recovery drills for stale data, identity/session recovery, decision
+  evidence and private incident escalation.
+- Native controls, live progress, keyboard-safe links and mobile layout closure
+  extend accessibility evidence without replacing manual screen-reader review.
+- Customer-safe browser diagnostics expose connectivity, viewport overflow,
+  reduced-motion preference and Navigation Timing without persistence,
+  fingerprinting or external analytics.
+- The release manifest and one repository contract join recovery, performance,
+  accessibility, production browser and hard-lock evidence into the final
+  controlled-beta engineering gate.
+- In-product completion is review evidence only. Deployment and external tester
+  activation remain protected, manual decisions.
+
+**Phase 5I exit gate:** green beta-hardening, approved-pilot, route-aware data,
+browser, bundle, security, release and production-experience contracts;
+successful `BUILD_PHASE_5I`; reviewed `DEPLOY_PHASE_5I`; and read-only
+`VERIFY_WEB_PHASE_5I` evidence. No database migration or Edge Function is
+added, and live orders, custody, checkout, payment execution and money movement
+remain hard locked.
 
 ### Planned regulated trading sequence
 

@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type BUILD_PHASE_5H to create the approved-tester pilot candidate
+        description: Type BUILD_PHASE_5I to create the beta-hardening candidate
         required: true
         type: string
 
@@ -29,7 +29,7 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "BUILD_PHASE_5H"
+          test "$RELEASE_CONFIRMATION" = "BUILD_PHASE_5I"
           test -n "$SUPABASE_PROJECT_REF"
           test -n "$VITE_SUPABASE_ANON_KEY"
           case "$VITE_SUPABASE_ANON_KEY" in *service_role*|*secret*) echo "A server credential cannot be used by the web client."; exit 1;; esac
@@ -48,6 +48,7 @@ jobs:
       - run: npm run check:data-loading
       - run: npm run check:trust-layer
       - run: npm run check:approved-pilot
+      - run: npm run check:beta-hardening
       - run: npm run check:production-experience
       - run: npm run check:bundle
       - run: npm run check:release

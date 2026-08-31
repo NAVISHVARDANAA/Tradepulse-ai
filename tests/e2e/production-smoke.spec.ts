@@ -18,6 +18,7 @@ const publicWorkspaces = [
   ['#system-status', 'Production reliability'],
   ['#beta-operations', 'Beta launch center'],
   ['#approved-pilot', 'Private pilot workspace'],
+  ['#beta-hardening', 'Beta hardening center'],
 ] as const
 
 const failureCopy = /unable to load|could not load|server request could not be completed|temporarily unavailable|configuration is unavailable/i

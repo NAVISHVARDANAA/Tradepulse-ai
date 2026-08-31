@@ -43,6 +43,9 @@ const BetaOperationsPanel = lazy(() => import('./components/BetaOperationsPanel'
 const ApprovedTesterPilotPanel = lazy(() => import('./components/ApprovedTesterPilotPanel').then((module) => ({
   default: module.ApprovedTesterPilotPanel,
 })))
+const BetaHardeningPanel = lazy(() => import('./components/BetaHardeningPanel').then((module) => ({
+  default: module.BetaHardeningPanel,
+})))
 const CustomerPrivacyPanel = lazy(() => import('./components/CustomerPrivacyPanel').then((module) => ({
   default: module.CustomerPrivacyPanel,
 })))
@@ -467,6 +470,14 @@ function App() {
           <ProductErrorBoundary title="The approved tester pilot is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Approved Tester Pilot" />}>
               <ApprovedTesterPilotPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#beta-hardening' ? <section id="beta-hardening" className="product-workspace">
+          <ProductErrorBoundary title="The beta hardening center is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Beta Hardening Center" />}>
+              <BetaHardeningPanel />
             </Suspense>
           </ProductErrorBoundary>
         </section> : null}

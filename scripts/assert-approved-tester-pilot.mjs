@@ -117,7 +117,7 @@ assert(productionTest.includes("['#approved-pilot', 'Private pilot workspace']")
 const packageJson = JSON.parse(packageJsonText)
 const manifest = JSON.parse(manifestText)
 assert(packageJson.scripts?.['check:approved-pilot'], 'Approved pilot package check is missing')
-assert(manifest.phase === '5H', 'Release manifest is not Phase 5H')
+assert(manifest.phase === '5I', 'Release manifest is not Phase 5I')
 assert(manifest.approvedTesterPilot?.workspaceEnabled === true, 'Manifest omits the pilot workspace')
 assert(manifest.approvedTesterPilot?.manualApprovalRequired === true, 'Manual pilot approval is not explicit')
 assert(manifest.approvedTesterPilot?.browserEnrollmentEnabled === false, 'Browser pilot enrollment became enabled')
@@ -125,12 +125,12 @@ assert(manifest.approvedTesterPilot?.boundedCohorts === true, 'Bounded pilot coh
 assert(manifest.requiredChecks.includes('check:approved-pilot'), 'Manifest omits approved pilot verification')
 
 for (const [name, workflow, confirmation] of [
-  ['build', build, 'BUILD_PHASE_5H'],
-  ['web deploy', deployWeb, 'DEPLOY_PHASE_5H'],
-  ['web verify', verifyWeb, 'VERIFY_WEB_PHASE_5H'],
+  ['build', build, 'BUILD_PHASE_5I'],
+  ['web deploy', deployWeb, 'DEPLOY_PHASE_5I'],
+  ['web verify', verifyWeb, 'VERIFY_WEB_PHASE_5I'],
 ]) {
-  assert(workflow.includes(confirmation), `Phase 5H ${name} confirmation is missing`)
-  assert(workflow.includes('check:approved-pilot'), `Phase 5H ${name} omits the pilot check`)
+  assert(workflow.includes(confirmation), `Phase 5I ${name} confirmation is missing`)
+  assert(workflow.includes('check:approved-pilot'), `Phase 5I ${name} omits the pilot check`)
 }
 assert(deployData.includes('DEPLOY_DATA_PHASE_5H'), 'Phase 5H data deployment confirmation is missing')
 assert(deployData.includes('approved_tester_pilot_smoke.sql'), 'Data deployment omits pilot production smoke')

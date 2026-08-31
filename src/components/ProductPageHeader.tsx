@@ -142,6 +142,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Accept the current pilot agreement, follow bounded evaluation missions and use staffed feedback or incident escalation.',
     boundary: 'Manual approval required',
   },
+  '#beta-hardening': {
+    eyebrow: 'Controlled-beta closure',
+    title: 'Beta hardening center',
+    description: 'Exercise customer-safe recovery, accessibility and performance checks before recording release-readiness evidence.',
+    boundary: 'Review only · no activation',
+  },
   '#customer-privacy': {
     eyebrow: 'Privacy controls',
     title: 'Data control center',

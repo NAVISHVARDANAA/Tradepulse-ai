@@ -88,6 +88,13 @@ const journey = [
     action: 'Open pilot workspace',
     icon: CheckCircle2,
   },
+  {
+    label: 'Exercise recovery and closure',
+    detail: 'Review usability, accessibility, performance evidence and four customer-safe recovery drills.',
+    href: '#beta-hardening',
+    action: 'Open hardening center',
+    icon: CircleAlert,
+  },
 ]
 
 export function BetaOperationsPanel() {
