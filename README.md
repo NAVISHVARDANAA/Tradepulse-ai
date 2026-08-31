@@ -600,6 +600,12 @@ cannot approve or enroll a tester, and all execution and money-movement locks
 remain unchanged. See
 [`docs/APPROVED_TESTER_PILOT.md`](docs/APPROVED_TESTER_PILOT.md).
 
+Phase 5I adds a focused beta-hardening center for customer-safe recovery drills,
+accessible review progress, local-only browser performance evidence and final
+administrative release closure. It creates no analytics profile or regulated
+activation path. See
+[`docs/BETA_HARDENING.md`](docs/BETA_HARDENING.md).
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction

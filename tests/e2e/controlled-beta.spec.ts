@@ -106,7 +106,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(24)
+  await expect(navigation.getByRole('link')).toHaveCount(25)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -160,6 +160,18 @@ test('hash navigation renders one focused product workspace at a time', async ({
   await expect(page.locator('#forecasts')).toHaveCount(0)
 })
 
+test('beta hardening supports accessible recovery review without regulated activation', async ({ page }) => {
+  await page.goto('/#beta-hardening')
+  await expect(page.getByRole('heading', { level: 1, name: 'Beta hardening center' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Customer-safe release closure' })).toBeVisible()
+  const confirmations = page.getByRole('checkbox', { name: /Confirm .* drill reviewed/ })
+  await expect(confirmations).toHaveCount(4)
+  await confirmations.first().check()
+  await expect(page.getByText('1 of 4 recovery drills reviewed')).toBeVisible()
+  await expect(page.getByText('No execution or money movement')).toBeVisible()
+  await expect(page.getByRole('button', { name: /deploy|activate|submit order|send payment/i })).toHaveCount(0)
+})
+
 test('shared product data loads only for the active workspace', async ({ page }) => {
   const sharedDataPaths: string[] = []
   page.on('request', (request) => {
@@ -180,6 +192,11 @@ test('shared product data loads only for the active workspace', async ({ page })
 
   await page.goto('/#approved-pilot')
   await expect(page.getByRole('heading', { level: 1, name: 'Private pilot workspace' })).toBeVisible()
+  await page.waitForTimeout(250)
+  expect(sharedDataPaths).toEqual([])
+
+  await page.goto('/#beta-hardening')
+  await expect(page.getByRole('heading', { level: 1, name: 'Beta hardening center' })).toBeVisible()
   await page.waitForTimeout(250)
   expect(sharedDataPaths).toEqual([])
 

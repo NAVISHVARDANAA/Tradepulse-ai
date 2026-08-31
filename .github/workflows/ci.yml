@@ -60,6 +60,9 @@ jobs:
       - name: Verify approved-tester pilot
         run: npm run check:approved-pilot
 
+      - name: Verify beta hardening
+        run: npm run check:beta-hardening
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 

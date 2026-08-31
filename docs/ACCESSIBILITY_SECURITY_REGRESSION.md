@@ -5,7 +5,7 @@ authorization, brokerage or payment execution behavior.
 
 The Playwright suite runs in desktop Chromium and a Pixel 7 mobile viewport. It
 checks WCAG 2 A/AA and WCAG 2.1 A/AA rules with axe-core, first-run guide focus
-containment and restoration, keyboard desktop navigation, all 24 mobile product
+containment and restoration, keyboard desktop navigation, all 25 mobile product
 destinations, mobile overflow and the guest-visible paper, brokerage and payment
 locks. Failed CI runs retain a Playwright report for seven days.
 
@@ -29,7 +29,8 @@ npm run check:security
 
 Automated checks complement, but do not replace, final keyboard, screen-reader,
 browser compatibility and security review during the beta release-candidate
-audit.
+audit. Phase 5I adds native drill confirmations, live progress and local-only
+viewport evidence in the Beta Hardening Center.
 
 ## Release procedure
 

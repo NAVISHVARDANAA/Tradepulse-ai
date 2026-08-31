@@ -57,6 +57,7 @@ assert(!app.includes('void Promise.all([\n      loadMarkets()'), 'Shared data st
 for (const contract of [
   'shared product data loads only for the active workspace',
   "page.goto('/#beta-operations')",
+  "page.goto('/#beta-hardening')",
   "page.goto('/#forecasts')",
   '/display_qualified_market_forecasts',
   '/trade_observations',
@@ -74,13 +75,13 @@ assert(vite.includes("target: 'es2022'"), 'Production build is not pinned to the
 assert(vite.includes('modulePreload: { polyfill: false }'), 'Native module preloading is not pinned')
 
 for (const [name, workflow, confirmation] of [
-  ['build', build, 'BUILD_PHASE_5H'],
-  ['deploy', deploy, 'DEPLOY_PHASE_5H'],
-  ['verify', verify, 'VERIFY_WEB_PHASE_5H'],
+  ['build', build, 'BUILD_PHASE_5I'],
+  ['deploy', deploy, 'DEPLOY_PHASE_5I'],
+  ['verify', verify, 'VERIFY_WEB_PHASE_5I'],
   ['CI', ci, 'check:data-loading'],
 ]) {
-  assert(workflow.includes(confirmation), `Phase 5H ${name} contract is missing`)
-  assert(workflow.includes('check:data-loading'), `Phase 5H ${name} omits the data-loading check`)
+  assert(workflow.includes(confirmation), `Phase 5I ${name} contract is missing`)
+  assert(workflow.includes('check:data-loading'), `Phase 5I ${name} omits the data-loading check`)
 }
 
 assert(roadmap.includes('Phase 5F — route-aware data loading'), 'Roadmap omits Phase 5F')

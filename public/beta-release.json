@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "5H",
+  "phase": "5I",
   "status": "hosting_deployment_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
@@ -22,20 +22,33 @@
   },
   "operations": {
     "workspaceEnabled": true,
-    "privateSignals": ["profile", "security", "notifications", "support"],
+    "privateSignals": [
+      "profile",
+      "security",
+      "notifications",
+      "support"
+    ],
     "browserTesterApprovalEnabled": false
   },
   "performance": {
     "routeAwareDataLoading": true,
     "routeScopedRealtime": true,
-    "sharedDataDomains": ["markets", "trade", "forecasts", "equity"]
+    "sharedDataDomains": [
+      "markets",
+      "trade",
+      "forecasts",
+      "equity"
+    ]
   },
   "trustLayer": {
     "trustReceipts": true,
     "localActivityEvidence": true,
     "reliabilityShield": true,
     "contextSafeSupport": true,
-    "experienceModes": ["guided", "professional"],
+    "experienceModes": [
+      "guided",
+      "professional"
+    ],
     "persistentFinancialDataInBrowser": false
   },
   "approvedTesterPilot": {
@@ -57,6 +70,7 @@
     "check:data-loading",
     "check:trust-layer",
     "check:approved-pilot",
+    "check:beta-hardening",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -75,5 +89,18 @@
     "controller-privacy-terms-and-support-contacts",
     "monitoring-on-call-and-incident-exercise",
     "approved-tester-list-and-feedback-process"
-  ]
+  ],
+  "betaHardening": {
+    "workspaceEnabled": true,
+    "recoveryDrills": [
+      "data-freshness",
+      "session-recovery",
+      "evidence-review",
+      "incident-escalation"
+    ],
+    "browserPerformanceEvidence": true,
+    "externalAnalyticsEnabled": false,
+    "releaseClosureAdministrative": true,
+    "executionBoundaryChanges": false
+  }
 }
