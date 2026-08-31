@@ -564,6 +564,28 @@ release and production-experience contracts, successful `BUILD_PHASE_5F`,
 reviewed `DEPLOY_PHASE_5F`, and read-only `VERIFY_WEB_PHASE_5F` evidence. No
 database or Edge Function deployment.
 
+### Phase 5G — customer trust layer (implemented)
+
+- A dedicated Trust Center defines reviewable evidence receipts for forecasts,
+  non-executable brokerage previews and indicative cross-border quotes.
+- The Reliability Shield fails safely when customer-safe status evidence is
+  missing and the smart alert inbox separates attention from information.
+- A customer-clearable, capped financial-flight-recorder foundation records
+  workspace visits only in local browser storage; no financial or identity data
+  is retained there.
+- Context-aware support produces a bounded diagnostic summary without email,
+  credentials, account, portfolio or payment details.
+- Guided and Professional modes change explanation density without changing
+  evidence, authorization, entitlements or hard locks.
+- The focused route loads no shared research data and introduces no migration,
+  Edge Function or provider integration.
+
+**Phase 5G exit gate:** green trust-layer, route-aware data, browser, bundle,
+security, release and production-experience contracts, successful
+`BUILD_PHASE_5G`, reviewed `DEPLOY_PHASE_5G`, and read-only
+`VERIFY_WEB_PHASE_5G` evidence. Live orders, custody, checkout, payment
+execution, charge collection and personalized advice remain hard locked.
+
 ### Controlled-beta finish line
 
 The planned product engineering foundation is complete after Phase 4W. Phase
@@ -574,7 +596,27 @@ explicitly invite-only, and Phase 5E gives approved testers a private launch
 center for onboarding and operational recovery. Phase 5F limits shared queries
 and realtime work to the active product workspace. The candidate remains closed to
 external testers until its documented domain, operational, privacy, security
-and tester-approval prerequisites are complete.
+and tester-approval prerequisites are complete. Phase 5G adds the visible trust
+and recovery foundation needed before controlled testers evaluate more complex
+financial workflows.
+
+### Planned controlled-beta completion
+
+- **Phase 5H — approved tester pilot:** manual tester approval, bounded cohort,
+  staffed feedback and incident escalation with no implicit signup.
+- **Phase 5I — beta hardening:** evidence-based usability fixes, recovery drills,
+  accessibility, performance and release-readiness closure.
+
+### Planned regulated trading sequence
+
+- **Phase 6A — regulated preflight:** eligibility, disclosures, suitability,
+  market state, total cost and risk preview; no order submission.
+- **Phase 6B — sandbox order lifecycle:** partner sandbox submission,
+  idempotency, cancel/replace, protective-order controls, reconciliation and
+  append-only trust receipts.
+- **Phase 6C — controlled live trading:** separately reviewed jurisdiction,
+  broker, compliance, funding, monitoring and kill-switch activation. No route
+  activates without written approvals.
 
 ### Future regulated activation work
 
@@ -586,14 +628,20 @@ and tester-approval prerequisites are complete.
 **Exit gate:** legal, compliance, security, broker and market-data approvals are
 written and auditable before any production trade can be submitted.
 
-## Phase 5 — cross-border payments (final execution domain)
+## Planned cross-border payments sequence (final execution domain)
 
-- Licensed payment/banking partner behind a separately permissioned payment
-  orchestration service.
-- Corridor-specific KYC/KYB, AML, sanctions, transaction monitoring,
-  travel-rule applicability, disputes, refunds and regulatory reporting.
-- Double-entry payments ledger, safeguarding/custody boundary, provider
-  reconciliation, webhooks, idempotency, retries and disaster recovery.
+- **Phase 7A — corridor intelligence:** transparent reference rate, provider
+  rate, spread, fees, taxes, delivered amount, ETA and route availability.
+- **Phase 7B — beneficiary protection:** validated beneficiary details,
+  duplicate detection, cooling-off and scam/intervention warnings.
+- **Phase 7C — compliance orchestration:** corridor-specific KYC/KYB, AML,
+  sanctions, transaction monitoring, travel-rule and audit workflows.
+- **Phase 7D — sandbox transfer lifecycle:** licensed-partner sandbox,
+  double-entry ledger, idempotency, webhooks, retries, reconciliation, rescue
+  mode, disputes and refunds.
+- **Phase 7E — controlled money movement:** corridor-by-corridor safeguarding,
+  legal, compliance, security, partner and operational approval before any
+  production fund movement.
 
 **Exit gate:** corridor-by-corridor legal, compliance, security and partner
 approvals are written and auditable before any production fund movement.

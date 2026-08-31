@@ -13,6 +13,7 @@ const publicWorkspaces = [
   ['#paper-investing', 'Paper investing lab'],
   ['#risk-command-center', 'Risk command center'],
   ['#data-trust', 'Data trust and notifications'],
+  ['#trust-center', 'Trust and activity center'],
   ['#payments', 'Indicative payment corridors'],
   ['#system-status', 'Production reliability'],
   ['#beta-operations', 'Beta launch center'],

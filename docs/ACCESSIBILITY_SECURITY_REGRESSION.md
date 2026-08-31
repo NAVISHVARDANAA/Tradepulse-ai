@@ -5,13 +5,14 @@ authorization, brokerage or payment execution behavior.
 
 The Playwright suite runs in desktop Chromium and a Pixel 7 mobile viewport. It
 checks WCAG 2 A/AA and WCAG 2.1 A/AA rules with axe-core, first-run guide focus
-containment and restoration, keyboard desktop navigation, all 20 mobile product
+containment and restoration, keyboard desktop navigation, all 23 mobile product
 destinations, mobile overflow and the guest-visible paper, brokerage and payment
 locks. Failed CI runs retain a Playwright report for seven days.
 
 `npm run check:security` independently enforces the browser security-header and
 CSP contract, rejects unsafe DOM execution primitives and unreviewed browser
-storage, and verifies guards on eight customer and eleven internal Edge
+storage—including the reviewed Phase 5G activity and experience-mode keys—and
+verifies guards on eight customer and eleven internal Edge
 Functions. The shared authentication unit tests pin anonymous requests to HTTP
 401, MFA step-up to HTTP 403 and server misconfiguration to HTTP 500.
 

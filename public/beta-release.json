@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "4X",
+  "phase": "5G",
   "status": "hosting_deployment_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
@@ -30,6 +30,14 @@
     "routeScopedRealtime": true,
     "sharedDataDomains": ["markets", "trade", "forecasts", "equity"]
   },
+  "trustLayer": {
+    "trustReceipts": true,
+    "localActivityEvidence": true,
+    "reliabilityShield": true,
+    "contextSafeSupport": true,
+    "experienceModes": ["guided", "professional"],
+    "persistentFinancialDataInBrowser": false
+  },
   "requiredChecks": [
     "typecheck",
     "typecheck:e2e",
@@ -38,6 +46,7 @@
     "check:beta-access",
     "check:beta-operations",
     "check:data-loading",
+    "check:trust-layer",
     "check:production-experience",
     "check:bundle",
     "check:release",

@@ -28,6 +28,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Review freshness, completeness and duplicate checks, then manage private notification preferences.',
     boundary: 'Evidence before alerts',
   },
+  '#trust-center': {
+    eyebrow: 'Customer trust layer',
+    title: 'Trust and activity center',
+    description: 'Verify decision evidence, review reliability alerts and inspect a private local activity trail before taking the next step.',
+    boundary: 'Verify before acting',
+  },
   '#analytics-studio': {
     eyebrow: 'Enterprise decision intelligence',
     title: 'Governed Analytics Studio',
