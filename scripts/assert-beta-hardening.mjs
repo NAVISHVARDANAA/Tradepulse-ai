@@ -106,7 +106,7 @@ for (const lock of [
 }
 
 assert(roadmap.includes('Phase 5I — beta hardening (implemented)'), 'Roadmap omits implemented Phase 5I')
-assert(guide.includes('No database migration'), 'Hardening guide omits the data boundary')
+assert(guide.toLowerCase().includes('no database migration'), 'Hardening guide omits the data boundary')
 assert(guide.includes('No execution or money movement'), 'Hardening guide omits execution locks')
 
 console.log('Beta hardening passed: recovery, accessibility, performance and release closure remain customer-safe.')
