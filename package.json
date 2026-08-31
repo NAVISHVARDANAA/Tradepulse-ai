@@ -13,6 +13,7 @@
     "check:beta-access": "node scripts/assert-controlled-beta-access.mjs",
     "check:beta-operations": "node scripts/assert-beta-operations.mjs",
     "check:data-loading": "node scripts/assert-route-aware-data.mjs",
+    "check:trust-layer": "node scripts/assert-trust-layer.mjs",
     "check:bundle": "node scripts/assert-frontend-budgets.mjs",
     "check:beta": "node scripts/assert-beta-readiness.mjs",
     "check:hosting": "node scripts/assert-cloudflare-hosting.mjs",

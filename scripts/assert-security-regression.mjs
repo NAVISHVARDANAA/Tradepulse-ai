@@ -54,9 +54,10 @@ async function sourceFiles(directory) {
 
 const applicationFiles = await sourceFiles(join(repositoryRoot, 'src'))
 const reviewedBrowserStorage = new Map([
-  ['src/components/AcademyPanel.tsx', 'tradepulse-academy-progress-v1'],
-  ['src/components/AnalyticsStudioPanel.tsx', 'tradepulse-analytics-views-v1'],
-  ['src/components/GuidedOnboarding.tsx', 'tradepulse-product-tour-v3'],
+  ['src/components/AcademyPanel.tsx', ['tradepulse-academy-progress-v1']],
+  ['src/components/AnalyticsStudioPanel.tsx', ['tradepulse-analytics-views-v1']],
+  ['src/components/GuidedOnboarding.tsx', ['tradepulse-product-tour-v3']],
+  ['src/lib/trustLayer.ts', ['tradepulse-trust-activity-v1', 'tradepulse-trust-mode-v1']],
 ])
 for (const { path, content } of applicationFiles) {
   const repositoryPath = relative(repositoryRoot, path)
@@ -68,9 +69,9 @@ for (const { path, content } of applicationFiles) {
   ].find(([, pattern]) => pattern.test(content))
   if (unsafe) throw new Error(`${unsafe[0]} is forbidden in ${repositoryPath}`)
 
-  const reviewedStorageKey = reviewedBrowserStorage.get(repositoryPath)
+  const reviewedStorageKeys = reviewedBrowserStorage.get(repositoryPath)
   if (/(?:local|session)Storage/.test(content) && (
-    !reviewedStorageKey || !content.includes(`'${reviewedStorageKey}'`)
+    !reviewedStorageKeys || !reviewedStorageKeys.every((key) => content.includes(`'${key}'`))
   )) {
     throw new Error(`Unreviewed browser storage use in ${repositoryPath}`)
   }

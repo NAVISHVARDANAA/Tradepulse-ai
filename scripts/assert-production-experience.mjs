@@ -28,6 +28,7 @@ for (const route of [
   '#paper-investing',
   '#risk-command-center',
   '#data-trust',
+  '#trust-center',
   '#payments',
   '#system-status',
   '#beta-operations',
@@ -53,10 +54,10 @@ assert(
   localConfig.includes("testIgnore: 'production-smoke.spec.ts'"),
   'Local browser suite must not run the live production smoke contract',
 )
-for (const contract of ['VERIFY_WEB_PHASE_5F', 'npm run test:e2e:production', 'environment: production']) {
+for (const contract of ['VERIFY_WEB_PHASE_5G', 'npm run test:e2e:production', 'environment: production']) {
   assert(verifyWorkflow.includes(contract), `Manual production verification workflow missing: ${contract}`)
 }
-for (const contract of ['DEPLOY_PHASE_5F', 'npm run test:e2e:production', 'steps.cloudflare.outputs.deployment-url']) {
+for (const contract of ['DEPLOY_PHASE_5G', 'npm run test:e2e:production', 'steps.cloudflare.outputs.deployment-url']) {
   assert(deployWorkflow.includes(contract), `Post-deployment experience gate missing: ${contract}`)
 }
 for (const script of ['check:production-experience', 'test:e2e:production']) {
@@ -64,4 +65,4 @@ for (const script of ['check:production-experience', 'test:e2e:production']) {
 }
 assert(roadmap.includes('Phase 5C — production experience assurance'), 'Roadmap omits Phase 5C')
 
-console.log('Production experience contract passed: 13 routes, runtime failures, Analytics interactions and execution locks guarded.')
+console.log('Production experience contract passed: 14 routes, runtime failures, Analytics interactions and execution locks guarded.')

@@ -585,6 +585,14 @@ support, privacy and beta-operations pages no longer pay the reliability or
 performance cost of unrelated research queries. See
 [`docs/ROUTE_AWARE_DATA_LOADING.md`](docs/ROUTE_AWARE_DATA_LOADING.md).
 
+Phase 5G adds a focused customer Trust Center. It defines reviewable forecast,
+brokerage-preview and cross-border-quote receipt standards, presents a
+fail-safe Reliability Shield and smart alert inbox, records only clearable
+workspace visits in local browser storage, and creates a redacted support
+context. Guided and Professional modes change explanation density without
+changing evidence or permissions. See
+[`docs/CUSTOMER_TRUST_LAYER.md`](docs/CUSTOMER_TRUST_LAYER.md).
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction

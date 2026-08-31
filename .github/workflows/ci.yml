@@ -54,6 +54,9 @@ jobs:
       - name: Verify route-aware data loading
         run: npm run check:data-loading
 
+      - name: Verify customer trust layer
+        run: npm run check:trust-layer
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 

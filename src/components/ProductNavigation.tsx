@@ -13,6 +13,7 @@ export const productNavigation: NavGroup[] = [
       { label: 'Dashboard', href: '#dashboard' },
       { label: 'System status', href: '#system-status' },
       { label: 'Data trust', href: '#data-trust' },
+      { label: 'Trust center', href: '#trust-center' },
     ],
   },
   {
@@ -64,6 +65,12 @@ export function productHrefFromHash(hash: string): ProductHref {
   return productHrefs.has(hash as ProductHref)
     ? hash as ProductHref
     : '#dashboard'
+}
+
+export function productLabelFromHref(href: ProductHref) {
+  return productNavigation
+    .flatMap((group) => group.items)
+    .find((item) => item.href === href)?.label ?? 'Dashboard'
 }
 
 export function ProductNavigation({ activeHref }: { activeHref: ProductHref }) {

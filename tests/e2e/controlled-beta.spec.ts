@@ -106,7 +106,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(22)
+  await expect(navigation.getByRole('link')).toHaveCount(23)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -182,6 +182,34 @@ test('shared product data loads only for the active workspace', async ({ page })
   expect(
     sharedDataPaths.some((path) => path.includes('/equity_research_dashboard')),
   ).toBe(false)
+})
+
+test('Trust Center verifies evidence, local activity and safety boundaries', async ({ page }) => {
+  await page.goto('/#trust-center')
+  await expect(page.getByRole('heading', { level: 1, name: 'Trust and activity center' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Evidence you can verify' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Forecast receipt' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Brokerage preview receipt' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Cross-border quote receipt' })).toBeVisible()
+  await expect(page.locator('.trust-boundary').filter({ hasText: 'Live orders hard locked' })).toBeVisible()
+  await expect(page.locator('.trust-boundary').filter({ hasText: 'No money movement' })).toBeVisible()
+  await expect(page.getByRole('button', { name: /execute|place live|submit live|send money/i })).toHaveCount(0)
+
+  const professional = page.getByRole('button', { name: 'Professional' })
+  await professional.click()
+  await expect(professional).toHaveAttribute('aria-pressed', 'true')
+  expect(await page.evaluate(() => localStorage.getItem('tradepulse-trust-mode-v1'))).toBe('professional')
+
+  await page.goto('/#forecasts')
+  await expect(page.getByRole('heading', { level: 1, name: 'Forecast governance dashboard' })).toBeVisible()
+  await page.goto('/#trust-center')
+  await expect(page.getByRole('link', { name: 'Forecasts' })).toBeVisible()
+
+  const safeContext = page.getByLabel('Safe support context')
+  await expect(safeContext).toContainText('Release: Phase 5G controlled beta')
+  await expect(safeContext).toContainText('Sensitive data: omitted')
+  await page.getByRole('button', { name: 'Clear local activity' }).click()
+  await expect(page.getByText('No local workspace activity recorded.')).toBeVisible()
 })
 
 test('Analytics Studio exposes governed interactive reporting controls', async ({ page }) => {

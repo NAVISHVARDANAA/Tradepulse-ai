@@ -30,7 +30,7 @@ for (const header of [
 
 const manifestResponse = await request('/beta-release.json')
 const manifest = await manifestResponse.json()
-if (manifest.phase !== '4X' || manifest.release !== 'controlled-beta-rc2') {
+if (manifest.phase !== '5G' || manifest.release !== 'controlled-beta-rc2') {
   throw new Error('Deployed beta manifest is not the Phase 4X candidate.')
 }
 if (manifest.distribution?.externalInvitationsApproved !== false) {

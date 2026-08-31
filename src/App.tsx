@@ -12,10 +12,12 @@ import { ProductPageHeader } from './components/ProductPageHeader'
 import {
   ProductNavigation,
   productHrefFromHash,
+  productLabelFromHref,
   type ProductHref,
 } from './components/ProductNavigation'
 import { SystemStatusPanel } from './components/SystemStatusPanel'
 import { productDataRequirements } from './lib/productDataRequirements'
+import { recordLocalWorkspaceVisit } from './lib/trustLayer'
 import { supabase } from './lib/supabase/client'
 import type {
   MarketAssetSnapshot,
@@ -82,6 +84,9 @@ const ResearchCopilotPanel = lazy(() => import('./components/ResearchCopilotPane
 })))
 const TradeTrendChart = lazy(() => import('./components/TradeTrendChart').then((module) => ({
   default: module.TradeTrendChart,
+})))
+const TrustCenterPanel = lazy(() => import('./components/TrustCenterPanel').then((module) => ({
+  default: module.TrustCenterPanel,
 })))
 
 function SectionLoader({ label }: { label: string }) {
@@ -215,6 +220,10 @@ function App() {
       document.querySelector(activeHref)?.scrollIntoView({ block: 'start' })
     })
     return () => window.cancelAnimationFrame(frame)
+  }, [activeHref])
+
+  useEffect(() => {
+    recordLocalWorkspaceVisit(activeHref, productLabelFromHref(activeHref))
   }, [activeHref])
 
   useEffect(() => {
@@ -373,6 +382,14 @@ function App() {
         ) : null}
 
         {activeHref === '#system-status' ? <SystemStatusPanel /> : null}
+
+        {activeHref === '#trust-center' ? <section id="trust-center" className="product-workspace">
+          <ProductErrorBoundary title="The Trust Center is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="TradePulse Trust Center" />}>
+              <TrustCenterPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
 
         {activeHref === '#analytics-studio' ? <section id="analytics-studio" className="product-workspace">
           <ProductErrorBoundary title="Analytics Studio is temporarily unavailable">
