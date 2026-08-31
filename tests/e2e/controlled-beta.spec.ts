@@ -191,8 +191,8 @@ test('Trust Center verifies evidence, local activity and safety boundaries', asy
   await expect(page.getByRole('heading', { name: 'Forecast receipt' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Brokerage preview receipt' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Cross-border quote receipt' })).toBeVisible()
-  await expect(page.getByText('Live orders hard locked', { exact: true })).toBeVisible()
-  await expect(page.getByText('No money movement', { exact: true })).toBeVisible()
+  await expect(page.locator('.trust-boundary').filter({ hasText: 'Live orders hard locked' })).toBeVisible()
+  await expect(page.locator('.trust-boundary').filter({ hasText: 'No money movement' })).toBeVisible()
   await expect(page.getByRole('button', { name: /execute|place live|submit live|send money/i })).toHaveCount(0)
 
   const professional = page.getByRole('button', { name: 'Professional' })
