@@ -723,10 +723,27 @@ preflight, database, browser, security and release contracts; reviewed
 **Exit gate:** legal, compliance, security, broker and market-data approvals are
 written and auditable before any production trade can be submitted.
 
-## Planned cross-border payments sequence (final execution domain)
+## Cross-border payments sequence (final execution domain)
 
-- **Phase 7A — corridor intelligence:** transparent reference rate, provider
-  rate, spread, fees, taxes, delivered amount, ETA and route availability.
+### Phase 7A — corridor intelligence (implemented foundation)
+
+- Two reference-only sandbox provider models per enabled corridor expose the
+  synchronized FX reference, provider-model rate, spread, known fees, delivered
+  amount before unknown tax, effective rate, ETA range and availability reason.
+- Tax uncertainty is explicit: unavailable tax remains null and is never shown
+  as zero or silently included in a total.
+- Customers can compare route evidence but cannot rank automatically, select a
+  route, enter beneficiary details, accept a quote, create a transfer or pay.
+- Database constraints keep provider connectivity, beneficiary collection,
+  quote acceptance, transfer creation, execution, money movement, custody and
+  settlement false. Legacy payment intents remain disabled.
+
+**Phase 7A exit gate:** green corridor-intelligence, database, browser,
+security and release contracts; reviewed `DEPLOY_DATA_PHASE_7A`; read-only
+`VERIFY_DATA_PHASE_7A`; successful `BUILD_PHASE_7A`; reviewed
+`DEPLOY_PHASE_7A`; and read-only `VERIFY_WEB_PHASE_7A` evidence. This exit gate
+does not authorize payment execution or money movement.
+
 - **Phase 7B — beneficiary protection:** validated beneficiary details,
   duplicate detection, cooling-off and scam/intervention warnings.
 - **Phase 7C — compliance orchestration:** corridor-specific KYC/KYB, AML,

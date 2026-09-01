@@ -69,18 +69,39 @@ export type MarketForecast = {
   targetAt: string
 }
 
-export type PaymentCorridor = {
+export type PaymentCorridorRoute = {
   id: number
-  code: string
+  routeCode: string
+  corridorId: number
+  corridorCode: string
   sourceCurrency: string
   destinationCurrency: string
   fxSymbol: string
   rateOperation: 'direct' | 'inverse'
-  spreadBps: number
+  providerLabel: string
+  providerRateMode: 'sandbox_model'
+  deliveryTier: 'economy' | 'priority'
+  providerSpreadBps: number
   variableFeeBps: number
   fixedFee: number
   minimumFee: number
-  settlementMinutes: number
+  taxStatus: 'unavailable' | 'estimated' | 'not_applicable'
+  estimatedTaxBps: number | null
+  taxExplanation: string
+  etaMinMinutes: number
+  etaMaxMinutes: number
+  availability: 'reference_only' | 'unavailable'
+  availabilityReason: string
+  maxReferenceAgeMinutes: number
+  providerConnectivityEnabled: false
+  beneficiaryCollectionEnabled: false
+  quoteAcceptanceEnabled: false
+  automaticRouteSelectionEnabled: false
+  transferCreationEnabled: false
+  paymentExecutionEnabled: false
+  moneyMovementEnabled: false
+  custodyEnabled: false
+  settlementEnabled: false
 }
 
 export type EquityCoverageStatus =

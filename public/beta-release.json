@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "6C",
-  "status": "live_trading_readiness_candidate",
+  "phase": "7A",
+  "status": "corridor_intelligence_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -74,6 +74,7 @@
     "check:regulated-preflight",
     "check:sandbox-orders",
     "check:live-readiness",
+    "check:corridor-intelligence",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -155,5 +156,26 @@
     "custodyEnabled": false,
     "settlementEnabled": false,
     "killSwitchActivationEnabled": false
+  },
+  "corridorIntelligence": {
+    "workspaceEnabled": true,
+    "routeModelCount": 8,
+    "referenceRateVisible": true,
+    "providerModelRateVisible": true,
+    "spreadVisible": true,
+    "knownFeesVisible": true,
+    "taxUnknownNeverZero": true,
+    "deliveredAmountBeforeUnknownTax": true,
+    "etaRangeVisible": true,
+    "routeAvailabilityVisible": true,
+    "providerConnectivityEnabled": false,
+    "beneficiaryCollectionEnabled": false,
+    "automaticRouteSelectionEnabled": false,
+    "quoteAcceptanceEnabled": false,
+    "transferCreationEnabled": false,
+    "paymentExecutionEnabled": false,
+    "moneyMovementEnabled": false,
+    "custodyEnabled": false,
+    "settlementEnabled": false
   }
 }

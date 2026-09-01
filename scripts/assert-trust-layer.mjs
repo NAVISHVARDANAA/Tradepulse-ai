@@ -83,7 +83,7 @@ assert(productionTest.includes("['#trust-center', 'Trust and activity center']")
 const packageJson = JSON.parse(packageJsonText)
 const manifest = JSON.parse(manifestText)
 assert(packageJson.scripts?.['check:trust-layer'], 'Trust-layer package check is missing')
-assert(manifest.phase === '6C', 'Release manifest is not on the current Phase 6C candidate')
+assert(manifest.phase === '7A', 'Release manifest is not on the current Phase 7A candidate')
 assert(manifest.trustLayer?.trustReceipts === true, 'Release manifest omits trust receipts')
 assert(manifest.trustLayer?.localActivityEvidence === true, 'Release manifest omits local activity evidence')
 assert(manifest.trustLayer?.reliabilityShield === true, 'Release manifest omits the Reliability Shield')
@@ -92,9 +92,9 @@ assert(manifest.trustLayer?.persistentFinancialDataInBrowser === false, 'Browser
 assert(manifest.requiredChecks.includes('check:trust-layer'), 'Release manifest omits trust-layer verification')
 
 for (const [name, workflow, confirmation] of [
-  ['build', build, 'BUILD_PHASE_6C'],
-  ['deploy', deploy, 'DEPLOY_PHASE_6C'],
-  ['verify', verify, 'VERIFY_WEB_PHASE_6C'],
+  ['build', build, 'BUILD_PHASE_7A'],
+  ['deploy', deploy, 'DEPLOY_PHASE_7A'],
+  ['verify', verify, 'VERIFY_WEB_PHASE_7A'],
   ['CI', ci, 'check:trust-layer'],
 ]) {
   assert(workflow.includes(confirmation), `Current ${name} trust-layer contract is missing`)

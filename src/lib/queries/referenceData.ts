@@ -2,7 +2,7 @@ import type {
   CountryTradeSnapshot,
   MarketAssetSnapshot,
   MarketForecast,
-  PaymentCorridor,
+  PaymentCorridorRoute,
   TradeDashboard,
   TradeKpi,
   TradeTrendPoint,
@@ -387,40 +387,49 @@ export async function getLatestForecasts(): Promise<MarketForecast[]> {
   })
 }
 
-export async function getPaymentCorridors(): Promise<PaymentCorridor[]> {
+export async function getPaymentCorridorIntelligence(): Promise<PaymentCorridorRoute[]> {
   const { data, error } = await supabase
-    .from('payment_corridors')
-    .select(`
-      id,
-      code,
-      source_currency,
-      destination_currency,
-      fx_symbol,
-      rate_operation,
-      spread_bps,
-      variable_fee_bps,
-      fixed_fee,
-      minimum_fee,
-      settlement_minutes
-    `)
-    .eq('enabled', true)
-    .order('code')
+    .from('payment_corridor_intelligence')
+    .select('*')
+    .order('corridor_code')
+    .order('delivery_tier')
 
   if (error) {
     throw error
   }
 
-  return data.map((row) => ({
-    id: row.id,
-    code: row.code,
+  return (data ?? []).map((row) => ({
+    id: Number(row.id),
+    routeCode: row.route_code,
+    corridorId: Number(row.corridor_id),
+    corridorCode: row.corridor_code,
     sourceCurrency: row.source_currency,
     destinationCurrency: row.destination_currency,
     fxSymbol: row.fx_symbol,
-    rateOperation: row.rate_operation as PaymentCorridor['rateOperation'],
-    spreadBps: Number(row.spread_bps),
+    rateOperation: row.rate_operation as PaymentCorridorRoute['rateOperation'],
+    providerLabel: row.provider_label,
+    providerRateMode: 'sandbox_model',
+    deliveryTier: row.delivery_tier as PaymentCorridorRoute['deliveryTier'],
+    providerSpreadBps: Number(row.provider_spread_bps),
     variableFeeBps: Number(row.variable_fee_bps),
     fixedFee: Number(row.fixed_fee),
     minimumFee: Number(row.minimum_fee),
-    settlementMinutes: row.settlement_minutes,
+    taxStatus: row.tax_status as PaymentCorridorRoute['taxStatus'],
+    estimatedTaxBps: row.estimated_tax_bps === null ? null : Number(row.estimated_tax_bps),
+    taxExplanation: row.tax_explanation,
+    etaMinMinutes: Number(row.eta_min_minutes),
+    etaMaxMinutes: Number(row.eta_max_minutes),
+    availability: row.availability as PaymentCorridorRoute['availability'],
+    availabilityReason: row.availability_reason,
+    maxReferenceAgeMinutes: Number(row.max_reference_age_minutes),
+    providerConnectivityEnabled: false,
+    beneficiaryCollectionEnabled: false,
+    quoteAcceptanceEnabled: false,
+    automaticRouteSelectionEnabled: false,
+    transferCreationEnabled: false,
+    paymentExecutionEnabled: false,
+    moneyMovementEnabled: false,
+    custodyEnabled: false,
+    settlementEnabled: false,
   }))
 }

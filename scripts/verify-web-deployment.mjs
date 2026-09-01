@@ -92,6 +92,24 @@ if (
 ) {
   throw new Error('Deployed live-trading readiness boundary is not fail-closed.')
 }
+if (
+  manifest.corridorIntelligence?.routeModelCount !== 8 ||
+  manifest.corridorIntelligence?.referenceRateVisible !== true ||
+  manifest.corridorIntelligence?.providerModelRateVisible !== true ||
+  manifest.corridorIntelligence?.taxUnknownNeverZero !== true ||
+  manifest.corridorIntelligence?.deliveredAmountBeforeUnknownTax !== true ||
+  manifest.corridorIntelligence?.providerConnectivityEnabled !== false ||
+  manifest.corridorIntelligence?.beneficiaryCollectionEnabled !== false ||
+  manifest.corridorIntelligence?.automaticRouteSelectionEnabled !== false ||
+  manifest.corridorIntelligence?.quoteAcceptanceEnabled !== false ||
+  manifest.corridorIntelligence?.transferCreationEnabled !== false ||
+  manifest.corridorIntelligence?.paymentExecutionEnabled !== false ||
+  manifest.corridorIntelligence?.moneyMovementEnabled !== false ||
+  manifest.corridorIntelligence?.custodyEnabled !== false ||
+  manifest.corridorIntelligence?.settlementEnabled !== false
+) {
+  throw new Error('Deployed corridor-intelligence boundary is incomplete or executable.')
+}
 
 console.log(
   `Verified Phase ${manifest.phase} controlled-beta deployment at ${baseUrl.origin}: exact manifest, HTTPS policy and execution locks passed.`,

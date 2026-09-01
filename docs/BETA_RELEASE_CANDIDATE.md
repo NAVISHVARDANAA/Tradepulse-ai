@@ -30,6 +30,9 @@ cannot activate a tester, deployment, trade, checkout or payment.
 Phase 6A adds private, always-blocked regulated preflight evidence. Phase 6B
 adds internal-only, protected partner-sandbox order lifecycle evidence. Phase
 6C adds a read-only activation-readiness ledger. None enables a live route.
+Phase 7A adds transparent, reference-only cross-border route comparisons with
+unknown tax kept explicit. It cannot collect a beneficiary, accept a quote or
+move money.
 
 The artifact contains `beta-release.json`, a machine-readable statement of its
 scope. Live brokerage, payment execution, charge collection, custody and
@@ -42,7 +45,7 @@ personalized advice remain false. Search indexing also remains disabled.
 - Private research routines, team research and free Academy learning.
 - Passwordless accounts, TOTP step-up, privacy controls and customer support references.
 - Paper investing, decision journals and portfolio-risk controls with no live routing.
-- Brokerage-readiness previews and payment estimates that cannot execute.
+- Brokerage-readiness previews and transparent corridor comparisons that cannot execute.
 - Responsive navigation, installable web assets and desktop/mobile accessibility gates.
 
 ## Deliberately unavailable
@@ -78,7 +81,7 @@ personalized advice remain false. Search indexing also remains disabled.
 8. Approve funding, custody, settlement and production market-data arrangements.
 9. Retain observed risk, monitoring, reconciliation and kill-switch drill evidence.
 
-These are operational, legal and business launch decisions. Passing Phase 6C
+These are operational, legal and business launch decisions. Passing Phase 7A
 means the engineering candidate is ready for that review; it does not certify
 regulatory approval or declare a public production launch.
 
@@ -100,17 +103,17 @@ evidence in a public issue or artifact.
 
 ## Hosting deployment procedure
 
-After the Phase 6C PR is merged and all `main` checks pass:
+After the Phase 7A PR is merged and all `main` checks pass:
 
-1. Deploy and verify migration 039 with `DEPLOY_DATA_PHASE_6C` and `VERIFY_DATA_PHASE_6C`.
+1. Deploy and verify migration 040 with `DEPLOY_DATA_PHASE_7A` and `VERIFY_DATA_PHASE_7A`.
 2. Open **Actions → Build production web release**.
-3. Select `main`, enter `BUILD_PHASE_6C` and run the workflow.
+3. Select `main`, enter `BUILD_PHASE_7A` and run the workflow.
 4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 5. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-6. Run **Verify web production** with `VERIFY_WEB_PHASE_6C` after deployment
+6. Run **Verify web production** with `VERIFY_WEB_PHASE_7A` after deployment
    or any customer-facing operational incident.
 7. Do not invite external testers until every manual prerequisite above is approved.
 
-Phase 6C adds migration 039 and a sanitized readiness ledger; deploy and verify
-the data boundary before the web release. The existing sandbox handler remains
-internal-only and the database contains no live activation mechanism.
+Phase 7A adds migration 040 and sanitized corridor intelligence; deploy and
+verify the data boundary before the web release. Provider connectivity, quote
+acceptance, transfers and money movement remain database-locked off.

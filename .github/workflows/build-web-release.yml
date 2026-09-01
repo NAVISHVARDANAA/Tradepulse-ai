@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type BUILD_PHASE_6C to create the live-trading readiness candidate
+        description: Type BUILD_PHASE_7A to create the corridor-intelligence candidate
         required: true
         type: string
 
@@ -29,7 +29,7 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "BUILD_PHASE_6C"
+          test "$RELEASE_CONFIRMATION" = "BUILD_PHASE_7A"
           test -n "$SUPABASE_PROJECT_REF"
           test -n "$VITE_SUPABASE_ANON_KEY"
           case "$VITE_SUPABASE_ANON_KEY" in *service_role*|*secret*) echo "A server credential cannot be used by the web client."; exit 1;; esac
@@ -52,6 +52,7 @@ jobs:
       - run: npm run check:regulated-preflight
       - run: npm run check:sandbox-orders
       - run: npm run check:live-readiness
+      - run: npm run check:corridor-intelligence
       - run: npm run check:production-experience
       - run: npm run check:bundle
       - run: npm run check:release

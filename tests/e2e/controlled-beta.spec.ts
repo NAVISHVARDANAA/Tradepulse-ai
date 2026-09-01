@@ -161,8 +161,56 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByRole('button', { name: /activate|submit|route|fund|execute/i })).toHaveCount(0)
 
   await page.goto('/#payments')
-  await expect(page.getByText('Sandbox · no money movement')).toBeVisible()
-  await expect(page.getByRole('button', { name: /execute|place live|submit live/i })).toHaveCount(0)
+  await expect(page.getByRole('heading', { level: 1, name: 'Cross-border corridor intelligence' })).toBeVisible()
+  await expect(page.getByText('No route can be selected or paid from this workspace.')).toBeVisible()
+  await expect(page.getByRole('button', { name: /select|accept|transfer|pay|execute|submit/i })).toHaveCount(0)
+})
+
+test('corridor intelligence exposes comparable costs without treating unknown tax as zero', async ({ page }) => {
+  const routeBase = {
+    corridor_id: 1,
+    corridor_code: 'USD-INR',
+    source_currency: 'USD',
+    destination_currency: 'INR',
+    fx_symbol: 'USDINR',
+    rate_operation: 'direct',
+    provider_rate_mode: 'sandbox_model',
+    tax_status: 'unavailable',
+    estimated_tax_bps: null,
+    tax_explanation: 'Tax depends on customer and corridor facts and is not available in this reference-only phase.',
+    availability: 'reference_only',
+    availability_reason: 'Licensed provider production connectivity and route approval are not configured.',
+    max_reference_age_minutes: 60,
+    provider_connectivity_enabled: false,
+    beneficiary_collection_enabled: false,
+    quote_acceptance_enabled: false,
+    automatic_route_selection_enabled: false,
+    transfer_creation_enabled: false,
+    payment_execution_enabled: false,
+    money_movement_enabled: false,
+    custody_enabled: false,
+    settlement_enabled: false,
+  }
+  await page.route('**/rest/v1/payment_corridor_intelligence*', (route) => route.fulfill({
+    status: 200,
+    contentType: 'application/json',
+    body: JSON.stringify([
+      { ...routeBase, id: 1, route_code: 'USD-INR-ECONOMY', provider_label: 'Economy sandbox provider model', delivery_tier: 'economy', provider_spread_bps: 25, variable_fee_bps: 30, fixed_fee: 0.35, minimum_fee: 0.75, eta_min_minutes: 60, eta_max_minutes: 90 },
+      { ...routeBase, id: 2, route_code: 'USD-INR-PRIORITY', provider_label: 'Priority sandbox provider model', delivery_tier: 'priority', provider_spread_bps: 40, variable_fee_bps: 20, fixed_fee: 0.75, minimum_fee: 1.25, eta_min_minutes: 15, eta_max_minutes: 45 },
+    ]),
+  }))
+  await page.route('**/rest/v1/market_assets*', (route) => route.fulfill({
+    status: 200,
+    contentType: 'application/json',
+    body: JSON.stringify([{ id: 1, symbol: 'USDINR', name: 'US Dollar / Indian Rupee', asset_type: 'forex', currency: 'INR', market_observations: [{ observed_at: new Date().toISOString(), price: 83.25, change_percent: 0.1, source: 'test-reference' }] }]),
+  }))
+
+  await page.goto('/#payments')
+  await expect(page.getByText('Tax unavailable—not shown as zero')).toBeVisible()
+  await expect(page.locator('.corridor-route-card')).toHaveCount(2)
+  await expect(page.getByText('Sandbox provider-model rate')).toHaveCount(2)
+  await expect(page.getByText('Estimated delivered before unknown tax')).toHaveCount(2)
+  await expect(page.getByRole('button', { name: /select|accept|transfer|pay|execute|submit/i })).toHaveCount(0)
 })
 
 test('hash navigation renders one focused product workspace at a time', async ({ page }) => {
