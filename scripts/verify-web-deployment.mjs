@@ -1,5 +1,12 @@
+import { readFile } from 'node:fs/promises'
+import { isDeepStrictEqual } from 'node:util'
+
 const rawUrl = process.argv[2]
 if (!rawUrl) throw new Error('Usage: npm run verify:web-deployment -- https://deployment.example')
+
+const expectedManifest = JSON.parse(
+  await readFile(new URL('../public/beta-release.json', import.meta.url), 'utf8'),
+)
 
 const baseUrl = new URL(rawUrl)
 if (baseUrl.protocol !== 'https:') throw new Error('The deployed web origin must use HTTPS.')
@@ -30,14 +37,36 @@ for (const header of [
 
 const manifestResponse = await request('/beta-release.json')
 const manifest = await manifestResponse.json()
-if (manifest.phase !== '5I' || manifest.release !== 'controlled-beta-rc2') {
-  throw new Error('Deployed beta manifest is not the Phase 4X candidate.')
+if (!isDeepStrictEqual(manifest, expectedManifest)) {
+  throw new Error(
+    `Deployed beta manifest does not match the checked-out Phase ${expectedManifest.phase} ${expectedManifest.release} candidate.`,
+  )
 }
 if (manifest.distribution?.externalInvitationsApproved !== false) {
   throw new Error('Deployed candidate unexpectedly approves external invitations.')
 }
-for (const [lock, enabled] of Object.entries(manifest.hardLocks ?? {})) {
-  if (enabled !== false) throw new Error(`Deployed execution lock is not false: ${lock}`)
+if (manifest.access?.implicitSignupEnabled !== false) {
+  throw new Error('Deployed candidate unexpectedly enables implicit signup.')
+}
+for (const lock of [
+  'liveBrokerageExecution',
+  'paymentExecution',
+  'chargeCollection',
+  'custody',
+  'personalizedAdvice',
+]) {
+  if (manifest.hardLocks?.[lock] !== false) {
+    throw new Error(`Deployed execution lock is not false: ${lock}`)
+  }
+}
+if (
+  manifest.regulatedPreflight?.orderSubmissionEnabled !== false ||
+  manifest.regulatedPreflight?.reviewsAlwaysBlocked !== true ||
+  manifest.regulatedPreflight?.reviewsExecutable !== false
+) {
+  throw new Error('Deployed regulated-preflight execution boundary is not fail-closed.')
 }
 
-console.log(`Verified controlled-beta deployment at ${baseUrl.origin}: HTTPS policy and beta locks passed.`)
+console.log(
+  `Verified Phase ${manifest.phase} controlled-beta deployment at ${baseUrl.origin}: exact manifest, HTTPS policy and execution locks passed.`,
+)
