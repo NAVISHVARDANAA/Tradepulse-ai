@@ -51,7 +51,7 @@ for this adapter.
 The workflow performs a database dry run, applies every pending migration in
 filename order and redeploys every customer and internal Edge Function affected
 by the shared security, observability and account-protection boundary. It verifies
-migration `037`, checks active functions, verifies the private regulated-preflight
+migrations `037`-`038`, checks active functions, verifies the private regulated-preflight
 and internal-only sandbox-order pilot boundaries, and confirms approved public
 runtime reads return HTTP 2xx. It also runs query-only production lock smoke
 checks and proves that unauthenticated brokerage, paper-simulation,

@@ -188,7 +188,7 @@ jobs:
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])037([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])038([^0-9]|$)' migration-list.txt
 
       - name: Verify approved-tester pilot production boundary
         run: |
