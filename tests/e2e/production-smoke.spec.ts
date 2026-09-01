@@ -13,6 +13,7 @@ const publicWorkspaces = [
   ['#paper-investing', 'Paper investing lab'],
   ['#risk-command-center', 'Risk command center'],
   ['#regulated-preflight', 'Preflight evidence review'],
+  ['#sandbox-orders', 'Sandbox order lifecycle'],
   ['#data-trust', 'Data trust and notifications'],
   ['#trust-center', 'Trust and activity center'],
   ['#payments', 'Indicative payment corridors'],
@@ -130,6 +131,11 @@ test('production execution boundaries remain closed to guests', async ({ page })
   await expect(page.getByText('Your preflight evidence is private.')).toBeVisible()
   await expect(page.getByText(/database-constrained to blocked/)).toBeVisible()
   await expect(page.getByRole('button', { name: /submit order|place order|execute/i })).toHaveCount(0)
+
+  await page.goto('/#sandbox-orders', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByText('Your sandbox receipts are private.')).toBeVisible()
+  await expect(page.getByText(/browser has no order endpoint/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /submit|cancel|replace|place|execute/i })).toHaveCount(0)
 
   await page.goto('/#payments', { waitUntil: 'domcontentloaded' })
   await expect(page.getByText('Sandbox · no money movement')).toBeVisible()

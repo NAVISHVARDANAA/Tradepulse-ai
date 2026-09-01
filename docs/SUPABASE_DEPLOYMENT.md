@@ -30,7 +30,7 @@ Function secrets, not browser variables or GitHub workflow inputs:
 
 | Secret | Value |
 | --- | --- |
-| `BROKER_SANDBOX_SYNC_SECRET` | A random scheduler secret shared only by the protected broker sandbox probe and account-inventory sync |
+| `BROKER_SANDBOX_SYNC_SECRET` | A random scheduler secret shared only by protected internal broker-sandbox functions |
 | `ALPACA_BROKER_API_KEY` | Alpaca Broker API sandbox key |
 | `ALPACA_BROKER_API_SECRET` | Alpaca Broker API sandbox secret |
 | `TRADEPULSE_WEB_ORIGIN` | Exact production web origin, for example `https://app.example.com`, with no trailing slash |
@@ -40,31 +40,32 @@ The dashboard will show `not run`; an authorized probe without credentials fails
 closed and stores only `CONFIGURATION_INVALID`. Never use Alpaca live credentials
 for this adapter.
 
-## Release Phase 5H
+## Release Phase 6B
 
 1. Confirm the CI workflow on `main` is green.
 2. Open **Actions → Deploy Supabase production → Run workflow**.
 3. Select the `main` branch.
-4. Enter `DEPLOY_DATA_PHASE_6A` as the confirmation value.
+4. Enter `DEPLOY_DATA_PHASE_6B` as the confirmation value.
 5. Approve the `production` environment deployment when prompted.
 
 The workflow performs a database dry run, applies every pending migration in
 filename order and redeploys every customer and internal Edge Function affected
 by the shared security, observability and account-protection boundary. It verifies
-migration `036`, checks active functions, verifies the private regulated-preflight
-pilot boundary and approved public runtime
-reads return HTTP 2xx, runs the query-only production lock smoke check and proves
-that unauthenticated brokerage, paper-simulation, platform-evaluation and
-account-security requests receive HTTP 401.
+migration `037`, checks active functions, verifies the private regulated-preflight
+and internal-only sandbox-order pilot boundaries, and confirms approved public
+runtime reads return HTTP 2xx. It also runs query-only production lock smoke
+checks and proves that unauthenticated brokerage, paper-simulation,
+platform-evaluation and account-security requests receive HTTP 401.
 
 ## Read-only production verification
 
 Run **Actions → Verify Supabase production → Run workflow** after a release or
-operational incident. Select `main` and enter `VERIFY_DATA_PHASE_6A`.
+operational incident. Select `main` and enter `VERIFY_DATA_PHASE_6B`.
 
 The verification workflow performs no production writes. It confirms local and
 remote migration parity, executes the audited, query-only
-`brokerage_readiness_smoke.sql` and `approved_tester_pilot_smoke.sql` blocks,
+`brokerage_readiness_smoke.sql`, `approved_tester_pilot_smoke.sql`,
+`regulated_preflight_smoke.sql` and `sandbox_order_lifecycle_smoke.sql` blocks,
 checks that protected Edge Functions are active,
 proves that approved anonymous browser reads work, confirms that protected
 unauthenticated requests remain blocked and confirms that internal broker jobs

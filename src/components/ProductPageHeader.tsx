@@ -106,6 +106,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Review eligibility, disclosures, suitability, market/reference state, cost availability and bounded risk evidence before any future regulated order flow.',
     boundary: 'No order submission',
   },
+  '#sandbox-orders': {
+    eyebrow: 'Partner sandbox operations',
+    title: 'Sandbox order lifecycle',
+    description: 'Inspect customer-scoped, append-only evidence for protected partner-sandbox submit, cancel, replace and reconciliation activity.',
+    boundary: 'No browser or live route',
+  },
   '#payments': {
     eyebrow: 'Cross-border foundation',
     title: 'Indicative payment corridors',

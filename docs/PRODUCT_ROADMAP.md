@@ -668,9 +668,29 @@ browser, security and release contracts; reviewed `DEPLOY_DATA_PHASE_6A`;
 read-only `VERIFY_DATA_PHASE_6A`; successful `BUILD_PHASE_6A`; reviewed
 `DEPLOY_PHASE_6A`; and read-only `VERIFY_WEB_PHASE_6A` evidence.
 
-- **Phase 6B — sandbox order lifecycle:** partner sandbox submission,
-  idempotency, cancel/replace, protective-order controls, reconciliation and
-  append-only trust receipts.
+#### Phase 6B — partner-sandbox order lifecycle (implemented)
+
+- An internal-only Edge Function submits long-only US-equity limit bracket orders to
+  the fixed Alpaca Broker API sandbox origin. Provider credentials and raw
+  account identifiers never enter the browser or database.
+- UUID command keys, deterministic client order identifiers and provider lookup
+  reconciliation make submission idempotent. An ambiguous POST is never
+  repeated; a safe lookup determines whether the sandbox accepted it.
+- Cancel, replace and reconciliation actions remain internal capabilities. The
+  customer workspace is read-only and exposes only sanitized lifecycle states,
+  append-only trust receipts and aggregate reconciliation health.
+- Active, consented approved-pilot membership, protective take-profit and
+  stop-loss prices, quantity/notional ceilings, the sandbox provider route and
+  the global live-order lock are enforced before and during persistence.
+- Live brokerage, short selling, funding, custody, settlement, checkout,
+  payment execution and money movement remain unavailable.
+
+**Phase 6B exit gate:** green sandbox-order lifecycle, regulated-preflight,
+database, Edge Function, browser, security and release contracts; reviewed
+`DEPLOY_DATA_PHASE_6B`; read-only `VERIFY_DATA_PHASE_6B`; successful
+`BUILD_PHASE_6B`; reviewed `DEPLOY_PHASE_6B`; and read-only
+`VERIFY_WEB_PHASE_6B` evidence.
+
 - **Phase 6C — controlled live trading:** separately reviewed jurisdiction,
   broker, compliance, funding, monitoring and kill-switch activation. No route
   activates without written approvals.
