@@ -6,14 +6,16 @@ const assert = (condition, message) => {
   if (!condition) throw new Error(message)
 }
 
-const [workflow, verifyWorkflow, manifestText, headers, redirects, documentation] = await Promise.all([
-  read('.github/workflows/deploy-web-production.yml'),
-  read('.github/workflows/verify-web-production.yml'),
-  read('public/beta-release.json'),
-  read('public/_headers'),
-  read('public/_redirects'),
-  read('docs/CLOUDFLARE_PAGES_HOSTING.md'),
-])
+const [workflow, verifyWorkflow, deploymentVerifier, manifestText, headers, redirects, documentation] =
+  await Promise.all([
+    read('.github/workflows/deploy-web-production.yml'),
+    read('.github/workflows/verify-web-production.yml'),
+    read('scripts/verify-web-deployment.mjs'),
+    read('public/beta-release.json'),
+    read('public/_headers'),
+    read('public/_redirects'),
+    read('docs/CLOUDFLARE_PAGES_HOSTING.md'),
+  ])
 const manifest = JSON.parse(manifestText)
 
 for (const contract of [
@@ -32,6 +34,23 @@ for (const contract of [
 for (const contract of ['VERIFY_WEB_PHASE_6A', 'environment: production', 'npm run test:e2e:production']) {
   assert(verifyWorkflow.includes(contract), `Cloudflare verification contract missing: ${contract}`)
 }
+for (const contract of [
+  '../public/beta-release.json',
+  'isDeepStrictEqual',
+  'externalInvitationsApproved',
+  'implicitSignupEnabled',
+  'liveBrokerageExecution',
+  'paymentExecution',
+  'orderSubmissionEnabled',
+  'reviewsAlwaysBlocked',
+  'reviewsExecutable',
+]) {
+  assert(deploymentVerifier.includes(contract), `Deployment verifier contract missing: ${contract}`)
+}
+assert(
+  !deploymentVerifier.includes("manifest.phase !== '"),
+  'Deployment verifier must compare with the checked-out manifest instead of a stale phase literal',
+)
 assert(manifest.phase === '6A', 'Hosting candidate is not on Phase 6A')
 assert(manifest.status === 'regulated_preflight_candidate', 'Hosting status changed unexpectedly')
 assert(manifest.distribution?.hostingProviderSelected === true, 'Cloudflare Pages is not selected')
@@ -45,4 +64,6 @@ assert(headers.includes('Strict-Transport-Security:'), 'Cloudflare HSTS policy i
 assert(redirects.includes('/* /index.html 200'), 'Cloudflare SPA fallback is missing')
 assert(documentation.includes('External invitations remain disabled'), 'Hosting boundary is undocumented')
 
-console.log('Cloudflare Pages hosting contract passed: guarded deployment, HTTPS checks, invitations disabled.')
+console.log(
+  'Cloudflare Pages hosting contract passed: exact candidate verification, HTTPS checks, invitations disabled.',
+)
