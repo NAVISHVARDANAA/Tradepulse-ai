@@ -83,7 +83,7 @@ sanitized lifecycle, recent receipts and aggregate reconciliation health.
 
 After the Phase 6B pull request is merged and `main` is green:
 
-1. deploy migration 037 and the internal handler with `DEPLOY_DATA_PHASE_6B`;
+1. deploy migrations 037-038 and the internal handler with `DEPLOY_DATA_PHASE_6B`;
 2. retain the read-only `VERIFY_DATA_PHASE_6B` evidence;
 3. create the web artifact with `BUILD_PHASE_6B`;
 4. deploy it with `DEPLOY_PHASE_6B`; and

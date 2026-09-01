@@ -46,7 +46,7 @@ After this PR is merged and all `main` checks pass:
    its exact Supabase Auth site URL and redirect allow-list, then complete the
    remaining launch prerequisites in `docs/BETA_RELEASE_CANDIDATE.md`.
 
-Deploy and verify migration 037 with the Phase 6B data gates before deploying the
+Deploy and verify migrations 037-038 with the Phase 6B data gates before deploying the
 web workspace. The new evaluator creates only blocked, non-executable evidence
 and the sandbox lifecycle remains internal-only. Neither activates a live order
 route, cohort or external invitation.

@@ -99,7 +99,7 @@ evidence in a public issue or artifact.
 
 After the Phase 6B PR is merged and all `main` checks pass:
 
-1. Deploy and verify migration 037 with `DEPLOY_DATA_PHASE_6B` and `VERIFY_DATA_PHASE_6B`.
+1. Deploy and verify migrations 037-038 with `DEPLOY_DATA_PHASE_6B` and `VERIFY_DATA_PHASE_6B`.
 2. Open **Actions → Build production web release**.
 3. Select `main`, enter `BUILD_PHASE_6B` and run the workflow.
 4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
@@ -108,6 +108,6 @@ After the Phase 6B PR is merged and all `main` checks pass:
    or any customer-facing operational incident.
 7. Do not invite external testers until every manual prerequisite above is approved.
 
-Phase 6B adds migration 037 and `manage-alpaca-sandbox-order`; deploy and verify
+Phase 6B adds migrations 037-038 and `manage-alpaca-sandbox-order`; deploy and verify
 the data boundary before the web release. The handler remains internal-only,
 partner-sandbox-only and unable to route live orders.

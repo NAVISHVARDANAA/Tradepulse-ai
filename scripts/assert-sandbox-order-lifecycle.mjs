@@ -5,12 +5,13 @@ const read = (path) => readFile(new URL(path, root), 'utf8')
 const assert = (condition, message) => { if (!condition) throw new Error(message) }
 
 const [
-  migration, adapter, adapterTest, edge, query, panel, app, navigation, header,
+  migration, orderingHotfix, adapter, adapterTest, edge, query, panel, app, navigation, header,
   styles, databaseTest, productionSmoke, browserTest, productionBrowserTest,
   manifestText, packageText, config, ci, deployData, verifyData, buildWeb,
   deployWeb, verifyWeb, roadmap, guide,
 ] = await Promise.all([
   read('supabase/migrations/037_sandbox_order_lifecycle.sql'),
+  read('supabase/migrations/038_deterministic_sandbox_lifecycle_order.sql'),
   read('supabase/functions/_shared/alpacaSandboxOrders.ts'),
   read('supabase/functions/_shared/alpacaSandboxOrders.test.ts'),
   read('supabase/functions/manage-alpaca-sandbox-order/index.ts'),
@@ -36,6 +37,11 @@ const [
   read('docs/PRODUCT_ROADMAP.md'),
   read('docs/SANDBOX_ORDER_LIFECYCLE.md'),
 ])
+
+for (const contract of [
+  'lifecycle_sequence bigint generated always as identity',
+  'receipt.lifecycle_sequence desc',
+]) assert(orderingHotfix.includes(contract), `Deterministic lifecycle ordering omits: ${contract}`)
 
 for (const contract of [
   'broker_sandbox_order_controls',
