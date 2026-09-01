@@ -80,6 +80,7 @@ for (const { path, content } of applicationFiles) {
 const customerFunctions = [
   'create-paper-portfolio',
   'create-payment-quote',
+  'evaluate-regulated-preflight',
   'generate-daily-research-brief',
   'manage-account-security',
   'preview-brokerage-order',

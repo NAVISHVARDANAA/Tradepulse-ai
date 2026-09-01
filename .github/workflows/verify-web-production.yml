@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type VERIFY_WEB_PHASE_5I to test the production beta hardening
+        description: Type VERIFY_WEB_PHASE_6A to test the production regulated preflight
         required: true
         type: string
 
@@ -32,7 +32,7 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "VERIFY_WEB_PHASE_5I"
+          test "$RELEASE_CONFIRMATION" = "VERIFY_WEB_PHASE_6A"
           test -n "$CLOUDFLARE_PAGES_PROJECT"
           case "$CLOUDFLARE_PAGES_PROJECT" in *[!a-z0-9-]*) echo "Invalid Cloudflare Pages project name."; exit 1;; esac
           echo "WEB_PRODUCTION_URL=https://${CLOUDFLARE_PAGES_PROJECT}.pages.dev" >> "$GITHUB_ENV"
@@ -48,6 +48,7 @@ jobs:
       - run: npm run check:trust-layer
       - run: npm run check:approved-pilot
       - run: npm run check:beta-hardening
+      - run: npm run check:regulated-preflight
       - run: npm run check:production-experience
       - run: npm run verify:web-deployment -- "$WEB_PRODUCTION_URL"
       - name: Install Chromium

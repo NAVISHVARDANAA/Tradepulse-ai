@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type VERIFY_DATA_PHASE_5H to verify the approved-tester pilot schema
+        description: Type VERIFY_DATA_PHASE_6A to verify the regulated-preflight schema and evaluator
         required: true
         type: string
 
@@ -39,8 +39,8 @@ jobs:
           VERIFICATION_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$VERIFICATION_CONFIRMATION" = "VERIFY_DATA_PHASE_5H" || {
-            echo "Verification confirmation did not match VERIFY_DATA_PHASE_5H."
+          test "$VERIFICATION_CONFIRMATION" = "VERIFY_DATA_PHASE_6A" || {
+            echo "Verification confirmation did not match VERIFY_DATA_PHASE_6A."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -69,13 +69,13 @@ jobs:
       - name: Install the repository-pinned Supabase CLI
         run: npm ci
 
-      - name: Verify migration 035 and remote migration parity
+      - name: Verify migration 036 and remote migration parity
         run: |
           set -eu
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])035([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])036([^0-9]|$)' migration-list.txt
           npx --no-install supabase db push \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" \
@@ -106,6 +106,14 @@ jobs:
             --project-ref "$SUPABASE_PROJECT_REF" \
             --file supabase/tests/production/approved_tester_pilot_smoke.sql
 
+      - name: Verify regulated preflight production boundary
+        run: |
+          bash scripts/assert-read-only-sql.sh supabase/tests/production/regulated_preflight_smoke.sql
+          npx --no-install supabase db query \
+            --linked \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --file supabase/tests/production/regulated_preflight_smoke.sql
+
       - name: Verify the deployed Edge Function
         run: |
           set -eu
@@ -113,6 +121,10 @@ jobs:
             --project-ref "$SUPABASE_PROJECT_REF" \
             --output json | jq -e \
               '.[] | select(.name == "preview-brokerage-order" and .status == "ACTIVE")'
+          npx --no-install supabase functions list \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --output json | jq -e \
+              '.[] | select(.name == "evaluate-regulated-preflight" and .status == "ACTIVE")'
           npx --no-install supabase functions list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --output json | jq -e \
@@ -192,6 +204,23 @@ jobs:
             "https://${SUPABASE_PROJECT_REF}.supabase.co/functions/v1/preview-brokerage-order")"
           test "$status_code" = "401" || {
             echo "Expected an unauthenticated 401 response; received $status_code."
+            exit 1
+          }
+
+      - name: Verify unauthenticated regulated preflight remains blocked
+        run: |
+          set -eu
+          status_code="$(curl \
+            --silent \
+            --show-error \
+            --output preflight-response.json \
+            --write-out '%{http_code}' \
+            --request POST \
+            --header 'Content-Type: application/json' \
+            --data '{}' \
+            "https://${SUPABASE_PROJECT_REF}.supabase.co/functions/v1/evaluate-regulated-preflight")"
+          test "$status_code" = "401" || {
+            echo "Expected unauthenticated regulated preflight to return 401; received $status_code."
             exit 1
           }
 

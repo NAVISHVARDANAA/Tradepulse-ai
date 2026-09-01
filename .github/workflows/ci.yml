@@ -63,6 +63,9 @@ jobs:
       - name: Verify beta hardening
         run: npm run check:beta-hardening
 
+      - name: Verify regulated preflight
+        run: npm run check:regulated-preflight
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 
@@ -159,6 +162,7 @@ jobs:
           deno check supabase/functions/sync-sec-equity-fundamentals/index.ts
           deno check supabase/functions/generate-daily-research-brief/index.ts
           deno check supabase/functions/preview-brokerage-order/index.ts
+          deno check supabase/functions/evaluate-regulated-preflight/index.ts
           deno check supabase/functions/probe-alpaca-broker-sandbox/index.ts
           deno check supabase/functions/sync-alpaca-sandbox-account-inventory/index.ts
           deno check supabase/functions/evaluate-broker-operations/index.ts
@@ -175,6 +179,7 @@ jobs:
           supabase/functions/_shared/accountSecurity.test.ts
           supabase/functions/_shared/observability.test.ts
           supabase/functions/_shared/alpacaBrokerSandbox.test.ts
+          supabase/functions/_shared/regulatedPreflight.test.ts
 
   database-migrations:
     runs-on: ubuntu-latest
@@ -226,6 +231,9 @@ jobs:
 
       - name: Test brokerage-readiness database contracts
         run: npx --no-install supabase test db supabase/tests/database/brokerage_readiness.test.sql
+
+      - name: Test regulated-preflight database contracts
+        run: npx --no-install supabase test db supabase/tests/database/regulated_preflight.test.sql
 
       - name: Test broker-sandbox certification contracts
         run: npx --no-install supabase test db supabase/tests/database/broker_sandbox_certification.test.sql
@@ -284,6 +292,15 @@ jobs:
           --local
           --file supabase/tests/production/brokerage_readiness_smoke.sql
 
+      - name: Assert regulated preflight production smoke SQL is query-only
+        run: bash scripts/assert-read-only-sql.sh supabase/tests/production/regulated_preflight_smoke.sql
+
+      - name: Test regulated preflight production smoke query
+        run: >-
+          npx --no-install supabase db query
+          --local
+          --file supabase/tests/production/regulated_preflight_smoke.sql
+
       - name: Stop isolated Supabase services
         if: always()
         run: npx --no-install supabase stop --no-backup
@@ -301,7 +318,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v7
         with:
-          python-version: '3.12'
+          python-version: "3.12"
           cache: pip
           cache-dependency-path: services/forecasting/pyproject.toml
 

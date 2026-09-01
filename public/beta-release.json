@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "5I",
-  "status": "hosting_deployment_candidate",
+  "phase": "6A",
+  "status": "regulated_preflight_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -71,6 +71,7 @@
     "check:trust-layer",
     "check:approved-pilot",
     "check:beta-hardening",
+    "check:regulated-preflight",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -102,5 +103,23 @@
     "externalAnalyticsEnabled": false,
     "releaseClosureAdministrative": true,
     "executionBoundaryChanges": false
+  },
+  "regulatedPreflight": {
+    "workspaceEnabled": true,
+    "identityBoundReviews": true,
+    "evidenceDimensions": [
+      "eligibility",
+      "disclosures",
+      "suitability",
+      "market-state",
+      "total-cost",
+      "risk"
+    ],
+    "orderSubmissionEnabled": false,
+    "marketSessionVerificationEnabled": false,
+    "completeCostAvailable": false,
+    "automatedRiskApprovalEnabled": false,
+    "reviewsAlwaysBlocked": true,
+    "reviewsExecutable": false
   }
 }

@@ -70,6 +70,9 @@ const BusinessResearchPanel = lazy(() => import('./components/BusinessResearchPa
 const BrokerageReadinessPanel = lazy(() => import('./components/BrokerageReadinessPanel').then((module) => ({
   default: module.BrokerageReadinessPanel,
 })))
+const RegulatedPreflightPanel = lazy(() => import('./components/RegulatedPreflightPanel').then((module) => ({
+  default: module.RegulatedPreflightPanel,
+})))
 const ForecastPanel = lazy(() => import('./components/ForecastPanel').then((module) => ({
   default: module.ForecastPanel,
 })))
@@ -643,6 +646,14 @@ function App() {
           <ProductErrorBoundary title="Brokerage readiness is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Brokerage readiness" />}>
               <BrokerageReadinessPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#regulated-preflight' ? <section id="regulated-preflight" className="product-workspace">
+          <ProductErrorBoundary title="Regulated preflight is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Regulated preflight" />}>
+              <RegulatedPreflightPanel />
             </Suspense>
           </ProductErrorBoundary>
         </section> : null}

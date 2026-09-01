@@ -35,6 +35,7 @@ export const productNavigation: NavGroup[] = [
       { label: 'Paper investing', href: '#paper-investing' },
       { label: 'Risk center', href: '#risk-command-center' },
       { label: 'Brokerage readiness', href: '#brokerage-readiness' },
+      { label: 'Regulated preflight', href: '#regulated-preflight' },
       { label: 'Payments', href: '#payments' },
     ],
   },

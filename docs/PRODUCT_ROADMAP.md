@@ -646,10 +646,28 @@ successful `BUILD_PHASE_5I`; reviewed `DEPLOY_PHASE_5I`; and read-only
 added, and live orders, custody, checkout, payment execution and money movement
 remain hard locked.
 
-### Planned regulated trading sequence
+### Regulated trading sequence
 
-- **Phase 6A — regulated preflight:** eligibility, disclosures, suitability,
-  market state, total cost and risk preview; no order submission.
+#### Phase 6A — regulated preflight (implemented)
+
+- A separate private workspace evaluates jurisdiction eligibility, exact current
+  disclosures, compliance-managed suitability, reference freshness, market
+  session state, total-cost availability and bounded risk evidence.
+- Missing policy or evidence fails closed. A current quote never proves an
+  executable session, and unavailable fees, taxes or FX costs are never shown
+  as zero.
+- Reviews are identity-bound, idempotent and auditable. Browser clients cannot
+  forge reviews or compliance outcomes; the service-only writer constrains
+  every result to blocked and non-executable.
+- No brokerage order table or submission function exists. Account funding,
+  custody, settlement, checkout, payment execution and money movement remain
+  absent.
+
+**Phase 6A exit gate:** green regulated-preflight, database, Edge Function,
+browser, security and release contracts; reviewed `DEPLOY_DATA_PHASE_6A`;
+read-only `VERIFY_DATA_PHASE_6A`; successful `BUILD_PHASE_6A`; reviewed
+`DEPLOY_PHASE_6A`; and read-only `VERIFY_WEB_PHASE_6A` evidence.
+
 - **Phase 6B — sandbox order lifecycle:** partner sandbox submission,
   idempotency, cancel/replace, protective-order controls, reconciliation and
   append-only trust receipts.

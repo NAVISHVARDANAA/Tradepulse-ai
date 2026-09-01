@@ -100,6 +100,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Review provider health, certification evidence and non-executable readiness previews while routing remains locked.',
     boundary: 'Live orders hard locked',
   },
+  '#regulated-preflight': {
+    eyebrow: 'Regulated trading preflight',
+    title: 'Preflight evidence review',
+    description: 'Review eligibility, disclosures, suitability, market/reference state, cost availability and bounded risk evidence before any future regulated order flow.',
+    boundary: 'No order submission',
+  },
   '#payments': {
     eyebrow: 'Cross-border foundation',
     title: 'Indicative payment corridors',
