@@ -106,7 +106,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(27)
+  await expect(navigation.getByRole('link')).toHaveCount(28)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -153,6 +153,12 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByText('Your sandbox receipts are private.')).toBeVisible()
   await expect(page.getByText(/browser has no order endpoint/)).toBeVisible()
   await expect(page.getByRole('button', { name: /submit|cancel|replace|place|execute/i })).toHaveCount(0)
+
+  await page.goto('/#live-readiness')
+  await expect(page.getByRole('heading', { level: 1, name: 'Live trading readiness' })).toBeVisible()
+  await expect(page.getByText('Even complete evidence cannot activate trading.')).toBeVisible()
+  await expect(page.getByText(/No live order endpoint exists in this phase/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /activate|submit|route|fund|execute/i })).toHaveCount(0)
 
   await page.goto('/#payments')
   await expect(page.getByText('Sandbox · no money movement')).toBeVisible()

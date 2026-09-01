@@ -13,9 +13,9 @@ const artifactManifest = JSON.parse(artifactManifestText)
 
 assert(manifest.schemaVersion === 1, 'Unexpected beta manifest schema')
 assert(manifest.release === 'controlled-beta-rc2', 'Unexpected beta release identifier')
-assert(manifest.phase === '6B', 'Beta manifest is not on Phase 6B')
+assert(manifest.phase === '6C', 'Beta manifest is not on Phase 6C')
 assert(
-  manifest.status === 'sandbox_order_lifecycle_candidate',
+  manifest.status === 'live_trading_readiness_candidate',
   'Beta manifest overstates the release status',
 )
 assert(manifest.audience === 'internal_release_review', 'Beta audience boundary changed')
@@ -36,7 +36,7 @@ for (const gate of ['publicUrlConfigured', 'externalInvitationsApproved']) {
   assert(manifest.distribution?.[gate] === false, `Unapproved beta distribution state: ${gate}`)
 }
 assert(
-  Array.isArray(manifest.manualPrerequisites) && manifest.manualPrerequisites.length === 6,
+  Array.isArray(manifest.manualPrerequisites) && manifest.manualPrerequisites.length === 9,
   'Manual beta prerequisite inventory changed',
 )
 
@@ -54,6 +54,7 @@ const expectedChecks = [
   'check:beta-hardening',
   'check:regulated-preflight',
   'check:sandbox-orders',
+  'check:live-readiness',
   'check:production-experience',
   'check:bundle',
   'check:release',
@@ -87,17 +88,17 @@ const [buildWorkflow, deployWorkflow, verifyWebWorkflow, ciWorkflow, securityWor
   ])
 
 for (const contract of [
-  'BUILD_PHASE_6B',
+  'BUILD_PHASE_6C',
   'npm run check:beta',
   'tradepulse-beta-rc2-${{ github.sha }}',
   'environment: production',
 ]) {
   assert(buildWorkflow.includes(contract), `Beta build workflow contract missing: ${contract}`)
 }
-for (const contract of ['DEPLOY_PHASE_6B', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['DEPLOY_PHASE_6C', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
   assert(deployWorkflow.includes(contract), `Beta deploy workflow contract missing: ${contract}`)
 }
-for (const contract of ['VERIFY_WEB_PHASE_6B', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['VERIFY_WEB_PHASE_6C', 'verify:web-deployment', 'test:e2e:production']) {
   assert(verifyWebWorkflow.includes(contract), `Beta web verification workflow contract missing: ${contract}`)
 }
 for (const contract of [
@@ -111,6 +112,7 @@ for (const contract of [
   'npm run check:beta-hardening',
   'npm run check:regulated-preflight',
   'npm run check:sandbox-orders',
+  'npm run check:live-readiness',
   'npm run check:security',
   'npm run check:hosting',
 ]) {
@@ -131,6 +133,7 @@ assert(roadmap.includes('Phase 5H — approved tester pilot'), 'Roadmap omits Ph
 assert(roadmap.includes('Phase 5I — beta hardening'), 'Roadmap omits Phase 5I')
 assert(roadmap.includes('Phase 6A — regulated preflight'), 'Roadmap omits Phase 6A')
 assert(roadmap.includes('Phase 6B — partner-sandbox order lifecycle'), 'Roadmap omits Phase 6B')
+assert(roadmap.includes('Phase 6C — controlled live-trading readiness'), 'Roadmap omits Phase 6C')
 assert(roadmap.includes('Phase 5E — controlled-beta onboarding and operations'), 'Roadmap omits Phase 5E')
 assert(roadmap.includes('Phase 5F — route-aware data loading'), 'Roadmap omits Phase 5F')
 assert(candidateDoc.includes('Artifact-only status'), 'Candidate documentation omits artifact status')
@@ -162,5 +165,5 @@ for (const lock of ['checkout_enabled', 'charge_collection_enabled', 'customer_p
 }
 
 console.log(
-  'Controlled-beta readiness passed: Cloudflare RC2 candidate, 5 execution locks, 6 manual prerequisites.',
+  'Controlled-beta readiness passed: Cloudflare RC2 candidate, 5 execution locks, 9 manual prerequisites.',
 )

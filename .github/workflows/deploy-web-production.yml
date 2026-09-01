@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type DEPLOY_PHASE_6B to deploy the sandbox-order lifecycle
+        description: Type DEPLOY_PHASE_6C to deploy the live-trading readiness workspace
         required: true
         type: string
 
@@ -36,7 +36,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "DEPLOY_PHASE_6B"
+          test "$RELEASE_CONFIRMATION" = "DEPLOY_PHASE_6C"
           test -n "$CLOUDFLARE_API_TOKEN"
           test -n "$CLOUDFLARE_ACCOUNT_ID"
           test -n "$CLOUDFLARE_PAGES_PROJECT"
@@ -63,6 +63,7 @@ jobs:
       - run: npm run check:beta-hardening
       - run: npm run check:regulated-preflight
       - run: npm run check:sandbox-orders
+      - run: npm run check:live-readiness
       - run: npm run check:production-experience
       - run: npm run check:bundle
       - run: npm run check:release

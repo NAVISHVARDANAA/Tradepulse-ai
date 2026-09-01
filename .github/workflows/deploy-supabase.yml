@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type DEPLOY_DATA_PHASE_6B to deploy the sandbox-order lifecycle
+        description: Type DEPLOY_DATA_PHASE_6C to deploy live-trading readiness
         required: true
         type: string
 
@@ -39,8 +39,8 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_6B" || {
-            echo "Release confirmation did not match DEPLOY_DATA_PHASE_6B."
+          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_6C" || {
+            echo "Release confirmation did not match DEPLOY_DATA_PHASE_6C."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -188,7 +188,7 @@ jobs:
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])038([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])039([^0-9]|$)' migration-list.txt
 
       - name: Verify approved-tester pilot production boundary
         run: |
@@ -213,6 +213,14 @@ jobs:
             --linked \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --file supabase/tests/production/sandbox_order_lifecycle_smoke.sql
+
+      - name: Verify live trading readiness production boundary
+        run: |
+          bash scripts/assert-read-only-sql.sh supabase/tests/production/live_trading_readiness_smoke.sql
+          npx --no-install supabase db query \
+            --linked \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --file supabase/tests/production/live_trading_readiness_smoke.sql
 
       - name: Verify production public web reads
         run: bash scripts/verify-public-runtime-read.sh

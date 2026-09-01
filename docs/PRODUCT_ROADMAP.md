@@ -691,9 +691,27 @@ database, Edge Function, browser, security and release contracts; reviewed
 `BUILD_PHASE_6B`; reviewed `DEPLOY_PHASE_6B`; and read-only
 `VERIFY_WEB_PHASE_6B` evidence.
 
-- **Phase 6C — controlled live trading:** separately reviewed jurisdiction,
-  broker, compliance, funding, monitoring and kill-switch activation. No route
-  activates without written approvals.
+### Phase 6C — controlled live-trading readiness (implemented foundation)
+
+- Eighteen independently reviewable jurisdiction, broker, compliance, funding,
+  custody, settlement, market-data, risk, monitoring, reconciliation, security,
+  incident and customer-protection requirements form a public sanitized ledger.
+- Approval decisions are service-only and append-only. Only one-way evidence and
+  reviewer fingerprints are retained; raw documents and reviewer identities are
+  not stored or exposed.
+- The browser is read-only and contains no approval, activation, funding or order
+  control. Missing, rejected and expired evidence remains visibly blocking.
+- Database constraints keep live routing, browser submission, automatic
+  activation, funding, custody, settlement, margin, short selling and kill-switch
+  activation false—even when all eighteen evidence items are current.
+- A future activation phase remains separate and requires written external
+  approvals, dual control, production broker integration and observed drills.
+
+**Phase 6C exit gate:** green live-readiness, sandbox lifecycle, regulated
+preflight, database, browser, security and release contracts; reviewed
+`DEPLOY_DATA_PHASE_6C`; read-only `VERIFY_DATA_PHASE_6C`; successful
+`BUILD_PHASE_6C`; reviewed `DEPLOY_PHASE_6C`; and read-only
+`VERIFY_WEB_PHASE_6C` evidence. This exit gate does not authorize live trading.
 
 ### Future regulated activation work
 

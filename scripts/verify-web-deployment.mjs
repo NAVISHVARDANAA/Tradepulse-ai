@@ -77,6 +77,21 @@ if (
 ) {
   throw new Error('Deployed sandbox-order lifecycle boundary is not fail-closed.')
 }
+if (
+  manifest.liveTradingReadiness?.requirementCount !== 18 ||
+  manifest.liveTradingReadiness?.appendOnlyApprovalEvidence !== true ||
+  manifest.liveTradingReadiness?.rawApprovalDocumentsStored !== false ||
+  manifest.liveTradingReadiness?.manualActivationReviewRequired !== true ||
+  manifest.liveTradingReadiness?.automaticActivationEnabled !== false ||
+  manifest.liveTradingReadiness?.browserOrderSubmissionEnabled !== false ||
+  manifest.liveTradingReadiness?.liveOrderRoutingEnabled !== false ||
+  manifest.liveTradingReadiness?.customerFundingEnabled !== false ||
+  manifest.liveTradingReadiness?.custodyEnabled !== false ||
+  manifest.liveTradingReadiness?.settlementEnabled !== false ||
+  manifest.liveTradingReadiness?.killSwitchActivationEnabled !== false
+) {
+  throw new Error('Deployed live-trading readiness boundary is not fail-closed.')
+}
 
 console.log(
   `Verified Phase ${manifest.phase} controlled-beta deployment at ${baseUrl.origin}: exact manifest, HTTPS policy and execution locks passed.`,

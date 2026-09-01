@@ -76,7 +76,7 @@ assert(
 const packageJson = JSON.parse(packageJsonText)
 const manifest = JSON.parse(manifestText)
 assert(packageJson.scripts?.['check:beta-hardening'], 'Beta hardening package check is missing')
-assert(manifest.phase === '6B', 'Release manifest is not on the current Phase 6B candidate')
+assert(manifest.phase === '6C', 'Release manifest is not on the current Phase 6C candidate')
 assert(manifest.betaHardening?.workspaceEnabled === true, 'Manifest omits beta hardening')
 assert(manifest.betaHardening?.browserPerformanceEvidence === true, 'Manifest omits browser evidence')
 assert(manifest.betaHardening?.externalAnalyticsEnabled === false, 'External analytics became enabled')
@@ -86,9 +86,9 @@ assert(manifest.betaHardening?.recoveryDrills?.length === 4, 'Recovery drill inv
 assert(manifest.requiredChecks.includes('check:beta-hardening'), 'Manifest omits beta hardening verification')
 
 for (const [name, workflow, confirmation] of [
-  ['build', build, 'BUILD_PHASE_6B'],
-  ['deploy', deploy, 'DEPLOY_PHASE_6B'],
-  ['verify', verify, 'VERIFY_WEB_PHASE_6B'],
+  ['build', build, 'BUILD_PHASE_6C'],
+  ['deploy', deploy, 'DEPLOY_PHASE_6C'],
+  ['verify', verify, 'VERIFY_WEB_PHASE_6C'],
 ]) {
   assert(workflow.includes(confirmation), `Phase 5I ${name} confirmation is missing`)
   assert(workflow.includes('check:beta-hardening'), `Phase 5I ${name} omits hardening verification`)

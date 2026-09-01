@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "6B",
-  "status": "sandbox_order_lifecycle_candidate",
+  "phase": "6C",
+  "status": "live_trading_readiness_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -73,6 +73,7 @@
     "check:beta-hardening",
     "check:regulated-preflight",
     "check:sandbox-orders",
+    "check:live-readiness",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -90,7 +91,10 @@
     "custom-auth-smtp-and-abuse-controls",
     "controller-privacy-terms-and-support-contacts",
     "monitoring-on-call-and-incident-exercise",
-    "approved-tester-list-and-feedback-process"
+    "approved-tester-list-and-feedback-process",
+    "written-jurisdiction-broker-and-compliance-approvals",
+    "funding-custody-settlement-and-market-data-approvals",
+    "observed-risk-monitoring-reconciliation-and-kill-switch-drills"
   ],
   "betaHardening": {
     "workspaceEnabled": true,
@@ -136,5 +140,20 @@
     "appendOnlyReceipts": true,
     "rawProviderIdentifiersStored": false,
     "liveOrderRoutingEnabled": false
+  },
+  "liveTradingReadiness": {
+    "workspaceEnabled": true,
+    "requirementCount": 18,
+    "publicSanitizedRequirementLedger": true,
+    "appendOnlyApprovalEvidence": true,
+    "rawApprovalDocumentsStored": false,
+    "manualActivationReviewRequired": true,
+    "automaticActivationEnabled": false,
+    "browserOrderSubmissionEnabled": false,
+    "liveOrderRoutingEnabled": false,
+    "customerFundingEnabled": false,
+    "custodyEnabled": false,
+    "settlementEnabled": false,
+    "killSwitchActivationEnabled": false
   }
 }
