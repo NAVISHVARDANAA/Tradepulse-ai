@@ -69,6 +69,9 @@ jobs:
       - name: Verify partner-sandbox order lifecycle
         run: npm run check:sandbox-orders
 
+      - name: Verify live-trading readiness
+        run: npm run check:live-readiness
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 
@@ -243,6 +246,9 @@ jobs:
       - name: Test sandbox-order lifecycle database contracts
         run: npx --no-install supabase test db supabase/tests/database/sandbox_order_lifecycle.test.sql
 
+      - name: Test live-trading readiness database contracts
+        run: npx --no-install supabase test db supabase/tests/database/live_trading_readiness.test.sql
+
       - name: Test broker-sandbox certification contracts
         run: npx --no-install supabase test db supabase/tests/database/broker_sandbox_certification.test.sql
 
@@ -317,6 +323,15 @@ jobs:
           npx --no-install supabase db query
           --local
           --file supabase/tests/production/sandbox_order_lifecycle_smoke.sql
+
+      - name: Assert live trading readiness production smoke SQL is query-only
+        run: bash scripts/assert-read-only-sql.sh supabase/tests/production/live_trading_readiness_smoke.sql
+
+      - name: Test live trading readiness production smoke query
+        run: >-
+          npx --no-install supabase db query
+          --local
+          --file supabase/tests/production/live_trading_readiness_smoke.sql
 
       - name: Stop isolated Supabase services
         if: always()

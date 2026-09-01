@@ -14,6 +14,7 @@ const publicWorkspaces = [
   ['#risk-command-center', 'Risk command center'],
   ['#regulated-preflight', 'Preflight evidence review'],
   ['#sandbox-orders', 'Sandbox order lifecycle'],
+  ['#live-readiness', 'Live trading readiness'],
   ['#data-trust', 'Data trust and notifications'],
   ['#trust-center', 'Trust and activity center'],
   ['#payments', 'Indicative payment corridors'],
@@ -136,6 +137,11 @@ test('production execution boundaries remain closed to guests', async ({ page })
   await expect(page.getByText('Your sandbox receipts are private.')).toBeVisible()
   await expect(page.getByText(/browser has no order endpoint/)).toBeVisible()
   await expect(page.getByRole('button', { name: /submit|cancel|replace|place|execute/i })).toHaveCount(0)
+
+  await page.goto('/#live-readiness', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByText('Even complete evidence cannot activate trading.')).toBeVisible()
+  await expect(page.getByText(/No live order endpoint exists in this phase/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /activate|submit|route|fund|execute/i })).toHaveCount(0)
 
   await page.goto('/#payments', { waitUntil: 'domcontentloaded' })
   await expect(page.getByText('Sandbox · no money movement')).toBeVisible()

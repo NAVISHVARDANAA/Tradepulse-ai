@@ -112,6 +112,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Inspect customer-scoped, append-only evidence for protected partner-sandbox submit, cancel, replace and reconciliation activity.',
     boundary: 'No browser or live route',
   },
+  '#live-readiness': {
+    eyebrow: 'Regulated activation governance',
+    title: 'Live trading readiness',
+    description: 'Track sanitized written-approval evidence across jurisdiction, broker, compliance, money, risk, operations and customer-protection gates.',
+    boundary: 'Activation remains blocked',
+  },
   '#payments': {
     eyebrow: 'Cross-border foundation',
     title: 'Indicative payment corridors',
