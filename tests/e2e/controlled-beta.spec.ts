@@ -106,7 +106,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(26)
+  await expect(navigation.getByRole('link')).toHaveCount(27)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -147,6 +147,12 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByText('Your preflight evidence is private.')).toBeVisible()
   await expect(page.getByText(/Every saved review is database-constrained to blocked/)).toBeVisible()
   await expect(page.getByRole('button', { name: /submit order|place order|execute/i })).toHaveCount(0)
+
+  await page.goto('/#sandbox-orders')
+  await expect(page.getByRole('heading', { level: 1, name: 'Sandbox order lifecycle' })).toBeVisible()
+  await expect(page.getByText('Your sandbox receipts are private.')).toBeVisible()
+  await expect(page.getByText(/browser has no order endpoint/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /submit|cancel|replace|place|execute/i })).toHaveCount(0)
 
   await page.goto('/#payments')
   await expect(page.getByText('Sandbox · no money movement')).toBeVisible()

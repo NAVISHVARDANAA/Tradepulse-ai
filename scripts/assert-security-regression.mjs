@@ -112,6 +112,7 @@ const internalFunctions = [
   'evaluate-platform-reliability',
   'generate-equity-research',
   'generate-market-forecasts',
+  'manage-alpaca-sandbox-order',
   'probe-alpaca-broker-sandbox',
   'sync-alpaca-sandbox-account-inventory',
   'sync-equity-market-data',

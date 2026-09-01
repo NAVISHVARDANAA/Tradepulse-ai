@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "6A",
-  "status": "regulated_preflight_candidate",
+  "phase": "6B",
+  "status": "sandbox_order_lifecycle_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -72,6 +72,7 @@
     "check:approved-pilot",
     "check:beta-hardening",
     "check:regulated-preflight",
+    "check:sandbox-orders",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -121,5 +122,19 @@
     "automatedRiskApprovalEnabled": false,
     "reviewsAlwaysBlocked": true,
     "reviewsExecutable": false
+  },
+  "sandboxOrderLifecycle": {
+    "workspaceEnabled": true,
+    "partnerSandboxOnly": true,
+    "internalSubmissionEnabled": true,
+    "browserSubmissionEnabled": false,
+    "longOnly": true,
+    "limitOnly": true,
+    "protectiveOrdersRequired": true,
+    "cancelReplaceEnabled": true,
+    "reconciliationEnabled": true,
+    "appendOnlyReceipts": true,
+    "rawProviderIdentifiersStored": false,
+    "liveOrderRoutingEnabled": false
   }
 }

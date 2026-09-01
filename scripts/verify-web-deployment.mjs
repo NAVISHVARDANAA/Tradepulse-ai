@@ -66,6 +66,17 @@ if (
 ) {
   throw new Error('Deployed regulated-preflight execution boundary is not fail-closed.')
 }
+if (
+  manifest.sandboxOrderLifecycle?.partnerSandboxOnly !== true ||
+  manifest.sandboxOrderLifecycle?.internalSubmissionEnabled !== true ||
+  manifest.sandboxOrderLifecycle?.browserSubmissionEnabled !== false ||
+  manifest.sandboxOrderLifecycle?.protectiveOrdersRequired !== true ||
+  manifest.sandboxOrderLifecycle?.appendOnlyReceipts !== true ||
+  manifest.sandboxOrderLifecycle?.rawProviderIdentifiersStored !== false ||
+  manifest.sandboxOrderLifecycle?.liveOrderRoutingEnabled !== false
+) {
+  throw new Error('Deployed sandbox-order lifecycle boundary is not fail-closed.')
+}
 
 console.log(
   `Verified Phase ${manifest.phase} controlled-beta deployment at ${baseUrl.origin}: exact manifest, HTTPS policy and execution locks passed.`,

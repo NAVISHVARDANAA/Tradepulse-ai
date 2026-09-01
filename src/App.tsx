@@ -73,6 +73,9 @@ const BrokerageReadinessPanel = lazy(() => import('./components/BrokerageReadine
 const RegulatedPreflightPanel = lazy(() => import('./components/RegulatedPreflightPanel').then((module) => ({
   default: module.RegulatedPreflightPanel,
 })))
+const SandboxOrderLifecyclePanel = lazy(() => import('./components/SandboxOrderLifecyclePanel').then((module) => ({
+  default: module.SandboxOrderLifecyclePanel,
+})))
 const ForecastPanel = lazy(() => import('./components/ForecastPanel').then((module) => ({
   default: module.ForecastPanel,
 })))
@@ -654,6 +657,14 @@ function App() {
           <ProductErrorBoundary title="Regulated preflight is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Regulated preflight" />}>
               <RegulatedPreflightPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#sandbox-orders' ? <section id="sandbox-orders" className="product-workspace">
+          <ProductErrorBoundary title="Sandbox order lifecycle is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Sandbox order lifecycle" />}>
+              <SandboxOrderLifecyclePanel />
             </Suspense>
           </ProductErrorBoundary>
         </section> : null}

@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type VERIFY_DATA_PHASE_6A to verify the regulated-preflight schema and evaluator
+        description: Type VERIFY_DATA_PHASE_6B to verify the sandbox-order lifecycle
         required: true
         type: string
 
@@ -39,8 +39,8 @@ jobs:
           VERIFICATION_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$VERIFICATION_CONFIRMATION" = "VERIFY_DATA_PHASE_6A" || {
-            echo "Verification confirmation did not match VERIFY_DATA_PHASE_6A."
+          test "$VERIFICATION_CONFIRMATION" = "VERIFY_DATA_PHASE_6B" || {
+            echo "Verification confirmation did not match VERIFY_DATA_PHASE_6B."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -69,13 +69,13 @@ jobs:
       - name: Install the repository-pinned Supabase CLI
         run: npm ci
 
-      - name: Verify migration 036 and remote migration parity
+      - name: Verify migration 037 and remote migration parity
         run: |
           set -eu
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])036([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])037([^0-9]|$)' migration-list.txt
           npx --no-install supabase db push \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" \
@@ -114,6 +114,14 @@ jobs:
             --project-ref "$SUPABASE_PROJECT_REF" \
             --file supabase/tests/production/regulated_preflight_smoke.sql
 
+      - name: Verify sandbox order production boundary
+        run: |
+          bash scripts/assert-read-only-sql.sh supabase/tests/production/sandbox_order_lifecycle_smoke.sql
+          npx --no-install supabase db query \
+            --linked \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --file supabase/tests/production/sandbox_order_lifecycle_smoke.sql
+
       - name: Verify the deployed Edge Function
         run: |
           set -eu
@@ -133,6 +141,10 @@ jobs:
             --project-ref "$SUPABASE_PROJECT_REF" \
             --output json | jq -e \
               '.[] | select(.name == "sync-alpaca-sandbox-account-inventory" and .status == "ACTIVE")'
+          npx --no-install supabase functions list \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --output json | jq -e \
+              '.[] | select(.name == "manage-alpaca-sandbox-order" and .status == "ACTIVE")'
           npx --no-install supabase functions list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --output json | jq -e \
@@ -260,6 +272,28 @@ jobs:
           }
           if grep -qi '^access-control-allow-origin:' broker-probe-headers.txt; then
             echo "Internal broker probe unexpectedly enabled browser CORS."
+            exit 1
+          fi
+
+      - name: Verify sandbox order lifecycle is internal-only
+        run: |
+          set -eu
+          status_code="$(curl \
+            --silent \
+            --show-error \
+            --dump-header sandbox-order-headers.txt \
+            --output sandbox-order-response.json \
+            --write-out '%{http_code}' \
+            --request POST \
+            --header 'Content-Type: application/json' \
+            --data '{}' \
+            "https://${SUPABASE_PROJECT_REF}.supabase.co/functions/v1/manage-alpaca-sandbox-order")"
+          test "$status_code" = "401" || {
+            echo "Expected unauthenticated sandbox order lifecycle to return 401; received $status_code."
+            exit 1
+          }
+          if grep -qi '^access-control-allow-origin:' sandbox-order-headers.txt; then
+            echo "Internal sandbox order lifecycle unexpectedly enabled browser CORS."
             exit 1
           fi
 

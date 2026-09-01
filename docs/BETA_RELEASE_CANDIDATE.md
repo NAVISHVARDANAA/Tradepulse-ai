@@ -27,6 +27,9 @@ invitation is activated by code.
 Phase 5I adds customer-safe recovery drills, accessibility closure and local
 browser performance evidence. Review state is not persisted or transmitted and
 cannot activate a tester, deployment, trade, checkout or payment.
+Phase 6A adds private, always-blocked regulated preflight evidence. Phase 6B
+adds internal-only, protected partner-sandbox order lifecycle evidence with a
+read-only customer workspace. Neither phase enables a live route.
 
 The artifact contains `beta-release.json`, a machine-readable statement of its
 scope. Live brokerage, payment execution, charge collection, custody and
@@ -94,17 +97,17 @@ evidence in a public issue or artifact.
 
 ## Hosting deployment procedure
 
-After the Phase 6A PR is merged and all `main` checks pass:
+After the Phase 6B PR is merged and all `main` checks pass:
 
-1. Deploy and verify migration 036 with `DEPLOY_DATA_PHASE_6A` and `VERIFY_DATA_PHASE_6A`.
+1. Deploy and verify migration 037 with `DEPLOY_DATA_PHASE_6B` and `VERIFY_DATA_PHASE_6B`.
 2. Open **Actions → Build production web release**.
-3. Select `main`, enter `BUILD_PHASE_6A` and run the workflow.
+3. Select `main`, enter `BUILD_PHASE_6B` and run the workflow.
 4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 5. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-6. Run **Verify web production** with `VERIFY_WEB_PHASE_6A` after deployment
+6. Run **Verify web production** with `VERIFY_WEB_PHASE_6B` after deployment
    or any customer-facing operational incident.
 7. Do not invite external testers until every manual prerequisite above is approved.
 
-Phase 6A adds migration 036 and `evaluate-regulated-preflight`; deploy and verify
-the data boundary before the web release. Every review remains blocked and
-non-executable.
+Phase 6B adds migration 037 and `manage-alpaca-sandbox-order`; deploy and verify
+the data boundary before the web release. The handler remains internal-only,
+partner-sandbox-only and unable to route live orders.

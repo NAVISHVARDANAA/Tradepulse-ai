@@ -39,7 +39,7 @@ const largestAsset = assetFiles.reduce((largest, asset) => (
 
 const budgets = {
   initialGzipBytes: 160 * 1024,
-  // Phase 6A adds a route-deferred regulated preflight workspace while the
+  // Phase 6B adds a route-deferred sandbox lifecycle workspace while the
   // initial shell remains below 160 KiB. Keep total growth explicitly bounded.
   totalJavaScriptGzipBytes: 310 * 1024,
   largestAssetGzipBytes: 90 * 1024,

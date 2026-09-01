@@ -17,6 +17,9 @@ verify_jwt = false
 [functions.sync-alpaca-sandbox-account-inventory]
 verify_jwt = false
 
+[functions.manage-alpaca-sandbox-order]
+verify_jwt = false
+
 [functions.evaluate-broker-operations]
 verify_jwt = false
 
