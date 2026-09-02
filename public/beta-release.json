@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "7A",
-  "status": "corridor_intelligence_candidate",
+  "phase": "7B",
+  "status": "beneficiary_protection_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -75,6 +75,7 @@
     "check:sandbox-orders",
     "check:live-readiness",
     "check:corridor-intelligence",
+    "check:beneficiary-protection",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -177,5 +178,24 @@
     "moneyMovementEnabled": false,
     "custodyEnabled": false,
     "settlementEnabled": false
+  },
+  "beneficiaryProtection": {
+    "workspaceEnabled": true,
+    "syntheticRehearsalOnly": true,
+    "ruleCount": 7,
+    "validationRulesVisible": true,
+    "duplicateDetectionVisible": true,
+    "coolingOffVisible": true,
+    "scamInterventionsVisible": true,
+    "realBeneficiaryCollectionEnabled": false,
+    "beneficiaryIdentifierStorageEnabled": false,
+    "validationProviderConnectivityEnabled": false,
+    "beneficiaryCreationEnabled": false,
+    "duplicateOverrideEnabled": false,
+    "coolingOffBypassEnabled": false,
+    "quoteAcceptanceEnabled": false,
+    "transferCreationEnabled": false,
+    "paymentExecutionEnabled": false,
+    "moneyMovementEnabled": false
   }
 }

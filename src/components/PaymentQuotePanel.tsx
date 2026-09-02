@@ -1,14 +1,56 @@
-import { AlertTriangle, ArrowRight, LockKeyhole, RefreshCw } from 'lucide-react'
+import { AlertTriangle, ArrowRight, LockKeyhole, RefreshCw, ShieldCheck } from 'lucide-react'
 import { useMemo, useState } from 'react'
 
+import { evaluateBeneficiaryProtection } from '../lib/beneficiaryProtection'
 import { createCorridorIntelligenceQuote } from '../lib/payments'
-import type { MarketAssetSnapshot, PaymentCorridorRoute } from '../types/domain'
+import type { BeneficiaryProtectionRule, MarketAssetSnapshot, PaymentCorridorRoute } from '../types/domain'
 
 type PaymentQuotePanelProps = {
   routes: PaymentCorridorRoute[]
+  beneficiaryProtectionRules: BeneficiaryProtectionRule[]
   marketAssets: MarketAssetSnapshot[]
   loading: boolean
   error: string | null
+}
+
+const beneficiaryScenarios = [
+  {
+    id: 'trusted-returning',
+    label: 'Returning payee · no risk signal',
+    description: 'A synthetic returning-payee scenario with no selected protection signal.',
+    signals: [],
+  },
+  {
+    id: 'possible-duplicate',
+    label: 'Possible duplicate profile',
+    description: 'A privacy-preserving synthetic fingerprint matches an existing profile.',
+    signals: ['duplicate_identity'],
+  },
+  {
+    id: 'changed-invoice',
+    label: 'Changed invoice instructions',
+    description: 'Payment details changed recently and arrived through an unverified channel.',
+    signals: ['recent_details_change', 'unverified_channel_change'],
+  },
+  {
+    id: 'urgent-request',
+    label: 'Urgent mismatched request',
+    description: 'The recipient name does not match and the sender is pressured to act secretly.',
+    signals: ['name_mismatch', 'social_engineering_pressure'],
+  },
+  {
+    id: 'incomplete-first-time',
+    label: 'Incomplete first-time profile',
+    description: 'Required details are incomplete and the synthetic context is elevated risk.',
+    signals: ['details_incomplete', 'first_time_high_risk'],
+  },
+]
+
+const decisionLabel = {
+  clear_rehearsal: 'No rule triggered',
+  manual_review: 'Manual review required',
+  cooling_off: 'Protection pause required',
+  blocked: 'Blocked',
 }
 
 const number = new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 })
@@ -28,12 +70,14 @@ const freshness = (age: number | null) => {
 
 export function PaymentQuotePanel({
   routes,
+  beneficiaryProtectionRules,
   marketAssets,
   loading,
   error,
 }: PaymentQuotePanelProps) {
   const [corridorCode, setCorridorCode] = useState('')
   const [amount, setAmount] = useState('1000')
+  const [beneficiaryScenarioId, setBeneficiaryScenarioId] = useState('changed-invoice')
   const corridorCodes = useMemo(
     () => [...new Set(routes.map((routeOption) => routeOption.corridorCode))],
     [routes],
@@ -52,23 +96,66 @@ export function PaymentQuotePanel({
   )
   const reference = comparisons.find((comparison) => comparison.quote)?.quote ?? null
   const selectedRoute = selectedRoutes[0]
+  const beneficiaryScenario = beneficiaryScenarios.find((scenario) => scenario.id === beneficiaryScenarioId)
+    ?? beneficiaryScenarios[0]
+  const protectionResult = useMemo(
+    () => evaluateBeneficiaryProtection(beneficiaryScenario.signals, beneficiaryProtectionRules),
+    [beneficiaryProtectionRules, beneficiaryScenario],
+  )
 
   return <section className="panel payment-panel corridor-intelligence-panel">
     <div className="panel-header">
       <div>
-        <p className="eyebrow">Cross-border payments · Phase 7A</p>
-        <h2>Transparent corridor intelligence</h2>
+        <p className="eyebrow">Cross-border payments · Phase 7B</p>
+        <h2>Beneficiary protection and corridor intelligence</h2>
       </div>
       <span className="status-badge sandbox"><LockKeyhole size={14} /> Reference only · no money movement</span>
     </div>
     <p className="panel-description">
-      Compare sandbox provider models against the synchronized FX reference. Every visible spread, known fee, tax gap, delivery estimate and route limitation stays explicit.
+      Rehearse beneficiary safety interventions without personal data, then compare sandbox route models against the synchronized FX reference.
     </p>
 
     <div className="corridor-intelligence-boundary" role="status">
       <LockKeyhole size={20} />
-      <div><strong>No route can be selected or paid from this workspace.</strong><span>Provider connectivity, beneficiary collection, quote acceptance, transfers and settlement remain database-locked off.</span></div>
+      <div><strong>No beneficiary can be created and no route can be paid from this workspace.</strong><span>Real beneficiary collection, identifier storage, provider validation, override, quote acceptance, transfers and settlement remain database-locked off.</span></div>
     </div>
+
+    <section className="beneficiary-protection" aria-labelledby="beneficiary-protection-title">
+      <div className="beneficiary-protection-head">
+        <div><span><ShieldCheck size={18} /> Synthetic safety rehearsal</span><h3 id="beneficiary-protection-title">See the intervention before the payment</h3></div>
+        <small>No names, accounts or addresses</small>
+      </div>
+      <p>Select a synthetic situation to see how validation, duplicate detection, cooling-off and scam rules interact. Nothing is saved or sent.</p>
+      <label className="beneficiary-scenario" htmlFor="beneficiary-scenario"><span>Rehearsal scenario</span><select
+        id="beneficiary-scenario"
+        value={beneficiaryScenario.id}
+        onChange={(event) => setBeneficiaryScenarioId(event.target.value)}
+        disabled={loading || beneficiaryProtectionRules.length === 0}
+      >{beneficiaryScenarios.map((scenario) => <option key={scenario.id} value={scenario.id}>{scenario.label}</option>)}</select><small>{beneficiaryScenario.description}</small></label>
+
+      {loading ? <div className="beneficiary-data-state"><RefreshCw size={18} /> Loading synthetic protection rules…</div> : null}
+      {!loading && error ? <div className="beneficiary-data-state" role="alert"><AlertTriangle size={18} /> Protection rules are unavailable, so no safety outcome is shown.</div> : null}
+      {!loading && !error && beneficiaryProtectionRules.length === 0 ? <div className="beneficiary-data-state" role="status"><AlertTriangle size={18} /> No protection rule is available. No result is shown.</div> : null}
+      {!loading && !error && beneficiaryProtectionRules.length > 0 ? <>
+        <div className={`beneficiary-decision ${protectionResult.decision}`} role="status">
+        <div><span>Protection outcome</span><strong>{decisionLabel[protectionResult.decision]}</strong></div>
+        {protectionResult.coolingOffHours > 0 ? <div><span>Mandatory pause</span><strong>{protectionResult.coolingOffHours} hours</strong></div> : null}
+        <p>{protectionResult.summary}</p>
+        </div>
+
+        <div className="beneficiary-rule-grid" aria-label="Triggered beneficiary protection rules">
+        {protectionResult.matchedRules.length === 0 ? <div className="beneficiary-no-rule"><ShieldCheck size={18} /><span><strong>No selected signal matched.</strong> This synthetic result is informational and cannot create a beneficiary.</span></div> : protectionResult.matchedRules.map((rule) => <article key={rule.ruleCode} className={`beneficiary-rule ${rule.severity}`}>
+          <div><span>{rule.category.replace('_', ' ')}</span><small>{rule.severity}</small></div>
+          <h4>{rule.title}</h4>
+          <p>{rule.customerMessage}</p>
+          <footer><strong>Required response</strong><span>{rule.requiredAction}</span></footer>
+        </article>)}
+        </div>
+        <div className="beneficiary-locks"><LockKeyhole size={15} /><span>Duplicate overrides and cooling-off bypasses are unavailable. Real beneficiary data is neither requested nor stored.</span></div>
+      </> : null}
+    </section>
+
+    <div className="corridor-section-heading"><span>Phase 7A foundation</span><h3>Transparent corridor intelligence</h3><p>Compare sandbox provider models, known costs and explicit unknowns. No route is selectable.</p></div>
 
     <div className="corridor-intelligence-inputs">
       <label htmlFor="corridor"><span>Payment corridor</span><select

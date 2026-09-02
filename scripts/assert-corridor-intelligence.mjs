@@ -67,22 +67,22 @@ for (const contract of [
   'Tax unavailable—not shown as zero',
   'Estimated delivered before unknown tax',
   'Sandbox provider-model rate',
-  'No route can be selected or paid from this workspace',
+  'No route is selectable',
 ]) assert(panel.includes(contract), `Corridor workspace omits: ${contract}`)
 
 assert(app.includes('getPaymentCorridorIntelligence'), 'Application omits corridor intelligence loading')
-assert(navigation.includes("label: 'Corridor intelligence'"), 'Navigation omits corridor intelligence')
-assert(header.includes("title: 'Cross-border corridor intelligence'"), 'Page header omits corridor intelligence')
+assert(navigation.includes("label: 'Payment protection'"), 'Current payments navigation is missing')
+assert(header.includes("title: 'Beneficiary protection'"), 'Current payments page header is missing')
 assert(styles.includes('.corridor-route-grid'), 'Corridor intelligence styles are missing')
 assert(databaseTest.includes('select plan(53)'), 'Corridor database contract count changed')
 assert(productionSmoke.includes('A payment execution or money-movement path unexpectedly exists'), 'Production payment lock guard is missing')
 assert(browserTest.includes("page.getByText('Tax unavailable—not shown as zero')"), 'Browser comparison omits explicit tax uncertainty')
-assert(productionBrowserTest.includes("['#payments', 'Cross-border corridor intelligence']"), 'Production workspace smoke omits corridor intelligence')
+assert(productionBrowserTest.includes("['#payments', 'Beneficiary protection']"), 'Production workspace smoke omits the payments workspace')
 
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
-assert(manifest.phase === '7A', 'Release manifest is not Phase 7A')
-assert(manifest.status === 'corridor_intelligence_candidate', 'Release status is not the corridor intelligence candidate')
+assert(manifest.phase === '7B', 'Release manifest is not Phase 7B')
+assert(manifest.status === 'beneficiary_protection_candidate', 'Release status is not the beneficiary protection candidate')
 for (const [key, expected] of Object.entries({
   workspaceEnabled: true,
   routeModelCount: 8,
@@ -108,11 +108,11 @@ assert(manifest.requiredChecks.includes('check:corridor-intelligence'), 'Manifes
 assert(packageJson.scripts?.['check:corridor-intelligence'], 'Package corridor intelligence check is missing')
 
 for (const [workflow, contract] of [
-  [deployData, 'DEPLOY_DATA_PHASE_7A'],
-  [verifyData, 'VERIFY_DATA_PHASE_7A'],
-  [buildWeb, 'BUILD_PHASE_7A'],
-  [deployWeb, 'DEPLOY_PHASE_7A'],
-  [verifyWeb, 'VERIFY_WEB_PHASE_7A'],
+  [deployData, 'DEPLOY_DATA_PHASE_7B'],
+  [verifyData, 'VERIFY_DATA_PHASE_7B'],
+  [buildWeb, 'BUILD_PHASE_7B'],
+  [deployWeb, 'DEPLOY_PHASE_7B'],
+  [verifyWeb, 'VERIFY_WEB_PHASE_7B'],
 ]) assert(workflow.includes(contract), `Release workflow omits ${contract}`)
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
   assert(workflow.includes('check:corridor-intelligence'), 'A web gate omits corridor intelligence')

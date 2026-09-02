@@ -75,6 +75,9 @@ jobs:
       - name: Verify corridor intelligence
         run: npm run check:corridor-intelligence
 
+      - name: Verify beneficiary protection
+        run: npm run check:beneficiary-protection
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 
@@ -255,6 +258,9 @@ jobs:
       - name: Test corridor-intelligence database contracts
         run: npx --no-install supabase test db supabase/tests/database/corridor_intelligence.test.sql
 
+      - name: Test beneficiary-protection database contracts
+        run: npx --no-install supabase test db supabase/tests/database/beneficiary_protection.test.sql
+
       - name: Test broker-sandbox certification contracts
         run: npx --no-install supabase test db supabase/tests/database/broker_sandbox_certification.test.sql
 
@@ -347,6 +353,15 @@ jobs:
           npx --no-install supabase db query
           --local
           --file supabase/tests/production/corridor_intelligence_smoke.sql
+
+      - name: Assert beneficiary protection production smoke SQL is query-only
+        run: bash scripts/assert-read-only-sql.sh supabase/tests/production/beneficiary_protection_smoke.sql
+
+      - name: Test beneficiary protection production smoke query
+        run: >-
+          npx --no-install supabase db query
+          --local
+          --file supabase/tests/production/beneficiary_protection_smoke.sql
 
       - name: Stop isolated Supabase services
         if: always()

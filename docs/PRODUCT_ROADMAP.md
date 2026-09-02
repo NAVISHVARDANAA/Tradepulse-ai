@@ -744,8 +744,25 @@ security and release contracts; reviewed `DEPLOY_DATA_PHASE_7A`; read-only
 `DEPLOY_PHASE_7A`; and read-only `VERIFY_WEB_PHASE_7A` evidence. This exit gate
 does not authorize payment execution or money movement.
 
-- **Phase 7B — beneficiary protection:** validated beneficiary details,
-  duplicate detection, cooling-off and scam/intervention warnings.
+### Phase 7B — beneficiary protection (implemented foundation)
+
+- A synthetic, no-PII rehearsal explains validation, duplicate, cooling-off
+  and scam-intervention outcomes before a customer could pay a beneficiary.
+- Seven versioned rules produce manual-review, mandatory-pause or blocked
+  outcomes with plain-language reasons and safe required responses.
+- A no-signal result is informational only and is never labeled approved.
+- Database controls keep real beneficiary collection, identifier storage,
+  validation-provider connectivity, beneficiary creation, duplicate override,
+  cooling-off bypass, quote acceptance, transfers, execution and money movement
+  false. No beneficiary record or creation RPC exists.
+
+**Phase 7B exit gate:** green beneficiary-protection, corridor-intelligence,
+database, browser, security and release contracts; reviewed
+`DEPLOY_DATA_PHASE_7B`; read-only `VERIFY_DATA_PHASE_7B`; successful
+`BUILD_PHASE_7B`; reviewed `DEPLOY_PHASE_7B`; and read-only
+`VERIFY_WEB_PHASE_7B` evidence. This gate does not authorize collecting a real
+beneficiary or moving money.
+
 - **Phase 7C — compliance orchestration:** corridor-specific KYC/KYB, AML,
   sanctions, transaction monitoring, travel-rule and audit workflows.
 - **Phase 7D — sandbox transfer lifecycle:** licensed-partner sandbox,

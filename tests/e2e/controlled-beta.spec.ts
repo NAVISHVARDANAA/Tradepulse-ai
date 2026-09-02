@@ -161,12 +161,12 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByRole('button', { name: /activate|submit|route|fund|execute/i })).toHaveCount(0)
 
   await page.goto('/#payments')
-  await expect(page.getByRole('heading', { level: 1, name: 'Cross-border corridor intelligence' })).toBeVisible()
-  await expect(page.getByText('No route can be selected or paid from this workspace.')).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: 'Beneficiary protection' })).toBeVisible()
+  await expect(page.getByText('No beneficiary can be created and no route can be paid from this workspace.')).toBeVisible()
   await expect(page.getByRole('button', { name: /select|accept|transfer|pay|execute|submit/i })).toHaveCount(0)
 })
 
-test('corridor intelligence exposes comparable costs without treating unknown tax as zero', async ({ page }) => {
+test('payment safety rehearses beneficiary intervention and preserves corridor transparency', async ({ page }) => {
   const routeBase = {
     corridor_id: 1,
     corridor_code: 'USD-INR',
@@ -204,8 +204,40 @@ test('corridor intelligence exposes comparable costs without treating unknown ta
     contentType: 'application/json',
     body: JSON.stringify([{ id: 1, symbol: 'USDINR', name: 'US Dollar / Indian Rupee', asset_type: 'forex', currency: 'INR', market_observations: [{ observed_at: new Date().toISOString(), price: 83.25, change_percent: 0.1, source: 'test-reference' }] }]),
   }))
+  const protectionBase = {
+    description: 'Synthetic protection rule used by the browser contract.',
+    severity: 'critical',
+    outcome: 'blocked',
+    cooling_off_hours: 0,
+    required_action: 'Stop and independently verify the recipient using a trusted channel.',
+    data_mode: 'synthetic_rehearsal',
+    real_beneficiary_collection_enabled: false,
+    beneficiary_identifier_storage_enabled: false,
+    validation_provider_connectivity_enabled: false,
+    beneficiary_creation_enabled: false,
+    duplicate_override_enabled: false,
+    cooling_off_bypass_enabled: false,
+    quote_acceptance_enabled: false,
+    transfer_creation_enabled: false,
+    payment_execution_enabled: false,
+    money_movement_enabled: false,
+  }
+  await page.route('**/rest/v1/payment_beneficiary_protection_reference*', (route) => route.fulfill({
+    status: 200,
+    contentType: 'application/json',
+    body: JSON.stringify([
+      { ...protectionBase, id: 1, rule_code: 'RECENT_DETAILS_CHANGE', category: 'cooling_off', signal_key: 'recent_details_change', title: 'Recently changed payment details', severity: 'high', outcome: 'cooling_off', cooling_off_hours: 24, customer_message: 'Recently changed details trigger a 24-hour protection pause.', priority: 40 },
+      { ...protectionBase, id: 2, rule_code: 'UNVERIFIED_CHANNEL_CHANGE', category: 'scam', signal_key: 'unverified_channel_change', title: 'Unverified channel change', customer_message: 'Unverified channel changes are a common invoice-redirection warning.', priority: 50 },
+    ]),
+  }))
 
   await page.goto('/#payments')
+  await expect(page.getByRole('heading', { level: 3, name: 'See the intervention before the payment' })).toBeVisible()
+  await expect(page.getByText('No names, accounts or addresses')).toBeVisible()
+  await expect(page.getByText('Blocked', { exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 4, name: 'Recently changed payment details', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 4, name: 'Unverified channel change', exact: true })).toBeVisible()
+  await expect(page.getByText(/Real beneficiary data is neither requested nor stored/)).toBeVisible()
   await expect(page.getByText('Tax unavailable—not shown as zero')).toBeVisible()
   await expect(page.locator('.corridor-route-card')).toHaveCount(2)
   await expect(page.getByText('Sandbox provider-model rate')).toHaveCount(2)

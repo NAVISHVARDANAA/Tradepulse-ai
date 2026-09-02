@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type DEPLOY_DATA_PHASE_7A to deploy corridor intelligence
+        description: Type DEPLOY_DATA_PHASE_7B to deploy beneficiary protection
         required: true
         type: string
 
@@ -39,8 +39,8 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_7A" || {
-            echo "Release confirmation did not match DEPLOY_DATA_PHASE_7A."
+          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_7B" || {
+            echo "Release confirmation did not match DEPLOY_DATA_PHASE_7B."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -188,7 +188,7 @@ jobs:
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])040([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])041([^0-9]|$)' migration-list.txt
 
       - name: Verify approved-tester pilot production boundary
         run: |
@@ -229,6 +229,14 @@ jobs:
             --linked \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --file supabase/tests/production/corridor_intelligence_smoke.sql
+
+      - name: Verify beneficiary protection production boundary
+        run: |
+          bash scripts/assert-read-only-sql.sh supabase/tests/production/beneficiary_protection_smoke.sql
+          npx --no-install supabase db query \
+            --linked \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --file supabase/tests/production/beneficiary_protection_smoke.sql
 
       - name: Verify production public web reads
         run: bash scripts/verify-public-runtime-read.sh

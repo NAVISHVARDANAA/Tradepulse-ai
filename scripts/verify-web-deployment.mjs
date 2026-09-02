@@ -110,6 +110,26 @@ if (
 ) {
   throw new Error('Deployed corridor-intelligence boundary is incomplete or executable.')
 }
+if (
+  manifest.beneficiaryProtection?.syntheticRehearsalOnly !== true ||
+  manifest.beneficiaryProtection?.ruleCount !== 7 ||
+  manifest.beneficiaryProtection?.validationRulesVisible !== true ||
+  manifest.beneficiaryProtection?.duplicateDetectionVisible !== true ||
+  manifest.beneficiaryProtection?.coolingOffVisible !== true ||
+  manifest.beneficiaryProtection?.scamInterventionsVisible !== true ||
+  manifest.beneficiaryProtection?.realBeneficiaryCollectionEnabled !== false ||
+  manifest.beneficiaryProtection?.beneficiaryIdentifierStorageEnabled !== false ||
+  manifest.beneficiaryProtection?.validationProviderConnectivityEnabled !== false ||
+  manifest.beneficiaryProtection?.beneficiaryCreationEnabled !== false ||
+  manifest.beneficiaryProtection?.duplicateOverrideEnabled !== false ||
+  manifest.beneficiaryProtection?.coolingOffBypassEnabled !== false ||
+  manifest.beneficiaryProtection?.quoteAcceptanceEnabled !== false ||
+  manifest.beneficiaryProtection?.transferCreationEnabled !== false ||
+  manifest.beneficiaryProtection?.paymentExecutionEnabled !== false ||
+  manifest.beneficiaryProtection?.moneyMovementEnabled !== false
+) {
+  throw new Error('Deployed beneficiary-protection boundary is incomplete or executable.')
+}
 
 console.log(
   `Verified Phase ${manifest.phase} controlled-beta deployment at ${baseUrl.origin}: exact manifest, HTTPS policy and execution locks passed.`,
