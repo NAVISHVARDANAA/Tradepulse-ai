@@ -1,5 +1,6 @@
 import type {
   BeneficiaryProtectionRule,
+  PaymentComplianceRequirement,
   CountryTradeSnapshot,
   MarketAssetSnapshot,
   MarketForecast,
@@ -465,6 +466,51 @@ export async function getBeneficiaryProtectionRules(): Promise<BeneficiaryProtec
     beneficiaryCreationEnabled: false,
     duplicateOverrideEnabled: false,
     coolingOffBypassEnabled: false,
+    quoteAcceptanceEnabled: false,
+    transferCreationEnabled: false,
+    paymentExecutionEnabled: false,
+    moneyMovementEnabled: false,
+  }))
+}
+
+export async function getPaymentComplianceRequirements(): Promise<PaymentComplianceRequirement[]> {
+  const { data, error } = await supabase
+    .from('payment_compliance_orchestration_reference')
+    .select('*')
+    .order('corridor_code')
+    .order('priority')
+
+  if (error) {
+    throw error
+  }
+
+  return (data ?? []).map((row) => ({
+    id: Number(row.id),
+    workflowCode: row.workflow_code,
+    corridorId: Number(row.corridor_id),
+    corridorCode: row.corridor_code,
+    sourceCurrency: row.source_currency,
+    destinationCurrency: row.destination_currency,
+    customerType: row.customer_type as PaymentComplianceRequirement['customerType'],
+    stageKey: row.stage_key as PaymentComplianceRequirement['stageKey'],
+    title: row.title,
+    description: row.description,
+    evidenceRequired: row.evidence_required,
+    customerAction: row.customer_action,
+    reviewOwner: row.review_owner as PaymentComplianceRequirement['reviewOwner'],
+    outcome: row.outcome as PaymentComplianceRequirement['outcome'],
+    priority: Number(row.priority),
+    dataMode: 'synthetic_case_rehearsal',
+    realIdentityCollectionEnabled: false,
+    documentUploadEnabled: false,
+    piiStorageEnabled: false,
+    complianceProviderConnectivityEnabled: false,
+    liveSanctionsScreeningEnabled: false,
+    transactionMonitoringConnectivityEnabled: false,
+    travelRuleTransmissionEnabled: false,
+    complianceCaseWritesEnabled: false,
+    automatedClearanceEnabled: false,
+    manualOverrideEnabled: false,
     quoteAcceptanceEnabled: false,
     transferCreationEnabled: false,
     paymentExecutionEnabled: false,

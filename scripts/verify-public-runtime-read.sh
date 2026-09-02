@@ -14,6 +14,7 @@ endpoints=(
   'payment_corridors?select=id&enabled=eq.true&limit=1'
   'payment_corridor_intelligence?select=route_code&limit=1'
   'payment_beneficiary_protection_reference?select=rule_code&limit=1'
+  'payment_compliance_orchestration_reference?select=workflow_code&limit=1'
 )
 
 for endpoint in "${endpoints[@]}"; do

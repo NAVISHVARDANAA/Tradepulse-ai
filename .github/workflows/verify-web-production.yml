@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type VERIFY_WEB_PHASE_7B to test production beneficiary protection
+        description: Type VERIFY_WEB_PHASE_7C to test production compliance orchestration
         required: true
         type: string
 
@@ -32,7 +32,7 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "VERIFY_WEB_PHASE_7B"
+          test "$RELEASE_CONFIRMATION" = "VERIFY_WEB_PHASE_7C"
           test -n "$CLOUDFLARE_PAGES_PROJECT"
           case "$CLOUDFLARE_PAGES_PROJECT" in *[!a-z0-9-]*) echo "Invalid Cloudflare Pages project name."; exit 1;; esac
           echo "WEB_PRODUCTION_URL=https://${CLOUDFLARE_PAGES_PROJECT}.pages.dev" >> "$GITHUB_ENV"
@@ -53,6 +53,7 @@ jobs:
       - run: npm run check:live-readiness
       - run: npm run check:corridor-intelligence
       - run: npm run check:beneficiary-protection
+      - run: npm run check:compliance-orchestration
       - run: npm run check:production-experience
       - run: npm run verify:web-deployment -- "$WEB_PRODUCTION_URL"
       - name: Install Chromium

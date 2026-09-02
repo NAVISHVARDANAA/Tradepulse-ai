@@ -2,12 +2,14 @@ import { AlertTriangle, ArrowRight, LockKeyhole, RefreshCw, ShieldCheck } from '
 import { useMemo, useState } from 'react'
 
 import { evaluateBeneficiaryProtection } from '../lib/beneficiaryProtection'
+import { buildComplianceOrchestration } from '../lib/complianceOrchestration'
 import { createCorridorIntelligenceQuote } from '../lib/payments'
-import type { BeneficiaryProtectionRule, MarketAssetSnapshot, PaymentCorridorRoute } from '../types/domain'
+import type { BeneficiaryProtectionRule, MarketAssetSnapshot, PaymentComplianceRequirement, PaymentCorridorRoute } from '../types/domain'
 
 type PaymentQuotePanelProps = {
   routes: PaymentCorridorRoute[]
   beneficiaryProtectionRules: BeneficiaryProtectionRule[]
+  complianceRequirements: PaymentComplianceRequirement[]
   marketAssets: MarketAssetSnapshot[]
   loading: boolean
   error: string | null
@@ -53,6 +55,12 @@ const decisionLabel = {
   blocked: 'Blocked',
 }
 
+const complianceDecisionLabel = {
+  unavailable: 'Map unavailable',
+  review_required: 'Licensed review required',
+  blocked: 'Compliance activation blocked',
+}
+
 const number = new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 })
 const rate = new Intl.NumberFormat('en-US', { maximumFractionDigits: 6 })
 const currency = (value: number, code: string) => new Intl.NumberFormat('en-US', {
@@ -71,6 +79,7 @@ const freshness = (age: number | null) => {
 export function PaymentQuotePanel({
   routes,
   beneficiaryProtectionRules,
+  complianceRequirements,
   marketAssets,
   loading,
   error,
@@ -78,6 +87,7 @@ export function PaymentQuotePanel({
   const [corridorCode, setCorridorCode] = useState('')
   const [amount, setAmount] = useState('1000')
   const [beneficiaryScenarioId, setBeneficiaryScenarioId] = useState('changed-invoice')
+  const [paymentCustomerType, setPaymentCustomerType] = useState<'individual' | 'business'>('individual')
   const corridorCodes = useMemo(
     () => [...new Set(routes.map((routeOption) => routeOption.corridorCode))],
     [routes],
@@ -102,23 +112,64 @@ export function PaymentQuotePanel({
     () => evaluateBeneficiaryProtection(beneficiaryScenario.signals, beneficiaryProtectionRules),
     [beneficiaryProtectionRules, beneficiaryScenario],
   )
+  const corridorComplianceRequirements = useMemo(
+    () => complianceRequirements.filter((requirement) => requirement.corridorCode === selectedCode),
+    [complianceRequirements, selectedCode],
+  )
+  const complianceResult = useMemo(
+    () => buildComplianceOrchestration(corridorComplianceRequirements, paymentCustomerType),
+    [corridorComplianceRequirements, paymentCustomerType],
+  )
 
   return <section className="panel payment-panel corridor-intelligence-panel">
     <div className="panel-header">
       <div>
-        <p className="eyebrow">Cross-border payments · Phase 7B</p>
-        <h2>Beneficiary protection and corridor intelligence</h2>
+        <p className="eyebrow">Cross-border payments · Phase 7C</p>
+        <h2>Compliance orchestration and payment protection</h2>
       </div>
       <span className="status-badge sandbox"><LockKeyhole size={14} /> Reference only · no money movement</span>
     </div>
     <p className="panel-description">
-      Rehearse beneficiary safety interventions without personal data, then compare sandbox route models against the synchronized FX reference.
+      Map synthetic corridor compliance gates, rehearse beneficiary safety interventions without personal data, then compare sandbox route models against the synchronized FX reference.
     </p>
 
     <div className="corridor-intelligence-boundary" role="status">
       <LockKeyhole size={20} />
-      <div><strong>No beneficiary can be created and no route can be paid from this workspace.</strong><span>Real beneficiary collection, identifier storage, provider validation, override, quote acceptance, transfers and settlement remain database-locked off.</span></div>
+      <div><strong>No customer can be cleared, no beneficiary can be created and no route can be paid from this workspace.</strong><span>Identity and document collection, provider screening, case writes, overrides, quote acceptance, transfers and settlement remain database-locked off.</span></div>
     </div>
+
+    <section className="compliance-orchestration" aria-labelledby="compliance-orchestration-title">
+      <div className="compliance-orchestration-head">
+        <div><span><ShieldCheck size={18} /> Synthetic corridor map</span><h3 id="compliance-orchestration-title">Map compliance gates before any payment</h3></div>
+        <small>No documents, identities or live screening</small>
+      </div>
+      <p>Choose an illustrative customer journey to see the KYC or KYB, AML, sanctions, transaction-monitoring, travel-rule and audit stages expected for {selectedRoute ? `${selectedRoute.sourceCurrency} to ${selectedRoute.destinationCurrency}` : 'this corridor'}.</p>
+      <label className="compliance-customer-type" htmlFor="compliance-customer-type"><span>Synthetic customer journey</span><select
+        id="compliance-customer-type"
+        value={paymentCustomerType}
+        onChange={(event) => setPaymentCustomerType(event.target.value as 'individual' | 'business')}
+        disabled={loading || complianceRequirements.length === 0}
+      ><option value="individual">Individual remittance</option><option value="business">Business supplier payment</option></select><small>This changes only the public requirement map. Nothing is submitted or stored.</small></label>
+
+      {loading ? <div className="compliance-data-state"><RefreshCw size={18} /> Loading synthetic compliance stages…</div> : null}
+      {!loading && error ? <div className="compliance-data-state" role="alert"><AlertTriangle size={18} /> Compliance requirements are unavailable, so no orchestration outcome is shown.</div> : null}
+      {!loading && !error ? <>
+        <div className={`compliance-decision ${complianceResult.decision}`} role="status">
+          <div><span>Orchestration outcome</span><strong>{complianceDecisionLabel[complianceResult.decision]}</strong></div>
+          <div><span>Mapped stages</span><strong>{complianceResult.mappedStageCount} of {complianceResult.requiredStageCount}</strong></div>
+          <p>{complianceResult.summary}</p>
+        </div>
+        <div className="compliance-stage-grid" aria-label="Synthetic payment compliance stages">
+          {complianceResult.requirements.map((requirement) => <article key={requirement.workflowCode} className={`compliance-stage ${requirement.outcome}`}>
+            <div><span>{requirement.stageKey.replace(/_/g, ' ')}</span><small>{requirement.outcome.replace('_', ' ')}</small></div>
+            <h4>{requirement.title}</h4>
+            <p>{requirement.description}</p>
+            <dl><div><dt>Evidence map</dt><dd>{requirement.evidenceRequired}</dd></div><div><dt>Review owner</dt><dd>{requirement.reviewOwner.replace(/_/g, ' ')}</dd></div><div><dt>Customer-safe response</dt><dd>{requirement.customerAction}</dd></div></dl>
+          </article>)}
+        </div>
+        <div className="compliance-locks"><LockKeyhole size={15} /><span>Live KYC/KYB, sanctions and transaction-monitoring providers, travel-rule transmission, case writes, automated clearance and manual overrides are disabled.</span></div>
+      </> : null}
+    </section>
 
     <section className="beneficiary-protection" aria-labelledby="beneficiary-protection-title">
       <div className="beneficiary-protection-head">

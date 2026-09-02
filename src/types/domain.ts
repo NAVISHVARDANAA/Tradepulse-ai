@@ -130,6 +130,39 @@ export type BeneficiaryProtectionRule = {
   moneyMovementEnabled: false
 }
 
+export type PaymentComplianceRequirement = {
+  id: number
+  workflowCode: string
+  corridorId: number
+  corridorCode: string
+  sourceCurrency: string
+  destinationCurrency: string
+  customerType: 'individual' | 'business' | 'both'
+  stageKey: 'kyc' | 'kyb' | 'aml' | 'sanctions' | 'transaction_monitoring' | 'travel_rule' | 'audit'
+  title: string
+  description: string
+  evidenceRequired: string
+  customerAction: string
+  reviewOwner: 'identity_operations' | 'financial_crime_operations' | 'sanctions_operations' | 'transaction_monitoring_operations' | 'travel_rule_operations' | 'compliance_assurance'
+  outcome: 'review_required' | 'blocked'
+  priority: number
+  dataMode: 'synthetic_case_rehearsal'
+  realIdentityCollectionEnabled: false
+  documentUploadEnabled: false
+  piiStorageEnabled: false
+  complianceProviderConnectivityEnabled: false
+  liveSanctionsScreeningEnabled: false
+  transactionMonitoringConnectivityEnabled: false
+  travelRuleTransmissionEnabled: false
+  complianceCaseWritesEnabled: false
+  automatedClearanceEnabled: false
+  manualOverrideEnabled: false
+  quoteAcceptanceEnabled: false
+  transferCreationEnabled: false
+  paymentExecutionEnabled: false
+  moneyMovementEnabled: false
+}
+
 export type EquityCoverageStatus =
   | 'reference'
   | 'delayed'

@@ -130,6 +130,36 @@ if (
 ) {
   throw new Error('Deployed beneficiary-protection boundary is incomplete or executable.')
 }
+if (
+  manifest.complianceOrchestration?.syntheticCaseRehearsalOnly !== true ||
+  manifest.complianceOrchestration?.corridorCount !== 4 ||
+  manifest.complianceOrchestration?.requirementCount !== 28 ||
+  manifest.complianceOrchestration?.individualStageCount !== 6 ||
+  manifest.complianceOrchestration?.businessStageCount !== 6 ||
+  manifest.complianceOrchestration?.kycVisible !== true ||
+  manifest.complianceOrchestration?.kybVisible !== true ||
+  manifest.complianceOrchestration?.amlVisible !== true ||
+  manifest.complianceOrchestration?.sanctionsVisible !== true ||
+  manifest.complianceOrchestration?.transactionMonitoringVisible !== true ||
+  manifest.complianceOrchestration?.travelRuleVisible !== true ||
+  manifest.complianceOrchestration?.auditWorkflowVisible !== true ||
+  manifest.complianceOrchestration?.realIdentityCollectionEnabled !== false ||
+  manifest.complianceOrchestration?.documentUploadEnabled !== false ||
+  manifest.complianceOrchestration?.piiStorageEnabled !== false ||
+  manifest.complianceOrchestration?.complianceProviderConnectivityEnabled !== false ||
+  manifest.complianceOrchestration?.liveSanctionsScreeningEnabled !== false ||
+  manifest.complianceOrchestration?.transactionMonitoringConnectivityEnabled !== false ||
+  manifest.complianceOrchestration?.travelRuleTransmissionEnabled !== false ||
+  manifest.complianceOrchestration?.complianceCaseWritesEnabled !== false ||
+  manifest.complianceOrchestration?.automatedClearanceEnabled !== false ||
+  manifest.complianceOrchestration?.manualOverrideEnabled !== false ||
+  manifest.complianceOrchestration?.quoteAcceptanceEnabled !== false ||
+  manifest.complianceOrchestration?.transferCreationEnabled !== false ||
+  manifest.complianceOrchestration?.paymentExecutionEnabled !== false ||
+  manifest.complianceOrchestration?.moneyMovementEnabled !== false
+) {
+  throw new Error('Deployed compliance-orchestration boundary is incomplete or operational.')
+}
 
 console.log(
   `Verified Phase ${manifest.phase} controlled-beta deployment at ${baseUrl.origin}: exact manifest, HTTPS policy and execution locks passed.`,

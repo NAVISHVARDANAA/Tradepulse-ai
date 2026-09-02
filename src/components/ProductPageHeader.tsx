@@ -120,9 +120,9 @@ const pageCopy: Record<string, PageCopy> = {
   },
   '#payments': {
     eyebrow: 'Cross-border payment safety',
-    title: 'Beneficiary protection',
-    description: 'Rehearse validation, duplicate detection, cooling-off and scam interventions before comparing transparent corridor models.',
-    boundary: 'Synthetic only · no beneficiary data',
+    title: 'Payment compliance orchestration',
+    description: 'Map synthetic corridor compliance gates, rehearse beneficiary interventions and compare transparent route models without collecting identity or payment data.',
+    boundary: 'Synthetic only · no identity data',
   },
   '#business-workspace': {
     eyebrow: 'Business administration',

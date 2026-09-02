@@ -31,22 +31,23 @@ is intentionally public and is still constrained by RLS and server-side auth.
 After this PR is merged and all `main` checks pass:
 
 1. Open **Actions → Build production web release**, choose `main`, enter
-   `BUILD_PHASE_7B` and record the green beneficiary-protection web artifact.
+   `BUILD_PHASE_7C` and record the green compliance-orchestration web artifact.
 2. Open **Actions → Deploy controlled beta web**, choose `main`, enter
-   `DEPLOY_PHASE_7B` and approve the protected production environment.
+   `DEPLOY_PHASE_7C` and approve the protected production environment.
 3. Record the immutable commit, workflow run and Cloudflare deployment URL from
    the job summary. The workflow verifies HTTPS, browser security headers, the
    release manifest and every hard lock after upload. It then runs desktop and
    mobile production browser checks across the public workspaces, Analytics
    interactions, console/network failures and guest execution locks.
 4. After a release or operational incident, open **Actions → Verify web
-   production**, choose `main`, enter `VERIFY_WEB_PHASE_7B` and retain the green
+   production**, choose `main`, enter `VERIFY_WEB_PHASE_7C` and retain the green
    production-browser report.
 5. Do not invite testers yet. Choose and validate the final domain, configure
    its exact Supabase Auth site URL and redirect allow-list, then complete the
    remaining launch prerequisites in `docs/BETA_RELEASE_CANDIDATE.md`.
 
-Deploy and verify migration 041 with the Phase 7B data gates before deploying
-the web workspace. Beneficiary protection is a synthetic rehearsal and corridor
-comparison remains read-only; neither can store a real beneficiary, connect a
-provider, accept a quote or move money.
+Deploy and verify migration 042 with the Phase 7C data gates before deploying
+the web workspace. Compliance orchestration and beneficiary protection are
+synthetic rehearsals and corridor comparison remains read-only; none can store
+identity or beneficiary data, connect a provider, clear a case, accept a quote
+or move money.

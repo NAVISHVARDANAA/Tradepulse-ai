@@ -21,6 +21,7 @@ import { recordLocalWorkspaceVisit } from './lib/trustLayer'
 import { supabase } from './lib/supabase/client'
 import type {
   BeneficiaryProtectionRule,
+  PaymentComplianceRequirement,
   MarketAssetSnapshot,
   MarketForecast,
   EquityResearchSnapshot,
@@ -214,6 +215,7 @@ function App() {
   const [equityResearch, setEquityResearch] = useState<EquityResearchSnapshot[]>([])
   const [corridorRoutes, setCorridorRoutes] = useState<PaymentCorridorRoute[]>([])
   const [beneficiaryProtectionRules, setBeneficiaryProtectionRules] = useState<BeneficiaryProtectionRule[]>([])
+  const [paymentComplianceRequirements, setPaymentComplianceRequirements] = useState<PaymentComplianceRequirement[]>([])
   const [marketLoading, setMarketLoading] = useState(true)
   const [tradeLoading, setTradeLoading] = useState(true)
   const [forecastLoading, setForecastLoading] = useState(true)
@@ -343,16 +345,18 @@ function App() {
 
     void loadProductData(
       () => import('./lib/queries/referenceData')
-        .then(async ({ getBeneficiaryProtectionRules, getPaymentCorridorIntelligence }) => {
-          const [routes, protectionRules] = await Promise.all([
+        .then(async ({ getBeneficiaryProtectionRules, getPaymentComplianceRequirements, getPaymentCorridorIntelligence }) => {
+          const [routes, protectionRules, complianceRequirements] = await Promise.all([
             getPaymentCorridorIntelligence(),
             getBeneficiaryProtectionRules(),
+            getPaymentComplianceRequirements(),
           ])
-          return { routes, protectionRules }
+          return { routes, protectionRules, complianceRequirements }
         }),
-      ({ routes, protectionRules }) => {
+      ({ routes, protectionRules, complianceRequirements }) => {
         setCorridorRoutes(routes)
         setBeneficiaryProtectionRules(protectionRules)
+        setPaymentComplianceRequirements(complianceRequirements)
       },
       setPaymentLoading,
       setPaymentError,
@@ -754,11 +758,12 @@ function App() {
         </section> : null}
 
         {activeHref === '#payments' ? <section id="payments" className="product-workspace">
-          <ProductErrorBoundary title="Payment protection is temporarily unavailable">
+          <ProductErrorBoundary title="Payment compliance is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Cross-border beneficiary protection" />}>
               <PaymentQuotePanel
                 routes={corridorRoutes}
                 beneficiaryProtectionRules={beneficiaryProtectionRules}
+                complianceRequirements={paymentComplianceRequirements}
                 marketAssets={marketAssets}
                 loading={paymentLoading}
                 error={paymentError}
