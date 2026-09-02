@@ -17,7 +17,7 @@ const publicWorkspaces = [
   ['#live-readiness', 'Live trading readiness'],
   ['#data-trust', 'Data trust and notifications'],
   ['#trust-center', 'Trust and activity center'],
-  ['#payments', 'Beneficiary protection'],
+  ['#payments', 'Payment compliance orchestration'],
   ['#system-status', 'Production reliability'],
   ['#beta-operations', 'Beta launch center'],
   ['#approved-pilot', 'Private pilot workspace'],
@@ -144,9 +144,12 @@ test('production execution boundaries remain closed to guests', async ({ page })
   await expect(page.getByRole('button', { name: /activate|submit|route|fund|execute/i })).toHaveCount(0)
 
   await page.goto('/#payments', { waitUntil: 'domcontentloaded' })
-  await expect(page.getByText('No beneficiary can be created and no route can be paid from this workspace.')).toBeVisible()
+  await expect(page.getByText('No customer can be cleared, no beneficiary can be created and no route can be paid from this workspace.')).toBeVisible()
+  await expect(page.getByRole('heading', { level: 3, name: 'Map compliance gates before any payment' })).toBeVisible()
+  await expect(page.getByText('No documents, identities or live screening')).toBeVisible()
+  await expect(page.getByText('Compliance activation blocked', { exact: true })).toBeVisible()
   await expect(page.getByText('No names, accounts or addresses')).toBeVisible()
-  await expect(page.getByRole('button', { name: /select|accept|transfer|pay|execute|submit/i })).toHaveCount(0)
+  await expect(page.getByRole('button', { name: /select|accept|transfer|pay|execute|submit|clear|approve/i })).toHaveCount(0)
 
   expect(failures, failures.join('\n')).toEqual([])
 })

@@ -38,7 +38,7 @@ export const productNavigation: NavGroup[] = [
       { label: 'Regulated preflight', href: '#regulated-preflight' },
       { label: 'Sandbox orders', href: '#sandbox-orders' },
       { label: 'Live readiness', href: '#live-readiness' },
-      { label: 'Payment protection', href: '#payments' },
+      { label: 'Payment compliance', href: '#payments' },
     ],
   },
   {

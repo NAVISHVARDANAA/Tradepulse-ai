@@ -161,12 +161,12 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByRole('button', { name: /activate|submit|route|fund|execute/i })).toHaveCount(0)
 
   await page.goto('/#payments')
-  await expect(page.getByRole('heading', { level: 1, name: 'Beneficiary protection' })).toBeVisible()
-  await expect(page.getByText('No beneficiary can be created and no route can be paid from this workspace.')).toBeVisible()
-  await expect(page.getByRole('button', { name: /select|accept|transfer|pay|execute|submit/i })).toHaveCount(0)
+  await expect(page.getByRole('heading', { level: 1, name: 'Payment compliance orchestration' })).toBeVisible()
+  await expect(page.getByText('No customer can be cleared, no beneficiary can be created and no route can be paid from this workspace.')).toBeVisible()
+  await expect(page.getByRole('button', { name: /select|accept|transfer|pay|execute|submit|clear|approve/i })).toHaveCount(0)
 })
 
-test('payment safety rehearses beneficiary intervention and preserves corridor transparency', async ({ page }) => {
+test('payment safety maps compliance, rehearses beneficiary intervention and preserves corridor transparency', async ({ page }) => {
   const routeBase = {
     corridor_id: 1,
     corridor_code: 'USD-INR',
@@ -230,8 +230,59 @@ test('payment safety rehearses beneficiary intervention and preserves corridor t
       { ...protectionBase, id: 2, rule_code: 'UNVERIFIED_CHANNEL_CHANGE', category: 'scam', signal_key: 'unverified_channel_change', title: 'Unverified channel change', customer_message: 'Unverified channel changes are a common invoice-redirection warning.', priority: 50 },
     ]),
   }))
+  const complianceBase = {
+    corridor_id: 1,
+    corridor_code: 'USD-INR',
+    source_currency: 'USD',
+    destination_currency: 'INR',
+    customer_type: 'both',
+    description: 'Synthetic compliance requirement used by the browser contract.',
+    evidence_required: 'Synthetic evidence only; no customer or provider data is processed.',
+    customer_action: 'Review this illustrative requirement without entering identity or payment data.',
+    review_owner: 'financial_crime_operations',
+    outcome: 'review_required',
+    data_mode: 'synthetic_case_rehearsal',
+    real_identity_collection_enabled: false,
+    document_upload_enabled: false,
+    pii_storage_enabled: false,
+    compliance_provider_connectivity_enabled: false,
+    live_sanctions_screening_enabled: false,
+    transaction_monitoring_connectivity_enabled: false,
+    travel_rule_transmission_enabled: false,
+    compliance_case_writes_enabled: false,
+    automated_clearance_enabled: false,
+    manual_override_enabled: false,
+    quote_acceptance_enabled: false,
+    transfer_creation_enabled: false,
+    payment_execution_enabled: false,
+    money_movement_enabled: false,
+  }
+  await page.route('**/rest/v1/payment_compliance_orchestration_reference*', (route) => route.fulfill({
+    status: 200,
+    contentType: 'application/json',
+    body: JSON.stringify([
+      { ...complianceBase, id: 1, workflow_code: 'USD-INR-KYC', customer_type: 'individual', stage_key: 'kyc', title: 'Individual identity and residency', review_owner: 'identity_operations', priority: 10 },
+      { ...complianceBase, id: 7, workflow_code: 'USD-INR-KYB', customer_type: 'business', stage_key: 'kyb', title: 'Business identity and controllers', review_owner: 'identity_operations', priority: 10 },
+      { ...complianceBase, id: 2, workflow_code: 'USD-INR-AML', stage_key: 'aml', title: 'AML risk assessment', priority: 20 },
+      { ...complianceBase, id: 3, workflow_code: 'USD-INR-SANCTIONS', stage_key: 'sanctions', title: 'Sanctions and watchlist screening', review_owner: 'sanctions_operations', outcome: 'blocked', priority: 30 },
+      { ...complianceBase, id: 4, workflow_code: 'USD-INR-TXMON', stage_key: 'transaction_monitoring', title: 'Transaction-monitoring controls', review_owner: 'transaction_monitoring_operations', priority: 40 },
+      { ...complianceBase, id: 5, workflow_code: 'USD-INR-TRAVELRULE', stage_key: 'travel_rule', title: 'Travel-rule applicability', review_owner: 'travel_rule_operations', outcome: 'blocked', priority: 50 },
+      { ...complianceBase, id: 6, workflow_code: 'USD-INR-AUDIT', stage_key: 'audit', title: 'Audit evidence and decision trace', review_owner: 'compliance_assurance', priority: 60 },
+    ]),
+  }))
 
   await page.goto('/#payments')
+  await expect(page.getByRole('heading', { level: 3, name: 'Map compliance gates before any payment' })).toBeVisible()
+  await expect(page.getByText('No documents, identities or live screening')).toBeVisible()
+  await expect(page.getByText('Compliance activation blocked', { exact: true })).toBeVisible()
+  await expect(page.getByText('6 of 6', { exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 4, name: 'Sanctions and watchlist screening', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 4, name: 'Travel-rule applicability', exact: true })).toBeVisible()
+  await expect(page.getByText(/case writes, automated clearance and manual overrides are disabled/)).toBeVisible()
+  await page.getByLabel('Synthetic customer journey').selectOption('business')
+  await expect(page.getByRole('heading', { level: 4, name: 'Business identity and controllers', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 4, name: 'Individual identity and residency', exact: true })).toHaveCount(0)
+  await expect(page.getByText('6 of 6', { exact: true })).toBeVisible()
   await expect(page.getByRole('heading', { level: 3, name: 'See the intervention before the payment' })).toBeVisible()
   await expect(page.getByText('No names, accounts or addresses')).toBeVisible()
   await expect(page.getByText('Blocked', { exact: true })).toBeVisible()
@@ -242,7 +293,7 @@ test('payment safety rehearses beneficiary intervention and preserves corridor t
   await expect(page.locator('.corridor-route-card')).toHaveCount(2)
   await expect(page.getByText('Sandbox provider-model rate')).toHaveCount(2)
   await expect(page.getByText('Estimated delivered before unknown tax')).toHaveCount(2)
-  await expect(page.getByRole('button', { name: /select|accept|transfer|pay|execute|submit/i })).toHaveCount(0)
+  await expect(page.getByRole('button', { name: /select|accept|transfer|pay|execute|submit|clear|approve/i })).toHaveCount(0)
 })
 
 test('hash navigation renders one focused product workspace at a time', async ({ page }) => {

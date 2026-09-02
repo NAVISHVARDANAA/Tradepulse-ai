@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type DEPLOY_DATA_PHASE_7B to deploy beneficiary protection
+        description: Type DEPLOY_DATA_PHASE_7C to deploy compliance orchestration
         required: true
         type: string
 
@@ -39,8 +39,8 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_7B" || {
-            echo "Release confirmation did not match DEPLOY_DATA_PHASE_7B."
+          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_7C" || {
+            echo "Release confirmation did not match DEPLOY_DATA_PHASE_7C."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -237,6 +237,14 @@ jobs:
             --linked \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --file supabase/tests/production/beneficiary_protection_smoke.sql
+
+      - name: Verify payment compliance orchestration production boundary
+        run: |
+          bash scripts/assert-read-only-sql.sh supabase/tests/production/payment_compliance_orchestration_smoke.sql
+          npx --no-install supabase db query \
+            --linked \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --file supabase/tests/production/payment_compliance_orchestration_smoke.sql
 
       - name: Verify production public web reads
         run: bash scripts/verify-public-runtime-read.sh

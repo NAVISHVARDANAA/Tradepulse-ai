@@ -763,8 +763,27 @@ database, browser, security and release contracts; reviewed
 `VERIFY_WEB_PHASE_7B` evidence. This gate does not authorize collecting a real
 beneficiary or moving money.
 
-- **Phase 7C — compliance orchestration:** corridor-specific KYC/KYB, AML,
-  sanctions, transaction monitoring, travel-rule and audit workflows.
+### Phase 7C — compliance orchestration (implemented foundation)
+
+- A synthetic, corridor-specific map shows the KYC or KYB, AML, sanctions,
+  transaction-monitoring, travel-rule and audit stages expected for individual
+  and business payment journeys.
+- Four enabled corridors each expose seven versioned requirement templates;
+  individual and business rehearsals each resolve to six applicable stages.
+- Evidence categories, operational ownership and customer-safe responses are
+  visible, but no requirement can produce compliance clearance or approval.
+- Database controls keep identity and document collection, PII storage, provider
+  screening, monitoring connectivity, travel-rule transmission, case writes,
+  automated clearance, manual overrides and all payment execution false. No
+  compliance-case, identity-document or clearance RPC exists.
+
+**Phase 7C exit gate:** green compliance-orchestration, beneficiary-protection,
+corridor-intelligence, database, browser, security and release contracts;
+reviewed `DEPLOY_DATA_PHASE_7C`; read-only `VERIFY_DATA_PHASE_7C`; successful
+`BUILD_PHASE_7C`; reviewed `DEPLOY_PHASE_7C`; and read-only
+`VERIFY_WEB_PHASE_7C` evidence. This gate does not authorize identity collection,
+compliance clearance, provider screening, data transmission or money movement.
+
 - **Phase 7D — sandbox transfer lifecycle:** licensed-partner sandbox,
   double-entry ledger, idempotency, webhooks, retries, reconciliation, rescue
   mode, disputes and refunds.

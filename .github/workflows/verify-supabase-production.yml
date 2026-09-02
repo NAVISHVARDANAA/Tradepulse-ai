@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type VERIFY_DATA_PHASE_7B to verify beneficiary protection
+        description: Type VERIFY_DATA_PHASE_7C to verify compliance orchestration
         required: true
         type: string
 
@@ -39,8 +39,8 @@ jobs:
           VERIFICATION_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$VERIFICATION_CONFIRMATION" = "VERIFY_DATA_PHASE_7B" || {
-            echo "Verification confirmation did not match VERIFY_DATA_PHASE_7B."
+          test "$VERIFICATION_CONFIRMATION" = "VERIFY_DATA_PHASE_7C" || {
+            echo "Verification confirmation did not match VERIFY_DATA_PHASE_7C."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -69,13 +69,13 @@ jobs:
       - name: Install the repository-pinned Supabase CLI
         run: npm ci
 
-      - name: Verify migration 041 and remote migration parity
+      - name: Verify migration 042 and remote migration parity
         run: |
           set -eu
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])041([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])042([^0-9]|$)' migration-list.txt
           npx --no-install supabase db push \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" \
@@ -145,6 +145,14 @@ jobs:
             --linked \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --file supabase/tests/production/beneficiary_protection_smoke.sql
+
+      - name: Verify payment compliance orchestration production boundary
+        run: |
+          bash scripts/assert-read-only-sql.sh supabase/tests/production/payment_compliance_orchestration_smoke.sql
+          npx --no-install supabase db query \
+            --linked \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --file supabase/tests/production/payment_compliance_orchestration_smoke.sql
 
       - name: Verify the deployed Edge Function
         run: |

@@ -19,7 +19,7 @@ const [workflow, verifyWorkflow, deploymentVerifier, manifestText, headers, redi
 const manifest = JSON.parse(manifestText)
 
 for (const contract of [
-  'DEPLOY_PHASE_7B',
+  'DEPLOY_PHASE_7C',
   'environment: production',
   'CLOUDFLARE_API_TOKEN',
   'CLOUDFLARE_ACCOUNT_ID',
@@ -31,7 +31,7 @@ for (const contract of [
 ]) {
   assert(workflow.includes(contract), `Cloudflare deployment contract missing: ${contract}`)
 }
-for (const contract of ['VERIFY_WEB_PHASE_7B', 'environment: production', 'npm run test:e2e:production']) {
+for (const contract of ['VERIFY_WEB_PHASE_7C', 'environment: production', 'npm run test:e2e:production']) {
   assert(verifyWorkflow.includes(contract), `Cloudflare verification contract missing: ${contract}`)
 }
 for (const contract of [
@@ -51,8 +51,8 @@ assert(
   !deploymentVerifier.includes("manifest.phase !== '"),
   'Deployment verifier must compare with the checked-out manifest instead of a stale phase literal',
 )
-assert(manifest.phase === '7B', 'Hosting candidate is not on Phase 7B')
-assert(manifest.status === 'beneficiary_protection_candidate', 'Hosting status changed unexpectedly')
+assert(manifest.phase === '7C', 'Hosting candidate is not on Phase 7C')
+assert(manifest.status === 'compliance_orchestration_candidate', 'Hosting status changed unexpectedly')
 assert(manifest.distribution?.hostingProviderSelected === true, 'Cloudflare Pages is not selected')
 assert(manifest.distribution?.publicUrlConfigured === false, 'Public URL cannot be pre-approved by code')
 assert(manifest.distribution?.externalInvitationsApproved === false, 'External invitations became enabled')

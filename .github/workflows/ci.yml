@@ -78,6 +78,9 @@ jobs:
       - name: Verify beneficiary protection
         run: npm run check:beneficiary-protection
 
+      - name: Verify payment compliance orchestration
+        run: npm run check:compliance-orchestration
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 
@@ -261,6 +264,9 @@ jobs:
       - name: Test beneficiary-protection database contracts
         run: npx --no-install supabase test db supabase/tests/database/beneficiary_protection.test.sql
 
+      - name: Test payment-compliance orchestration database contracts
+        run: npx --no-install supabase test db supabase/tests/database/payment_compliance_orchestration.test.sql
+
       - name: Test broker-sandbox certification contracts
         run: npx --no-install supabase test db supabase/tests/database/broker_sandbox_certification.test.sql
 
@@ -362,6 +368,15 @@ jobs:
           npx --no-install supabase db query
           --local
           --file supabase/tests/production/beneficiary_protection_smoke.sql
+
+      - name: Assert payment compliance production smoke SQL is query-only
+        run: bash scripts/assert-read-only-sql.sh supabase/tests/production/payment_compliance_orchestration_smoke.sql
+
+      - name: Test payment compliance production smoke query
+        run: >-
+          npx --no-install supabase db query
+          --local
+          --file supabase/tests/production/payment_compliance_orchestration_smoke.sql
 
       - name: Stop isolated Supabase services
         if: always()
