@@ -39,9 +39,9 @@ const largestAsset = assetFiles.reduce((largest, asset) => (
 
 const budgets = {
   initialGzipBytes: 160 * 1024,
-  // Phase 7A adds a route-deferred corridor-intelligence workspace while the
+  // Phase 7B extends the route-deferred payments workspace while the
   // initial shell remains below 160 KiB. Keep total growth explicitly bounded.
-  totalJavaScriptGzipBytes: 312 * 1024,
+  totalJavaScriptGzipBytes: 315 * 1024,
   largestAssetGzipBytes: 90 * 1024,
 }
 

@@ -20,6 +20,7 @@ import { productDataRequirements } from './lib/productDataRequirements'
 import { recordLocalWorkspaceVisit } from './lib/trustLayer'
 import { supabase } from './lib/supabase/client'
 import type {
+  BeneficiaryProtectionRule,
   MarketAssetSnapshot,
   MarketForecast,
   EquityResearchSnapshot,
@@ -212,6 +213,7 @@ function App() {
   const [forecasts, setForecasts] = useState<MarketForecast[]>([])
   const [equityResearch, setEquityResearch] = useState<EquityResearchSnapshot[]>([])
   const [corridorRoutes, setCorridorRoutes] = useState<PaymentCorridorRoute[]>([])
+  const [beneficiaryProtectionRules, setBeneficiaryProtectionRules] = useState<BeneficiaryProtectionRule[]>([])
   const [marketLoading, setMarketLoading] = useState(true)
   const [tradeLoading, setTradeLoading] = useState(true)
   const [forecastLoading, setForecastLoading] = useState(true)
@@ -341,8 +343,17 @@ function App() {
 
     void loadProductData(
       () => import('./lib/queries/referenceData')
-        .then(({ getPaymentCorridorIntelligence }) => getPaymentCorridorIntelligence()),
-      setCorridorRoutes,
+        .then(async ({ getBeneficiaryProtectionRules, getPaymentCorridorIntelligence }) => {
+          const [routes, protectionRules] = await Promise.all([
+            getPaymentCorridorIntelligence(),
+            getBeneficiaryProtectionRules(),
+          ])
+          return { routes, protectionRules }
+        }),
+      ({ routes, protectionRules }) => {
+        setCorridorRoutes(routes)
+        setBeneficiaryProtectionRules(protectionRules)
+      },
       setPaymentLoading,
       setPaymentError,
       'Payment corridor configuration is unavailable.',
@@ -743,10 +754,11 @@ function App() {
         </section> : null}
 
         {activeHref === '#payments' ? <section id="payments" className="product-workspace">
-          <ProductErrorBoundary title="Corridor intelligence is temporarily unavailable">
-            <Suspense fallback={<SectionLoader label="Cross-border corridor intelligence" />}>
+          <ProductErrorBoundary title="Payment protection is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Cross-border beneficiary protection" />}>
               <PaymentQuotePanel
                 routes={corridorRoutes}
+                beneficiaryProtectionRules={beneficiaryProtectionRules}
                 marketAssets={marketAssets}
                 loading={paymentLoading}
                 error={paymentError}

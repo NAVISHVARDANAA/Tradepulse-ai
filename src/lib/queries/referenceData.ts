@@ -1,4 +1,5 @@
 import type {
+  BeneficiaryProtectionRule,
   CountryTradeSnapshot,
   MarketAssetSnapshot,
   MarketForecast,
@@ -431,5 +432,42 @@ export async function getPaymentCorridorIntelligence(): Promise<PaymentCorridorR
     moneyMovementEnabled: false,
     custodyEnabled: false,
     settlementEnabled: false,
+  }))
+}
+
+export async function getBeneficiaryProtectionRules(): Promise<BeneficiaryProtectionRule[]> {
+  const { data, error } = await supabase
+    .from('payment_beneficiary_protection_reference')
+    .select('*')
+    .order('priority')
+
+  if (error) {
+    throw error
+  }
+
+  return (data ?? []).map((row) => ({
+    id: Number(row.id),
+    ruleCode: row.rule_code,
+    category: row.category as BeneficiaryProtectionRule['category'],
+    signalKey: row.signal_key,
+    title: row.title,
+    description: row.description,
+    severity: row.severity as BeneficiaryProtectionRule['severity'],
+    outcome: row.outcome as BeneficiaryProtectionRule['outcome'],
+    coolingOffHours: Number(row.cooling_off_hours),
+    customerMessage: row.customer_message,
+    requiredAction: row.required_action,
+    priority: Number(row.priority),
+    dataMode: 'synthetic_rehearsal',
+    realBeneficiaryCollectionEnabled: false,
+    beneficiaryIdentifierStorageEnabled: false,
+    validationProviderConnectivityEnabled: false,
+    beneficiaryCreationEnabled: false,
+    duplicateOverrideEnabled: false,
+    coolingOffBypassEnabled: false,
+    quoteAcceptanceEnabled: false,
+    transferCreationEnabled: false,
+    paymentExecutionEnabled: false,
+    moneyMovementEnabled: false,
   }))
 }

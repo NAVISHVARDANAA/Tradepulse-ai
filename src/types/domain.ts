@@ -104,6 +104,32 @@ export type PaymentCorridorRoute = {
   settlementEnabled: false
 }
 
+export type BeneficiaryProtectionRule = {
+  id: number
+  ruleCode: string
+  category: 'validation' | 'duplicate' | 'cooling_off' | 'scam'
+  signalKey: string
+  title: string
+  description: string
+  severity: 'medium' | 'high' | 'critical'
+  outcome: 'manual_review' | 'cooling_off' | 'blocked'
+  coolingOffHours: number
+  customerMessage: string
+  requiredAction: string
+  priority: number
+  dataMode: 'synthetic_rehearsal'
+  realBeneficiaryCollectionEnabled: false
+  beneficiaryIdentifierStorageEnabled: false
+  validationProviderConnectivityEnabled: false
+  beneficiaryCreationEnabled: false
+  duplicateOverrideEnabled: false
+  coolingOffBypassEnabled: false
+  quoteAcceptanceEnabled: false
+  transferCreationEnabled: false
+  paymentExecutionEnabled: false
+  moneyMovementEnabled: false
+}
+
 export type EquityCoverageStatus =
   | 'reference'
   | 'delayed'

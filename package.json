@@ -20,6 +20,7 @@
     "check:sandbox-orders": "node scripts/assert-sandbox-order-lifecycle.mjs",
     "check:live-readiness": "node scripts/assert-live-trading-readiness.mjs",
     "check:corridor-intelligence": "node scripts/assert-corridor-intelligence.mjs",
+    "check:beneficiary-protection": "node scripts/assert-beneficiary-protection.mjs",
     "check:bundle": "node scripts/assert-frontend-budgets.mjs",
     "check:beta": "node scripts/assert-beta-readiness.mjs",
     "check:hosting": "node scripts/assert-cloudflare-hosting.mjs",

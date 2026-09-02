@@ -119,10 +119,10 @@ const pageCopy: Record<string, PageCopy> = {
     boundary: 'Activation remains blocked',
   },
   '#payments': {
-    eyebrow: 'Cross-border transparency',
-    title: 'Cross-border corridor intelligence',
-    description: 'Compare reference rates, sandbox provider models, spreads, known fees, tax gaps, delivery estimates and route availability.',
-    boundary: 'Reference only · no money movement',
+    eyebrow: 'Cross-border payment safety',
+    title: 'Beneficiary protection',
+    description: 'Rehearse validation, duplicate detection, cooling-off and scam interventions before comparing transparent corridor models.',
+    boundary: 'Synthetic only · no beneficiary data',
   },
   '#business-workspace': {
     eyebrow: 'Business administration',

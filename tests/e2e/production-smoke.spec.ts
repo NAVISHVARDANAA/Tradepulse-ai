@@ -17,7 +17,7 @@ const publicWorkspaces = [
   ['#live-readiness', 'Live trading readiness'],
   ['#data-trust', 'Data trust and notifications'],
   ['#trust-center', 'Trust and activity center'],
-  ['#payments', 'Cross-border corridor intelligence'],
+  ['#payments', 'Beneficiary protection'],
   ['#system-status', 'Production reliability'],
   ['#beta-operations', 'Beta launch center'],
   ['#approved-pilot', 'Private pilot workspace'],
@@ -144,7 +144,8 @@ test('production execution boundaries remain closed to guests', async ({ page })
   await expect(page.getByRole('button', { name: /activate|submit|route|fund|execute/i })).toHaveCount(0)
 
   await page.goto('/#payments', { waitUntil: 'domcontentloaded' })
-  await expect(page.getByText('No route can be selected or paid from this workspace.')).toBeVisible()
+  await expect(page.getByText('No beneficiary can be created and no route can be paid from this workspace.')).toBeVisible()
+  await expect(page.getByText('No names, accounts or addresses')).toBeVisible()
   await expect(page.getByRole('button', { name: /select|accept|transfer|pay|execute|submit/i })).toHaveCount(0)
 
   expect(failures, failures.join('\n')).toEqual([])
