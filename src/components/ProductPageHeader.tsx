@@ -119,10 +119,10 @@ const pageCopy: Record<string, PageCopy> = {
     boundary: 'Activation remains blocked',
   },
   '#payments': {
-    eyebrow: 'Cross-border foundation',
-    title: 'Indicative payment corridors',
-    description: 'Explore sandbox corridor quotes while custody, settlement and money movement remain disabled.',
-    boundary: 'No money movement',
+    eyebrow: 'Cross-border transparency',
+    title: 'Cross-border corridor intelligence',
+    description: 'Compare reference rates, sandbox provider models, spreads, known fees, tax gaps, delivery estimates and route availability.',
+    boundary: 'Reference only · no money movement',
   },
   '#business-workspace': {
     eyebrow: 'Business administration',

@@ -117,7 +117,7 @@ assert(productionTest.includes("['#approved-pilot', 'Private pilot workspace']")
 const packageJson = JSON.parse(packageJsonText)
 const manifest = JSON.parse(manifestText)
 assert(packageJson.scripts?.['check:approved-pilot'], 'Approved pilot package check is missing')
-assert(manifest.phase === '6C', 'Release manifest is not on the current Phase 6C candidate')
+assert(manifest.phase === '7A', 'Release manifest is not on the current Phase 7A candidate')
 assert(manifest.approvedTesterPilot?.workspaceEnabled === true, 'Manifest omits the pilot workspace')
 assert(manifest.approvedTesterPilot?.manualApprovalRequired === true, 'Manual pilot approval is not explicit')
 assert(manifest.approvedTesterPilot?.browserEnrollmentEnabled === false, 'Browser pilot enrollment became enabled')
@@ -125,16 +125,16 @@ assert(manifest.approvedTesterPilot?.boundedCohorts === true, 'Bounded pilot coh
 assert(manifest.requiredChecks.includes('check:approved-pilot'), 'Manifest omits approved pilot verification')
 
 for (const [name, workflow, confirmation] of [
-  ['build', build, 'BUILD_PHASE_6C'],
-  ['web deploy', deployWeb, 'DEPLOY_PHASE_6C'],
-  ['web verify', verifyWeb, 'VERIFY_WEB_PHASE_6C'],
+  ['build', build, 'BUILD_PHASE_7A'],
+  ['web deploy', deployWeb, 'DEPLOY_PHASE_7A'],
+  ['web verify', verifyWeb, 'VERIFY_WEB_PHASE_7A'],
 ]) {
   assert(workflow.includes(confirmation), `Phase 5I ${name} confirmation is missing`)
   assert(workflow.includes('check:approved-pilot'), `Phase 5I ${name} omits the pilot check`)
 }
-assert(deployData.includes('DEPLOY_DATA_PHASE_6C'), 'Current data deployment confirmation is missing')
+assert(deployData.includes('DEPLOY_DATA_PHASE_7A'), 'Current data deployment confirmation is missing')
 assert(deployData.includes('approved_tester_pilot_smoke.sql'), 'Data deployment omits pilot production smoke')
-assert(verifyData.includes('VERIFY_DATA_PHASE_6C'), 'Current data verification confirmation is missing')
+assert(verifyData.includes('VERIFY_DATA_PHASE_7A'), 'Current data verification confirmation is missing')
 assert(verifyData.includes('approved_tester_pilot_smoke.sql'), 'Data verification omits pilot production smoke')
 assert(ci.includes('approved_tester_pilot.test.sql'), 'CI omits approved pilot database tests')
 assert(ci.includes('check:approved-pilot'), 'CI omits the approved pilot repository check')

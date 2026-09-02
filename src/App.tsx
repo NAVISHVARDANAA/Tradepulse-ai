@@ -23,7 +23,7 @@ import type {
   MarketAssetSnapshot,
   MarketForecast,
   EquityResearchSnapshot,
-  PaymentCorridor,
+  PaymentCorridorRoute,
   TradeDashboard,
   TradeKpi,
 } from './types/domain'
@@ -211,7 +211,7 @@ function App() {
   )
   const [forecasts, setForecasts] = useState<MarketForecast[]>([])
   const [equityResearch, setEquityResearch] = useState<EquityResearchSnapshot[]>([])
-  const [corridors, setCorridors] = useState<PaymentCorridor[]>([])
+  const [corridorRoutes, setCorridorRoutes] = useState<PaymentCorridorRoute[]>([])
   const [marketLoading, setMarketLoading] = useState(true)
   const [tradeLoading, setTradeLoading] = useState(true)
   const [forecastLoading, setForecastLoading] = useState(true)
@@ -341,8 +341,8 @@ function App() {
 
     void loadProductData(
       () => import('./lib/queries/referenceData')
-        .then(({ getPaymentCorridors }) => getPaymentCorridors()),
-      setCorridors,
+        .then(({ getPaymentCorridorIntelligence }) => getPaymentCorridorIntelligence()),
+      setCorridorRoutes,
       setPaymentLoading,
       setPaymentError,
       'Payment corridor configuration is unavailable.',
@@ -743,10 +743,10 @@ function App() {
         </section> : null}
 
         {activeHref === '#payments' ? <section id="payments" className="product-workspace">
-          <ProductErrorBoundary title="Payment quotes are temporarily unavailable">
-            <Suspense fallback={<SectionLoader label="Cross-border payment sandbox" />}>
+          <ProductErrorBoundary title="Corridor intelligence is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Cross-border corridor intelligence" />}>
               <PaymentQuotePanel
-                corridors={corridors}
+                routes={corridorRoutes}
                 marketAssets={marketAssets}
                 loading={paymentLoading}
                 error={paymentError}

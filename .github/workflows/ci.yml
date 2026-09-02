@@ -72,6 +72,9 @@ jobs:
       - name: Verify live-trading readiness
         run: npm run check:live-readiness
 
+      - name: Verify corridor intelligence
+        run: npm run check:corridor-intelligence
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 
@@ -249,6 +252,9 @@ jobs:
       - name: Test live-trading readiness database contracts
         run: npx --no-install supabase test db supabase/tests/database/live_trading_readiness.test.sql
 
+      - name: Test corridor-intelligence database contracts
+        run: npx --no-install supabase test db supabase/tests/database/corridor_intelligence.test.sql
+
       - name: Test broker-sandbox certification contracts
         run: npx --no-install supabase test db supabase/tests/database/broker_sandbox_certification.test.sql
 
@@ -332,6 +338,15 @@ jobs:
           npx --no-install supabase db query
           --local
           --file supabase/tests/production/live_trading_readiness_smoke.sql
+
+      - name: Assert corridor intelligence production smoke SQL is query-only
+        run: bash scripts/assert-read-only-sql.sh supabase/tests/production/corridor_intelligence_smoke.sql
+
+      - name: Test corridor intelligence production smoke query
+        run: >-
+          npx --no-install supabase db query
+          --local
+          --file supabase/tests/production/corridor_intelligence_smoke.sql
 
       - name: Stop isolated Supabase services
         if: always()

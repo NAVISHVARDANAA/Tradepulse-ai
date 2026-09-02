@@ -12,6 +12,7 @@ endpoints=(
   'academy_catalog?select=slug&limit=1'
   'investment_instruments?select=id&paper_trading_enabled=eq.true&limit=1'
   'payment_corridors?select=id&enabled=eq.true&limit=1'
+  'payment_corridor_intelligence?select=route_code&limit=1'
 )
 
 for endpoint in "${endpoints[@]}"; do
