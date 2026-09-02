@@ -62,7 +62,7 @@ jobs:
         run: npm run test:e2e:production
       - name: Upload production browser report
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: production-browser-report-${{ github.sha }}
           path: playwright-production-report
