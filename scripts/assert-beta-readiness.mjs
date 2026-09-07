@@ -13,9 +13,9 @@ const artifactManifest = JSON.parse(artifactManifestText)
 
 assert(manifest.schemaVersion === 1, 'Unexpected beta manifest schema')
 assert(manifest.release === 'controlled-beta-rc2', 'Unexpected beta release identifier')
-assert(manifest.phase === '7C', 'Beta manifest is not on Phase 7C')
+assert(manifest.phase === '7D', 'Beta manifest is not on Phase 7D')
 assert(
-  manifest.status === 'compliance_orchestration_candidate',
+  manifest.status === 'sandbox_transfer_lifecycle_candidate',
   'Beta manifest overstates the release status',
 )
 assert(manifest.audience === 'internal_release_review', 'Beta audience boundary changed')
@@ -58,6 +58,7 @@ const expectedChecks = [
   'check:corridor-intelligence',
   'check:beneficiary-protection',
   'check:compliance-orchestration',
+  'check:sandbox-transfers',
   'check:production-experience',
   'check:bundle',
   'check:release',
@@ -91,17 +92,17 @@ const [buildWorkflow, deployWorkflow, verifyWebWorkflow, ciWorkflow, securityWor
   ])
 
 for (const contract of [
-  'BUILD_PHASE_7C',
+  'BUILD_PHASE_7D',
   'npm run check:beta',
   'tradepulse-beta-rc2-${{ github.sha }}',
   'environment: production',
 ]) {
   assert(buildWorkflow.includes(contract), `Beta build workflow contract missing: ${contract}`)
 }
-for (const contract of ['DEPLOY_PHASE_7C', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['DEPLOY_PHASE_7D', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
   assert(deployWorkflow.includes(contract), `Beta deploy workflow contract missing: ${contract}`)
 }
-for (const contract of ['VERIFY_WEB_PHASE_7C', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['VERIFY_WEB_PHASE_7D', 'verify:web-deployment', 'test:e2e:production']) {
   assert(verifyWebWorkflow.includes(contract), `Beta web verification workflow contract missing: ${contract}`)
 }
 for (const contract of [
@@ -119,6 +120,7 @@ for (const contract of [
   'npm run check:corridor-intelligence',
   'npm run check:beneficiary-protection',
   'npm run check:compliance-orchestration',
+  'npm run check:sandbox-transfers',
   'npm run check:security',
   'npm run check:hosting',
 ]) {
@@ -143,6 +145,12 @@ assert(roadmap.includes('Phase 6C — controlled live-trading readiness'), 'Road
 assert(roadmap.includes('Phase 7A — corridor intelligence'), 'Roadmap omits Phase 7A')
 assert(roadmap.includes('Phase 7B — beneficiary protection'), 'Roadmap omits Phase 7B')
 assert(roadmap.includes('Phase 7C — compliance orchestration'), 'Roadmap omits Phase 7C')
+assert(roadmap.includes('Phase 7D — sandbox transfer lifecycle'), 'Roadmap omits Phase 7D')
+assert(roadmap.includes('Phase 8A — global venue and instrument intelligence'), 'Roadmap omits global exchange intelligence')
+assert(roadmap.includes('Phase 8B — international multi-asset paper trading'), 'Roadmap omits international paper trading')
+assert(roadmap.includes('Phase 8C — options education and paper trading'), 'Roadmap omits options paper trading')
+assert(roadmap.includes('Phase 8D — global brokerage and custody orchestration'), 'Roadmap omits global brokerage orchestration')
+assert(roadmap.includes('Phase 8E — controlled international live rollout'), 'Roadmap omits controlled global activation')
 assert(roadmap.includes('Phase 5E — controlled-beta onboarding and operations'), 'Roadmap omits Phase 5E')
 assert(roadmap.includes('Phase 5F — route-aware data loading'), 'Roadmap omits Phase 5F')
 assert(candidateDoc.includes('Artifact-only status'), 'Candidate documentation omits artifact status')

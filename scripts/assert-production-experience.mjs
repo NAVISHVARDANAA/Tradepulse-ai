@@ -48,7 +48,7 @@ for (const contract of [
   'response.status() >= 400',
   'tradepulse-analytics-views-v1',
   'Drill through',
-  'No customer can be cleared, no beneficiary can be created and no route can be paid from this workspace',
+  'No transfer, webhook, ledger posting, dispute or refund can be created from this workspace',
   'Compliance activation blocked',
 ]) {
   assert(test.includes(contract), `Production experience contract missing: ${contract}`)
@@ -60,10 +60,10 @@ assert(
   localConfig.includes("testIgnore: 'production-smoke.spec.ts'"),
   'Local browser suite must not run the live production smoke contract',
 )
-for (const contract of ['VERIFY_WEB_PHASE_7C', 'npm run test:e2e:production', 'environment: production']) {
+for (const contract of ['VERIFY_WEB_PHASE_7D', 'npm run test:e2e:production', 'environment: production']) {
   assert(verifyWorkflow.includes(contract), `Manual production verification workflow missing: ${contract}`)
 }
-for (const contract of ['DEPLOY_PHASE_7C', 'npm run test:e2e:production', 'steps.cloudflare.outputs.deployment-url']) {
+for (const contract of ['DEPLOY_PHASE_7D', 'npm run test:e2e:production', 'steps.cloudflare.outputs.deployment-url']) {
   assert(deployWorkflow.includes(contract), `Post-deployment experience gate missing: ${contract}`)
 }
 for (const script of ['check:production-experience', 'test:e2e:production']) {

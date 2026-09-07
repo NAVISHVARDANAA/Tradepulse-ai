@@ -1,6 +1,8 @@
 import type {
   BeneficiaryProtectionRule,
   PaymentComplianceRequirement,
+  PaymentSandboxLedgerTemplate,
+  PaymentSandboxTransferStage,
   CountryTradeSnapshot,
   MarketAssetSnapshot,
   MarketForecast,
@@ -515,5 +517,61 @@ export async function getPaymentComplianceRequirements(): Promise<PaymentComplia
     transferCreationEnabled: false,
     paymentExecutionEnabled: false,
     moneyMovementEnabled: false,
+  }))
+}
+
+export async function getPaymentSandboxTransferStages(): Promise<PaymentSandboxTransferStage[]> {
+  const { data, error } = await supabase
+    .from('payment_sandbox_transfer_lifecycle_reference')
+    .select('*')
+    .order('corridor_code')
+    .order('priority')
+
+  if (error) {
+    throw error
+  }
+
+  return (data ?? []).map((row) => ({
+    id: Number(row.id),
+    stageCode: row.stage_code,
+    corridorId: Number(row.corridor_id),
+    corridorCode: row.corridor_code,
+    sourceCurrency: row.source_currency,
+    destinationCurrency: row.destination_currency,
+    stageKey: row.stage_key as PaymentSandboxTransferStage['stageKey'],
+    title: row.title,
+    description: row.description,
+    evidenceRequired: row.evidence_required,
+    safeResponse: row.safe_response,
+    responsibleOwner: row.responsible_owner as PaymentSandboxTransferStage['responsibleOwner'],
+    priority: Number(row.priority),
+  }))
+}
+
+export async function getPaymentSandboxLedgerTemplates(): Promise<PaymentSandboxLedgerTemplate[]> {
+  const { data, error } = await supabase
+    .from('payment_sandbox_ledger_reference')
+    .select('*')
+    .order('corridor_code')
+    .order('journal_key')
+    .order('priority')
+
+  if (error) {
+    throw error
+  }
+
+  return (data ?? []).map((row) => ({
+    id: Number(row.id),
+    postingCode: row.posting_code,
+    corridorId: Number(row.corridor_id),
+    corridorCode: row.corridor_code,
+    sourceCurrency: row.source_currency,
+    destinationCurrency: row.destination_currency,
+    journalKey: row.journal_key as PaymentSandboxLedgerTemplate['journalKey'],
+    currencyRole: row.currency_role as PaymentSandboxLedgerTemplate['currencyRole'],
+    accountCode: row.account_code as PaymentSandboxLedgerTemplate['accountCode'],
+    entrySide: row.entry_side as PaymentSandboxLedgerTemplate['entrySide'],
+    amountBasis: row.amount_basis as PaymentSandboxLedgerTemplate['amountBasis'],
+    priority: Number(row.priority),
   }))
 }

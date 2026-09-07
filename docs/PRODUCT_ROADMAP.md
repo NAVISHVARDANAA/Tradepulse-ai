@@ -784,15 +784,147 @@ reviewed `DEPLOY_DATA_PHASE_7C`; read-only `VERIFY_DATA_PHASE_7C`; successful
 `VERIFY_WEB_PHASE_7C` evidence. This gate does not authorize identity collection,
 compliance clearance, provider screening, data transmission or money movement.
 
-- **Phase 7D — sandbox transfer lifecycle:** licensed-partner sandbox,
-  double-entry ledger, idempotency, webhooks, retries, reconciliation, rescue
-  mode, disputes and refunds.
+### Phase 7D — sandbox transfer lifecycle (implemented foundation)
+
+- A synthetic, corridor-specific rehearsal maps idempotency, a future
+  licensed-partner sandbox hand-off, signed webhooks, bounded retries,
+  reconciliation, rescue mode, disputes and refunds.
+- Four enabled corridors each expose nine versioned lifecycle stages and four
+  double-entry templates: 36 lifecycle requirements and 16 posting templates.
+- Source funding and destination obligation are shown as separate, balanced
+  currency journals. No cross-currency amount is silently netted into one
+  accounting balance and no financial entry is posted.
+- Standard delivery, duplicate retry, webhook replay, reconciliation exception
+  and dispute/refund scenarios change browser-local rehearsal state only.
+- Database controls keep customer and beneficiary data, provider connectivity,
+  transfer creation, webhook ingestion, ledger posting, retry execution,
+  reconciliation writes, rescue actions, dispute cases, refunds, quote
+  acceptance, funding, execution, custody, settlement and money movement false.
+  No operational transfer, webhook, ledger, dispute or refund table or RPC exists.
+
+**Phase 7D exit gate:** green sandbox-transfer, compliance-orchestration,
+beneficiary-protection, corridor-intelligence, database, browser, security and
+release contracts; reviewed `DEPLOY_DATA_PHASE_7D`; read-only
+`VERIFY_DATA_PHASE_7D`; successful `BUILD_PHASE_7D`; reviewed
+`DEPLOY_PHASE_7D`; and read-only `VERIFY_WEB_PHASE_7D` evidence. This gate does
+not authorize a partner connection, transfer write, webhook ingestion, ledger
+posting, dispute, refund, funding, execution or money movement.
+
 - **Phase 7E — controlled money movement:** corridor-by-corridor safeguarding,
   legal, compliance, security, partner and operational approval before any
   production fund movement.
 
 **Exit gate:** corridor-by-corridor legal, compliance, security and partner
 approvals are written and auditable before any production fund movement.
+
+## Global multi-market trading sequence
+
+TradePulse AI is intended to become an international investing and trading
+platform, not only a research dashboard. Availability must expand market by
+market and customer-residency by customer-residency; the product must never
+imply that every instrument or exchange is available in every country.
+
+### Phase 8A — global venue and instrument intelligence
+
+- A canonical exchange directory covers each supported venue's MIC, country,
+  time zone, trading sessions, holidays, currencies, settlement conventions and
+  current availability state.
+- A global security master maps provider identifiers, listings, primary venue,
+  asset class, currency, corporate actions and delisting or suspension status
+  without treating similarly named instruments as interchangeable.
+- Market-data entitlements distinguish realtime, delayed, reference-only and
+  unavailable display rights by customer, venue and region. Browser clients
+  never receive feed credentials.
+- A residency, citizenship, entity-type and jurisdiction matrix fails closed
+  when a customer, instrument, venue or required disclosure is unsupported.
+- The initial asset scope is cash equities, ETFs and depositary receipts. This
+  phase provides research and reference data only; it cannot route an order.
+
+**Phase 8A exit gate:** exchange calendars, identifiers, entitlements,
+corporate actions and jurisdiction outcomes reproduce licensed source evidence;
+unsupported combinations are visibly unavailable; no live execution or funding
+path is introduced.
+
+### Phase 8B — international multi-asset paper trading
+
+- Multi-currency virtual cash, positions and tax lots support cash equities,
+  ETFs and depositary receipts across approved simulated venues.
+- Venue-aware market, limit, stop and stop-limit simulations respect sessions,
+  tick sizes, lot sizes, halts, partial fills and order expiry. Fractional shares
+  are simulated only where the selected future partner would support them.
+- FX conversion, commissions, exchange fees, stamp duties, withholding and
+  other taxes are modeled explicitly; unknown costs remain unavailable rather
+  than appearing as zero.
+- Corporate actions, settlement timing, dividends and currency effects flow
+  through a balanced paper ledger with deterministic reconciliation.
+- Best-execution evidence is rehearsed using timestamped quotes and simulated
+  routing comparisons, with no claim that a paper fill was achievable live.
+
+**Phase 8B exit gate:** multi-currency cash and positions reconcile across an
+agreed test window, venue and cost rules are versioned, and paper orders cannot
+reach a broker, custodian or real account.
+
+### Phase 8C — options education and paper trading
+
+- Entitlement-aware option chains expose expiry, strike, call or put, bid/ask,
+  volume, open interest and data freshness only where display rights permit.
+- An educational strategy builder covers single-leg and defined-risk spreads
+  first, with payoff diagrams, break-even points, maximum profit/loss,
+  collateral assumptions, Greeks and implied-volatility context.
+- Exercise, assignment, early-assignment risk, expiration, settlement and
+  corporate-action adjustments are simulated with auditable paper-ledger
+  outcomes.
+- Appropriateness, experience, objectives, loss tolerance and jurisdiction gates
+  are rehearsed independently from research signals. Forecast confidence never
+  grants options permission.
+- Undefined-risk strategies, uncovered short options, live options routing and
+  margin remain hard locked until separately approved.
+
+**Phase 8C exit gate:** defined-risk payoff and assignment simulations reconcile
+against independent fixtures, every scenario shows bounded or explicitly
+unbounded risk, and no paper-options action can create a live position.
+
+### Phase 8D — global brokerage and custody orchestration
+
+- Broker, exchange, clearing, custody and market-data integrations are approved
+  separately by jurisdiction, customer residency, account type, asset class and
+  venue instead of using a single global switch.
+- Onboarding coordinates KYC/KYB, AML, sanctions, tax forms, disclosures,
+  appropriateness or suitability, agreements and data subscriptions with
+  identity-bound, expiring evidence.
+- Order previews expose price, FX, commissions, venue fees, estimated taxes,
+  buying power, settlement currency and route evidence before consent.
+- Cross-border payment funding remains separated from brokerage execution and
+  safeguarded customer money. No payment quote silently becomes trading cash.
+- Append-only order, allocation, cash, custody and settlement ledgers reconcile
+  independently with partner statements, signed events and disaster-recovery
+  drills.
+
+**Phase 8D exit gate:** written legal, compliance, tax, market-data, broker,
+custody, security and operational approvals exist for each exact launch matrix;
+production credentials alone cannot enable an instrument or market.
+
+### Phase 8E — controlled international live rollout
+
+- Launch begins with small approved customer cohorts and cash equities on named
+  venues, with conservative notional, concentration, velocity and funding
+  limits plus tested kill switches.
+- Each additional country, residency, exchange, currency, order type and asset
+  class requires an explicit versioned activation decision and rollback plan.
+- Options remain a later independent rollout, beginning with separately approved
+  defined-risk strategies; suitability, margin, disclosures and supervision are
+  re-evaluated continuously.
+- Best execution, market abuse surveillance, complaints, statements, tax
+  reporting, reconciliations, incidents and customer-asset protections operate
+  before scale increases.
+- Product copy shows the customer's actual eligible markets and instruments. It
+  never markets universal access when law, sanctions, licensing, tax rules,
+  market-data rights or partner coverage restrict availability.
+
+**Phase 8E exit gate:** the exact country-market-product cohort has signed
+approval, observed operational drills, reconciled production evidence and a
+tested rollback. Approval for one market never activates another market,
+country, payment corridor or options permission.
 
 ## Platform evolution
 

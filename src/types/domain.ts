@@ -163,6 +163,37 @@ export type PaymentComplianceRequirement = {
   moneyMovementEnabled: false
 }
 
+export type PaymentSandboxTransferStage = {
+  id: number
+  stageCode: string
+  corridorId: number
+  corridorCode: string
+  sourceCurrency: string
+  destinationCurrency: string
+  stageKey: 'idempotency' | 'sandbox_submission' | 'webhook_verification' | 'double_entry_ledger' | 'retry_policy' | 'reconciliation' | 'rescue_mode' | 'dispute' | 'refund'
+  title: string
+  description: string
+  evidenceRequired: string
+  safeResponse: string
+  responsibleOwner: 'payment_operations' | 'platform_reliability' | 'financial_control' | 'customer_protection'
+  priority: number
+}
+
+export type PaymentSandboxLedgerTemplate = {
+  id: number
+  postingCode: string
+  corridorId: number
+  corridorCode: string
+  sourceCurrency: string
+  destinationCurrency: string
+  journalKey: 'source_funding' | 'destination_obligation'
+  currencyRole: 'source' | 'destination'
+  accountCode: 'sandbox_cash_control' | 'sandbox_transfer_liability' | 'sandbox_fx_bridge_control' | 'sandbox_payout_payable'
+  entrySide: 'debit' | 'credit'
+  amountBasis: 'source_amount' | 'destination_before_tax'
+  priority: number
+}
+
 export type EquityCoverageStatus =
   | 'reference'
   | 'delayed'

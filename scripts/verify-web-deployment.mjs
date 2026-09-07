@@ -160,6 +160,44 @@ if (
 ) {
   throw new Error('Deployed compliance-orchestration boundary is incomplete or operational.')
 }
+if (
+  manifest.sandboxTransferLifecycle?.syntheticTransferRehearsalOnly !== true ||
+  manifest.sandboxTransferLifecycle?.licensedPartnerSandboxReference !== true ||
+  manifest.sandboxTransferLifecycle?.corridorCount !== 4 ||
+  manifest.sandboxTransferLifecycle?.stageTemplateCount !== 36 ||
+  manifest.sandboxTransferLifecycle?.ledgerTemplateCount !== 16 ||
+  manifest.sandboxTransferLifecycle?.journalCountPerCorridor !== 2 ||
+  manifest.sandboxTransferLifecycle?.idempotencyVisible !== true ||
+  manifest.sandboxTransferLifecycle?.signedWebhookVisible !== true ||
+  manifest.sandboxTransferLifecycle?.doubleEntryPreviewVisible !== true ||
+  manifest.sandboxTransferLifecycle?.boundedRetryVisible !== true ||
+  manifest.sandboxTransferLifecycle?.reconciliationVisible !== true ||
+  manifest.sandboxTransferLifecycle?.rescueModeVisible !== true ||
+  manifest.sandboxTransferLifecycle?.disputeWorkflowVisible !== true ||
+  manifest.sandboxTransferLifecycle?.refundWorkflowVisible !== true ||
+  manifest.sandboxTransferLifecycle?.currencySeparatedJournals !== true ||
+  manifest.sandboxTransferLifecycle?.realCustomerDataEnabled !== false ||
+  manifest.sandboxTransferLifecycle?.realBeneficiaryDataEnabled !== false ||
+  manifest.sandboxTransferLifecycle?.providerSandboxConnectivityEnabled !== false ||
+  manifest.sandboxTransferLifecycle?.browserTransferCreationEnabled !== false ||
+  manifest.sandboxTransferLifecycle?.serviceTransferCreationEnabled !== false ||
+  manifest.sandboxTransferLifecycle?.webhookIngestionEnabled !== false ||
+  manifest.sandboxTransferLifecycle?.financialLedgerPostingEnabled !== false ||
+  manifest.sandboxTransferLifecycle?.retryExecutionEnabled !== false ||
+  manifest.sandboxTransferLifecycle?.reconciliationWriteEnabled !== false ||
+  manifest.sandboxTransferLifecycle?.rescueOperatorActionEnabled !== false ||
+  manifest.sandboxTransferLifecycle?.disputeCaseWritesEnabled !== false ||
+  manifest.sandboxTransferLifecycle?.refundExecutionEnabled !== false ||
+  manifest.sandboxTransferLifecycle?.productionProviderConnectivityEnabled !== false ||
+  manifest.sandboxTransferLifecycle?.quoteAcceptanceEnabled !== false ||
+  manifest.sandboxTransferLifecycle?.paymentExecutionEnabled !== false ||
+  manifest.sandboxTransferLifecycle?.moneyMovementEnabled !== false ||
+  manifest.sandboxTransferLifecycle?.customerFundingEnabled !== false ||
+  manifest.sandboxTransferLifecycle?.custodyEnabled !== false ||
+  manifest.sandboxTransferLifecycle?.settlementEnabled !== false
+) {
+  throw new Error('Deployed sandbox-transfer lifecycle boundary is incomplete or operational.')
+}
 
 console.log(
   `Verified Phase ${manifest.phase} controlled-beta deployment at ${baseUrl.origin}: exact manifest, HTTPS policy and execution locks passed.`,
