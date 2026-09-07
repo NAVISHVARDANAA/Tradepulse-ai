@@ -40,18 +40,18 @@ The dashboard will show `not run`; an authorized probe without credentials fails
 closed and stores only `CONFIGURATION_INVALID`. Never use Alpaca live credentials
 for this adapter.
 
-## Release Phase 7C
+## Release Phase 7D
 
 1. Confirm the CI workflow on `main` is green.
 2. Open **Actions → Deploy Supabase production → Run workflow**.
 3. Select the `main` branch.
-4. Enter `DEPLOY_DATA_PHASE_7C` as the confirmation value.
+4. Enter `DEPLOY_DATA_PHASE_7D` as the confirmation value.
 5. Approve the `production` environment deployment when prompted.
 
 The workflow performs a database dry run, applies every pending migration in
 filename order and redeploys every customer and internal Edge Function affected
 by the shared security, observability and account-protection boundary. It verifies
-migration `042`, checks active functions, verifies the private regulated-preflight,
+migration `043`, checks active functions, verifies the private regulated-preflight,
 internal-only sandbox-order, corridor-intelligence, beneficiary-protection and payment-compliance boundaries, and confirms approved public
 runtime reads return HTTP 2xx. It also runs query-only production lock smoke
 checks and proves that unauthenticated brokerage, paper-simulation,
@@ -60,14 +60,15 @@ platform-evaluation and account-security requests receive HTTP 401.
 ## Read-only production verification
 
 Run **Actions → Verify Supabase production → Run workflow** after a release or
-operational incident. Select `main` and enter `VERIFY_DATA_PHASE_7C`.
+operational incident. Select `main` and enter `VERIFY_DATA_PHASE_7D`.
 
 The verification workflow performs no production writes. It confirms local and
 remote migration parity, executes the audited, query-only
 `brokerage_readiness_smoke.sql`, `approved_tester_pilot_smoke.sql`,
 `regulated_preflight_smoke.sql`, `sandbox_order_lifecycle_smoke.sql` and
 `live_trading_readiness_smoke.sql`, `corridor_intelligence_smoke.sql` and
-`beneficiary_protection_smoke.sql` and `payment_compliance_orchestration_smoke.sql` blocks,
+`beneficiary_protection_smoke.sql`, `payment_compliance_orchestration_smoke.sql`
+and `payment_sandbox_transfer_lifecycle_smoke.sql` blocks,
 checks that protected Edge Functions are active,
 proves that approved anonymous browser reads work, confirms that protected
 unauthenticated requests remain blocked and confirms that internal broker jobs
@@ -87,10 +88,10 @@ write-capable SQL statement.
   and reviewed.
 
 Live brokerage and payment execution remain database-locked after this
-deployment. Phase 7C adds only the synthetic corridor requirements described in
-`docs/COMPLIANCE_ORCHESTRATION.md`; it creates no identity record, document store,
-provider connection, compliance case, clearance, executable quote, transfer,
-custody capability or money movement.
+deployment. Phase 7D adds only the synthetic transfer and ledger templates
+described in `docs/SANDBOX_TRANSFER_LIFECYCLE.md`; it creates no customer or
+beneficiary record, provider connection, operational transfer, webhook event,
+financial ledger entry, dispute, refund, custody capability or money movement.
 
 ## Runtime baseline
 

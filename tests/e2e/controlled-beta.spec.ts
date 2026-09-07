@@ -161,12 +161,12 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByRole('button', { name: /activate|submit|route|fund|execute/i })).toHaveCount(0)
 
   await page.goto('/#payments')
-  await expect(page.getByRole('heading', { level: 1, name: 'Payment compliance orchestration' })).toBeVisible()
-  await expect(page.getByText('No customer can be cleared, no beneficiary can be created and no route can be paid from this workspace.')).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: 'Sandbox transfer lifecycle' })).toBeVisible()
+  await expect(page.getByText('No transfer, webhook, ledger posting, dispute or refund can be created from this workspace.')).toBeVisible()
   await expect(page.getByRole('button', { name: /select|accept|transfer|pay|execute|submit|clear|approve/i })).toHaveCount(0)
 })
 
-test('payment safety maps compliance, rehearses beneficiary intervention and preserves corridor transparency', async ({ page }) => {
+test('payment safety maps Synthetic sandbox transfer lifecycle, compliance, beneficiary intervention and corridor transparency', async ({ page }) => {
   const routeBase = {
     corridor_id: 1,
     corridor_code: 'USD-INR',
@@ -270,8 +270,97 @@ test('payment safety maps compliance, rehearses beneficiary intervention and pre
       { ...complianceBase, id: 6, workflow_code: 'USD-INR-AUDIT', stage_key: 'audit', title: 'Audit evidence and decision trace', review_owner: 'compliance_assurance', priority: 60 },
     ]),
   }))
+  const transferStageBase = {
+    corridor_id: 1,
+    corridor_code: 'USD-INR',
+    source_currency: 'USD',
+    destination_currency: 'INR',
+    description: 'Synthetic sandbox transfer stage used by the browser contract.',
+    evidence_required: 'Synthetic lifecycle evidence only; no customer, provider or financial data is processed.',
+    safe_response: 'Review the illustrative evidence and keep every operational write disabled.',
+    responsible_owner: 'payment_operations',
+    data_mode: 'synthetic_transfer_rehearsal',
+    licensed_partner_sandbox_reference_enabled: true,
+    double_entry_preview_enabled: true,
+    real_customer_data_enabled: false,
+    real_beneficiary_data_enabled: false,
+    provider_sandbox_connectivity_enabled: false,
+    browser_transfer_creation_enabled: false,
+    service_transfer_creation_enabled: false,
+    webhook_ingestion_enabled: false,
+    financial_ledger_posting_enabled: false,
+    retry_execution_enabled: false,
+    reconciliation_write_enabled: false,
+    rescue_operator_action_enabled: false,
+    dispute_case_writes_enabled: false,
+    refund_execution_enabled: false,
+    production_provider_connectivity_enabled: false,
+    quote_acceptance_enabled: false,
+    payment_execution_enabled: false,
+    money_movement_enabled: false,
+    customer_funding_enabled: false,
+    custody_enabled: false,
+    settlement_enabled: false,
+  }
+  await page.route('**/rest/v1/payment_sandbox_transfer_lifecycle_reference*', (route) => route.fulfill({
+    status: 200,
+    contentType: 'application/json',
+    body: JSON.stringify([
+      { ...transferStageBase, id: 1, stage_code: 'USD-INR-IDEMP', stage_key: 'idempotency', title: 'Idempotency and duplicate suppression', rehearsal_outcome: 'deduplicated', responsible_owner: 'platform_reliability', priority: 10 },
+      { ...transferStageBase, id: 2, stage_code: 'USD-INR-SUBMIT', stage_key: 'sandbox_submission', title: 'Licensed-partner sandbox hand-off', rehearsal_outcome: 'acknowledged', priority: 20 },
+      { ...transferStageBase, id: 3, stage_code: 'USD-INR-WEBHOOK', stage_key: 'webhook_verification', title: 'Signed webhook verification', rehearsal_outcome: 'signature_verified', responsible_owner: 'platform_reliability', priority: 30 },
+      { ...transferStageBase, id: 4, stage_code: 'USD-INR-LEDGER', stage_key: 'double_entry_ledger', title: 'Currency-separated double-entry journals', rehearsal_outcome: 'balanced', responsible_owner: 'financial_control', priority: 40 },
+      { ...transferStageBase, id: 5, stage_code: 'USD-INR-RETRY', stage_key: 'retry_policy', title: 'Bounded retry and ambiguity policy', rehearsal_outcome: 'bounded', responsible_owner: 'platform_reliability', priority: 50 },
+      { ...transferStageBase, id: 6, stage_code: 'USD-INR-RECON', stage_key: 'reconciliation', title: 'Provider and ledger reconciliation', rehearsal_outcome: 'matched', responsible_owner: 'financial_control', priority: 60 },
+      { ...transferStageBase, id: 7, stage_code: 'USD-INR-RESCUE', stage_key: 'rescue_mode', title: 'Rescue-mode hold and recovery', rehearsal_outcome: 'standby', priority: 70 },
+      { ...transferStageBase, id: 8, stage_code: 'USD-INR-DISPUTE', stage_key: 'dispute', title: 'Dispute evidence and customer protection', rehearsal_outcome: 'review_ready', responsible_owner: 'customer_protection', priority: 80 },
+      { ...transferStageBase, id: 9, stage_code: 'USD-INR-REFUND', stage_key: 'refund', title: 'Refund and balanced reversal plan', rehearsal_outcome: 'review_ready', responsible_owner: 'financial_control', priority: 90 },
+    ]),
+  }))
+  const ledgerBase = {
+    corridor_id: 1,
+    corridor_code: 'USD-INR',
+    source_currency: 'USD',
+    destination_currency: 'INR',
+    data_mode: 'synthetic_transfer_rehearsal',
+    double_entry_preview_enabled: true,
+    financial_ledger_posting_enabled: false,
+    refund_execution_enabled: false,
+    payment_execution_enabled: false,
+    money_movement_enabled: false,
+    narrative: 'Synthetic double-entry template used by the browser contract.',
+  }
+  await page.route('**/rest/v1/payment_sandbox_ledger_reference*', (route) => route.fulfill({
+    status: 200,
+    contentType: 'application/json',
+    body: JSON.stringify([
+      { ...ledgerBase, id: 1, posting_code: 'USD-INR-SRC-DR', journal_key: 'source_funding', currency_role: 'source', account_code: 'sandbox_cash_control', entry_side: 'debit', amount_basis: 'source_amount', priority: 10 },
+      { ...ledgerBase, id: 2, posting_code: 'USD-INR-SRC-CR', journal_key: 'source_funding', currency_role: 'source', account_code: 'sandbox_transfer_liability', entry_side: 'credit', amount_basis: 'source_amount', priority: 20 },
+      { ...ledgerBase, id: 3, posting_code: 'USD-INR-DST-DR', journal_key: 'destination_obligation', currency_role: 'destination', account_code: 'sandbox_fx_bridge_control', entry_side: 'debit', amount_basis: 'destination_before_tax', priority: 10 },
+      { ...ledgerBase, id: 4, posting_code: 'USD-INR-DST-CR', journal_key: 'destination_obligation', currency_role: 'destination', account_code: 'sandbox_payout_payable', entry_side: 'credit', amount_basis: 'destination_before_tax', priority: 20 },
+    ]),
+  }))
 
   await page.goto('/#payments')
+  await expect(page.getByRole('heading', { level: 3, name: 'Rehearse the transfer lifecycle without moving money' })).toBeVisible()
+  await expect(page.getByText('Licensed-partner sandbox reference')).toBeVisible()
+  const transferDecision = page.locator('.sandbox-transfer-decision')
+  await expect(transferDecision.getByText('rescue review', { exact: true })).toBeVisible()
+  await expect(page.getByText('9 of 9', { exact: true })).toBeVisible()
+  await expect(page.getByText('2 of 2', { exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 4, name: 'Provider and ledger reconciliation', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 4, name: 'Rescue-mode hold and recovery', exact: true })).toBeVisible()
+  await expect(page.locator('.sandbox-ledger-grid article')).toHaveCount(2)
+  await expect(page.getByText('Balanced', { exact: true })).toHaveCount(2)
+  await page.getByLabel('Synthetic lifecycle scenario').selectOption('duplicate_retry')
+  await expect(transferDecision.getByText('duplicate suppressed', { exact: true })).toBeVisible()
+  await expect(page.getByText(/No second transfer was created/)).toBeVisible()
+  await page.getByLabel('Synthetic lifecycle scenario').selectOption('webhook_replay')
+  await expect(transferDecision.getByText('webhook rejected', { exact: true })).toBeVisible()
+  await expect(page.getByText(/Webhook replay rejected before state or ledger changes/)).toBeVisible()
+  await page.getByLabel('Synthetic lifecycle scenario').selectOption('dispute_refund')
+  await expect(transferDecision.getByText('refund review', { exact: true })).toBeVisible()
+  await expect(page.getByText(/No case or refund was created/)).toBeVisible()
   await expect(page.getByRole('heading', { level: 3, name: 'Map compliance gates before any payment' })).toBeVisible()
   await expect(page.getByText('No documents, identities or live screening')).toBeVisible()
   await expect(page.getByText('Compliance activation blocked', { exact: true })).toBeVisible()

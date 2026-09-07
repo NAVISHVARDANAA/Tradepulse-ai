@@ -4,12 +4,15 @@ import { useMemo, useState } from 'react'
 import { evaluateBeneficiaryProtection } from '../lib/beneficiaryProtection'
 import { buildComplianceOrchestration } from '../lib/complianceOrchestration'
 import { createCorridorIntelligenceQuote } from '../lib/payments'
-import type { BeneficiaryProtectionRule, MarketAssetSnapshot, PaymentComplianceRequirement, PaymentCorridorRoute } from '../types/domain'
+import { buildSandboxTransferRehearsal, type SandboxTransferScenario } from '../lib/sandboxTransferLifecycle'
+import type { BeneficiaryProtectionRule, MarketAssetSnapshot, PaymentComplianceRequirement, PaymentCorridorRoute, PaymentSandboxLedgerTemplate, PaymentSandboxTransferStage } from '../types/domain'
 
 type PaymentQuotePanelProps = {
   routes: PaymentCorridorRoute[]
   beneficiaryProtectionRules: BeneficiaryProtectionRule[]
   complianceRequirements: PaymentComplianceRequirement[]
+  sandboxTransferStages: PaymentSandboxTransferStage[]
+  sandboxLedgerTemplates: PaymentSandboxLedgerTemplate[]
   marketAssets: MarketAssetSnapshot[]
   loading: boolean
   error: string | null
@@ -61,13 +64,42 @@ const complianceDecisionLabel = {
   blocked: 'Compliance activation blocked',
 }
 
+const sandboxTransferScenarios: Array<{
+  id: SandboxTransferScenario
+  label: string
+}> = [
+  {
+    id: 'standard_delivery',
+    label: 'Standard sandbox delivery',
+  },
+  {
+    id: 'duplicate_retry',
+    label: 'Customer retries after timeout',
+  },
+  {
+    id: 'webhook_replay',
+    label: 'Replayed webhook event',
+  },
+  {
+    id: 'reconciliation_exception',
+    label: 'Reconciliation exception',
+  },
+  {
+    id: 'dispute_refund',
+    label: 'Dispute and refund review',
+  },
+]
+
 const number = new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 })
 const rate = new Intl.NumberFormat('en-US', { maximumFractionDigits: 6 })
-const currency = (value: number, code: string) => new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: code,
-  maximumFractionDigits: 2,
-}).format(value)
+const words = (value: string) => value.replace(/_/g, ' ')
+const currency = (value: number, code: string) => code.length === 3
+  ? new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: code,
+      maximumFractionDigits: 2,
+    }).format(value)
+  : '—'
 
 const freshness = (age: number | null) => {
   if (age === null) return 'Timestamp unavailable'
@@ -80,6 +112,8 @@ export function PaymentQuotePanel({
   routes,
   beneficiaryProtectionRules,
   complianceRequirements,
+  sandboxTransferStages,
+  sandboxLedgerTemplates,
   marketAssets,
   loading,
   error,
@@ -88,6 +122,7 @@ export function PaymentQuotePanel({
   const [amount, setAmount] = useState('1000')
   const [beneficiaryScenarioId, setBeneficiaryScenarioId] = useState('changed-invoice')
   const [paymentCustomerType, setPaymentCustomerType] = useState<'individual' | 'business'>('individual')
+  const [sandboxTransferScenario, setSandboxTransferScenario] = useState<SandboxTransferScenario>('reconciliation_exception')
   const corridorCodes = useMemo(
     () => [...new Set(routes.map((routeOption) => routeOption.corridorCode))],
     [routes],
@@ -120,23 +155,87 @@ export function PaymentQuotePanel({
     () => buildComplianceOrchestration(corridorComplianceRequirements, paymentCustomerType),
     [corridorComplianceRequirements, paymentCustomerType],
   )
+  const corridorTransferStages = useMemo(
+    () => sandboxTransferStages.filter((stage) => stage.corridorCode === selectedCode),
+    [sandboxTransferStages, selectedCode],
+  )
+  const corridorLedgerTemplates = useMemo(
+    () => sandboxLedgerTemplates.filter((posting) => posting.corridorCode === selectedCode),
+    [sandboxLedgerTemplates, selectedCode],
+  )
+  const sandboxResult = useMemo(
+    () => buildSandboxTransferRehearsal(
+      corridorTransferStages,
+      corridorLedgerTemplates,
+      sandboxTransferScenario,
+      sourceAmount,
+      reference?.destinationAmount ?? 0,
+    ),
+    [corridorLedgerTemplates, corridorTransferStages, reference?.destinationAmount, sandboxTransferScenario, sourceAmount],
+  )
 
   return <section className="panel payment-panel corridor-intelligence-panel">
     <div className="panel-header">
       <div>
-        <p className="eyebrow">Cross-border payments · Phase 7C</p>
-        <h2>Compliance orchestration and payment protection</h2>
+        <p className="eyebrow">Cross-border payments · Phase 7D</p>
+        <h2>Sandbox transfer lifecycle and payment protection</h2>
       </div>
       <span className="status-badge sandbox"><LockKeyhole size={14} /> Reference only · no money movement</span>
     </div>
     <p className="panel-description">
-      Map synthetic corridor compliance gates, rehearse beneficiary safety interventions without personal data, then compare sandbox route models against the synchronized FX reference.
+      Rehearse fail-closed transfer operations and balanced ledger evidence, map synthetic compliance gates, test beneficiary interventions without personal data, then compare sandbox route models.
     </p>
 
     <div className="corridor-intelligence-boundary" role="status">
       <LockKeyhole size={20} />
-      <div><strong>No customer can be cleared, no beneficiary can be created and no route can be paid from this workspace.</strong><span>Identity and document collection, provider screening, case writes, overrides, quote acceptance, transfers and settlement remain database-locked off.</span></div>
+      <div><strong>No transfer, webhook, ledger posting, dispute or refund can be created from this workspace.</strong><span>Provider connectivity, customer data, quote acceptance, funding, payment execution, custody and settlement remain database-locked off.</span></div>
     </div>
+
+    <section className="sandbox-transfer-lifecycle" aria-labelledby="sandbox-transfer-title">
+      <div className="sandbox-transfer-head">
+        <div><span><ShieldCheck size={18} /> Licensed-partner sandbox reference</span><h3 id="sandbox-transfer-title">Rehearse the transfer lifecycle without moving money</h3></div>
+      </div>
+      <p>Choose a synthetic scenario to inspect idempotency, signed webhooks, bounded retries, currency-separated journals, reconciliation, rescue mode, disputes and refunds.</p>
+      <label className="sandbox-transfer-scenario" htmlFor="sandbox-transfer-scenario"><span>Synthetic lifecycle scenario</span><select
+        id="sandbox-transfer-scenario"
+        value={sandboxTransferScenario}
+        onChange={(event) => setSandboxTransferScenario(event.target.value as SandboxTransferScenario)}
+        disabled={loading || sandboxTransferStages.length === 0}
+      >{sandboxTransferScenarios.map((scenario) => <option key={scenario.id} value={scenario.id}>{scenario.label}</option>)}</select></label>
+
+      {loading ? <div className="sandbox-transfer-data-state"><RefreshCw size={18} /> Loading synthetic transfer controls…</div> : null}
+      {!loading && error ? <div className="sandbox-transfer-data-state" role="alert"><AlertTriangle size={18} /> Transfer lifecycle evidence is unavailable, so no outcome is shown.</div> : null}
+      {!loading && !error ? <>
+        <div className={`sandbox-transfer-decision ${sandboxResult.decision}`} role="status">
+          <div><span>Rehearsal outcome</span><strong>{words(sandboxResult.decision)}</strong></div>
+          <div><span>Lifecycle map</span><strong>{sandboxResult.mappedStageCount} of {sandboxResult.requiredStageCount}</strong></div>
+          <div><span>Balanced journals</span><strong>{sandboxResult.ledger.journals.filter((journal) => journal.balanced).length} of 2</strong></div>
+          <p>{sandboxResult.summary}</p>
+        </div>
+
+        <div className="sandbox-transfer-stage-grid" aria-label="Synthetic sandbox transfer lifecycle">
+          {sandboxResult.stages.map((stage) => <article key={stage.stageCode} className={`sandbox-transfer-stage ${stage.rehearsalState}`}>
+            <div><span>{words(stage.stageKey)}</span><small>{words(stage.rehearsalState)}</small></div>
+            <h4>{stage.title}</h4>
+            <p>{stage.description}</p>
+            <dl><div><dt>Evidence map</dt><dd>{stage.evidenceRequired}</dd></div><div><dt>Owner</dt><dd>{words(stage.responsibleOwner)}</dd></div><div><dt>Fail-closed response</dt><dd>{stage.safeResponse}</dd></div></dl>
+          </article>)}
+        </div>
+
+        <div className="sandbox-ledger-preview">
+          <div className="sandbox-ledger-head"><div><span>Double-entry preview</span><h4>Currency-separated journals</h4></div></div>
+          <div className="sandbox-ledger-grid">
+            {sandboxResult.ledger.journals.map((journal) => <article key={journal.journalKey} className={journal.balanced ? 'balanced' : 'unbalanced'}>
+              <div><span>{words(journal.journalKey)}</span><strong>{journal.balanced ? 'Balanced' : 'Unavailable'}</strong></div>
+              {sandboxResult.ledger.entries.filter((entry) => entry.journalKey === journal.journalKey).map((entry) => <p key={entry.postingCode}><span>{entry.entrySide === 'debit' ? 'Dr' : 'Cr'} · {words(entry.accountCode)}</span><strong>{currency(entry.amount, entry.currency)}</strong></p>)}
+              <footer><span>Debits {currency(journal.debit, journal.currency)}</span><span>Credits {currency(journal.credit, journal.currency)}</span></footer>
+            </article>)}
+          </div>
+          <p className="sandbox-ledger-note"><LockKeyhole size={15} /> Source and destination currencies balance independently. No mixed-currency journal or financial ledger record is created.</p>
+        </div>
+        <div className="sandbox-transfer-locks"><LockKeyhole size={15} /><span>Sandbox provider calls, transfer writes, webhook ingestion, retry execution, reconciliation writes, rescue actions, disputes and refunds are disabled.</span></div>
+      </> : null}
+    </section>
 
     <section className="compliance-orchestration" aria-labelledby="compliance-orchestration-title">
       <div className="compliance-orchestration-head">
@@ -161,10 +260,10 @@ export function PaymentQuotePanel({
         </div>
         <div className="compliance-stage-grid" aria-label="Synthetic payment compliance stages">
           {complianceResult.requirements.map((requirement) => <article key={requirement.workflowCode} className={`compliance-stage ${requirement.outcome}`}>
-            <div><span>{requirement.stageKey.replace(/_/g, ' ')}</span><small>{requirement.outcome.replace('_', ' ')}</small></div>
+            <div><span>{words(requirement.stageKey)}</span><small>{words(requirement.outcome)}</small></div>
             <h4>{requirement.title}</h4>
             <p>{requirement.description}</p>
-            <dl><div><dt>Evidence map</dt><dd>{requirement.evidenceRequired}</dd></div><div><dt>Review owner</dt><dd>{requirement.reviewOwner.replace(/_/g, ' ')}</dd></div><div><dt>Customer-safe response</dt><dd>{requirement.customerAction}</dd></div></dl>
+            <dl><div><dt>Evidence map</dt><dd>{requirement.evidenceRequired}</dd></div><div><dt>Review owner</dt><dd>{words(requirement.reviewOwner)}</dd></div><div><dt>Customer-safe response</dt><dd>{requirement.customerAction}</dd></div></dl>
           </article>)}
         </div>
         <div className="compliance-locks"><LockKeyhole size={15} /><span>Live KYC/KYB, sanctions and transaction-monitoring providers, travel-rule transmission, case writes, automated clearance and manual overrides are disabled.</span></div>

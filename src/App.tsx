@@ -22,6 +22,8 @@ import { supabase } from './lib/supabase/client'
 import type {
   BeneficiaryProtectionRule,
   PaymentComplianceRequirement,
+  PaymentSandboxLedgerTemplate,
+  PaymentSandboxTransferStage,
   MarketAssetSnapshot,
   MarketForecast,
   EquityResearchSnapshot,
@@ -216,6 +218,8 @@ function App() {
   const [corridorRoutes, setCorridorRoutes] = useState<PaymentCorridorRoute[]>([])
   const [beneficiaryProtectionRules, setBeneficiaryProtectionRules] = useState<BeneficiaryProtectionRule[]>([])
   const [paymentComplianceRequirements, setPaymentComplianceRequirements] = useState<PaymentComplianceRequirement[]>([])
+  const [paymentSandboxTransferStages, setPaymentSandboxTransferStages] = useState<PaymentSandboxTransferStage[]>([])
+  const [paymentSandboxLedgerTemplates, setPaymentSandboxLedgerTemplates] = useState<PaymentSandboxLedgerTemplate[]>([])
   const [marketLoading, setMarketLoading] = useState(true)
   const [tradeLoading, setTradeLoading] = useState(true)
   const [forecastLoading, setForecastLoading] = useState(true)
@@ -345,18 +349,22 @@ function App() {
 
     void loadProductData(
       () => import('./lib/queries/referenceData')
-        .then(async ({ getBeneficiaryProtectionRules, getPaymentComplianceRequirements, getPaymentCorridorIntelligence }) => {
-          const [routes, protectionRules, complianceRequirements] = await Promise.all([
+        .then(async ({ getBeneficiaryProtectionRules, getPaymentComplianceRequirements, getPaymentCorridorIntelligence, getPaymentSandboxLedgerTemplates, getPaymentSandboxTransferStages }) => {
+          const [routes, protectionRules, complianceRequirements, transferStages, ledgerTemplates] = await Promise.all([
             getPaymentCorridorIntelligence(),
             getBeneficiaryProtectionRules(),
             getPaymentComplianceRequirements(),
+            getPaymentSandboxTransferStages(),
+            getPaymentSandboxLedgerTemplates(),
           ])
-          return { routes, protectionRules, complianceRequirements }
+          return { routes, protectionRules, complianceRequirements, transferStages, ledgerTemplates }
         }),
-      ({ routes, protectionRules, complianceRequirements }) => {
+      ({ routes, protectionRules, complianceRequirements, transferStages, ledgerTemplates }) => {
         setCorridorRoutes(routes)
         setBeneficiaryProtectionRules(protectionRules)
         setPaymentComplianceRequirements(complianceRequirements)
+        setPaymentSandboxTransferStages(transferStages)
+        setPaymentSandboxLedgerTemplates(ledgerTemplates)
       },
       setPaymentLoading,
       setPaymentError,
@@ -758,12 +766,14 @@ function App() {
         </section> : null}
 
         {activeHref === '#payments' ? <section id="payments" className="product-workspace">
-          <ProductErrorBoundary title="Payment compliance is temporarily unavailable">
-            <Suspense fallback={<SectionLoader label="Cross-border beneficiary protection" />}>
+          <ProductErrorBoundary title="Payment sandbox lifecycle is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Cross-border sandbox transfer controls" />}>
               <PaymentQuotePanel
                 routes={corridorRoutes}
                 beneficiaryProtectionRules={beneficiaryProtectionRules}
                 complianceRequirements={paymentComplianceRequirements}
+                sandboxTransferStages={paymentSandboxTransferStages}
+                sandboxLedgerTemplates={paymentSandboxLedgerTemplates}
                 marketAssets={marketAssets}
                 loading={paymentLoading}
                 error={paymentError}

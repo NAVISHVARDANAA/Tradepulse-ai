@@ -31,23 +31,23 @@ is intentionally public and is still constrained by RLS and server-side auth.
 After this PR is merged and all `main` checks pass:
 
 1. Open **Actions → Build production web release**, choose `main`, enter
-   `BUILD_PHASE_7C` and record the green compliance-orchestration web artifact.
+   `BUILD_PHASE_7D` and record the green sandbox-transfer web artifact.
 2. Open **Actions → Deploy controlled beta web**, choose `main`, enter
-   `DEPLOY_PHASE_7C` and approve the protected production environment.
+   `DEPLOY_PHASE_7D` and approve the protected production environment.
 3. Record the immutable commit, workflow run and Cloudflare deployment URL from
    the job summary. The workflow verifies HTTPS, browser security headers, the
    release manifest and every hard lock after upload. It then runs desktop and
    mobile production browser checks across the public workspaces, Analytics
    interactions, console/network failures and guest execution locks.
 4. After a release or operational incident, open **Actions → Verify web
-   production**, choose `main`, enter `VERIFY_WEB_PHASE_7C` and retain the green
+   production**, choose `main`, enter `VERIFY_WEB_PHASE_7D` and retain the green
    production-browser report.
 5. Do not invite testers yet. Choose and validate the final domain, configure
    its exact Supabase Auth site URL and redirect allow-list, then complete the
    remaining launch prerequisites in `docs/BETA_RELEASE_CANDIDATE.md`.
 
-Deploy and verify migration 042 with the Phase 7C data gates before deploying
-the web workspace. Compliance orchestration and beneficiary protection are
-synthetic rehearsals and corridor comparison remains read-only; none can store
-identity or beneficiary data, connect a provider, clear a case, accept a quote
-or move money.
+Deploy and verify migration 043 with the Phase 7D data gates before deploying
+the web workspace. Sandbox transfers, compliance orchestration and beneficiary
+protection are synthetic rehearsals and corridor comparison remains read-only;
+none can store customer or beneficiary data, connect a payment provider, create
+a transfer, ingest a webhook, post a ledger, issue a refund or move money.

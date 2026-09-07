@@ -119,10 +119,10 @@ const pageCopy: Record<string, PageCopy> = {
     boundary: 'Activation remains blocked',
   },
   '#payments': {
-    eyebrow: 'Cross-border payment safety',
-    title: 'Payment compliance orchestration',
-    description: 'Map synthetic corridor compliance gates, rehearse beneficiary interventions and compare transparent route models without collecting identity or payment data.',
-    boundary: 'Synthetic only · no identity data',
+    eyebrow: 'Cross-border payment operations',
+    title: 'Sandbox transfer lifecycle',
+    description: 'Rehearse idempotency, signed webhooks, double-entry journals, retries, reconciliation, rescue, disputes and refunds without creating a transfer or collecting customer data.',
+    boundary: 'Reference only · no transfers',
   },
   '#business-workspace': {
     eyebrow: 'Business administration',

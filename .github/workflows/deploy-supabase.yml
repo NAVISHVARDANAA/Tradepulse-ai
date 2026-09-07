@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type DEPLOY_DATA_PHASE_7C to deploy compliance orchestration
+        description: Type DEPLOY_DATA_PHASE_7D to deploy the sandbox transfer lifecycle
         required: true
         type: string
 
@@ -39,8 +39,8 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_7C" || {
-            echo "Release confirmation did not match DEPLOY_DATA_PHASE_7C."
+          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_7D" || {
+            echo "Release confirmation did not match DEPLOY_DATA_PHASE_7D."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -245,6 +245,14 @@ jobs:
             --linked \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --file supabase/tests/production/payment_compliance_orchestration_smoke.sql
+
+      - name: Verify payment sandbox transfer lifecycle production boundary
+        run: |
+          bash scripts/assert-read-only-sql.sh supabase/tests/production/payment_sandbox_transfer_lifecycle_smoke.sql
+          npx --no-install supabase db query \
+            --linked \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --file supabase/tests/production/payment_sandbox_transfer_lifecycle_smoke.sql
 
       - name: Verify production public web reads
         run: bash scripts/verify-public-runtime-read.sh
