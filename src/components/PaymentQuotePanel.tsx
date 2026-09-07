@@ -93,11 +93,13 @@ const sandboxTransferScenarios: Array<{
 const number = new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 })
 const rate = new Intl.NumberFormat('en-US', { maximumFractionDigits: 6 })
 const words = (value: string) => value.replace(/_/g, ' ')
-const currency = (value: number, code: string) => new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: code,
-  maximumFractionDigits: 2,
-}).format(value)
+const currency = (value: number, code: string) => code.length === 3
+  ? new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: code,
+      maximumFractionDigits: 2,
+    }).format(value)
+  : '—'
 
 const freshness = (age: number | null) => {
   if (age === null) return 'Timestamp unavailable'
