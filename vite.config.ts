@@ -6,8 +6,17 @@ export default defineConfig({
   build: {
     emptyOutDir: true,
     manifest: true,
+    minify: 'terser',
     modulePreload: { polyfill: false },
     sourcemap: false,
+    terserOptions: {
+      compress: {
+        passes: 2,
+      },
+      format: {
+        comments: false,
+      },
+    },
     target: 'es2022',
     rollupOptions: {
       output: {
