@@ -53,7 +53,7 @@ begin
     raise exception 'A global order, custody or settlement path unexpectedly exists';
   end if;
 
-  if exists(select 1 from public.live_trading_readiness_controls where live_order_routing_enabled or customer_funding_enabled or custody_enabled or settlement_enabled)
+  if exists(select 1 from public.live_trading_activation_controls where live_order_routing_enabled or customer_funding_enabled or custody_enabled or settlement_enabled)
     or exists(select 1 from public.payment_money_movement_controls where money_movement_enabled or customer_funding_enabled or custody_enabled or settlement_enabled) then
     raise exception 'Existing execution or money-movement locks changed';
   end if;

@@ -109,7 +109,7 @@ select ok(exists(select 1 from pg_trigger where tgname = 'global_market_venues_s
 select ok(exists(select 1 from pg_trigger where tgname = 'global_instrument_listings_set_updated_at' and not tgisinternal), 'listing timestamp trigger exists');
 select ok(to_regclass('public.live_global_orders') is null and to_regclass('public.global_custody_accounts') is null and to_regclass('public.global_settlement_ledger') is null, 'no global order, custody or settlement table exists');
 select ok(to_regprocedure('public.submit_global_order(jsonb)') is null and to_regprocedure('public.activate_global_market(text)') is null, 'no global execution or activation RPC exists');
-select ok(not exists(select 1 from public.live_trading_readiness_controls where live_order_routing_enabled or customer_funding_enabled or custody_enabled or settlement_enabled), 'live-trading locks remain closed');
+select ok(not exists(select 1 from public.live_trading_activation_controls where live_order_routing_enabled or customer_funding_enabled or custody_enabled or settlement_enabled), 'live-trading locks remain closed');
 select ok(not exists(select 1 from public.payment_money_movement_controls where money_movement_enabled or customer_funding_enabled or custody_enabled or settlement_enabled), 'payment money-movement locks remain closed');
 
 select * from finish();

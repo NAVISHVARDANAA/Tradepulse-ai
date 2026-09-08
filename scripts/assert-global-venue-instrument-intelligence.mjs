@@ -72,6 +72,7 @@ assert(databaseTest.includes('reference_as_of is null'), 'Database contract omit
 for (const contract of ['6::bigint', '12::bigint', '18::bigint', '24::bigint', '48::bigint', 'Existing execution or money-movement locks changed']) {
   assert(databaseTest.includes(contract) || productionSmoke.includes(contract), `Database coverage omits ${contract}`)
 }
+assert(databaseTest.includes('live_trading_activation_controls'), 'Database contract omits the live-trading lock')
 for (const contract of ['Global venue and instrument intelligence schema is incomplete', 'Global market intelligence controls are not fail-closed', 'A global order, custody or settlement path unexpectedly exists']) {
   assert(productionSmoke.includes(contract), `Production smoke omits ${contract}`)
 }
