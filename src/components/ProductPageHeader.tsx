@@ -120,9 +120,9 @@ const pageCopy: Record<string, PageCopy> = {
   },
   '#payments': {
     eyebrow: 'Cross-border payment operations',
-    title: 'Sandbox transfer lifecycle',
-    description: 'Rehearse idempotency, signed webhooks, double-entry journals, retries, reconciliation, rescue, disputes and refunds without creating a transfer or collecting customer data.',
-    boundary: 'Reference only · no transfers',
+    title: 'Money movement readiness',
+    description: 'Inspect corridor-specific legal, partner, safeguarding, compliance, security and operating requirements before reviewing synthetic transfer controls.',
+    boundary: 'Activation blocked · no transfers',
   },
   '#business-workspace': {
     eyebrow: 'Business administration',

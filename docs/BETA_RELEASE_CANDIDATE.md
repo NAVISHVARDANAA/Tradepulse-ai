@@ -43,6 +43,10 @@ Phase 7D adds a synthetic sandbox transfer lifecycle with idempotency, signed
 webhook, bounded retry, reconciliation, rescue, dispute and refund paths plus
 currency-separated double-entry previews. It cannot connect a provider, create
 a transfer, ingest a webhook, post a ledger entry or execute a refund.
+Phase 7E adds a sanitized, corridor-specific legal, partner, safeguarding,
+compliance, security, treasury, operations and customer-protection readiness
+ledger. Approval evidence is append-only and service-only; even complete
+evidence cannot activate a corridor or enable production fund movement.
 
 The artifact contains `beta-release.json`, a machine-readable statement of its
 scope. Live brokerage, payment execution, charge collection, custody and
@@ -55,7 +59,7 @@ personalized advice remain false. Search indexing also remains disabled.
 - Private research routines, team research and free Academy learning.
 - Passwordless accounts, TOTP step-up, privacy controls and customer support references.
 - Paper investing, decision journals and portfolio-risk controls with no live routing.
-- Brokerage-readiness previews, sandbox-transfer lifecycles, payment-compliance maps, beneficiary-protection rehearsals and transparent corridor comparisons that cannot execute.
+- Brokerage-readiness previews, corridor money-movement approval ledgers, sandbox-transfer lifecycles, payment-compliance maps, beneficiary-protection rehearsals and transparent corridor comparisons that cannot execute.
 - Responsive navigation, installable web assets and desktop/mobile accessibility gates.
 
 ## Deliberately unavailable
@@ -91,7 +95,7 @@ personalized advice remain false. Search indexing also remains disabled.
 8. Approve funding, custody, settlement and production market-data arrangements.
 9. Retain observed risk, monitoring, reconciliation and kill-switch drill evidence.
 
-These are operational, legal and business launch decisions. Passing Phase 7D
+These are operational, legal and business launch decisions. Passing Phase 7E
 means the engineering candidate is ready for that review; it does not certify
 regulatory approval or declare a public production launch.
 
@@ -113,20 +117,20 @@ evidence in a public issue or artifact.
 
 ## Hosting deployment procedure
 
-After the Phase 7D PR is merged and all `main` checks pass:
+After the Phase 7E PR is merged and all `main` checks pass:
 
-1. Deploy and verify migration 043 with `DEPLOY_DATA_PHASE_7D` and `VERIFY_DATA_PHASE_7D`.
+1. Deploy and verify migration 044 with `DEPLOY_DATA_PHASE_7E` and `VERIFY_DATA_PHASE_7E`.
 2. Open **Actions → Build production web release**.
-3. Select `main`, enter `BUILD_PHASE_7D` and run the workflow.
+3. Select `main`, enter `BUILD_PHASE_7E` and run the workflow.
 4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 5. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-6. Run **Verify web production** with `VERIFY_WEB_PHASE_7D` after deployment
+6. Run **Verify web production** with `VERIFY_WEB_PHASE_7E` after deployment
    or any customer-facing operational incident.
 7. Do not invite external testers until every manual prerequisite above is approved.
 
-Phase 7D adds migration 043 and sanitized transfer-lifecycle and ledger maps;
-deploy and verify the data boundary before the web release. Customer and
-beneficiary collection, provider connectivity, transfer and webhook writes,
-ledger posting, retries, reconciliation writes, rescue actions, disputes,
-refunds, funding, execution, custody, settlement and money movement remain
-database-locked off.
+Phase 7E adds migration 044 and sanitized corridor-specific activation
+requirements and approval states; deploy and verify the data boundary before
+the web release. Customer and beneficiary collection, production partner
+connectivity, safeguarding activation, transfer and webhook writes, ledger
+posting, reconciliation writes, rescue actions, disputes, refunds, funding,
+execution, custody, settlement and money movement remain database-locked off.

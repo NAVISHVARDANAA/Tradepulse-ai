@@ -17,6 +17,8 @@ endpoints=(
   'payment_compliance_orchestration_reference?select=workflow_code&limit=1'
   'payment_sandbox_transfer_lifecycle_reference?select=stage_code&limit=1'
   'payment_sandbox_ledger_reference?select=posting_code&limit=1'
+  'payment_money_movement_readiness_reference?select=requirement_code&limit=1'
+  'payment_money_movement_readiness_summary?select=corridor_code&limit=1'
 )
 
 for endpoint in "${endpoints[@]}"; do

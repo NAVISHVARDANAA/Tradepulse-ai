@@ -17,7 +17,7 @@ const publicWorkspaces = [
   ['#live-readiness', 'Live trading readiness'],
   ['#data-trust', 'Data trust and notifications'],
   ['#trust-center', 'Trust and activity center'],
-  ['#payments', 'Sandbox transfer lifecycle'],
+  ['#payments', 'Money movement readiness'],
   ['#system-status', 'Production reliability'],
   ['#beta-operations', 'Beta launch center'],
   ['#approved-pilot', 'Private pilot workspace'],
@@ -144,7 +144,10 @@ test('production execution boundaries remain closed to guests', async ({ page })
   await expect(page.getByRole('button', { name: /activate|submit|route|fund|execute/i })).toHaveCount(0)
 
   await page.goto('/#payments', { waitUntil: 'domcontentloaded' })
-  await expect(page.getByText('No transfer, webhook, ledger posting, dispute or refund can be created from this workspace.')).toBeVisible()
+  await expect(page.getByText('Production money movement is blocked—even when every approval is current.')).toBeVisible()
+  await expect(page.getByText(/No transfer, webhook, ledger posting, dispute or refund can be created from this workspace/)).toBeVisible()
+  await expect(page.getByRole('heading', { level: 3, name: 'Production money movement remains blocked' })).toBeVisible()
+  await expect(page.getByText(/Approval evidence is informational and append-only/)).toBeVisible()
   await expect(page.getByRole('heading', { level: 3, name: 'Rehearse the transfer lifecycle without moving money' })).toBeVisible()
   await expect(page.getByText('Licensed-partner sandbox reference')).toBeVisible()
   await expect(page.getByText(/Sandbox provider calls, transfer writes, webhook ingestion/)).toBeVisible()

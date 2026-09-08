@@ -1,6 +1,7 @@
 import type {
   BeneficiaryProtectionRule,
   PaymentComplianceRequirement,
+  PaymentMoneyMovementRequirement,
   PaymentSandboxLedgerTemplate,
   PaymentSandboxTransferStage,
   CountryTradeSnapshot,
@@ -573,5 +574,50 @@ export async function getPaymentSandboxLedgerTemplates(): Promise<PaymentSandbox
     entrySide: row.entry_side as PaymentSandboxLedgerTemplate['entrySide'],
     amountBasis: row.amount_basis as PaymentSandboxLedgerTemplate['amountBasis'],
     priority: Number(row.priority),
+  }))
+}
+
+export async function getPaymentMoneyMovementRequirements(): Promise<PaymentMoneyMovementRequirement[]> {
+  const { data, error } = await supabase
+    .from('payment_money_movement_readiness_reference')
+    .select('*')
+    .order('corridor_code')
+    .order('display_order')
+
+  if (error) {
+    throw error
+  }
+
+  return (data ?? []).map((row) => ({
+    id: Number(row.id),
+    requirementCode: row.requirement_code,
+    corridorId: Number(row.corridor_id),
+    corridorCode: row.corridor_code,
+    sourceCurrency: row.source_currency,
+    destinationCurrency: row.destination_currency,
+    requirementKey: row.requirement_key as PaymentMoneyMovementRequirement['requirementKey'],
+    domain: row.domain as PaymentMoneyMovementRequirement['domain'],
+    title: row.title,
+    summary: row.summary,
+    evidenceExpected: row.evidence_expected,
+    responsibleOwner: row.responsible_owner as PaymentMoneyMovementRequirement['responsibleOwner'],
+    activationBlocking: true,
+    displayOrder: Number(row.display_order),
+    evidenceStatus: row.evidence_status as PaymentMoneyMovementRequirement['evidenceStatus'],
+    reviewedAt: row.reviewed_at,
+    validUntil: row.valid_until,
+    approvalCurrent: Boolean(row.approval_current),
+    activationStatus: 'blocked',
+    manualActivationReviewRequired: true,
+    productionPartnerConnectivityEnabled: false,
+    safeguardingAccountActivationEnabled: false,
+    customerFundingEnabled: false,
+    transferCreationEnabled: false,
+    financialLedgerPostingEnabled: false,
+    paymentExecutionEnabled: false,
+    moneyMovementEnabled: false,
+    custodyEnabled: false,
+    settlementEnabled: false,
+    automaticActivationEnabled: false,
   }))
 }

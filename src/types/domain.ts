@@ -194,6 +194,39 @@ export type PaymentSandboxLedgerTemplate = {
   priority: number
 }
 
+export type PaymentMoneyMovementRequirement = {
+  id: number
+  requirementCode: string
+  corridorId: number
+  corridorCode: string
+  sourceCurrency: string
+  destinationCurrency: string
+  requirementKey: 'legal_authorization' | 'regulated_partner_agreement' | 'partner_production_certification' | 'safeguarding_account_structure' | 'customer_funds_reconciliation' | 'kyc_kyb_program' | 'aml_sanctions_monitoring' | 'source_of_funds_controls' | 'security_privacy_review' | 'treasury_liquidity_fx_controls' | 'operational_resilience' | 'customer_protection_redress'
+  domain: 'legal' | 'partner' | 'safeguarding' | 'compliance' | 'security' | 'treasury' | 'operations' | 'customer_protection'
+  title: string
+  summary: string
+  evidenceExpected: string
+  responsibleOwner: 'legal_compliance' | 'partner_management' | 'financial_control' | 'financial_crime_operations' | 'security_privacy' | 'treasury' | 'payment_operations' | 'customer_protection'
+  activationBlocking: true
+  displayOrder: number
+  evidenceStatus: 'missing' | 'approved' | 'rejected' | 'expired'
+  reviewedAt: string | null
+  validUntil: string | null
+  approvalCurrent: boolean
+  activationStatus: 'blocked'
+  manualActivationReviewRequired: true
+  productionPartnerConnectivityEnabled: false
+  safeguardingAccountActivationEnabled: false
+  customerFundingEnabled: false
+  transferCreationEnabled: false
+  financialLedgerPostingEnabled: false
+  paymentExecutionEnabled: false
+  moneyMovementEnabled: false
+  custodyEnabled: false
+  settlementEnabled: false
+  automaticActivationEnabled: false
+}
+
 export type EquityCoverageStatus =
   | 'reference'
   | 'delayed'

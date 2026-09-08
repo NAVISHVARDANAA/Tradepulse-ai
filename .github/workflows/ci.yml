@@ -84,6 +84,9 @@ jobs:
       - name: Verify payment sandbox transfer lifecycle
         run: npm run check:sandbox-transfers
 
+      - name: Verify controlled money-movement readiness
+        run: npm run check:money-movement-readiness
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 
@@ -273,6 +276,9 @@ jobs:
       - name: Test payment sandbox-transfer lifecycle database contracts
         run: npx --no-install supabase test db supabase/tests/database/payment_sandbox_transfer_lifecycle.test.sql
 
+      - name: Test controlled money-movement readiness database contracts
+        run: npx --no-install supabase test db supabase/tests/database/payment_money_movement_readiness.test.sql
+
       - name: Test broker-sandbox certification contracts
         run: npx --no-install supabase test db supabase/tests/database/broker_sandbox_certification.test.sql
 
@@ -392,6 +398,15 @@ jobs:
           npx --no-install supabase db query
           --local
           --file supabase/tests/production/payment_sandbox_transfer_lifecycle_smoke.sql
+
+      - name: Assert controlled money-movement smoke SQL is query-only
+        run: bash scripts/assert-read-only-sql.sh supabase/tests/production/payment_money_movement_readiness_smoke.sql
+
+      - name: Test controlled money-movement production smoke query
+        run: >-
+          npx --no-install supabase db query
+          --local
+          --file supabase/tests/production/payment_money_movement_readiness_smoke.sql
 
       - name: Stop isolated Supabase services
         if: always()

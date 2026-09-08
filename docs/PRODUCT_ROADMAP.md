@@ -810,12 +810,36 @@ release contracts; reviewed `DEPLOY_DATA_PHASE_7D`; read-only
 not authorize a partner connection, transfer write, webhook ingestion, ledger
 posting, dispute, refund, funding, execution or money movement.
 
-- **Phase 7E — controlled money movement:** corridor-by-corridor safeguarding,
-  legal, compliance, security, partner and operational approval before any
-  production fund movement.
+### Phase 7E — controlled money-movement readiness (implemented foundation)
 
-**Exit gate:** corridor-by-corridor legal, compliance, security and partner
-approvals are written and auditable before any production fund movement.
+- Four reference corridors each expose twelve independently reviewable legal,
+  partner, safeguarding, compliance, security, treasury, operational and
+  customer-protection requirements: 48 activation requirements in total.
+- Approval decisions are service-only and append-only. The public workspace
+  exposes only sanitized states and dates; raw documents, reviewer identities,
+  partner credentials, customer data and beneficiary data are neither stored in
+  nor exposed by the readiness ledger.
+- Complete approval evidence can close the displayed gap count but cannot
+  activate a corridor. Manual activation review remains mandatory and every
+  corridor is hard-coded `blocked`.
+- Database constraints keep production partner connectivity, safeguarding
+  account activation, customer funding, quote acceptance, transfer creation,
+  webhook ingestion, ledger posting, reconciliation writes, rescue actions,
+  disputes, refunds, execution, custody, settlement, automatic activation and
+  money movement false.
+- No production transfer, funding, customer-balance or financial-ledger table
+  and no corridor activation, production transfer, funding or ledger-posting RPC
+  exists.
+
+**Phase 7E exit gate:** green money-movement-readiness, sandbox-transfer,
+compliance-orchestration, beneficiary-protection, corridor-intelligence,
+database, browser, security and release contracts; reviewed
+`DEPLOY_DATA_PHASE_7E`; read-only `VERIFY_DATA_PHASE_7E`; successful
+`BUILD_PHASE_7E`; reviewed `DEPLOY_PHASE_7E`; and read-only
+`VERIFY_WEB_PHASE_7E` evidence. This gate proves only that the readiness layer
+is fail-closed. It does not authorize a partner connection, safeguarding
+account, funding, transfer, ledger posting, execution, custody, settlement or
+production fund movement.
 
 ## Global multi-market trading sequence
 
