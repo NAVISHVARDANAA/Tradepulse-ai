@@ -161,12 +161,12 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByRole('button', { name: /activate|submit|route|fund|execute/i })).toHaveCount(0)
 
   await page.goto('/#payments')
-  await expect(page.getByRole('heading', { level: 1, name: 'Sandbox transfer lifecycle' })).toBeVisible()
-  await expect(page.getByText('No transfer, webhook, ledger posting, dispute or refund can be created from this workspace.')).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: 'Money movement readiness' })).toBeVisible()
+  await expect(page.getByText('Production money movement is blocked—even when every approval is current.')).toBeVisible()
   await expect(page.getByRole('button', { name: /select|accept|transfer|pay|execute|submit|clear|approve/i })).toHaveCount(0)
 })
 
-test('payment safety maps Synthetic sandbox transfer lifecycle, compliance, beneficiary intervention and corridor transparency', async ({ page }) => {
+test('payment safety maps money-movement readiness, sandbox lifecycle, compliance, beneficiary intervention and corridor transparency', async ({ page }) => {
   const routeBase = {
     corridor_id: 1,
     corridor_code: 'USD-INR',
@@ -340,8 +340,68 @@ test('payment safety maps Synthetic sandbox transfer lifecycle, compliance, bene
       { ...ledgerBase, id: 4, posting_code: 'USD-INR-DST-CR', journal_key: 'destination_obligation', currency_role: 'destination', account_code: 'sandbox_payout_payable', entry_side: 'credit', amount_basis: 'destination_before_tax', priority: 20 },
     ]),
   }))
+  const moneyMovementRequirementBase = {
+    corridor_id: 1,
+    corridor_code: 'USD-INR',
+    source_currency: 'USD',
+    destination_currency: 'INR',
+    summary: 'Corridor-specific approval evidence is required before any production capability could be considered.',
+    evidence_expected: 'Dated, independently reviewed and accountable approval evidence with a defined validity window.',
+    activation_blocking: true,
+    evidence_status: 'missing',
+    reviewed_at: null,
+    valid_until: null,
+    approval_current: false,
+    activation_status: 'blocked',
+    manual_activation_review_required: true,
+    production_partner_connectivity_enabled: false,
+    safeguarding_account_activation_enabled: false,
+    customer_funding_enabled: false,
+    transfer_creation_enabled: false,
+    financial_ledger_posting_enabled: false,
+    payment_execution_enabled: false,
+    money_movement_enabled: false,
+    custody_enabled: false,
+    settlement_enabled: false,
+    automatic_activation_enabled: false,
+  }
+  const moneyMovementRequirements = [
+    ['LEGAL', 'legal_authorization', 'legal', 'Corridor legal authorization', 'legal_compliance'],
+    ['PARTNER', 'regulated_partner_agreement', 'partner', 'Regulated partner agreement', 'partner_management'],
+    ['CERT', 'partner_production_certification', 'partner', 'Partner production certification', 'partner_management'],
+    ['SAFEGUARD', 'safeguarding_account_structure', 'safeguarding', 'Safeguarding account structure', 'financial_control'],
+    ['RECON', 'customer_funds_reconciliation', 'safeguarding', 'Customer-funds reconciliation', 'financial_control'],
+    ['KYC', 'kyc_kyb_program', 'compliance', 'KYC and KYB operating approval', 'financial_crime_operations'],
+    ['AML', 'aml_sanctions_monitoring', 'compliance', 'AML, sanctions and monitoring approval', 'financial_crime_operations'],
+    ['SOF', 'source_of_funds_controls', 'compliance', 'Source-of-funds controls', 'financial_crime_operations'],
+    ['SECURITY', 'security_privacy_review', 'security', 'Security and privacy approval', 'security_privacy'],
+    ['TREASURY', 'treasury_liquidity_fx_controls', 'treasury', 'Treasury, liquidity and FX controls', 'treasury'],
+    ['RESILIENCE', 'operational_resilience', 'operations', 'Operational resilience and recovery', 'payment_operations'],
+    ['REDRESS', 'customer_protection_redress', 'customer_protection', 'Customer protection and redress', 'customer_protection'],
+  ].map(([suffix, requirementKey, domain, title, responsibleOwner], index) => ({
+    ...moneyMovementRequirementBase,
+    id: index + 1,
+    requirement_code: `USD-INR-${suffix}`,
+    requirement_key: requirementKey,
+    domain,
+    title,
+    responsible_owner: responsibleOwner,
+    display_order: (index + 1) * 10,
+  }))
+  await page.route('**/rest/v1/payment_money_movement_readiness_reference*', (route) => route.fulfill({
+    status: 200,
+    contentType: 'application/json',
+    body: JSON.stringify(moneyMovementRequirements),
+  }))
 
   await page.goto('/#payments')
+  await expect(page.getByRole('heading', { level: 3, name: 'Production money movement remains blocked' })).toBeVisible()
+  const moneyMovementSummary = page.locator('.money-movement-readiness-summary')
+  await expect(moneyMovementSummary.getByText('0 of 12', { exact: true })).toBeVisible()
+  await expect(moneyMovementSummary.getByText('8', { exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 4, name: 'Safeguarding account structure', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 4, name: 'Security and privacy approval', exact: true })).toBeVisible()
+  await expect(page.getByText(/Approval evidence is informational and append-only/)).toBeVisible()
   await expect(page.getByRole('heading', { level: 3, name: 'Rehearse the transfer lifecycle without moving money' })).toBeVisible()
   await expect(page.getByText('Licensed-partner sandbox reference')).toBeVisible()
   const transferDecision = page.locator('.sandbox-transfer-decision')

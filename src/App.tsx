@@ -22,6 +22,7 @@ import { supabase } from './lib/supabase/client'
 import type {
   BeneficiaryProtectionRule,
   PaymentComplianceRequirement,
+  PaymentMoneyMovementRequirement,
   PaymentSandboxLedgerTemplate,
   PaymentSandboxTransferStage,
   MarketAssetSnapshot,
@@ -220,6 +221,7 @@ function App() {
   const [paymentComplianceRequirements, setPaymentComplianceRequirements] = useState<PaymentComplianceRequirement[]>([])
   const [paymentSandboxTransferStages, setPaymentSandboxTransferStages] = useState<PaymentSandboxTransferStage[]>([])
   const [paymentSandboxLedgerTemplates, setPaymentSandboxLedgerTemplates] = useState<PaymentSandboxLedgerTemplate[]>([])
+  const [paymentMoneyMovementRequirements, setPaymentMoneyMovementRequirements] = useState<PaymentMoneyMovementRequirement[]>([])
   const [marketLoading, setMarketLoading] = useState(true)
   const [tradeLoading, setTradeLoading] = useState(true)
   const [forecastLoading, setForecastLoading] = useState(true)
@@ -349,22 +351,24 @@ function App() {
 
     void loadProductData(
       () => import('./lib/queries/referenceData')
-        .then(async ({ getBeneficiaryProtectionRules, getPaymentComplianceRequirements, getPaymentCorridorIntelligence, getPaymentSandboxLedgerTemplates, getPaymentSandboxTransferStages }) => {
-          const [routes, protectionRules, complianceRequirements, transferStages, ledgerTemplates] = await Promise.all([
+        .then(async ({ getBeneficiaryProtectionRules, getPaymentComplianceRequirements, getPaymentCorridorIntelligence, getPaymentMoneyMovementRequirements, getPaymentSandboxLedgerTemplates, getPaymentSandboxTransferStages }) => {
+          const [routes, protectionRules, complianceRequirements, transferStages, ledgerTemplates, moneyMovementRequirements] = await Promise.all([
             getPaymentCorridorIntelligence(),
             getBeneficiaryProtectionRules(),
             getPaymentComplianceRequirements(),
             getPaymentSandboxTransferStages(),
             getPaymentSandboxLedgerTemplates(),
+            getPaymentMoneyMovementRequirements(),
           ])
-          return { routes, protectionRules, complianceRequirements, transferStages, ledgerTemplates }
+          return { routes, protectionRules, complianceRequirements, transferStages, ledgerTemplates, moneyMovementRequirements }
         }),
-      ({ routes, protectionRules, complianceRequirements, transferStages, ledgerTemplates }) => {
+      ({ routes, protectionRules, complianceRequirements, transferStages, ledgerTemplates, moneyMovementRequirements }) => {
         setCorridorRoutes(routes)
         setBeneficiaryProtectionRules(protectionRules)
         setPaymentComplianceRequirements(complianceRequirements)
         setPaymentSandboxTransferStages(transferStages)
         setPaymentSandboxLedgerTemplates(ledgerTemplates)
+        setPaymentMoneyMovementRequirements(moneyMovementRequirements)
       },
       setPaymentLoading,
       setPaymentError,
@@ -774,6 +778,7 @@ function App() {
                 complianceRequirements={paymentComplianceRequirements}
                 sandboxTransferStages={paymentSandboxTransferStages}
                 sandboxLedgerTemplates={paymentSandboxLedgerTemplates}
+                moneyMovementRequirements={paymentMoneyMovementRequirements}
                 marketAssets={marketAssets}
                 loading={paymentLoading}
                 error={paymentError}

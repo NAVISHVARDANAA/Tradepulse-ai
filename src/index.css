@@ -9216,3 +9216,238 @@ html[data-theme='light'] .sandbox-transfer-decision {
     flex-direction: column;
   }
 }
+
+/* Phase 7E: corridor-specific controlled money-movement readiness. */
+.money-movement-readiness {
+  display: grid;
+  gap: 1rem;
+  margin: 1.25rem 0;
+  padding: 1.25rem;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 18px;
+  background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.16), transparent 44%), rgba(7, 18, 30, 0.78);
+}
+
+.money-movement-readiness-head,
+.money-movement-domain header,
+.money-movement-requirement > div {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.money-movement-readiness-head > div > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #7dd3fc;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.money-movement-readiness h3 {
+  margin: 0.35rem 0 0;
+  font-size: 1.25rem;
+}
+
+.money-movement-readiness-head > small {
+  padding: 0.36rem 0.62rem;
+  border: 1px solid rgba(125, 211, 252, 0.3);
+  border-radius: 999px;
+  color: #bae6fd;
+  background: rgba(3, 105, 161, 0.18);
+  white-space: nowrap;
+}
+
+.money-movement-readiness > p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.money-movement-readiness-state,
+.money-movement-readiness-locks {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.85rem 0.95rem;
+  border-radius: 12px;
+  line-height: 1.5;
+}
+
+.money-movement-readiness-state {
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  color: var(--muted);
+  background: rgba(120, 53, 15, 0.14);
+}
+
+.money-movement-readiness-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.money-movement-readiness-summary > div {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.9rem;
+  border: 1px solid rgba(56, 189, 248, 0.24);
+  border-radius: 12px;
+  background: rgba(8, 47, 73, 0.24);
+}
+
+.money-movement-readiness-summary span,
+.money-movement-domain header span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.money-movement-readiness-summary strong:first-letter {
+  text-transform: uppercase;
+}
+
+.money-movement-readiness-summary > div:first-child strong,
+.money-movement-readiness-summary > div:nth-child(3) strong {
+  color: #fca5a5;
+}
+
+.money-movement-domain-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.money-movement-domain {
+  padding: 1rem;
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.money-movement-domain header {
+  align-items: center;
+  padding-bottom: 0.75rem;
+}
+
+.money-movement-domain header > div {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.money-movement-domain header > div strong {
+  font-size: 0.82rem;
+}
+
+.money-movement-domain header > small {
+  padding: 0.28rem 0.5rem;
+  border: 1px solid rgba(248, 113, 113, 0.32);
+  border-radius: 999px;
+  color: #fecaca;
+  background: rgba(127, 29, 29, 0.14);
+  font-weight: 700;
+}
+
+.money-movement-requirement {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.85rem 0;
+  border-top: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+.money-movement-requirement h4,
+.money-movement-requirement p,
+.money-movement-requirement dl {
+  margin: 0;
+}
+
+.money-movement-requirement h4 {
+  font-size: 0.96rem;
+}
+
+.money-movement-requirement p,
+.money-movement-requirement dd {
+  color: var(--muted);
+  font-size: 0.83rem;
+  line-height: 1.5;
+}
+
+.money-movement-evidence {
+  flex: none;
+  color: #fde68a;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.money-movement-evidence.approved {
+  color: #99f6e4;
+}
+
+.money-movement-evidence.rejected,
+.money-movement-evidence.expired {
+  color: #fecaca;
+}
+
+.money-movement-requirement dl {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.money-movement-requirement dl > div {
+  display: grid;
+  gap: 0.18rem;
+}
+
+.money-movement-requirement dt {
+  color: var(--text);
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.money-movement-requirement dd {
+  margin: 0;
+}
+
+.money-movement-readiness-locks {
+  color: #fecaca;
+  background: rgba(127, 29, 29, 0.16);
+  font-size: 0.84rem;
+}
+
+html[data-theme='light'] .money-movement-readiness {
+  background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.09), transparent 44%), rgba(255, 255, 255, 0.95);
+}
+
+html[data-theme='light'] .money-movement-domain,
+html[data-theme='light'] .money-movement-readiness-summary > div {
+  background: rgba(241, 245, 249, 0.9);
+}
+
+@media (max-width: 1080px) {
+  .money-movement-readiness-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .money-movement-readiness-head,
+  .money-movement-requirement > div {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .money-movement-readiness-head > small {
+    align-self: flex-start;
+  }
+
+  .money-movement-readiness-summary,
+  .money-movement-domain-grid {
+    grid-template-columns: 1fr;
+  }
+}

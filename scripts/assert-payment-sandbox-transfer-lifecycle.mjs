@@ -124,7 +124,7 @@ assert(productionSmoke.includes("data_mode <> 'synthetic_transfer_rehearsal'"), 
 assert(productionSmoke.includes("has_table_privilege('service_role'"), 'Production smoke omits service-role write check')
 
 for (const contract of [
-  'Cross-border payments · Phase 7D',
+  'Cross-border payments · Phase 7E',
   'Licensed-partner sandbox reference',
   'Rehearse the transfer lifecycle without moving money',
   'Customer retries after timeout',
@@ -159,11 +159,11 @@ for (const contract of ['getPaymentSandboxTransferStages', 'getPaymentSandboxLed
 for (const contract of ["from('payment_sandbox_transfer_lifecycle_reference')", "from('payment_sandbox_ledger_reference')"]) {
   assert(queries.includes(contract), `Reference query omits ${contract}`)
 }
-assert(browserTest.includes('Synthetic sandbox transfer lifecycle'), 'Browser regression omits Phase 7D lifecycle coverage')
-assert(productionBrowserTest.includes('Sandbox transfer lifecycle'), 'Production browser smoke omits the Phase 7D heading')
+assert(browserTest.includes('money-movement readiness, sandbox lifecycle'), 'Browser regression omits Phase 7D lifecycle coverage')
+assert(productionBrowserTest.includes('Money movement readiness'), 'Production browser smoke omits the current payments heading')
 
-assert(manifest.phase === '7D', 'Release manifest is not Phase 7D')
-assert(manifest.status === 'sandbox_transfer_lifecycle_candidate', 'Release status is not the sandbox transfer lifecycle candidate')
+assert(manifest.phase === '7E', 'Release manifest is not Phase 7E')
+assert(manifest.status === 'controlled_money_movement_readiness_candidate', 'Release status is not the controlled money-movement readiness candidate')
 assert(manifest.requiredChecks.includes('check:sandbox-transfers'), 'Release manifest omits the Phase 7D gate')
 assert(packageJson.scripts?.['check:sandbox-transfers'], 'Package scripts omit the Phase 7D gate')
 const release = manifest.sandboxTransferLifecycle
@@ -208,11 +208,11 @@ for (const lock of [
 ]) assert(release?.[lock] === false, `Sandbox transfer lock is not false: ${lock}`)
 
 for (const [workflow, contract] of [
-  [deployData, 'DEPLOY_DATA_PHASE_7D'],
-  [verifyData, 'VERIFY_DATA_PHASE_7D'],
-  [buildWeb, 'BUILD_PHASE_7D'],
-  [deployWeb, 'DEPLOY_PHASE_7D'],
-  [verifyWeb, 'VERIFY_WEB_PHASE_7D'],
+  [deployData, 'DEPLOY_DATA_PHASE_7E'],
+  [verifyData, 'VERIFY_DATA_PHASE_7E'],
+  [buildWeb, 'BUILD_PHASE_7E'],
+  [deployWeb, 'DEPLOY_PHASE_7E'],
+  [verifyWeb, 'VERIFY_WEB_PHASE_7E'],
 ]) assert(workflow.includes(contract), `Release workflow omits ${contract}`)
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
   assert(workflow.includes('check:sandbox-transfers'), 'A web gate omits sandbox transfer lifecycle')
@@ -220,7 +220,6 @@ for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
 assert(ci.includes('payment_sandbox_transfer_lifecycle.test.sql'), 'CI omits sandbox transfer database tests')
 assert(deployData.includes('payment_sandbox_transfer_lifecycle_smoke.sql'), 'Data deploy omits sandbox transfer smoke')
 assert(verifyData.includes('payment_sandbox_transfer_lifecycle_smoke.sql'), 'Data verification omits sandbox transfer smoke')
-assert(verifyData.includes('migration 043'), 'Data verification omits migration 043')
 assert(publicRead.includes('payment_sandbox_transfer_lifecycle_reference'), 'Public runtime check omits lifecycle reference')
 assert(publicRead.includes('payment_sandbox_ledger_reference'), 'Public runtime check omits ledger reference')
 assert(deployedVerification.includes('manifest.sandboxTransferLifecycle'), 'Deployed manifest check omits sandbox transfer lifecycle')

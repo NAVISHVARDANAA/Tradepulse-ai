@@ -5,7 +5,7 @@ import { evaluateBeneficiaryProtection } from '../lib/beneficiaryProtection'
 import { buildComplianceOrchestration } from '../lib/complianceOrchestration'
 import { createCorridorIntelligenceQuote } from '../lib/payments'
 import { buildSandboxTransferRehearsal, type SandboxTransferScenario } from '../lib/sandboxTransferLifecycle'
-import type { BeneficiaryProtectionRule, MarketAssetSnapshot, PaymentComplianceRequirement, PaymentCorridorRoute, PaymentSandboxLedgerTemplate, PaymentSandboxTransferStage } from '../types/domain'
+import type { BeneficiaryProtectionRule, MarketAssetSnapshot, PaymentComplianceRequirement, PaymentCorridorRoute, PaymentMoneyMovementRequirement, PaymentSandboxLedgerTemplate, PaymentSandboxTransferStage } from '../types/domain'
 
 type PaymentQuotePanelProps = {
   routes: PaymentCorridorRoute[]
@@ -13,6 +13,7 @@ type PaymentQuotePanelProps = {
   complianceRequirements: PaymentComplianceRequirement[]
   sandboxTransferStages: PaymentSandboxTransferStage[]
   sandboxLedgerTemplates: PaymentSandboxLedgerTemplate[]
+  moneyMovementRequirements: PaymentMoneyMovementRequirement[]
   marketAssets: MarketAssetSnapshot[]
   loading: boolean
   error: string | null
@@ -90,6 +91,17 @@ const sandboxTransferScenarios: Array<{
   },
 ]
 
+const moneyMovementDomainOrder: PaymentMoneyMovementRequirement['domain'][] = [
+  'legal',
+  'partner',
+  'safeguarding',
+  'compliance',
+  'security',
+  'treasury',
+  'operations',
+  'customer_protection',
+]
+
 const number = new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 })
 const rate = new Intl.NumberFormat('en-US', { maximumFractionDigits: 6 })
 const words = (value: string) => value.replace(/_/g, ' ')
@@ -114,6 +126,7 @@ export function PaymentQuotePanel({
   complianceRequirements,
   sandboxTransferStages,
   sandboxLedgerTemplates,
+  moneyMovementRequirements,
   marketAssets,
   loading,
   error,
@@ -173,23 +186,66 @@ export function PaymentQuotePanel({
     ),
     [corridorLedgerTemplates, corridorTransferStages, reference?.destinationAmount, sandboxTransferScenario, sourceAmount],
   )
+  const corridorMoneyMovementRequirements = useMemo(
+    () => moneyMovementRequirements.filter((requirement) => requirement.corridorCode === selectedCode),
+    [moneyMovementRequirements, selectedCode],
+  )
+  const moneyMovementDomains = useMemo(
+    () => moneyMovementDomainOrder.map((domain) => ({
+      domain,
+      requirements: corridorMoneyMovementRequirements.filter((requirement) => requirement.domain === domain),
+    })).filter((group) => group.requirements.length > 0),
+    [corridorMoneyMovementRequirements],
+  )
+  const currentMoneyMovementApprovals = corridorMoneyMovementRequirements.filter((requirement) => requirement.approvalCurrent).length
+  const blockingMoneyMovementGaps = corridorMoneyMovementRequirements.length - currentMoneyMovementApprovals
 
   return <section className="panel payment-panel corridor-intelligence-panel">
     <div className="panel-header">
       <div>
-        <p className="eyebrow">Cross-border payments · Phase 7D</p>
-        <h2>Sandbox transfer lifecycle and payment protection</h2>
+        <p className="eyebrow">Cross-border payments · Phase 7E</p>
+        <h2>Controlled money-movement readiness and payment protection</h2>
       </div>
       <span className="status-badge sandbox"><LockKeyhole size={14} /> Reference only · no money movement</span>
     </div>
     <p className="panel-description">
-      Rehearse fail-closed transfer operations and balanced ledger evidence, map synthetic compliance gates, test beneficiary interventions without personal data, then compare sandbox route models.
+      Inspect the corridor-specific approval ledger required before any production fund movement, rehearse fail-closed transfer operations, map synthetic compliance gates, test beneficiary interventions without personal data, then compare sandbox route models.
     </p>
 
     <div className="corridor-intelligence-boundary" role="status">
       <LockKeyhole size={20} />
-      <div><strong>No transfer, webhook, ledger posting, dispute or refund can be created from this workspace.</strong><span>Provider connectivity, customer data, quote acceptance, funding, payment execution, custody and settlement remain database-locked off.</span></div>
+      <div><strong>Production money movement is blocked—even when every approval is current.</strong><span>No transfer, webhook, ledger posting, dispute or refund can be created from this workspace. Provider connectivity, funding, custody and settlement also remain disabled.</span></div>
     </div>
+
+    <section className="money-movement-readiness" aria-labelledby="money-movement-readiness-title">
+      <div className="money-movement-readiness-head">
+        <div><span><ShieldCheck size={18} /> Corridor activation ledger</span><h3 id="money-movement-readiness-title">Production money movement remains blocked</h3></div>
+        <small>Manual activation review required</small>
+      </div>
+      <p>TradePulse requires independent legal, regulated-partner, safeguarding, compliance, security, treasury, operational and customer-protection evidence for {selectedRoute ? `${selectedRoute.sourceCurrency} to ${selectedRoute.destinationCurrency}` : 'each corridor'}. Raw documents and reviewer identities are never exposed here.</p>
+
+      {loading ? <div className="money-movement-readiness-state"><RefreshCw size={18} /> Loading corridor approval requirements…</div> : null}
+      {!loading && error ? <div className="money-movement-readiness-state" role="alert"><AlertTriangle size={18} /> Approval evidence is unavailable. The corridor remains blocked.</div> : null}
+      {!loading && !error ? <>
+        <div className="money-movement-readiness-summary" role="status">
+          <div><span>Activation state</span><strong>Blocked</strong></div>
+          <div><span>Current approvals</span><strong>{currentMoneyMovementApprovals} of {corridorMoneyMovementRequirements.length}</strong></div>
+          <div><span>Blocking gaps</span><strong>{blockingMoneyMovementGaps}</strong></div>
+          <div><span>Independent domains</span><strong>{moneyMovementDomains.length}</strong></div>
+        </div>
+        <div className="money-movement-domain-grid" aria-label="Controlled money movement approval requirements">
+          {moneyMovementDomains.map(({ domain, requirements: domainRequirements }) => <article key={domain} className="money-movement-domain">
+            <header><div><span>{words(domain)}</span><strong>{domainRequirements.length} requirement{domainRequirements.length === 1 ? '' : 's'}</strong></div><small>{domainRequirements.every((requirement) => requirement.approvalCurrent) ? 'Evidence current' : 'Blocking'}</small></header>
+            {domainRequirements.map((requirement) => <div className="money-movement-requirement" key={requirement.requirementCode}>
+              <div><h4>{requirement.title}</h4><span className={`money-movement-evidence ${requirement.evidenceStatus}`}>{words(requirement.evidenceStatus)}</span></div>
+              <p>{requirement.summary}</p>
+              <dl><div><dt>Evidence expected</dt><dd>{requirement.evidenceExpected}</dd></div><div><dt>Accountable owner</dt><dd>{words(requirement.responsibleOwner)}</dd></div></dl>
+            </div>)}
+          </article>)}
+        </div>
+        <div className="money-movement-readiness-locks"><LockKeyhole size={15} /><span>Approval evidence is informational and append-only. It cannot enable a production partner, safeguarding account, customer funding, transfer, ledger posting, payment execution, custody, settlement or money movement.</span></div>
+      </> : null}
+    </section>
 
     <section className="sandbox-transfer-lifecycle" aria-labelledby="sandbox-transfer-title">
       <div className="sandbox-transfer-head">

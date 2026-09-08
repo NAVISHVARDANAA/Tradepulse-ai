@@ -79,19 +79,19 @@ for (const contract of [
 ]) assert(panel.includes(contract), `Compliance orchestration workspace omits: ${contract}`)
 
 assert(app.includes('getPaymentComplianceRequirements'), 'Application omits compliance orchestration loading')
-assert(navigation.includes("label: 'Payment sandbox'"), 'Navigation omits payment compliance')
-assert(header.includes("title: 'Sandbox transfer lifecycle'"), 'Page header omits payment compliance orchestration')
+assert(navigation.includes("label: 'Payment readiness'"), 'Navigation omits payment compliance')
+assert(header.includes("title: 'Money movement readiness'"), 'Page header omits payment compliance orchestration')
 assert(styles.includes('.compliance-stage-grid'), 'Compliance orchestration styles are missing')
 assert(databaseTest.includes('select plan(67)'), 'Compliance orchestration database contract count changed')
 assert(productionSmoke.includes('A real compliance clearance, identity collection or payment execution path unexpectedly exists'), 'Production compliance lock guard is missing')
 assert(browserTest.includes("name: 'Map compliance gates before any payment'"), 'Browser test omits compliance orchestration')
 assert(browserTest.includes("selectOption('business')"), 'Browser test omits the business compliance journey')
-assert(productionBrowserTest.includes("['#payments', 'Sandbox transfer lifecycle']"), 'Production smoke omits payment compliance orchestration')
+assert(productionBrowserTest.includes("['#payments', 'Money movement readiness']"), 'Production smoke omits payment compliance orchestration')
 
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
-assert(manifest.phase === '7D', 'Release manifest is not Phase 7D')
-assert(manifest.status === 'sandbox_transfer_lifecycle_candidate', 'Release status is not the sandbox transfer lifecycle candidate')
+assert(manifest.phase === '7E', 'Release manifest is not Phase 7E')
+assert(manifest.status === 'controlled_money_movement_readiness_candidate', 'Release status is not the controlled money-movement readiness candidate')
 for (const [key, expected] of Object.entries({
   workspaceEnabled: true,
   syntheticCaseRehearsalOnly: true,
@@ -125,11 +125,11 @@ assert(manifest.requiredChecks.includes('check:compliance-orchestration'), 'Mani
 assert(packageJson.scripts?.['check:compliance-orchestration'], 'Package compliance orchestration check is missing')
 
 for (const [workflow, contract] of [
-  [deployData, 'DEPLOY_DATA_PHASE_7D'],
-  [verifyData, 'VERIFY_DATA_PHASE_7D'],
-  [buildWeb, 'BUILD_PHASE_7D'],
-  [deployWeb, 'DEPLOY_PHASE_7D'],
-  [verifyWeb, 'VERIFY_WEB_PHASE_7D'],
+  [deployData, 'DEPLOY_DATA_PHASE_7E'],
+  [verifyData, 'VERIFY_DATA_PHASE_7E'],
+  [buildWeb, 'BUILD_PHASE_7E'],
+  [deployWeb, 'DEPLOY_PHASE_7E'],
+  [verifyWeb, 'VERIFY_WEB_PHASE_7E'],
 ]) assert(workflow.includes(contract), `Release workflow omits ${contract}`)
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
   assert(workflow.includes('check:compliance-orchestration'), 'A web gate omits compliance orchestration')

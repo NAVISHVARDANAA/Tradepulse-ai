@@ -51,6 +51,8 @@ if (manifest.access?.implicitSignupEnabled !== false) {
 for (const lock of [
   'liveBrokerageExecution',
   'paymentExecution',
+  'moneyMovement',
+  'customerFunding',
   'chargeCollection',
   'custody',
   'personalizedAdvice',
@@ -197,6 +199,39 @@ if (
   manifest.sandboxTransferLifecycle?.settlementEnabled !== false
 ) {
   throw new Error('Deployed sandbox-transfer lifecycle boundary is incomplete or operational.')
+}
+if (
+  manifest.controlledMoneyMovement?.workspaceEnabled !== true ||
+  manifest.controlledMoneyMovement?.corridorCount !== 4 ||
+  manifest.controlledMoneyMovement?.requirementCount !== 48 ||
+  manifest.controlledMoneyMovement?.requirementsPerCorridor !== 12 ||
+  manifest.controlledMoneyMovement?.approvalDomainCount !== 8 ||
+  manifest.controlledMoneyMovement?.publicSanitizedRequirementLedger !== true ||
+  manifest.controlledMoneyMovement?.appendOnlyApprovalEvidence !== true ||
+  manifest.controlledMoneyMovement?.rawApprovalDocumentsStored !== false ||
+  manifest.controlledMoneyMovement?.reviewerIdentitiesExposed !== false ||
+  manifest.controlledMoneyMovement?.manualActivationReviewRequired !== true ||
+  manifest.controlledMoneyMovement?.activationStatus !== 'blocked' ||
+  manifest.controlledMoneyMovement?.realCustomerDataEnabled !== false ||
+  manifest.controlledMoneyMovement?.realBeneficiaryDataEnabled !== false ||
+  manifest.controlledMoneyMovement?.productionPartnerConnectivityEnabled !== false ||
+  manifest.controlledMoneyMovement?.safeguardingAccountActivationEnabled !== false ||
+  manifest.controlledMoneyMovement?.customerFundingEnabled !== false ||
+  manifest.controlledMoneyMovement?.quoteAcceptanceEnabled !== false ||
+  manifest.controlledMoneyMovement?.transferCreationEnabled !== false ||
+  manifest.controlledMoneyMovement?.webhookIngestionEnabled !== false ||
+  manifest.controlledMoneyMovement?.financialLedgerPostingEnabled !== false ||
+  manifest.controlledMoneyMovement?.reconciliationWriteEnabled !== false ||
+  manifest.controlledMoneyMovement?.rescueOperatorActionEnabled !== false ||
+  manifest.controlledMoneyMovement?.disputeCaseWritesEnabled !== false ||
+  manifest.controlledMoneyMovement?.refundExecutionEnabled !== false ||
+  manifest.controlledMoneyMovement?.paymentExecutionEnabled !== false ||
+  manifest.controlledMoneyMovement?.moneyMovementEnabled !== false ||
+  manifest.controlledMoneyMovement?.custodyEnabled !== false ||
+  manifest.controlledMoneyMovement?.settlementEnabled !== false ||
+  manifest.controlledMoneyMovement?.automaticActivationEnabled !== false
+) {
+  throw new Error('Deployed controlled money-movement readiness boundary is incomplete or operational.')
 }
 
 console.log(

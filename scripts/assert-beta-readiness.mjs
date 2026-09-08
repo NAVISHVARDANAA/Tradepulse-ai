@@ -13,9 +13,9 @@ const artifactManifest = JSON.parse(artifactManifestText)
 
 assert(manifest.schemaVersion === 1, 'Unexpected beta manifest schema')
 assert(manifest.release === 'controlled-beta-rc2', 'Unexpected beta release identifier')
-assert(manifest.phase === '7D', 'Beta manifest is not on Phase 7D')
+assert(manifest.phase === '7E', 'Beta manifest is not on Phase 7E')
 assert(
-  manifest.status === 'sandbox_transfer_lifecycle_candidate',
+  manifest.status === 'controlled_money_movement_readiness_candidate',
   'Beta manifest overstates the release status',
 )
 assert(manifest.audience === 'internal_release_review', 'Beta audience boundary changed')
@@ -27,7 +27,7 @@ assert(
 for (const [lock, enabled] of Object.entries(manifest.hardLocks ?? {})) {
   assert(enabled === false, `Controlled-beta hard lock is not false: ${lock}`)
 }
-assert(Object.keys(manifest.hardLocks ?? {}).length === 5, 'Beta hard-lock inventory changed')
+assert(Object.keys(manifest.hardLocks ?? {}).length === 7, 'Beta hard-lock inventory changed')
 assert(
   manifest.distribution?.hostingProviderSelected === true,
   'Cloudflare Pages hosting selection is missing',
@@ -36,7 +36,7 @@ for (const gate of ['publicUrlConfigured', 'externalInvitationsApproved']) {
   assert(manifest.distribution?.[gate] === false, `Unapproved beta distribution state: ${gate}`)
 }
 assert(
-  Array.isArray(manifest.manualPrerequisites) && manifest.manualPrerequisites.length === 9,
+  Array.isArray(manifest.manualPrerequisites) && manifest.manualPrerequisites.length === 11,
   'Manual beta prerequisite inventory changed',
 )
 
@@ -59,6 +59,7 @@ const expectedChecks = [
   'check:beneficiary-protection',
   'check:compliance-orchestration',
   'check:sandbox-transfers',
+  'check:money-movement-readiness',
   'check:production-experience',
   'check:bundle',
   'check:release',
@@ -92,17 +93,17 @@ const [buildWorkflow, deployWorkflow, verifyWebWorkflow, ciWorkflow, securityWor
   ])
 
 for (const contract of [
-  'BUILD_PHASE_7D',
+  'BUILD_PHASE_7E',
   'npm run check:beta',
   'tradepulse-beta-rc2-${{ github.sha }}',
   'environment: production',
 ]) {
   assert(buildWorkflow.includes(contract), `Beta build workflow contract missing: ${contract}`)
 }
-for (const contract of ['DEPLOY_PHASE_7D', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['DEPLOY_PHASE_7E', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
   assert(deployWorkflow.includes(contract), `Beta deploy workflow contract missing: ${contract}`)
 }
-for (const contract of ['VERIFY_WEB_PHASE_7D', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['VERIFY_WEB_PHASE_7E', 'verify:web-deployment', 'test:e2e:production']) {
   assert(verifyWebWorkflow.includes(contract), `Beta web verification workflow contract missing: ${contract}`)
 }
 for (const contract of [
@@ -121,6 +122,7 @@ for (const contract of [
   'npm run check:beneficiary-protection',
   'npm run check:compliance-orchestration',
   'npm run check:sandbox-transfers',
+  'npm run check:money-movement-readiness',
   'npm run check:security',
   'npm run check:hosting',
 ]) {
@@ -146,6 +148,7 @@ assert(roadmap.includes('Phase 7A — corridor intelligence'), 'Roadmap omits Ph
 assert(roadmap.includes('Phase 7B — beneficiary protection'), 'Roadmap omits Phase 7B')
 assert(roadmap.includes('Phase 7C — compliance orchestration'), 'Roadmap omits Phase 7C')
 assert(roadmap.includes('Phase 7D — sandbox transfer lifecycle'), 'Roadmap omits Phase 7D')
+assert(roadmap.includes('Phase 7E — controlled money-movement readiness'), 'Roadmap omits Phase 7E')
 assert(roadmap.includes('Phase 8A — global venue and instrument intelligence'), 'Roadmap omits global exchange intelligence')
 assert(roadmap.includes('Phase 8B — international multi-asset paper trading'), 'Roadmap omits international paper trading')
 assert(roadmap.includes('Phase 8C — options education and paper trading'), 'Roadmap omits options paper trading')
@@ -182,5 +185,5 @@ for (const lock of ['checkout_enabled', 'charge_collection_enabled', 'customer_p
 }
 
 console.log(
-  'Controlled-beta readiness passed: Cloudflare RC2 candidate, 5 execution locks, 9 manual prerequisites.',
+  'Controlled-beta readiness passed: Cloudflare RC2 candidate, 7 execution locks, 11 manual prerequisites.',
 )

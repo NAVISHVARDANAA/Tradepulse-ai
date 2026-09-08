@@ -69,18 +69,18 @@ for (const contract of [
 ]) assert(panel.includes(contract), `Beneficiary protection workspace omits: ${contract}`)
 
 assert(app.includes('getBeneficiaryProtectionRules'), 'Application omits beneficiary protection loading')
-assert(navigation.includes("label: 'Payment sandbox'"), 'Navigation omits the payment workspace')
-assert(header.includes("title: 'Sandbox transfer lifecycle'"), 'Page header omits the current payment workspace')
+assert(navigation.includes("label: 'Payment readiness'"), 'Navigation omits the payment workspace')
+assert(header.includes("title: 'Money movement readiness'"), 'Page header omits the current payment workspace')
 assert(styles.includes('.beneficiary-rule-grid'), 'Beneficiary protection styles are missing')
 assert(databaseTest.includes('select plan(56)'), 'Beneficiary protection database contract count changed')
 assert(productionSmoke.includes('A beneficiary or payment execution path unexpectedly exists'), 'Production beneficiary lock guard is missing')
 assert(browserTest.includes("name: 'See the intervention before the payment'"), 'Browser test omits beneficiary intervention')
-assert(productionBrowserTest.includes("['#payments', 'Sandbox transfer lifecycle']"), 'Production smoke omits the payment workspace')
+assert(productionBrowserTest.includes("['#payments', 'Money movement readiness']"), 'Production smoke omits the payment workspace')
 
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
-assert(manifest.phase === '7D', 'Release manifest is not Phase 7D')
-assert(manifest.status === 'sandbox_transfer_lifecycle_candidate', 'Release status is not the sandbox transfer lifecycle candidate')
+assert(manifest.phase === '7E', 'Release manifest is not Phase 7E')
+assert(manifest.status === 'controlled_money_movement_readiness_candidate', 'Release status is not the controlled money-movement readiness candidate')
 for (const [key, expected] of Object.entries({
   workspaceEnabled: true,
   syntheticRehearsalOnly: true,
@@ -104,11 +104,11 @@ assert(manifest.requiredChecks.includes('check:beneficiary-protection'), 'Manife
 assert(packageJson.scripts?.['check:beneficiary-protection'], 'Package beneficiary protection check is missing')
 
 for (const [workflow, contract] of [
-  [deployData, 'DEPLOY_DATA_PHASE_7D'],
-  [verifyData, 'VERIFY_DATA_PHASE_7D'],
-  [buildWeb, 'BUILD_PHASE_7D'],
-  [deployWeb, 'DEPLOY_PHASE_7D'],
-  [verifyWeb, 'VERIFY_WEB_PHASE_7D'],
+  [deployData, 'DEPLOY_DATA_PHASE_7E'],
+  [verifyData, 'VERIFY_DATA_PHASE_7E'],
+  [buildWeb, 'BUILD_PHASE_7E'],
+  [deployWeb, 'DEPLOY_PHASE_7E'],
+  [verifyWeb, 'VERIFY_WEB_PHASE_7E'],
 ]) assert(workflow.includes(contract), `Release workflow omits ${contract}`)
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
   assert(workflow.includes('check:beneficiary-protection'), 'A web gate omits beneficiary protection')

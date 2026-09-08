@@ -78,8 +78,8 @@ const capabilities = [
   },
   {
     label: 'Cross-border payments',
-    status: 'Phase 7D sandbox rehearsal',
-    detail: 'Transfer controls, compliance and route evidence are visible; funding, custody and settlement remain disabled',
+    status: 'Phase 7E activation readiness',
+    detail: 'Corridor approval, transfer-control and compliance evidence are visible; partner connectivity, funding and money movement remain blocked',
     tone: 'locked',
     href: '#payments',
     icon: WalletCards,

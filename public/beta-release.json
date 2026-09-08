@@ -1,12 +1,14 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "7D",
-  "status": "sandbox_transfer_lifecycle_candidate",
+  "phase": "7E",
+  "status": "controlled_money_movement_readiness_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
     "paymentExecution": false,
+    "moneyMovement": false,
+    "customerFunding": false,
     "chargeCollection": false,
     "custody": false,
     "personalizedAdvice": false
@@ -78,6 +80,7 @@
     "check:beneficiary-protection",
     "check:compliance-orchestration",
     "check:sandbox-transfers",
+    "check:money-movement-readiness",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -98,6 +101,8 @@
     "approved-tester-list-and-feedback-process",
     "written-jurisdiction-broker-and-compliance-approvals",
     "funding-custody-settlement-and-market-data-approvals",
+    "written-corridor-legal-compliance-security-and-partner-approvals",
+    "safeguarding-treasury-reconciliation-and-customer-redress-approvals",
     "observed-risk-monitoring-reconciliation-and-kill-switch-drills"
   ],
   "betaHardening": {
@@ -265,5 +270,36 @@
     "customerFundingEnabled": false,
     "custodyEnabled": false,
     "settlementEnabled": false
+  },
+  "controlledMoneyMovement": {
+    "workspaceEnabled": true,
+    "corridorCount": 4,
+    "requirementCount": 48,
+    "requirementsPerCorridor": 12,
+    "approvalDomainCount": 8,
+    "publicSanitizedRequirementLedger": true,
+    "appendOnlyApprovalEvidence": true,
+    "rawApprovalDocumentsStored": false,
+    "reviewerIdentitiesExposed": false,
+    "manualActivationReviewRequired": true,
+    "activationStatus": "blocked",
+    "realCustomerDataEnabled": false,
+    "realBeneficiaryDataEnabled": false,
+    "productionPartnerConnectivityEnabled": false,
+    "safeguardingAccountActivationEnabled": false,
+    "customerFundingEnabled": false,
+    "quoteAcceptanceEnabled": false,
+    "transferCreationEnabled": false,
+    "webhookIngestionEnabled": false,
+    "financialLedgerPostingEnabled": false,
+    "reconciliationWriteEnabled": false,
+    "rescueOperatorActionEnabled": false,
+    "disputeCaseWritesEnabled": false,
+    "refundExecutionEnabled": false,
+    "paymentExecutionEnabled": false,
+    "moneyMovementEnabled": false,
+    "custodyEnabled": false,
+    "settlementEnabled": false,
+    "automaticActivationEnabled": false
   }
 }

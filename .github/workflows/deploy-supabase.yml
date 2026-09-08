@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type DEPLOY_DATA_PHASE_7D to deploy the sandbox transfer lifecycle
+        description: Type DEPLOY_DATA_PHASE_7E to deploy controlled money-movement readiness
         required: true
         type: string
 
@@ -39,8 +39,8 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_7D" || {
-            echo "Release confirmation did not match DEPLOY_DATA_PHASE_7D."
+          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_7E" || {
+            echo "Release confirmation did not match DEPLOY_DATA_PHASE_7E."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -253,6 +253,14 @@ jobs:
             --linked \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --file supabase/tests/production/payment_sandbox_transfer_lifecycle_smoke.sql
+
+      - name: Verify controlled money-movement production boundary
+        run: |
+          bash scripts/assert-read-only-sql.sh supabase/tests/production/payment_money_movement_readiness_smoke.sql
+          npx --no-install supabase db query \
+            --linked \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --file supabase/tests/production/payment_money_movement_readiness_smoke.sql
 
       - name: Verify production public web reads
         run: bash scripts/verify-public-runtime-read.sh
