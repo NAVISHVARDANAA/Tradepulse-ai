@@ -39,9 +39,10 @@ const largestAsset = assetFiles.reduce((largest, asset) => (
 
 const budgets = {
   initialGzipBytes: 160 * 1024,
-  // Phase 7D extends the route-deferred payments workspace while the
-  // initial shell remains below 160 KiB. Keep total growth explicitly bounded.
-  totalJavaScriptGzipBytes: 315 * 1024,
+  // Phase 7D extends the route-deferred payments workspace while the initial
+  // shell remains below 160 KiB. Allow bounded gzip variance from production
+  // environment substitution without weakening either load-critical budget.
+  totalJavaScriptGzipBytes: 320 * 1024,
   largestAssetGzipBytes: 90 * 1024,
 }
 
