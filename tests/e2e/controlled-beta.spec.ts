@@ -434,7 +434,7 @@ test('payment safety maps money-movement readiness, sandbox lifecycle, complianc
   await expect(page.getByText('6 of 6', { exact: true })).toBeVisible()
   await expect(page.getByRole('heading', { level: 3, name: 'See the intervention before the payment' })).toBeVisible()
   await expect(page.getByText('No names, accounts or addresses')).toBeVisible()
-  await expect(page.getByText('Blocked', { exact: true })).toBeVisible()
+  await expect(page.locator('.beneficiary-protection').getByText('Blocked', { exact: true })).toBeVisible()
   await expect(page.getByRole('heading', { level: 4, name: 'Recently changed payment details', exact: true })).toBeVisible()
   await expect(page.getByRole('heading', { level: 4, name: 'Unverified channel change', exact: true })).toBeVisible()
   await expect(page.getByText(/Real beneficiary data is neither requested nor stored/)).toBeVisible()
