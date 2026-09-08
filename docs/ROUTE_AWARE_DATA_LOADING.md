@@ -14,6 +14,7 @@ that declares the corresponding domain.
 | Markets | Markets and trade | Market and trade observations |
 | Trade data | Trade | Trade observations |
 | Forecasts | Forecasts | Forecast and reliability changes |
+| Global access | Venue, listing, calendar, entitlement and residency references | None; versioned reference snapshot |
 | Stock research / AI Copilot | Equity research | Equity score, forecast and reliability changes |
 | Paper investing | Markets | Market observations |
 | Payments | Markets plus deferred corridor configuration | Market observations |

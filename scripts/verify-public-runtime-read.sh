@@ -9,6 +9,7 @@ endpoints=(
   'trade_observations?select=period_date&limit=1'
   'display_qualified_market_forecasts?select=id&limit=1'
   'equity_research_dashboard?select=security_id&limit=1'
+  'global_venue_instrument_reference?select=listing_key&limit=1'
   'academy_catalog?select=slug&limit=1'
   'investment_instruments?select=id&paper_trading_enabled=eq.true&limit=1'
   'payment_corridors?select=id&enabled=eq.true&limit=1'

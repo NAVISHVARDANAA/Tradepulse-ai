@@ -227,6 +227,49 @@ export type PaymentMoneyMovementRequirement = {
   automaticActivationEnabled: false
 }
 
+export type GlobalMarketAccessRecord = {
+  venueId: number
+  micCode: string
+  venueName: string
+  venueCountryCode: string
+  timezone: string
+  primaryCurrency: string
+  venueAvailability: 'reference_only' | 'unavailable'
+  calendarStatus: 'verified_reference' | 'review_required' | 'unavailable'
+  holidayCalendarStatus: 'verified_reference' | 'review_required' | 'unavailable'
+  settlementConvention: 'T+1' | 'T+2' | 'same_day' | 'source_review_required'
+  listingId: number
+  listingKey: string
+  canonicalInstrumentKey: string
+  displaySymbol: string
+  instrumentName: string
+  instrumentType: 'equity' | 'etf' | 'depositary_receipt'
+  quoteCurrency: string
+  listingStatus: 'reference_only' | 'suspended' | 'delisted' | 'unavailable'
+  identifierStatus: 'verified_reference' | 'review_required' | 'unavailable'
+  providerMappingStatus: 'verified_reference' | 'review_required' | 'unavailable'
+  corporateActionStatus: 'current_reference' | 'review_required' | 'stale' | 'unavailable'
+  residencyCountry: 'US' | 'GB' | 'IN' | 'CA'
+  accessStatus: 'research_only' | 'review_required' | 'unavailable'
+  reasonCode: string
+  disclosureStatus: 'not_assessed' | 'review_required' | 'complete_reference'
+  legalReviewStatus: 'review_required' | 'reference_complete'
+  referenceDisplayStatus: 'reference_only' | 'delayed' | 'realtime' | 'unavailable'
+  priceDisplayStatus: 'reference_only' | 'delayed' | 'realtime' | 'unavailable'
+  corporateActionDisplayStatus: 'reference_only' | 'delayed' | 'realtime' | 'unavailable'
+  referenceLicenseStatus: 'licensed' | 'public_domain' | 'review_required' | 'restricted'
+  referenceAsOf: string
+  liveMarketDataConnectivityEnabled: false
+  customerEntitlementAssignmentEnabled: false
+  automaticJurisdictionApprovalEnabled: false
+  orderPreviewEnabled: false
+  orderRoutingEnabled: false
+  brokerConnectivityEnabled: false
+  customerFundingEnabled: false
+  custodyEnabled: false
+  settlementEnabled: false
+}
+
 export type EquityCoverageStatus =
   | 'reference'
   | 'delayed'

@@ -1,6 +1,6 @@
 import type { ProductHref } from '../components/ProductNavigation'
 
-export type ProductDataDomain = 'markets' | 'trade' | 'forecasts' | 'equity'
+export type ProductDataDomain = 'markets' | 'trade' | 'forecasts' | 'equity' | 'globalAccess'
 
 const routeDataRequirements: Partial<
   Record<ProductHref, readonly ProductDataDomain[]>
@@ -10,6 +10,7 @@ const routeDataRequirements: Partial<
   '#trade-data': ['trade'],
   '#forecasts': ['forecasts'],
   '#stock-research': ['equity'],
+  '#global-access': ['globalAccess'],
   '#research-copilot': ['equity'],
   '#paper-investing': ['markets'],
   '#payments': ['markets'],

@@ -8876,6 +8876,224 @@ html[data-theme='light'] .beneficiary-no-rule {
   }
 }
 
+.global-market-access-panel {
+  overflow: hidden;
+  background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.13), transparent 42%), var(--surface);
+}
+
+.global-market-access-header,
+.global-venue-card header,
+.global-venue-card footer,
+.global-listing-row,
+.global-market-lock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.global-market-lock {
+  justify-content: flex-start;
+  margin: 1rem 0;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(248, 113, 113, 0.28);
+  border-radius: 13px;
+  color: #fecaca;
+  background: rgba(127, 29, 29, 0.14);
+}
+
+.global-market-lock div,
+.global-listing-row > div,
+.global-venue-card header > div {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.global-market-lock span,
+.global-listing-row span,
+.global-listing-row small,
+.global-venue-card footer,
+.global-market-method-note {
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.global-market-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin: 1rem 0;
+}
+
+.global-market-summary > div {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.9rem;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.45);
+}
+
+.global-market-summary span,
+.global-market-controls label > span,
+.global-venue-card header span {
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.global-market-summary strong {
+  font-size: 1.25rem;
+}
+
+.global-market-summary > div:last-child strong {
+  color: #fca5a5;
+}
+
+.global-market-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.global-market-controls label {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.global-market-controls select {
+  width: 100%;
+}
+
+.global-venue-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.global-venue-card {
+  padding: 1rem;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 15px;
+  background: rgba(15, 23, 42, 0.48);
+}
+
+.global-venue-card h3,
+.global-venue-facts,
+.global-market-method-note {
+  margin: 0;
+}
+
+.global-venue-card h3 {
+  font-size: 1rem;
+}
+
+.global-venue-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+  padding: 0.85rem 0;
+}
+
+.global-venue-facts > div {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.global-venue-facts dt {
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.global-venue-facts dd {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.global-listing-stack {
+  border-block: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.global-listing-row {
+  align-items: flex-start;
+  padding: 0.8rem 0;
+}
+
+.global-listing-row + .global-listing-row {
+  border-top: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.global-listing-row > div:last-child {
+  justify-items: end;
+  text-align: right;
+}
+
+.global-access-pill {
+  padding: 0.22rem 0.45rem;
+  border: 1px solid rgba(251, 191, 36, 0.28);
+  border-radius: 999px;
+  color: #fde68a !important;
+  font-size: 0.66rem !important;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.global-access-pill.research_only {
+  border-color: rgba(45, 212, 191, 0.28);
+  color: #99f6e4 !important;
+}
+
+.global-venue-card footer {
+  align-items: flex-start;
+  padding-top: 0.75rem;
+}
+
+.global-market-method-note {
+  margin-top: 1rem;
+}
+
+html[data-theme='light'] .global-market-summary > div,
+html[data-theme='light'] .global-venue-card {
+  background: rgba(241, 245, 249, 0.9);
+}
+
+@media (max-width: 900px) {
+  .global-market-summary,
+  .global-venue-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 650px) {
+  .global-market-access-header,
+  .global-market-summary,
+  .global-market-controls,
+  .global-venue-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .global-market-access-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .global-listing-row,
+  .global-venue-card footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .global-listing-row > div:last-child {
+    justify-items: start;
+    text-align: left;
+  }
+}
+
 /* Phase 7D: synthetic, non-posting payment sandbox transfer lifecycle. */
 .sandbox-transfer-lifecycle {
   display: grid;

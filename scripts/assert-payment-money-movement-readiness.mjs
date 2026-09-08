@@ -161,8 +161,8 @@ assert(browserTest.includes('payment_money_movement_readiness_reference'), 'Brow
 assert(browserTest.includes('Production money movement remains blocked'), 'Browser contract omits the Phase 7E heading')
 assert(productionBrowserTest.includes("['#payments', 'Money movement readiness']"), 'Production smoke omits the Phase 7E workspace')
 
-assert(manifest.phase === '7E', 'Release manifest is not Phase 7E')
-assert(manifest.status === 'controlled_money_movement_readiness_candidate', 'Release status is not the Phase 7E candidate')
+assert(manifest.phase === '8A', 'Release manifest is not Phase 8A')
+assert(manifest.status === 'global_venue_instrument_intelligence_candidate', 'Release status is not the Phase 8A candidate')
 assert(manifest.requiredChecks.includes('check:money-movement-readiness'), 'Release manifest omits the Phase 7E gate')
 assert(packageJson.scripts?.['check:money-movement-readiness'], 'Package scripts omit the Phase 7E gate')
 const release = manifest.controlledMoneyMovement
@@ -201,11 +201,11 @@ for (const lock of [
 ]) assert(release?.[lock] === false, `Controlled money-movement lock is not false: ${lock}`)
 
 for (const [workflow, contract] of [
-  [deployData, 'DEPLOY_DATA_PHASE_7E'],
-  [verifyData, 'VERIFY_DATA_PHASE_7E'],
-  [buildWeb, 'BUILD_PHASE_7E'],
-  [deployWeb, 'DEPLOY_PHASE_7E'],
-  [verifyWeb, 'VERIFY_WEB_PHASE_7E'],
+  [deployData, 'DEPLOY_DATA_PHASE_8A'],
+  [verifyData, 'VERIFY_DATA_PHASE_8A'],
+  [buildWeb, 'BUILD_PHASE_8A'],
+  [deployWeb, 'DEPLOY_PHASE_8A'],
+  [verifyWeb, 'VERIFY_WEB_PHASE_8A'],
 ]) assert(workflow.includes(contract), `Release workflow omits ${contract}`)
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
   assert(workflow.includes('check:money-movement-readiness'), 'A web gate omits controlled money-movement readiness')
@@ -213,14 +213,14 @@ for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
 assert(ci.includes('payment_money_movement_readiness.test.sql'), 'CI omits the Phase 7E database tests')
 assert(deployData.includes('payment_money_movement_readiness_smoke.sql'), 'Data deploy omits the Phase 7E smoke')
 assert(verifyData.includes('payment_money_movement_readiness_smoke.sql'), 'Data verification omits the Phase 7E smoke')
-assert(verifyData.includes('migration 044'), 'Data verification omits migration 044')
+assert(verifyData.includes('migration 045'), 'Current data verification does not prove parity beyond migration 044')
 assert(publicRead.includes('payment_money_movement_readiness_reference'), 'Public runtime check omits the Phase 7E reference')
 assert(publicRead.includes('payment_money_movement_readiness_summary'), 'Public runtime check omits the Phase 7E summary')
 assert(deployedVerification.includes('manifest.controlledMoneyMovement'), 'Deployed manifest verification omits Phase 7E')
 assert(roadmap.includes('Phase 7E — controlled money-movement readiness (implemented foundation)'), 'Roadmap omits the Phase 7E foundation')
 assert(guide.includes('Every corridor remains `blocked` even if all displayed approval evidence is'), 'Operating guide omits the no-activation boundary')
 for (const guideText of [releaseGuide, hostingGuide, supabaseGuide]) {
-  assert(guideText.includes('PHASE_7E'), 'A current release guide omits Phase 7E confirmations')
+  assert(guideText.includes('PHASE_8A'), 'A current release guide omits Phase 8A confirmations')
 }
 
 for (const lock of ['liveBrokerageExecution', 'paymentExecution', 'moneyMovement', 'customerFunding', 'chargeCollection', 'custody', 'personalizedAdvice']) {

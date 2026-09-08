@@ -166,6 +166,98 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByRole('button', { name: /select|accept|transfer|pay|execute|submit|clear|approve/i })).toHaveCount(0)
 })
 
+test('global venue intelligence preserves listing identity and fails closed by residency', async ({ page }) => {
+  const base = {
+    venue_availability: 'reference_only',
+    calendar_status: 'review_required',
+    holiday_calendar_status: 'review_required',
+    settlement_convention: 'source_review_required',
+    primary_listing: true,
+    listing_status: 'reference_only',
+    identifier_status: 'review_required',
+    provider_mapping_status: 'review_required',
+    corporate_action_status: 'review_required',
+    fractional_reference_status: 'review_required',
+    residency_country: 'IN',
+    customer_type: 'individual',
+    investor_type: 'retail',
+    disclosure_status: 'not_assessed',
+    legal_review_status: 'review_required',
+    reference_display_status: 'reference_only',
+    price_display_status: 'unavailable',
+    corporate_action_display_status: 'unavailable',
+    reference_license_status: 'review_required',
+    reference_as_of: '2026-09-08',
+    policy_version: 'global-venue-instrument-intelligence-v1',
+    live_market_data_connectivity_enabled: false,
+    customer_entitlement_assignment_enabled: false,
+    automatic_jurisdiction_approval_enabled: false,
+    order_preview_enabled: false,
+    order_routing_enabled: false,
+    broker_connectivity_enabled: false,
+    customer_funding_enabled: false,
+    custody_enabled: false,
+    settlement_enabled: false,
+  }
+  const records = [
+    {
+      ...base,
+      venue_id: 1,
+      mic_code: 'XNSE',
+      venue_name: 'National Stock Exchange of India',
+      venue_country_code: 'IN',
+      timezone: 'Asia/Kolkata',
+      primary_currency: 'INR',
+      listing_id: 1,
+      listing_key: 'XNSE:RELIANCE',
+      canonical_instrument_key: 'IN:RELIANCE',
+      display_symbol: 'RELIANCE',
+      instrument_name: 'Reliance Industries equity reference',
+      instrument_type: 'equity',
+      quote_currency: 'INR',
+      access_status: 'research_only',
+      reason_code: 'DOMESTIC_REFERENCE_ONLY_NOT_ELIGIBILITY',
+    },
+    {
+      ...base,
+      venue_id: 2,
+      mic_code: 'XNAS',
+      venue_name: 'The Nasdaq Stock Market',
+      venue_country_code: 'US',
+      timezone: 'America/New_York',
+      primary_currency: 'USD',
+      listing_id: 2,
+      listing_key: 'XNAS:QQQ',
+      canonical_instrument_key: 'US:QQQ',
+      display_symbol: 'QQQ',
+      instrument_name: 'Nasdaq-100 ETF reference',
+      instrument_type: 'etf',
+      quote_currency: 'USD',
+      access_status: 'review_required',
+      reason_code: 'CROSS_BORDER_LEGAL_REVIEW_REQUIRED',
+    },
+  ]
+  await page.route('http://127.0.0.1:54321/rest/v1/global_venue_instrument_reference**', (route) => route.fulfill({
+    status: 200,
+    contentType: 'application/json',
+    headers: { 'content-range': '0-1/2' },
+    body: JSON.stringify(records),
+  }))
+
+  await page.goto('/#global-access')
+  await expect(page.getByRole('heading', { level: 1, name: 'Venue and instrument access map' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Venue and instrument intelligence' })).toBeVisible()
+  await expect(page.getByText('Global execution remains unavailable')).toBeVisible()
+  await expect(page.getByRole('heading', { level: 3, name: 'National Stock Exchange of India' })).toBeVisible()
+  await expect(page.getByText(/^XNSE:RELIANCE ·/)).toBeVisible()
+  await expect(page.getByText('Research only', { exact: true })).toBeVisible()
+  await expect(page.getByText(/Reason: Cross border legal review required/)).toBeVisible()
+  await page.getByLabel('Instrument class').selectOption('etf')
+  await expect(page.getByText(/^XNAS:QQQ ·/)).toBeVisible()
+  await expect(page.getByText(/^XNSE:RELIANCE ·/)).toHaveCount(0)
+  await expect(page.getByRole('button', { name: /preview|route|trade|buy|sell|fund|execute|submit/i })).toHaveCount(0)
+})
+
 test('payment safety maps money-movement readiness, sandbox lifecycle, compliance, beneficiary intervention and corridor transparency', async ({ page }) => {
   const routeBase = {
     corridor_id: 1,
@@ -475,7 +567,7 @@ test('shared product data loads only for the active workspace', async ({ page })
   page.on('request', (request) => {
     const path = new URL(request.url()).pathname
     if (
-      /\/rest\/v1\/(market_assets|market_observations|trade_observations|display_qualified_market_forecasts|equity_research_dashboard)/.test(
+      /\/rest\/v1\/(market_assets|market_observations|trade_observations|display_qualified_market_forecasts|equity_research_dashboard|global_venue_instrument_reference)/.test(
         path,
       )
     ) {
@@ -497,6 +589,14 @@ test('shared product data loads only for the active workspace', async ({ page })
   await expect(page.getByRole('heading', { level: 1, name: 'Beta hardening center' })).toBeVisible()
   await page.waitForTimeout(250)
   expect(sharedDataPaths).toEqual([])
+
+  await page.goto('/#global-access')
+  await expect(page.getByRole('heading', { level: 1, name: 'Venue and instrument access map' })).toBeVisible()
+  await expect.poll(
+    () => sharedDataPaths.some((path) => path.includes('/global_venue_instrument_reference')),
+  ).toBe(true)
+  expect(sharedDataPaths.some((path) => path.includes('/market_assets'))).toBe(false)
+  expect(sharedDataPaths.some((path) => path.includes('/equity_research_dashboard'))).toBe(false)
 
   await page.goto('/#forecasts')
   await expect(page.getByRole('heading', { level: 1, name: 'Forecast governance dashboard' })).toBeVisible()

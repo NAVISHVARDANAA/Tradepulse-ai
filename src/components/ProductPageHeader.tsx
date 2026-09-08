@@ -40,6 +40,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Explore reusable semantic KPIs with slicers, cross-filtering, drill-through, saved views, export and visible source lineage.',
     boundary: 'Certified metrics',
   },
+  '#global-access': {
+    eyebrow: 'Global market intelligence',
+    title: 'Venue and instrument access map',
+    description: 'Compare canonical venue identities, reference listings, market-data rights, calendar evidence and hypothetical residency outcomes.',
+    boundary: 'Research only · no routing',
+  },
   '#stock-research': {
     eyebrow: 'Global equity research',
     title: 'Interactive stock intelligence',

@@ -606,6 +606,13 @@ administrative release closure. It creates no analytics profile or regulated
 activation path. See
 [`docs/BETA_HARDENING.md`](docs/BETA_HARDENING.md).
 
+Phase 8A adds migration `045_global_venue_instrument_intelligence.sql` and a
+dedicated global-access workspace. Six venues, twelve venue-qualified listings,
+three initial instrument classes and four hypothetical residency scenarios
+surface calendar, display-rights, corporate-action and legal-review gaps without
+connecting a feed or enabling an order path. See
+[`docs/GLOBAL_VENUE_INSTRUMENT_INTELLIGENCE.md`](docs/GLOBAL_VENUE_INSTRUMENT_INTELLIGENCE.md).
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction

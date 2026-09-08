@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type VERIFY_WEB_PHASE_7E to test production money-movement readiness
+        description: Type VERIFY_WEB_PHASE_8A to test production global-market intelligence
         required: true
         type: string
 
@@ -32,7 +32,7 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "VERIFY_WEB_PHASE_7E"
+          test "$RELEASE_CONFIRMATION" = "VERIFY_WEB_PHASE_8A"
           test -n "$CLOUDFLARE_PAGES_PROJECT"
           case "$CLOUDFLARE_PAGES_PROJECT" in *[!a-z0-9-]*) echo "Invalid Cloudflare Pages project name."; exit 1;; esac
           echo "WEB_PRODUCTION_URL=https://${CLOUDFLARE_PAGES_PROJECT}.pages.dev" >> "$GITHUB_ENV"
@@ -56,6 +56,7 @@ jobs:
       - run: npm run check:compliance-orchestration
       - run: npm run check:sandbox-transfers
       - run: npm run check:money-movement-readiness
+      - run: npm run check:global-market-intelligence
       - run: npm run check:production-experience
       - run: npm run verify:web-deployment -- "$WEB_PRODUCTION_URL"
       - name: Install Chromium

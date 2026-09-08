@@ -233,6 +233,29 @@ if (
 ) {
   throw new Error('Deployed controlled money-movement readiness boundary is incomplete or operational.')
 }
+if (
+  manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
+  manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
+  manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||
+  manifest.globalVenueInstrumentIntelligence?.residencyScenarioCount !== 4 ||
+  manifest.globalVenueInstrumentIntelligence?.venueQualifiedListingIdentity !== true ||
+  manifest.globalVenueInstrumentIntelligence?.calendarEvidenceVisible !== true ||
+  manifest.globalVenueInstrumentIntelligence?.settlementUnknownNeverAssumed !== true ||
+  manifest.globalVenueInstrumentIntelligence?.corporateActionEvidenceVisible !== true ||
+  manifest.globalVenueInstrumentIntelligence?.displayRightsFailClosed !== true ||
+  manifest.globalVenueInstrumentIntelligence?.referenceMetadataOnly !== true ||
+  manifest.globalVenueInstrumentIntelligence?.liveMarketDataConnectivityEnabled !== false ||
+  manifest.globalVenueInstrumentIntelligence?.customerEntitlementAssignmentEnabled !== false ||
+  manifest.globalVenueInstrumentIntelligence?.automaticJurisdictionApprovalEnabled !== false ||
+  manifest.globalVenueInstrumentIntelligence?.orderPreviewEnabled !== false ||
+  manifest.globalVenueInstrumentIntelligence?.orderRoutingEnabled !== false ||
+  manifest.globalVenueInstrumentIntelligence?.brokerConnectivityEnabled !== false ||
+  manifest.globalVenueInstrumentIntelligence?.customerFundingEnabled !== false ||
+  manifest.globalVenueInstrumentIntelligence?.custodyEnabled !== false ||
+  manifest.globalVenueInstrumentIntelligence?.settlementEnabled !== false
+) {
+  throw new Error('Deployed global venue and instrument intelligence boundary is incomplete or operational.')
+}
 
 console.log(
   `Verified Phase ${manifest.phase} controlled-beta deployment at ${baseUrl.origin}: exact manifest, HTTPS policy and execution locks passed.`,

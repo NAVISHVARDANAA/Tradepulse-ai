@@ -5,6 +5,7 @@ const baseURL = new URL(process.env.WEB_PRODUCTION_URL ?? 'https://invalid.examp
 const publicWorkspaces = [
   ['#dashboard', 'One platform. Focused workspaces.'],
   ['#analytics-studio', 'Governed Analytics Studio'],
+  ['#global-access', 'Venue and instrument access map'],
   ['#stock-research', 'Interactive stock intelligence'],
   ['#research-copilot', 'Private research copilot'],
   ['#forecasts', 'Forecast governance dashboard'],
@@ -127,6 +128,11 @@ test('production execution boundaries remain closed to guests', async ({ page })
 
   await page.goto('/#brokerage-readiness', { waitUntil: 'domcontentloaded' })
   await expect(page.getByText(/create a non-executable preview/i)).toBeVisible()
+
+  await page.goto('/#global-access', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByText('Global execution remains unavailable')).toBeVisible()
+  await expect(page.getByText(/No order routing, broker connection, funding, custody or settlement/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /preview|route|trade|buy|sell|fund|execute|submit/i })).toHaveCount(0)
 
   await page.goto('/#regulated-preflight', { waitUntil: 'domcontentloaded' })
   await expect(page.getByText('Your preflight evidence is private.')).toBeVisible()
