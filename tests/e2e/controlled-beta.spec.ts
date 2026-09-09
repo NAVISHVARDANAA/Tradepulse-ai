@@ -106,7 +106,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(30)
+  await expect(navigation.getByRole('link')).toHaveCount(31)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -139,6 +139,12 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByText('No broker or real-money path exists')).toBeVisible()
   await expect(page.getByText('Private simulation account required')).toBeVisible()
   await expect(page.getByRole('button', { name: /convert|simulate|reconcile|create simulation/i })).toHaveCount(0)
+
+  await page.goto('/#options-paper')
+  await expect(page.getByRole('heading', { level: 1, name: 'Defined-risk options paper lab' })).toBeVisible()
+  await expect(page.getByText('Options permission is never granted here')).toBeVisible()
+  await expect(page.getByText('Private options simulation account required')).toBeVisible()
+  await expect(page.getByRole('button', { name: /save defined-risk|record lifecycle|reconcile options|create education/i })).toHaveCount(0)
 
   await page.goto('/#account-security')
   await expect(page.getByText(/Controlled-beta access is limited to approved email addresses/)).toBeVisible()
@@ -291,6 +297,39 @@ test('international paper lab exposes deterministic venue scenarios without gues
   await expect(page.getByText('XNAS · USD')).toBeVisible()
   await expect(page.getByText('Private simulation account required')).toBeVisible()
   await expect(page.getByRole('button', { name: /convert|simulate venue order|reconcile|create simulation/i })).toHaveCount(0)
+})
+
+test('options paper lab explains bounded risk without granting guest options permission', async ({ page }) => {
+  const base = {
+    underlying_listing_id: 1, underlying_listing_key: 'XNAS:AAPL', underlying_symbol: 'AAPL',
+    underlying_name: 'Apple common equity reference', underlying_scenario_price: 250,
+    quote_currency: 'USD', mic_code: 'XNAS', expires_on: '2030-12-20', contract_multiplier: 100,
+    volume: 1000, open_interest: 8000, implied_volatility: 0.28,
+    gamma: 0.018, theta: -0.07, vega: 0.21,
+    quote_observed_at: '2026-09-09T00:00:00Z', freshness_status: 'scenario_current',
+    corporate_action_adjusted: false, scenario_version: 'options-chain-v1',
+  }
+  await page.route('**/rest/v1/options_paper_chain_catalog*', (route) => route.fulfill({
+    status: 200,
+    contentType: 'application/json',
+    body: JSON.stringify([
+      { ...base, contract_id: 1, contract_symbol: 'AAPL301220C00240000', option_type: 'call', strike: 240, bid: 13, ask: 14, delta: 0.68 },
+      { ...base, contract_id: 2, contract_symbol: 'AAPL301220C00260000', option_type: 'call', strike: 260, bid: 7, ask: 8, delta: 0.43 },
+      { ...base, contract_id: 3, contract_symbol: 'AAPL301220P00240000', option_type: 'put', strike: 240, bid: 6, ask: 7, delta: -0.32 },
+      { ...base, contract_id: 4, contract_symbol: 'AAPL301220P00260000', option_type: 'put', strike: 260, bid: 12, ask: 13, delta: -0.57 },
+    ]),
+  }))
+
+  await page.goto('/#options-paper')
+  await expect(page.getByRole('heading', { level: 2, name: 'Defined-risk options paper lab' })).toBeVisible()
+  await expect(page.getByText('Options permission is never granted here')).toBeVisible()
+  await expect(page.getByText('Educational strategy builder')).toBeVisible()
+  await expect(page.getByText('$700.00')).toBeVisible()
+  await expect(page.getByText('$1,300.00')).toBeVisible()
+  await expect(page.getByRole('img', { name: /Estimated profit and loss payoff/ })).toBeVisible()
+  await expect(page.getByText('Educational display permitted · no live display rights')).toBeVisible()
+  await expect(page.getByText('Private options simulation account required')).toBeVisible()
+  await expect(page.getByRole('button', { name: /save defined-risk|record lifecycle|reconcile options|create education/i })).toHaveCount(0)
 })
 
 test('payment safety maps money-movement readiness, sandbox lifecycle, compliance, beneficiary intervention and corridor transparency', async ({ page }) => {
@@ -602,7 +641,7 @@ test('shared product data loads only for the active workspace', async ({ page })
   page.on('request', (request) => {
     const path = new URL(request.url()).pathname
     if (
-      /\/rest\/v1\/(market_assets|market_observations|trade_observations|display_qualified_market_forecasts|equity_research_dashboard|global_venue_instrument_reference|international_paper_market_catalog)/.test(
+      /\/rest\/v1\/(market_assets|market_observations|trade_observations|display_qualified_market_forecasts|equity_research_dashboard|global_venue_instrument_reference|international_paper_market_catalog|options_paper_chain_catalog)/.test(
         path,
       )
     ) {
@@ -629,6 +668,14 @@ test('shared product data loads only for the active workspace', async ({ page })
   await expect(page.getByRole('heading', { level: 1, name: 'International paper trading lab' })).toBeVisible()
   await expect.poll(
     () => sharedDataPaths.some((path) => path.includes('/international_paper_market_catalog')),
+  ).toBe(true)
+  expect(sharedDataPaths.some((path) => path.includes('/market_assets'))).toBe(false)
+  expect(sharedDataPaths.some((path) => path.includes('/global_venue_instrument_reference'))).toBe(false)
+
+  await page.goto('/#options-paper')
+  await expect(page.getByRole('heading', { level: 1, name: 'Defined-risk options paper lab' })).toBeVisible()
+  await expect.poll(
+    () => sharedDataPaths.some((path) => path.includes('/options_paper_chain_catalog')),
   ).toBe(true)
   expect(sharedDataPaths.some((path) => path.includes('/market_assets'))).toBe(false)
   expect(sharedDataPaths.some((path) => path.includes('/global_venue_instrument_reference'))).toBe(false)

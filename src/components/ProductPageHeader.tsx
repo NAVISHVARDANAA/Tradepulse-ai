@@ -100,6 +100,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Rehearse multi-currency, venue-aware equity and ETF orders with deterministic prices, explicit costs, settlement dates and balanced journals.',
     boundary: 'Simulation only · no broker',
   },
+  '#options-paper': {
+    eyebrow: 'Options education',
+    title: 'Defined-risk options paper lab',
+    description: 'Learn long options and protected debit spreads through deterministic chains, payoff diagrams, Greeks and lifecycle simulations.',
+    boundary: 'Education only · no options permission',
+  },
   '#risk-command-center': {
     eyebrow: 'Portfolio controls',
     title: 'Risk command center',

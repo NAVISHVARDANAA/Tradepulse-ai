@@ -254,6 +254,33 @@ if (
   throw new Error('Deployed international paper-trading boundary is incomplete or connected to live execution.')
 }
 if (
+  manifest.optionsEducationPaperTrading?.workspaceEnabled !== true ||
+  manifest.optionsEducationPaperTrading?.educationOnly !== true ||
+  manifest.optionsEducationPaperTrading?.isolatedSimulationLedger !== true ||
+  manifest.optionsEducationPaperTrading?.chainContractCount !== 8 ||
+  manifest.optionsEducationPaperTrading?.underlyingCount !== 2 ||
+  manifest.optionsEducationPaperTrading?.supportedStrategyCount !== 4 ||
+  manifest.optionsEducationPaperTrading?.definedRiskDebitSpreadsEnabled !== true ||
+  manifest.optionsEducationPaperTrading?.payoffDiagramVisible !== true ||
+  manifest.optionsEducationPaperTrading?.breakEvenAndMaximumRiskVisible !== true ||
+  manifest.optionsEducationPaperTrading?.balancedJournalRequired !== true ||
+  manifest.optionsEducationPaperTrading?.reconciliationEnabled !== true ||
+  manifest.optionsEducationPaperTrading?.deterministicScenarioFixtures !== true ||
+  manifest.optionsEducationPaperTrading?.forecastPermissionOverrideEnabled !== false ||
+  manifest.optionsEducationPaperTrading?.liveMarketDataConnectivityEnabled !== false ||
+  manifest.optionsEducationPaperTrading?.liveOptionsRoutingEnabled !== false ||
+  manifest.optionsEducationPaperTrading?.brokerConnectivityEnabled !== false ||
+  manifest.optionsEducationPaperTrading?.customerFundingEnabled !== false ||
+  manifest.optionsEducationPaperTrading?.realPositionsEnabled !== false ||
+  manifest.optionsEducationPaperTrading?.custodyEnabled !== false ||
+  manifest.optionsEducationPaperTrading?.realSettlementEnabled !== false ||
+  manifest.optionsEducationPaperTrading?.marginEnabled !== false ||
+  manifest.optionsEducationPaperTrading?.uncoveredShortOptionsEnabled !== false ||
+  manifest.optionsEducationPaperTrading?.automaticOptionsPermissionEnabled !== false
+) {
+  throw new Error('Deployed options education boundary is incomplete or connected to live execution.')
+}
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||

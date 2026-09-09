@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type DEPLOY_DATA_PHASE_8B for the international paper-trading candidate
+        description: Type DEPLOY_DATA_PHASE_8C for the options education paper-trading candidate
         required: true
         type: string
 
@@ -39,8 +39,8 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_8B" || {
-            echo "Release confirmation did not match DEPLOY_DATA_PHASE_8B."
+          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_8C" || {
+            echo "Release confirmation did not match DEPLOY_DATA_PHASE_8C."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -115,6 +115,12 @@ jobs:
       - name: Deploy protected international paper-trading simulation
         run: >-
           npx --no-install supabase functions deploy manage-international-paper
+          --project-ref "$SUPABASE_PROJECT_REF"
+          --use-api
+
+      - name: Deploy protected options paper-trading simulation
+        run: >-
+          npx --no-install supabase functions deploy manage-options-paper
           --project-ref "$SUPABASE_PROJECT_REF"
           --use-api
 
@@ -284,6 +290,14 @@ jobs:
             --project-ref "$SUPABASE_PROJECT_REF" \
             --file supabase/tests/production/international_multi_asset_paper_trading_smoke.sql
 
+      - name: Verify options education paper-trading production boundary
+        run: |
+          bash scripts/assert-read-only-sql.sh supabase/tests/production/options_education_paper_trading_smoke.sql
+          npx --no-install supabase db query \
+            --linked \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --file supabase/tests/production/options_education_paper_trading_smoke.sql
+
       - name: Verify production public web reads
         run: bash scripts/verify-public-runtime-read.sh
 
@@ -358,6 +372,7 @@ jobs:
             generate-daily-research-brief \
             manage-account-security \
             manage-international-paper \
+            manage-options-paper \
             sync-fx-market-data \
             generate-market-forecasts \
             sync-equity-market-data \
@@ -409,6 +424,23 @@ jobs:
             "https://${SUPABASE_PROJECT_REF}.supabase.co/functions/v1/manage-international-paper")"
           test "$status_code" = "401" || {
             echo "Expected unauthenticated international paper action to return 401; received $status_code."
+            exit 1
+          }
+
+      - name: Verify unauthenticated options paper actions remain blocked
+        run: |
+          set -eu
+          status_code="$(curl \
+            --silent \
+            --show-error \
+            --output options-paper-response.json \
+            --write-out '%{http_code}' \
+            --request POST \
+            --header 'Content-Type: application/json' \
+            --data '{}' \
+            "https://${SUPABASE_PROJECT_REF}.supabase.co/functions/v1/manage-options-paper")"
+          test "$status_code" = "401" || {
+            echo "Expected unauthenticated options paper action to return 401; received $status_code."
             exit 1
           }
 

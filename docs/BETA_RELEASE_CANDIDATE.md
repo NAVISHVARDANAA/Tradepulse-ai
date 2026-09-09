@@ -55,6 +55,11 @@ Phase 8B adds an isolated international paper ledger with multi-currency virtual
 cash, venue-aware order simulation, explicit modeled costs, FIFO tax lots and
 deterministic reconciliation. It cannot connect a live feed or broker, accept
 real funds, hold assets, settle a real trade, provide margin or sell short.
+Phase 8C adds entitlement-aware deterministic option chains, an educational
+strategy builder for long options and protected debit spreads, payoff and Greek
+context, appropriateness rehearsal and auditable virtual lifecycle events. It
+cannot grant options permission, connect live data or a broker, create a real
+position, provide margin or allow an uncovered short option.
 
 The artifact contains `beta-release.json`, a machine-readable statement of its
 scope. Live brokerage, payment execution, charge collection, custody and
@@ -67,6 +72,8 @@ personalized advice remain false. Search indexing also remains disabled.
 - Private research routines, team research and free Academy learning.
 - Passwordless accounts, TOTP step-up, privacy controls and customer support references.
 - Paper investing, decision journals and portfolio-risk controls with no live routing.
+- Options education with deterministic chains, visible payoff boundaries, long
+  options and protected debit-spread simulations with no options permission.
 - Brokerage-readiness previews, corridor money-movement approval ledgers, sandbox-transfer lifecycles, payment-compliance maps, beneficiary-protection rehearsals and transparent corridor comparisons that cannot execute.
 - Responsive navigation, installable web assets and desktop/mobile accessibility gates.
 
@@ -103,7 +110,7 @@ personalized advice remain false. Search indexing also remains disabled.
 8. Approve funding, custody, settlement and production market-data arrangements.
 9. Retain observed risk, monitoring, reconciliation and kill-switch drill evidence.
 
-These are operational, legal and business launch decisions. Passing Phase 8B
+These are operational, legal and business launch decisions. Passing Phase 8C
 means the engineering candidate is ready for that review; it does not certify
 regulatory approval or declare a public production launch.
 
@@ -125,19 +132,20 @@ evidence in a public issue or artifact.
 
 ## Hosting deployment procedure
 
-After the Phase 8B PR is merged and all `main` checks pass:
+After the Phase 8C PR is merged and all `main` checks pass:
 
-1. Deploy and verify migration 046 with `DEPLOY_DATA_PHASE_8B` and `VERIFY_DATA_PHASE_8B`.
+1. Deploy and verify migration 047 with `DEPLOY_DATA_PHASE_8C` and `VERIFY_DATA_PHASE_8C`.
 2. Open **Actions → Build production web release**.
-3. Select `main`, enter `BUILD_PHASE_8B` and run the workflow.
+3. Select `main`, enter `BUILD_PHASE_8C` and run the workflow.
 4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 5. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-6. Run **Verify web production** with `VERIFY_WEB_PHASE_8B` after deployment
+6. Run **Verify web production** with `VERIFY_WEB_PHASE_8C` after deployment
    or any customer-facing operational incident.
 7. Do not invite external testers until every manual prerequisite above is approved.
 
-Phase 8B adds migration 046, the protected international simulation function
-and the global paper lab; deploy and verify them before the web release. Live
-market-data connectivity, automatic eligibility, order routing, broker
-connectivity, funding, custody, real settlement, margin, short selling and every
-Phase 7E money-movement capability remain database-locked off.
+Phase 8C adds migration 047, the protected options education simulation
+function and the defined-risk options paper lab; deploy and verify them before
+the web release. Live market-data connectivity, automatic options permission,
+order routing, broker connectivity, real positions, funding, custody, real
+settlement, margin, uncovered short options and every Phase 7E money-movement
+capability remain database-locked off.

@@ -897,7 +897,7 @@ and balanced journal lines reconcile under versioned deterministic venue, FX
 and cost rules. Live data, broker routing, real funds, custody, settlement,
 margin and short selling remain database-locked off.
 
-### Phase 8C — options education and paper trading
+### Phase 8C — options education and paper trading (implemented foundation)
 
 - Entitlement-aware option chains expose expiry, strike, call or put, bid/ask,
   volume, open interest and data freshness only where display rights permit.
@@ -913,9 +913,14 @@ margin and short selling remain database-locked off.
 - Undefined-risk strategies, uncovered short options, live options routing and
   margin remain hard locked until separately approved.
 
-**Phase 8C exit gate:** defined-risk payoff and assignment simulations reconcile
-against independent fixtures, every scenario shows bounded or explicitly
-unbounded risk, and no paper-options action can create a live position.
+**Phase 8C exit gate:** green options-paper-trading, international-paper,
+global-market, route-aware-loading, database, browser, security and release
+contracts; reviewed `DEPLOY_DATA_PHASE_8C`; read-only `VERIFY_DATA_PHASE_8C`;
+successful `BUILD_PHASE_8C`; reviewed `DEPLOY_PHASE_8C`; and read-only
+`VERIFY_WEB_PHASE_8C` evidence. Defined-risk payoff and assignment simulations
+reconcile against independent fixtures, every strategy shows bounded loss and
+bounded or explicitly unbounded profit potential, and no paper-options action
+can create a live position or grant options permission.
 
 ### Phase 8D — global brokerage and custody orchestration
 

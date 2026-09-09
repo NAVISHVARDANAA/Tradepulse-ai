@@ -93,6 +93,9 @@ jobs:
       - name: Verify international multi-asset paper trading
         run: npm run check:international-paper-trading
 
+      - name: Verify options education and paper trading
+        run: npm run check:options-paper-trading
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 
@@ -199,6 +202,7 @@ jobs:
           deno check supabase/functions/manage-account-security/index.ts
           deno check supabase/functions/evaluate-data-quality/index.ts
           deno check supabase/functions/manage-international-paper/index.ts
+          deno check supabase/functions/manage-options-paper/index.ts
 
       - name: Test shared Edge Function security controls
         run: >-
@@ -291,6 +295,9 @@ jobs:
 
       - name: Test international multi-asset paper-trading database contracts
         run: npx --no-install supabase test db supabase/tests/database/international_multi_asset_paper_trading.test.sql
+
+      - name: Test options education paper-trading database contracts
+        run: npx --no-install supabase test db supabase/tests/database/options_education_paper_trading.test.sql
 
       - name: Test broker-sandbox certification contracts
         run: npx --no-install supabase test db supabase/tests/database/broker_sandbox_certification.test.sql
@@ -438,6 +445,15 @@ jobs:
           npx --no-install supabase db query
           --local
           --file supabase/tests/production/international_multi_asset_paper_trading_smoke.sql
+
+      - name: Assert options paper-trading smoke SQL is query-only
+        run: bash scripts/assert-read-only-sql.sh supabase/tests/production/options_education_paper_trading_smoke.sql
+
+      - name: Test options paper-trading production smoke query
+        run: >-
+          npx --no-install supabase db query
+          --local
+          --file supabase/tests/production/options_education_paper_trading_smoke.sql
 
       - name: Stop isolated Supabase services
         if: always()

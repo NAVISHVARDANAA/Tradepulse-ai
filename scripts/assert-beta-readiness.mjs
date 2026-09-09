@@ -13,9 +13,9 @@ const artifactManifest = JSON.parse(artifactManifestText)
 
 assert(manifest.schemaVersion === 1, 'Unexpected beta manifest schema')
 assert(manifest.release === 'controlled-beta-rc2', 'Unexpected beta release identifier')
-assert(manifest.phase === '8B', 'Beta manifest is not on Phase 8B')
+assert(manifest.phase === '8C', 'Beta manifest is not on Phase 8C')
 assert(
-  manifest.status === 'international_multi_asset_paper_trading_candidate',
+  manifest.status === 'options_education_paper_trading_candidate',
   'Beta manifest overstates the release status',
 )
 assert(manifest.audience === 'internal_release_review', 'Beta audience boundary changed')
@@ -61,6 +61,8 @@ const expectedChecks = [
   'check:sandbox-transfers',
   'check:money-movement-readiness',
   'check:global-market-intelligence',
+  'check:international-paper-trading',
+  'check:options-paper-trading',
   'check:production-experience',
   'check:bundle',
   'check:release',
@@ -94,17 +96,17 @@ const [buildWorkflow, deployWorkflow, verifyWebWorkflow, ciWorkflow, securityWor
   ])
 
 for (const contract of [
-  'BUILD_PHASE_8B',
+  'BUILD_PHASE_8C',
   'npm run check:beta',
   'tradepulse-beta-rc2-${{ github.sha }}',
   'environment: production',
 ]) {
   assert(buildWorkflow.includes(contract), `Beta build workflow contract missing: ${contract}`)
 }
-for (const contract of ['DEPLOY_PHASE_8B', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['DEPLOY_PHASE_8C', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
   assert(deployWorkflow.includes(contract), `Beta deploy workflow contract missing: ${contract}`)
 }
-for (const contract of ['VERIFY_WEB_PHASE_8B', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['VERIFY_WEB_PHASE_8C', 'verify:web-deployment', 'test:e2e:production']) {
   assert(verifyWebWorkflow.includes(contract), `Beta web verification workflow contract missing: ${contract}`)
 }
 for (const contract of [
@@ -125,6 +127,8 @@ for (const contract of [
   'npm run check:sandbox-transfers',
   'npm run check:money-movement-readiness',
   'npm run check:global-market-intelligence',
+  'npm run check:international-paper-trading',
+  'npm run check:options-paper-trading',
   'npm run check:security',
   'npm run check:hosting',
 ]) {

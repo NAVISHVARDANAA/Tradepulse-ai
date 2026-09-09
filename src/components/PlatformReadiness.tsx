@@ -69,6 +69,14 @@ const capabilities = [
     icon: WalletCards,
   },
   {
+    label: 'Options paper trading',
+    status: 'Phase 8C defined-risk education',
+    detail: 'Long options, protected debit spreads, payoff boundaries and assignment rehearsals; live options and margin remain locked',
+    tone: 'active',
+    href: '#options-paper',
+    icon: BarChart3,
+  },
+  {
     label: 'Portfolio risk',
     status: 'Command center active',
     detail: 'NAV, scenarios, limits, reconciliation and kill switch',

@@ -621,6 +621,15 @@ journals against deterministic fixtures. Live market data, broker routing, real
 funds, custody, settlement, margin and short selling remain disabled. See
 [`docs/INTERNATIONAL_MULTI_ASSET_PAPER_TRADING.md`](docs/INTERNATIONAL_MULTI_ASSET_PAPER_TRADING.md).
 
+Phase 8C adds migration `047_options_education_paper_trading.sql`, the protected
+`manage-options-paper` function and a lazy-loaded defined-risk options paper
+lab. Entitlement-aware deterministic chains, long options, protected debit
+spreads, payoff diagrams, Greeks, appropriateness rehearsals and lifecycle
+events reconcile through an isolated virtual ledger. Live option data, routing,
+broker connectivity, real positions, funds, margin, custody, settlement,
+uncovered short options and automatic permission remain disabled. See
+[`docs/OPTIONS_EDUCATION_PAPER_TRADING.md`](docs/OPTIONS_EDUCATION_PAPER_TRADING.md).
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction
