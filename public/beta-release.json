@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "8B",
-  "status": "international_multi_asset_paper_trading_candidate",
+  "phase": "8C",
+  "status": "options_education_paper_trading_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -41,7 +41,8 @@
       "forecasts",
       "equity",
       "globalAccess",
-      "internationalPaper"
+      "internationalPaper",
+      "optionsPaper"
     ]
   },
   "trustLayer": {
@@ -85,6 +86,7 @@
     "check:money-movement-readiness",
     "check:global-market-intelligence",
     "check:international-paper-trading",
+    "check:options-paper-trading",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -329,6 +331,36 @@
     "realSettlementEnabled": false,
     "marginEnabled": false,
     "shortSellingEnabled": false
+  },
+  "optionsEducationPaperTrading": {
+    "workspaceEnabled": true,
+    "educationOnly": true,
+    "isolatedSimulationLedger": true,
+    "chainContractCount": 8,
+    "underlyingCount": 2,
+    "supportedStrategyCount": 4,
+    "singleLegLongOptionsEnabled": true,
+    "definedRiskDebitSpreadsEnabled": true,
+    "payoffDiagramVisible": true,
+    "breakEvenAndMaximumRiskVisible": true,
+    "greeksAndImpliedVolatilityContextVisible": true,
+    "appropriatenessRehearsalEnabled": true,
+    "forecastPermissionOverrideEnabled": false,
+    "exerciseAssignmentAndExpirationSimulationEnabled": true,
+    "corporateActionAdjustmentSimulationEnabled": true,
+    "balancedJournalRequired": true,
+    "reconciliationEnabled": true,
+    "deterministicScenarioFixtures": true,
+    "liveMarketDataConnectivityEnabled": false,
+    "liveOptionsRoutingEnabled": false,
+    "brokerConnectivityEnabled": false,
+    "customerFundingEnabled": false,
+    "realPositionsEnabled": false,
+    "custodyEnabled": false,
+    "realSettlementEnabled": false,
+    "marginEnabled": false,
+    "uncoveredShortOptionsEnabled": false,
+    "automaticOptionsPermissionEnabled": false
   },
   "globalVenueInstrumentIntelligence": {
     "workspaceEnabled": true,

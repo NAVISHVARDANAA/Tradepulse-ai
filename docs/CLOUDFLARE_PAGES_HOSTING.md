@@ -31,28 +31,28 @@ is intentionally public and is still constrained by RLS and server-side auth.
 After this PR is merged and all `main` checks pass:
 
 1. Open **Actions → Deploy Supabase production**, choose `main`, enter
-   `DEPLOY_DATA_PHASE_8B` and wait for it to pass.
+   `DEPLOY_DATA_PHASE_8C` and wait for it to pass.
 2. Run **Verify Supabase production** on `main` with
-   `VERIFY_DATA_PHASE_8B` and retain the read-only evidence.
+   `VERIFY_DATA_PHASE_8C` and retain the read-only evidence.
 3. Open **Actions → Build production web release**, choose `main`, enter
-   `BUILD_PHASE_8B` and record the green international-paper-trading web artifact.
+   `BUILD_PHASE_8C` and record the green options-education web artifact.
 4. Open **Actions → Deploy controlled beta web**, choose `main`, enter
-   `DEPLOY_PHASE_8B` and approve the protected production environment.
+   `DEPLOY_PHASE_8C` and approve the protected production environment.
 5. Record the immutable commit, workflow run and Cloudflare deployment URL from
    the job summary. The workflow verifies HTTPS, browser security headers, the
    release manifest and every hard lock after upload. It then runs desktop and
    mobile production browser checks across the public workspaces, Analytics
    interactions, console/network failures and guest execution locks.
 6. After a release or operational incident, open **Actions → Verify web
-   production**, choose `main`, enter `VERIFY_WEB_PHASE_8B` and retain the green
+   production**, choose `main`, enter `VERIFY_WEB_PHASE_8C` and retain the green
    production-browser report.
 7. Do not invite testers yet. Choose and validate the final domain, configure
    its exact Supabase Auth site URL and redirect allow-list, then complete the
    remaining launch prerequisites in `docs/BETA_RELEASE_CANDIDATE.md`.
 
-Deploy and verify migration 046 with the Phase 8B data gates before deploying
-the web workspace. International paper prices, FX, costs, venue state and fills
-are deterministic simulations. The product cannot connect a live feed, route an
-order, connect a broker, accept real funds, hold assets, settle a real trade,
-provide margin or sell short. Every Phase 7E payment and money-movement lock
-remains unchanged.
+Deploy and verify migration 047 with the Phase 8C data gates before deploying
+the web workspace. Options chains, premiums, Greeks, payoff and lifecycle
+outcomes are deterministic education simulations. The product cannot grant
+options permission, connect a live feed, route an option, connect a broker,
+accept real funds, create real positions, provide margin or allow uncovered
+short options. Every Phase 7E payment and money-movement lock remains unchanged.

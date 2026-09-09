@@ -44,3 +44,8 @@ the lazy `#international-paper` workspace. Account, cash, order, position and
 reconciliation reads also begin only after an authenticated user opens that
 workspace and selects a private paper portfolio. No international simulation
 query is part of the shared application startup path.
+
+Phase 8C keeps `options_paper_chain_catalog` inside the lazy `#options-paper`
+workspace. Private account, assessment, strategy and reconciliation reads begin
+only after an authenticated user selects a paper portfolio. Options education
+adds no shared startup query or realtime subscription.

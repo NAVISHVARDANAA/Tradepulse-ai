@@ -84,6 +84,7 @@ const customerFunctions = [
   'generate-daily-research-brief',
   'manage-account-security',
   'manage-international-paper',
+  'manage-options-paper',
   'preview-brokerage-order',
   'refresh-paper-risk',
   'set-paper-trading-control',

@@ -35,5 +35,8 @@ verify_jwt = true
 [functions.manage-international-paper]
 verify_jwt = true
 
+[functions.manage-options-paper]
+verify_jwt = true
+
 [functions.generate-equity-research]
 verify_jwt = false

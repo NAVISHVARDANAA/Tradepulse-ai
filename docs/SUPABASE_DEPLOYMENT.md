@@ -40,18 +40,18 @@ The dashboard will show `not run`; an authorized probe without credentials fails
 closed and stores only `CONFIGURATION_INVALID`. Never use Alpaca live credentials
 for this adapter.
 
-## Release Phase 8B
+## Release Phase 8C
 
 1. Confirm the CI workflow on `main` is green.
 2. Open **Actions → Deploy Supabase production → Run workflow**.
 3. Select the `main` branch.
-4. Enter `DEPLOY_DATA_PHASE_8B` as the confirmation value.
+4. Enter `DEPLOY_DATA_PHASE_8C` as the confirmation value.
 5. Approve the `production` environment deployment when prompted.
 
 The workflow performs a database dry run, applies every pending migration in
 filename order and redeploys every customer and internal Edge Function affected
 by the shared security, observability and account-protection boundary. It verifies
-migration `046`, deploys `manage-international-paper`, checks active functions, verifies the private regulated-preflight,
+migration `047`, deploys `manage-options-paper`, checks active functions, verifies the private regulated-preflight,
 internal-only sandbox-order, corridor-intelligence, beneficiary-protection and payment-compliance boundaries, and confirms approved public
 runtime reads return HTTP 2xx. It also runs query-only production lock smoke
 checks and proves that unauthenticated brokerage, paper-simulation,
@@ -60,7 +60,7 @@ platform-evaluation and account-security requests receive HTTP 401.
 ## Read-only production verification
 
 Run **Actions → Verify Supabase production → Run workflow** after a release or
-operational incident. Select `main` and enter `VERIFY_DATA_PHASE_8B`.
+operational incident. Select `main` and enter `VERIFY_DATA_PHASE_8C`.
 
 The verification workflow performs no production writes. It confirms local and
 remote migration parity, executes the audited, query-only
@@ -71,7 +71,8 @@ remote migration parity, executes the audited, query-only
 `payment_sandbox_transfer_lifecycle_smoke.sql` and
 `payment_money_movement_readiness_smoke.sql` and
 `global_venue_instrument_intelligence_smoke.sql` and
-`international_multi_asset_paper_trading_smoke.sql` blocks,
+`international_multi_asset_paper_trading_smoke.sql` and
+`options_education_paper_trading_smoke.sql` blocks,
 checks that protected Edge Functions are active,
 proves that approved anonymous browser reads work, confirms that protected
 unauthenticated requests remain blocked and confirms that internal broker jobs
@@ -91,11 +92,11 @@ write-capable SQL statement.
   and reviewed.
 
 Live brokerage and payment execution remain database-locked after this
-deployment. Phase 8B adds the isolated international simulation described in
-`docs/INTERNATIONAL_MULTI_ASSET_PAPER_TRADING.md`; it cannot connect a live
-market-data feed, route an order, connect a broker, accept real funds, hold
-assets, settle a trade, provide margin or sell short. Phase 7E payment and
-money-movement locks remain unchanged.
+deployment. Phase 8C adds the isolated options education simulation described
+in `docs/OPTIONS_EDUCATION_PAPER_TRADING.md`; it cannot grant options
+permission, connect a live market-data feed, route an option, connect a broker,
+accept real funds, create real positions, provide margin or allow uncovered
+short options. Phase 7E payment and money-movement locks remain unchanged.
 
 ## Runtime baseline
 
