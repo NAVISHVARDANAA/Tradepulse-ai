@@ -337,7 +337,7 @@ insert into public.international_paper_venue_rules (
 )
 select id, 'open_scenario', 0.01, 1, false, true,
   case when mic_code in ('XNAS', 'XNYS', 'XTSE') then 1 else 2 end,
-  'international-paper-venue-v1', 'Deterministic Phase 8B scenario', '2026-09-09'
+  'international-paper-venue-v1', 'Deterministic Phase 8B scenario', date '2026-09-09'
 from public.global_market_venues;
 
 insert into public.international_paper_quotes (
@@ -372,7 +372,7 @@ insert into public.international_paper_cost_rules (
   exchange_fee_bps, tax_assumption_bps, rule_version, source_name, source_as_of
 )
 select distinct listing.venue_id, listing.instrument_type, 5, 0.01, 1, 2,
-  'international-paper-cost-v1', 'Deterministic Phase 8B scenario', '2026-09-09'
+  'international-paper-cost-v1', 'Deterministic Phase 8B scenario', date '2026-09-09'
 from public.global_instrument_listings listing;
 
 insert into public.international_paper_corporate_action_scenarios (
