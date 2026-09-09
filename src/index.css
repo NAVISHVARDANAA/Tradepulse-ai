@@ -9669,3 +9669,57 @@ html[data-theme='light'] .money-movement-readiness-summary > div {
     grid-template-columns: 1fr;
   }
 }
+/* Phase 8B: isolated international paper-trading workspace */
+.international-paper-panel { display:grid;gap:1rem; }
+.international-paper-header { align-items:flex-start; }
+.status-badge.sandbox { color:#a7f3d0;background:rgba(16,185,129,.12);border:1px solid rgba(52,211,153,.28); }
+.international-paper-lock,.international-paper-signin,.international-paper-initialize,.international-paper-reconcile { display:flex;align-items:center;gap:.8rem;padding:1rem;border:1px solid rgba(52,211,153,.24);border-radius:.9rem;background:rgba(6,78,59,.13); }
+.international-paper-lock div,.international-paper-signin div,.international-paper-initialize span,.international-paper-reconcile span { display:grid;gap:.2rem; }
+.international-paper-lock span,.international-paper-signin span,.international-paper-initialize small,.international-paper-reconcile small { color:var(--muted); }
+.international-paper-summary { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem; }
+.international-paper-summary article { display:grid;gap:.35rem;padding:.9rem;border:1px solid var(--border);border-radius:.85rem;background:rgba(15,23,42,.56); }
+.international-paper-summary svg { color:#34d399; }
+.international-paper-summary span { color:var(--muted);font-size:.78rem; }
+.international-paper-summary strong { font-size:1.35rem; }
+.international-paper-catalog { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.65rem; }
+.international-paper-catalog article { border:1px solid var(--border);border-radius:.8rem;background:rgba(15,23,42,.52);overflow:hidden; }
+.international-paper-catalog article.selected { border-color:#34d399;box-shadow:inset 0 0 0 1px rgba(52,211,153,.32); }
+.international-paper-catalog button { width:100%;display:grid;gap:.18rem;padding:.85rem;text-align:left;color:inherit;background:none;border:0;cursor:pointer; }
+.international-paper-catalog span,.international-paper-catalog small { color:var(--muted);font-size:.76rem; }
+.international-paper-catalog em { margin-top:.3rem;color:#a7f3d0;font-size:.78rem;font-style:normal; }
+.international-paper-signin { justify-content:space-between; }
+.international-paper-signin .secondary-button { margin-left:auto;white-space:nowrap;text-decoration:none; }
+.international-paper-workspace { display:grid;gap:1rem; }
+.international-paper-toolbar { display:flex;align-items:end;justify-content:space-between;gap:1rem; }
+.international-paper-toolbar label,.international-paper-form label,.international-paper-initialize label { display:grid;gap:.35rem;color:var(--muted);font-size:.8rem; }
+.international-paper-toolbar select,.international-paper-form select,.international-paper-form input,.international-paper-initialize input { min-height:42px;padding:.55rem .65rem;color:var(--text);border:1px solid var(--border);border-radius:.6rem;background:#0b1627; }
+.international-paper-initialize { justify-content:space-between; }
+.international-paper-initialize > div { display:flex;align-items:center;gap:.75rem; }
+.international-paper-cash { display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.65rem; }
+.international-paper-cash article { display:grid;gap:.25rem;padding:.85rem;border:1px solid rgba(52,211,153,.22);border-radius:.75rem;background:rgba(6,78,59,.11); }
+.international-paper-cash article.empty { border-color:var(--border);background:rgba(15,23,42,.45); }
+.international-paper-cash span,.international-paper-cash small { color:var(--muted);font-size:.75rem; }
+.international-paper-actions,.international-paper-holdings { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem; }
+.international-paper-form,.international-paper-holdings section { display:grid;align-content:start;gap:.8rem;padding:1rem;border:1px solid var(--border);border-radius:.9rem;background:rgba(15,23,42,.48); }
+.international-paper-form-title { display:flex;align-items:center;gap:.5rem; }
+.international-paper-inline { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem; }
+.international-paper-estimate { display:grid;grid-template-columns:1fr auto;gap:.35rem .8rem;padding:.75rem;border-radius:.65rem;background:rgba(15,23,42,.75);font-size:.8rem; }
+.international-paper-estimate span { color:var(--muted); }
+.international-paper-holdings section > article { display:flex;justify-content:space-between;gap:.75rem;padding:.7rem 0;border-top:1px solid var(--border); }
+.international-paper-holdings section > article div { display:grid;gap:.2rem; }
+.international-paper-holdings section > article div:last-child { text-align:right; }
+.international-paper-holdings section span { color:var(--muted);font-size:.76rem; }
+.international-paper-reconcile { justify-content:space-between; }
+.international-paper-reconcile > div { display:flex;align-items:center;gap:.65rem; }
+
+@media (max-width: 900px) {
+  .international-paper-summary,.international-paper-catalog { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .international-paper-actions,.international-paper-holdings { grid-template-columns:1fr; }
+  .international-paper-cash { grid-template-columns:repeat(3,minmax(0,1fr)); }
+}
+
+@media (max-width: 600px) {
+  .international-paper-summary,.international-paper-catalog,.international-paper-cash,.international-paper-inline { grid-template-columns:1fr; }
+  .international-paper-toolbar,.international-paper-signin,.international-paper-initialize,.international-paper-reconcile { align-items:stretch;flex-direction:column; }
+  .international-paper-signin .secondary-button { margin-left:0;text-align:center; }
+}

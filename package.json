@@ -25,6 +25,7 @@
     "check:sandbox-transfers": "node scripts/assert-payment-sandbox-transfer-lifecycle.mjs",
     "check:money-movement-readiness": "node scripts/assert-payment-money-movement-readiness.mjs",
     "check:global-market-intelligence": "node scripts/assert-global-venue-instrument-intelligence.mjs",
+    "check:international-paper-trading": "node scripts/assert-international-multi-asset-paper-trading.mjs",
     "check:bundle": "node scripts/assert-frontend-budgets.mjs",
     "check:beta": "node scripts/assert-beta-readiness.mjs",
     "check:hosting": "node scripts/assert-cloudflare-hosting.mjs",

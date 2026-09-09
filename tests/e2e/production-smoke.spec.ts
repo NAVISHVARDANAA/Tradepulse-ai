@@ -12,6 +12,7 @@ const publicWorkspaces = [
   ['#markets', 'Synchronized markets dashboard'],
   ['#academy', 'Learn the product and its risks'],
   ['#paper-investing', 'Paper investing lab'],
+  ['#international-paper', 'International paper trading lab'],
   ['#risk-command-center', 'Risk command center'],
   ['#regulated-preflight', 'Preflight evidence review'],
   ['#sandbox-orders', 'Sandbox order lifecycle'],
@@ -122,6 +123,11 @@ test('production execution boundaries remain closed to guests', async ({ page })
   await dismissWelcome(page)
   await expect(page.getByText('Sign in to create a private paper portfolio')).toBeVisible()
   await expect(page.getByText(/Approved beta testers receive/)).toBeVisible()
+
+  await page.goto('/#international-paper', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByText('No broker or real-money path exists')).toBeVisible()
+  await expect(page.getByText('Private simulation account required')).toBeVisible()
+  await expect(page.getByRole('button', { name: /convert|simulate|reconcile|create simulation/i })).toHaveCount(0)
 
   await page.goto('/#account-security', { waitUntil: 'domcontentloaded' })
   await expect(page.getByText(/Controlled-beta access is limited to approved email addresses/)).toBeVisible()

@@ -61,6 +61,14 @@ const capabilities = [
     icon: Landmark,
   },
   {
+    label: 'International paper trading',
+    status: 'Phase 8B deterministic simulation',
+    detail: 'Multi-currency cash, venue rules, modeled costs, tax lots and balanced journals; live routing remains locked',
+    tone: 'active',
+    href: '#international-paper',
+    icon: WalletCards,
+  },
+  {
     label: 'Portfolio risk',
     status: 'Command center active',
     detail: 'NAV, scenarios, limits, reconciliation and kill switch',

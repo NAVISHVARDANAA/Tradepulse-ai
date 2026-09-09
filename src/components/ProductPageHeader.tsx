@@ -94,6 +94,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Create private virtual portfolios, record theses and test risk-controlled decisions without reaching a broker.',
     boundary: 'No real funds',
   },
+  '#international-paper': {
+    eyebrow: 'International simulation',
+    title: 'International paper trading lab',
+    description: 'Rehearse multi-currency, venue-aware equity and ETF orders with deterministic prices, explicit costs, settlement dates and balanced journals.',
+    boundary: 'Simulation only · no broker',
+  },
   '#risk-command-center': {
     eyebrow: 'Portfolio controls',
     title: 'Risk command center',
