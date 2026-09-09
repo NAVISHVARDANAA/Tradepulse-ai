@@ -31,25 +31,23 @@ is intentionally public and is still constrained by RLS and server-side auth.
 After this PR is merged and all `main` checks pass:
 
 1. Open **Actions → Build production web release**, choose `main`, enter
-   `BUILD_PHASE_7E` and record the green money-movement-readiness web artifact.
+   `BUILD_PHASE_8A` and record the green global-market-intelligence web artifact.
 2. Open **Actions → Deploy controlled beta web**, choose `main`, enter
-   `DEPLOY_PHASE_7E` and approve the protected production environment.
+   `DEPLOY_PHASE_8A` and approve the protected production environment.
 3. Record the immutable commit, workflow run and Cloudflare deployment URL from
    the job summary. The workflow verifies HTTPS, browser security headers, the
    release manifest and every hard lock after upload. It then runs desktop and
    mobile production browser checks across the public workspaces, Analytics
    interactions, console/network failures and guest execution locks.
 4. After a release or operational incident, open **Actions → Verify web
-   production**, choose `main`, enter `VERIFY_WEB_PHASE_7E` and retain the green
+   production**, choose `main`, enter `VERIFY_WEB_PHASE_8A` and retain the green
    production-browser report.
 5. Do not invite testers yet. Choose and validate the final domain, configure
    its exact Supabase Auth site URL and redirect allow-list, then complete the
    remaining launch prerequisites in `docs/BETA_RELEASE_CANDIDATE.md`.
 
-Deploy and verify migration 044 with the Phase 7E data gates before deploying
-the web workspace. The money-movement approval ledger is sanitized and remains
-blocked even with complete evidence. Sandbox transfers, compliance orchestration
-and beneficiary protection are synthetic rehearsals and corridor comparison
-remains read-only; none can store customer or beneficiary data, connect a
-production payment partner, fund an account, create a transfer, ingest a webhook,
-post a ledger, issue a refund or move money.
+Deploy and verify migration 045 with the Phase 8A data gates before deploying
+the web workspace. Venue, listing, calendar, entitlement and residency data is
+reference-only. It cannot connect a live data feed, assign customer eligibility,
+route an order, connect a broker, fund an account, hold assets or settle a trade.
+Every Phase 7E payment and money-movement lock remains unchanged.

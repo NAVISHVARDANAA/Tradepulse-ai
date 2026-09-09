@@ -21,6 +21,14 @@ const capabilities = [
     icon: Blocks,
   },
   {
+    label: 'Global market access',
+    status: 'Phase 8A reference intelligence',
+    detail: 'Venue, listing, calendar, display-rights and residency gaps are explicit; order routing remains locked',
+    tone: 'locked',
+    href: '#global-access',
+    icon: Globe2,
+  },
+  {
     label: 'Global stock research',
     status: 'Coverage registry active',
     detail: 'Search, evidence, risk flags and per-stock forecast states',

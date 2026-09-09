@@ -848,7 +848,7 @@ platform, not only a research dashboard. Availability must expand market by
 market and customer-residency by customer-residency; the product must never
 imply that every instrument or exchange is available in every country.
 
-### Phase 8A — global venue and instrument intelligence
+### Phase 8A — global venue and instrument intelligence (implemented foundation)
 
 - A canonical exchange directory covers each supported venue's MIC, country,
   time zone, trading sessions, holidays, currencies, settlement conventions and
@@ -864,10 +864,14 @@ imply that every instrument or exchange is available in every country.
 - The initial asset scope is cash equities, ETFs and depositary receipts. This
   phase provides research and reference data only; it cannot route an order.
 
-**Phase 8A exit gate:** exchange calendars, identifiers, entitlements,
-corporate actions and jurisdiction outcomes reproduce licensed source evidence;
-unsupported combinations are visibly unavailable; no live execution or funding
-path is introduced.
+**Phase 8A exit gate:** green global-market-intelligence, equity, route-aware
+loading, database, browser, security and release contracts; reviewed
+`DEPLOY_DATA_PHASE_8A`; read-only `VERIFY_DATA_PHASE_8A`; successful
+`BUILD_PHASE_8A`; reviewed `DEPLOY_PHASE_8A`; and read-only
+`VERIFY_WEB_PHASE_8A` evidence. The implemented foundation keeps calendar,
+identifier, entitlement, corporate-action and jurisdiction gaps explicit and
+every execution capability false. Licensed source evidence is still required
+before any venue can advance beyond reference-only status.
 
 ### Phase 8B — international multi-asset paper trading
 

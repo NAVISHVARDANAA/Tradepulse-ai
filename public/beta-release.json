@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "7E",
-  "status": "controlled_money_movement_readiness_candidate",
+  "phase": "8A",
+  "status": "global_venue_instrument_intelligence_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -39,7 +39,8 @@
       "markets",
       "trade",
       "forecasts",
-      "equity"
+      "equity",
+      "globalAccess"
     ]
   },
   "trustLayer": {
@@ -81,6 +82,7 @@
     "check:compliance-orchestration",
     "check:sandbox-transfers",
     "check:money-movement-readiness",
+    "check:global-market-intelligence",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -301,5 +303,28 @@
     "custodyEnabled": false,
     "settlementEnabled": false,
     "automaticActivationEnabled": false
+  },
+  "globalVenueInstrumentIntelligence": {
+    "workspaceEnabled": true,
+    "venueCount": 6,
+    "venueCountryCount": 5,
+    "listingCount": 12,
+    "instrumentClassCount": 3,
+    "residencyScenarioCount": 4,
+    "venueQualifiedListingIdentity": true,
+    "calendarEvidenceVisible": true,
+    "settlementUnknownNeverAssumed": true,
+    "corporateActionEvidenceVisible": true,
+    "displayRightsFailClosed": true,
+    "referenceMetadataOnly": true,
+    "liveMarketDataConnectivityEnabled": false,
+    "customerEntitlementAssignmentEnabled": false,
+    "automaticJurisdictionApprovalEnabled": false,
+    "orderPreviewEnabled": false,
+    "orderRoutingEnabled": false,
+    "brokerConnectivityEnabled": false,
+    "customerFundingEnabled": false,
+    "custodyEnabled": false,
+    "settlementEnabled": false
   }
 }

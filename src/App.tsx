@@ -25,6 +25,7 @@ import type {
   PaymentMoneyMovementRequirement,
   PaymentSandboxLedgerTemplate,
   PaymentSandboxTransferStage,
+  GlobalMarketAccessRecord,
   MarketAssetSnapshot,
   MarketForecast,
   EquityResearchSnapshot,
@@ -89,6 +90,9 @@ const ForecastPanel = lazy(() => import('./components/ForecastPanel').then((modu
 })))
 const GlobalEquityResearchPanel = lazy(() => import('./components/GlobalEquityResearchPanel').then((module) => ({
   default: module.GlobalEquityResearchPanel,
+})))
+const GlobalMarketAccessPanel = lazy(() => import('./components/GlobalMarketAccessPanel').then((module) => ({
+  default: module.GlobalMarketAccessPanel,
 })))
 const PaymentQuotePanel = lazy(() => import('./components/PaymentQuotePanel').then((module) => ({
   default: module.PaymentQuotePanel,
@@ -216,6 +220,7 @@ function App() {
   )
   const [forecasts, setForecasts] = useState<MarketForecast[]>([])
   const [equityResearch, setEquityResearch] = useState<EquityResearchSnapshot[]>([])
+  const [globalMarketAccess, setGlobalMarketAccess] = useState<GlobalMarketAccessRecord[]>([])
   const [corridorRoutes, setCorridorRoutes] = useState<PaymentCorridorRoute[]>([])
   const [beneficiaryProtectionRules, setBeneficiaryProtectionRules] = useState<BeneficiaryProtectionRule[]>([])
   const [paymentComplianceRequirements, setPaymentComplianceRequirements] = useState<PaymentComplianceRequirement[]>([])
@@ -226,11 +231,13 @@ function App() {
   const [tradeLoading, setTradeLoading] = useState(true)
   const [forecastLoading, setForecastLoading] = useState(true)
   const [equityResearchLoading, setEquityResearchLoading] = useState(true)
+  const [globalMarketAccessLoading, setGlobalMarketAccessLoading] = useState(true)
   const [paymentLoading, setPaymentLoading] = useState(true)
   const [marketError, setMarketError] = useState<string | null>(null)
   const [tradeError, setTradeError] = useState<string | null>(null)
   const [forecastError, setForecastError] = useState<string | null>(null)
   const [equityResearchError, setEquityResearchError] = useState<string | null>(null)
+  const [globalMarketAccessError, setGlobalMarketAccessError] = useState<string | null>(null)
   const [paymentError, setPaymentError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -285,12 +292,21 @@ function App() {
       setEquityResearchError,
       'Unable to load the equity research registry.',
     )
+    const loadGlobalMarketAccess = () => loadProductData(
+      () => import('./lib/queries/globalMarketAccess')
+        .then(({ getGlobalMarketAccessReference }) => getGlobalMarketAccessReference()),
+      setGlobalMarketAccess,
+      setGlobalMarketAccessLoading,
+      setGlobalMarketAccessError,
+      'Unable to load global venue and instrument references.',
+    )
 
     const loaders = {
       markets: loadMarkets,
       trade: loadTrade,
       forecasts: loadForecasts,
       equity: loadEquityResearch,
+      globalAccess: loadGlobalMarketAccess,
     }
     dataRequirements.forEach((domain) => void loaders[domain]())
 
@@ -541,6 +557,18 @@ function App() {
                 securities={equityResearch}
                 loading={equityResearchLoading}
                 error={equityResearchError}
+              />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#global-access' ? <section id="global-access" className="product-workspace">
+          <ProductErrorBoundary title="Global market intelligence is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Global market intelligence" />}>
+              <GlobalMarketAccessPanel
+                records={globalMarketAccess}
+                loading={globalMarketAccessLoading}
+                error={globalMarketAccessError}
               />
             </Suspense>
           </ProductErrorBoundary>

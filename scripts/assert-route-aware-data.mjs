@@ -28,6 +28,7 @@ const routeContracts = {
   '#trade-data': ['trade'],
   '#forecasts': ['forecasts'],
   '#stock-research': ['equity'],
+  '#global-access': ['globalAccess'],
   '#research-copilot': ['equity'],
   '#paper-investing': ['markets'],
   '#payments': ['markets'],
@@ -48,6 +49,7 @@ for (const contract of [
   'equity_research_scores',
   "import('./lib/queries/referenceData')",
   "'./lib/queries/equityResearch'",
+  "'./lib/queries/globalMarketAccess'",
 ]) {
   assert(app.includes(contract), `Route-aware application contract missing: ${contract}`)
 }
@@ -58,9 +60,11 @@ for (const contract of [
   'shared product data loads only for the active workspace',
   "page.goto('/#beta-operations')",
   "page.goto('/#beta-hardening')",
+  "page.goto('/#global-access')",
   "page.goto('/#forecasts')",
   '/display_qualified_market_forecasts',
   '/trade_observations',
+  '/global_venue_instrument_reference',
 ]) {
   assert(browserTest.includes(contract), `Browser route-isolation contract missing: ${contract}`)
 }
@@ -75,9 +79,9 @@ assert(vite.includes("target: 'es2022'"), 'Production build is not pinned to the
 assert(vite.includes('modulePreload: { polyfill: false }'), 'Native module preloading is not pinned')
 
 for (const [name, workflow, confirmation] of [
-  ['build', build, 'BUILD_PHASE_7E'],
-  ['deploy', deploy, 'DEPLOY_PHASE_7E'],
-  ['verify', verify, 'VERIFY_WEB_PHASE_7E'],
+  ['build', build, 'BUILD_PHASE_8A'],
+  ['deploy', deploy, 'DEPLOY_PHASE_8A'],
+  ['verify', verify, 'VERIFY_WEB_PHASE_8A'],
   ['CI', ci, 'check:data-loading'],
 ]) {
   assert(workflow.includes(confirmation), `Phase 5I ${name} contract is missing`)

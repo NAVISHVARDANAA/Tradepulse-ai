@@ -87,6 +87,9 @@ jobs:
       - name: Verify controlled money-movement readiness
         run: npm run check:money-movement-readiness
 
+      - name: Verify global venue and instrument intelligence
+        run: npm run check:global-market-intelligence
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 
@@ -279,6 +282,9 @@ jobs:
       - name: Test controlled money-movement readiness database contracts
         run: npx --no-install supabase test db supabase/tests/database/payment_money_movement_readiness.test.sql
 
+      - name: Test global venue and instrument intelligence database contracts
+        run: npx --no-install supabase test db supabase/tests/database/global_venue_instrument_intelligence.test.sql
+
       - name: Test broker-sandbox certification contracts
         run: npx --no-install supabase test db supabase/tests/database/broker_sandbox_certification.test.sql
 
@@ -407,6 +413,15 @@ jobs:
           npx --no-install supabase db query
           --local
           --file supabase/tests/production/payment_money_movement_readiness_smoke.sql
+
+      - name: Assert global market intelligence smoke SQL is query-only
+        run: bash scripts/assert-read-only-sql.sh supabase/tests/production/global_venue_instrument_intelligence_smoke.sql
+
+      - name: Test global market intelligence production smoke query
+        run: >-
+          npx --no-install supabase db query
+          --local
+          --file supabase/tests/production/global_venue_instrument_intelligence_smoke.sql
 
       - name: Stop isolated Supabase services
         if: always()

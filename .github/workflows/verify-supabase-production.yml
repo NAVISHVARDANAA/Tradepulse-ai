@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type VERIFY_DATA_PHASE_7E to verify controlled money-movement readiness
+        description: Type VERIFY_DATA_PHASE_8A to verify global venue and instrument intelligence
         required: true
         type: string
 
@@ -39,8 +39,8 @@ jobs:
           VERIFICATION_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$VERIFICATION_CONFIRMATION" = "VERIFY_DATA_PHASE_7E" || {
-            echo "Verification confirmation did not match VERIFY_DATA_PHASE_7E."
+          test "$VERIFICATION_CONFIRMATION" = "VERIFY_DATA_PHASE_8A" || {
+            echo "Verification confirmation did not match VERIFY_DATA_PHASE_8A."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -69,13 +69,13 @@ jobs:
       - name: Install the repository-pinned Supabase CLI
         run: npm ci
 
-      - name: Verify migration 044 and remote migration parity
+      - name: Verify migration 045 and remote migration parity
         run: |
           set -eu
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])044([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])045([^0-9]|$)' migration-list.txt
           npx --no-install supabase db push \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" \
@@ -169,6 +169,14 @@ jobs:
             --linked \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --file supabase/tests/production/payment_money_movement_readiness_smoke.sql
+
+      - name: Verify global venue and instrument production boundary
+        run: |
+          bash scripts/assert-read-only-sql.sh supabase/tests/production/global_venue_instrument_intelligence_smoke.sql
+          npx --no-install supabase db query \
+            --linked \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --file supabase/tests/production/global_venue_instrument_intelligence_smoke.sql
 
       - name: Verify the deployed Edge Function
         run: |
@@ -494,7 +502,8 @@ jobs:
             echo "## Supabase production verification"
             echo
             echo "- Commit: \`$GITHUB_SHA\`"
-            echo "- Migration history: synchronized through 034"
+            echo "- Migration history: synchronized through 045"
+            echo "- Global venue, listing, calendar, entitlement and residency reference: verified"
             echo "- Public market, forecast, equity, Academy and indicative-corridor reads: verified"
             echo "- Role-controlled shared Business research: verified"
             echo "- Bounded Business invitations and role administration: verified"
