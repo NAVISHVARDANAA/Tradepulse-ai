@@ -94,6 +94,9 @@ const GlobalEquityResearchPanel = lazy(() => import('./components/GlobalEquityRe
 const GlobalMarketAccessPanel = lazy(() => import('./components/GlobalMarketAccessPanel').then((module) => ({
   default: module.GlobalMarketAccessPanel,
 })))
+const InternationalPaperTradingPanel = lazy(() => import('./components/InternationalPaperTradingPanel').then((module) => ({
+  default: module.InternationalPaperTradingPanel,
+})))
 const PaymentQuotePanel = lazy(() => import('./components/PaymentQuotePanel').then((module) => ({
   default: module.PaymentQuotePanel,
 })))
@@ -691,6 +694,14 @@ function App() {
           <ProductErrorBoundary title="Paper investing is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Paper investing" />}>
               <PaperInvestingPanel marketAssets={marketAssets} />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#international-paper' ? <section id="international-paper" className="product-workspace">
+          <ProductErrorBoundary title="International paper trading is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="International paper trading" />}>
+              <InternationalPaperTradingPanel />
             </Suspense>
           </ProductErrorBoundary>
         </section> : null}

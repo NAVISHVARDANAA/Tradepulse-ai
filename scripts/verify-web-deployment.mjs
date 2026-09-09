@@ -234,6 +234,26 @@ if (
   throw new Error('Deployed controlled money-movement readiness boundary is incomplete or operational.')
 }
 if (
+  manifest.internationalMultiAssetPaperTrading?.workspaceEnabled !== true ||
+  manifest.internationalMultiAssetPaperTrading?.isolatedSimulationLedger !== true ||
+  manifest.internationalMultiAssetPaperTrading?.venueCount !== 6 ||
+  manifest.internationalMultiAssetPaperTrading?.listingCount !== 12 ||
+  manifest.internationalMultiAssetPaperTrading?.virtualCurrencyCount !== 5 ||
+  manifest.internationalMultiAssetPaperTrading?.balancedJournalRequired !== true ||
+  manifest.internationalMultiAssetPaperTrading?.reconciliationEnabled !== true ||
+  manifest.internationalMultiAssetPaperTrading?.deterministicScenarioFixtures !== true ||
+  manifest.internationalMultiAssetPaperTrading?.liveMarketDataConnectivityEnabled !== false ||
+  manifest.internationalMultiAssetPaperTrading?.orderRoutingEnabled !== false ||
+  manifest.internationalMultiAssetPaperTrading?.brokerConnectivityEnabled !== false ||
+  manifest.internationalMultiAssetPaperTrading?.customerFundingEnabled !== false ||
+  manifest.internationalMultiAssetPaperTrading?.custodyEnabled !== false ||
+  manifest.internationalMultiAssetPaperTrading?.realSettlementEnabled !== false ||
+  manifest.internationalMultiAssetPaperTrading?.marginEnabled !== false ||
+  manifest.internationalMultiAssetPaperTrading?.shortSellingEnabled !== false
+) {
+  throw new Error('Deployed international paper-trading boundary is incomplete or connected to live execution.')
+}
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||

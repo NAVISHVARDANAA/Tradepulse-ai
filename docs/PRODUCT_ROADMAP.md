@@ -873,7 +873,7 @@ identifier, entitlement, corporate-action and jurisdiction gaps explicit and
 every execution capability false. Licensed source evidence is still required
 before any venue can advance beyond reference-only status.
 
-### Phase 8B — international multi-asset paper trading
+### Phase 8B — international multi-asset paper trading (implemented foundation)
 
 - Multi-currency virtual cash, positions and tax lots support cash equities,
   ETFs and depositary receipts across approved simulated venues.
@@ -888,9 +888,14 @@ before any venue can advance beyond reference-only status.
 - Best-execution evidence is rehearsed using timestamped quotes and simulated
   routing comparisons, with no claim that a paper fill was achievable live.
 
-**Phase 8B exit gate:** multi-currency cash and positions reconcile across an
-agreed test window, venue and cost rules are versioned, and paper orders cannot
-reach a broker, custodian or real account.
+**Phase 8B exit gate:** green international-paper-trading, global-market,
+route-aware-loading, database, browser, security and release contracts;
+reviewed `DEPLOY_DATA_PHASE_8B`; read-only `VERIFY_DATA_PHASE_8B`; successful
+`BUILD_PHASE_8B`; reviewed `DEPLOY_PHASE_8B`; and read-only
+`VERIFY_WEB_PHASE_8B` evidence. Multi-currency cash, fills, positions, FIFO lots
+and balanced journal lines reconcile under versioned deterministic venue, FX
+and cost rules. Live data, broker routing, real funds, custody, settlement,
+margin and short selling remain database-locked off.
 
 ### Phase 8C — options education and paper trading
 

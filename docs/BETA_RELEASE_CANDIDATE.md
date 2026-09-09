@@ -51,6 +51,10 @@ Phase 8A adds a venue-qualified global instrument reference, explicit calendar
 and corporate-action review states, fail-closed display rights and hypothetical
 residency scenarios. It cannot connect a market-data feed, decide customer
 eligibility, route an order, fund an account or hold assets.
+Phase 8B adds an isolated international paper ledger with multi-currency virtual
+cash, venue-aware order simulation, explicit modeled costs, FIFO tax lots and
+deterministic reconciliation. It cannot connect a live feed or broker, accept
+real funds, hold assets, settle a real trade, provide margin or sell short.
 
 The artifact contains `beta-release.json`, a machine-readable statement of its
 scope. Live brokerage, payment execution, charge collection, custody and
@@ -99,7 +103,7 @@ personalized advice remain false. Search indexing also remains disabled.
 8. Approve funding, custody, settlement and production market-data arrangements.
 9. Retain observed risk, monitoring, reconciliation and kill-switch drill evidence.
 
-These are operational, legal and business launch decisions. Passing Phase 8A
+These are operational, legal and business launch decisions. Passing Phase 8B
 means the engineering candidate is ready for that review; it does not certify
 regulatory approval or declare a public production launch.
 
@@ -121,19 +125,19 @@ evidence in a public issue or artifact.
 
 ## Hosting deployment procedure
 
-After the Phase 8A PR is merged and all `main` checks pass:
+After the Phase 8B PR is merged and all `main` checks pass:
 
-1. Deploy and verify migration 045 with `DEPLOY_DATA_PHASE_8A` and `VERIFY_DATA_PHASE_8A`.
+1. Deploy and verify migration 046 with `DEPLOY_DATA_PHASE_8B` and `VERIFY_DATA_PHASE_8B`.
 2. Open **Actions → Build production web release**.
-3. Select `main`, enter `BUILD_PHASE_8A` and run the workflow.
+3. Select `main`, enter `BUILD_PHASE_8B` and run the workflow.
 4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 5. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-6. Run **Verify web production** with `VERIFY_WEB_PHASE_8A` after deployment
+6. Run **Verify web production** with `VERIFY_WEB_PHASE_8B` after deployment
    or any customer-facing operational incident.
 7. Do not invite external testers until every manual prerequisite above is approved.
 
-Phase 8A adds migration 045 and the global venue, listing, calendar,
-display-rights and residency reference boundary; deploy and verify it before the
-web release. Live market-data connectivity, automatic eligibility, order
-routing, broker connectivity, funding, custody, settlement and every Phase 7E
-money-movement capability remain database-locked off.
+Phase 8B adds migration 046, the protected international simulation function
+and the global paper lab; deploy and verify them before the web release. Live
+market-data connectivity, automatic eligibility, order routing, broker
+connectivity, funding, custody, real settlement, margin, short selling and every
+Phase 7E money-movement capability remain database-locked off.

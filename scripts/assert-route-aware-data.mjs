@@ -65,6 +65,7 @@ for (const contract of [
   '/display_qualified_market_forecasts',
   '/trade_observations',
   '/global_venue_instrument_reference',
+  '/international_paper_market_catalog',
 ]) {
   assert(browserTest.includes(contract), `Browser route-isolation contract missing: ${contract}`)
 }
@@ -79,9 +80,9 @@ assert(vite.includes("target: 'es2022'"), 'Production build is not pinned to the
 assert(vite.includes('modulePreload: { polyfill: false }'), 'Native module preloading is not pinned')
 
 for (const [name, workflow, confirmation] of [
-  ['build', build, 'BUILD_PHASE_8A'],
-  ['deploy', deploy, 'DEPLOY_PHASE_8A'],
-  ['verify', verify, 'VERIFY_WEB_PHASE_8A'],
+  ['build', build, 'BUILD_PHASE_8B'],
+  ['deploy', deploy, 'DEPLOY_PHASE_8B'],
+  ['verify', verify, 'VERIFY_WEB_PHASE_8B'],
   ['CI', ci, 'check:data-loading'],
 ]) {
   assert(workflow.includes(confirmation), `Phase 5I ${name} contract is missing`)

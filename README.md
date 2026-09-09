@@ -613,6 +613,14 @@ surface calendar, display-rights, corporate-action and legal-review gaps without
 connecting a feed or enabling an order path. See
 [`docs/GLOBAL_VENUE_INSTRUMENT_INTELLIGENCE.md`](docs/GLOBAL_VENUE_INSTRUMENT_INTELLIGENCE.md).
 
+Phase 8B adds migration `046_international_multi_asset_paper_trading.sql`, the
+protected `manage-international-paper` function and a lazy-loaded global paper
+lab. Approved users can rehearse multi-currency cash, venue-aware market/limit/
+stop/stop-limit orders, modeled costs, settlement timing, FIFO lots and balanced
+journals against deterministic fixtures. Live market data, broker routing, real
+funds, custody, settlement, margin and short selling remain disabled. See
+[`docs/INTERNATIONAL_MULTI_ASSET_PAPER_TRADING.md`](docs/INTERNATIONAL_MULTI_ASSET_PAPER_TRADING.md).
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction

@@ -106,7 +106,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(29)
+  await expect(navigation.getByRole('link')).toHaveCount(30)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -133,6 +133,12 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await page.goto('/#paper-investing')
   await expect(page.getByText('Sign in to create a private paper portfolio')).toBeVisible()
   await expect(page.getByText(/Approved beta testers receive/)).toBeVisible()
+
+  await page.goto('/#international-paper')
+  await expect(page.getByRole('heading', { level: 1, name: 'International paper trading lab' })).toBeVisible()
+  await expect(page.getByText('No broker or real-money path exists')).toBeVisible()
+  await expect(page.getByText('Private simulation account required')).toBeVisible()
+  await expect(page.getByRole('button', { name: /convert|simulate|reconcile|create simulation/i })).toHaveCount(0)
 
   await page.goto('/#account-security')
   await expect(page.getByText(/Controlled-beta access is limited to approved email addresses/)).toBeVisible()
@@ -256,6 +262,35 @@ test('global venue intelligence preserves listing identity and fails closed by r
   await expect(page.getByText(/^XNAS:QQQ ·/)).toBeVisible()
   await expect(page.getByText(/^XNSE:RELIANCE ·/)).toHaveCount(0)
   await expect(page.getByRole('button', { name: /preview|route|trade|buy|sell|fund|execute|submit/i })).toHaveCount(0)
+})
+
+test('international paper lab exposes deterministic venue scenarios without guest execution', async ({ page }) => {
+  const base = {
+    instrument_type: 'equity', venue_name: 'Scenario venue', venue_country_code: 'US',
+    session_state: 'open_scenario', tick_size: 0.01, lot_size: 1,
+    fractional_simulation_enabled: false, partial_fill_simulation_enabled: true,
+    settlement_days: 1, available_quantity: 250, quote_status: 'available_scenario',
+    quote_observed_at: '2026-09-09T12:00:00Z', commission_bps: 5,
+    exchange_fee_bps: 1, tax_assumption_bps: 2, cost_status: 'modeled_scenario',
+    rule_version: 'phase-8b-v1', quote_version: 'phase-8b-v1',
+  }
+  await page.route('**/rest/v1/international_paper_market_catalog*', (route) => route.fulfill({
+    status: 200,
+    contentType: 'application/json',
+    body: JSON.stringify([
+      { ...base, listing_id: 1, listing_key: 'XNSE:RELIANCE', display_symbol: 'RELIANCE', instrument_name: 'Reliance Industries scenario', quote_currency: 'INR', mic_code: 'XNSE', venue_country_code: 'IN', settlement_days: 2, scenario_price: 2915.25 },
+      { ...base, listing_id: 2, listing_key: 'XNAS:QQQ', display_symbol: 'QQQ', instrument_name: 'Nasdaq-100 ETF scenario', instrument_type: 'etf', quote_currency: 'USD', mic_code: 'XNAS', scenario_price: 487.5 },
+    ]),
+  }))
+
+  await page.goto('/#international-paper')
+  await expect(page.getByRole('heading', { level: 1, name: 'International paper trading lab' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'International multi-asset paper trading' })).toBeVisible()
+  await expect(page.getByText('No broker or real-money path exists')).toBeVisible()
+  await expect(page.getByText('XNSE · INR')).toBeVisible()
+  await expect(page.getByText('XNAS · USD')).toBeVisible()
+  await expect(page.getByText('Private simulation account required')).toBeVisible()
+  await expect(page.getByRole('button', { name: /convert|simulate venue order|reconcile|create simulation/i })).toHaveCount(0)
 })
 
 test('payment safety maps money-movement readiness, sandbox lifecycle, compliance, beneficiary intervention and corridor transparency', async ({ page }) => {
@@ -567,7 +602,7 @@ test('shared product data loads only for the active workspace', async ({ page })
   page.on('request', (request) => {
     const path = new URL(request.url()).pathname
     if (
-      /\/rest\/v1\/(market_assets|market_observations|trade_observations|display_qualified_market_forecasts|equity_research_dashboard|global_venue_instrument_reference)/.test(
+      /\/rest\/v1\/(market_assets|market_observations|trade_observations|display_qualified_market_forecasts|equity_research_dashboard|global_venue_instrument_reference|international_paper_market_catalog)/.test(
         path,
       )
     ) {
@@ -589,6 +624,14 @@ test('shared product data loads only for the active workspace', async ({ page })
   await expect(page.getByRole('heading', { level: 1, name: 'Beta hardening center' })).toBeVisible()
   await page.waitForTimeout(250)
   expect(sharedDataPaths).toEqual([])
+
+  await page.goto('/#international-paper')
+  await expect(page.getByRole('heading', { level: 1, name: 'International paper trading lab' })).toBeVisible()
+  await expect.poll(
+    () => sharedDataPaths.some((path) => path.includes('/international_paper_market_catalog')),
+  ).toBe(true)
+  expect(sharedDataPaths.some((path) => path.includes('/market_assets'))).toBe(false)
+  expect(sharedDataPaths.some((path) => path.includes('/global_venue_instrument_reference'))).toBe(false)
 
   await page.goto('/#global-access')
   await expect(page.getByRole('heading', { level: 1, name: 'Venue and instrument access map' })).toBeVisible()

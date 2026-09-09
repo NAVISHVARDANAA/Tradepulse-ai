@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "8A",
-  "status": "global_venue_instrument_intelligence_candidate",
+  "phase": "8B",
+  "status": "international_multi_asset_paper_trading_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -40,7 +40,8 @@
       "trade",
       "forecasts",
       "equity",
-      "globalAccess"
+      "globalAccess",
+      "internationalPaper"
     ]
   },
   "trustLayer": {
@@ -83,6 +84,7 @@
     "check:sandbox-transfers",
     "check:money-movement-readiness",
     "check:global-market-intelligence",
+    "check:international-paper-trading",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -303,6 +305,30 @@
     "custodyEnabled": false,
     "settlementEnabled": false,
     "automaticActivationEnabled": false
+  },
+  "internationalMultiAssetPaperTrading": {
+    "workspaceEnabled": true,
+    "isolatedSimulationLedger": true,
+    "venueCount": 6,
+    "listingCount": 12,
+    "virtualCurrencyCount": 5,
+    "marketLimitStopAndStopLimitEnabled": true,
+    "partialFillAndExpirySimulationEnabled": true,
+    "explicitModeledCosts": true,
+    "multiCurrencyVirtualCash": true,
+    "fifoTaxLots": true,
+    "balancedJournalRequired": true,
+    "reconciliationEnabled": true,
+    "bestExecutionEvidenceRehearsal": true,
+    "deterministicScenarioFixtures": true,
+    "liveMarketDataConnectivityEnabled": false,
+    "orderRoutingEnabled": false,
+    "brokerConnectivityEnabled": false,
+    "customerFundingEnabled": false,
+    "custodyEnabled": false,
+    "realSettlementEnabled": false,
+    "marginEnabled": false,
+    "shortSellingEnabled": false
   },
   "globalVenueInstrumentIntelligence": {
     "workspaceEnabled": true,

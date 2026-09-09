@@ -39,3 +39,8 @@ data without loading market, trade or equity-research datasets.
 No execution boundary changes are included. Live trading, payment execution,
 checkout, charge collection, custody and personalized advice remain hard locked.
 Phase 5F requires no database migration or Edge Function deployment.
+Phase 8B keeps the public `international_paper_market_catalog` request inside
+the lazy `#international-paper` workspace. Account, cash, order, position and
+reconciliation reads also begin only after an authenticated user opens that
+workspace and selects a private paper portfolio. No international simulation
+query is part of the shared application startup path.

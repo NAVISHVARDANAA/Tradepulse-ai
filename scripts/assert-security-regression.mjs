@@ -83,6 +83,7 @@ const customerFunctions = [
   'evaluate-regulated-preflight',
   'generate-daily-research-brief',
   'manage-account-security',
+  'manage-international-paper',
   'preview-brokerage-order',
   'refresh-paper-risk',
   'set-paper-trading-control',
