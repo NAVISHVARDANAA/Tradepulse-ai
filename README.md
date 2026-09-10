@@ -630,6 +630,17 @@ broker connectivity, real positions, funds, margin, custody, settlement,
 uncovered short options and automatic permission remain disabled. See
 [`docs/OPTIONS_EDUCATION_PAPER_TRADING.md`](docs/OPTIONS_EDUCATION_PAPER_TRADING.md).
 
+Phase 8D adds migration `048_global_brokerage_custody_orchestration.sql`, the
+protected `manage-global-brokerage-custody` function and a lazy-loaded brokerage
+and custody control plane. Four exact jurisdiction, residency, account, asset
+and venue launch matrices expose five independently unassigned partner roles,
+ten identity-bound onboarding requirements, deterministic complete-cost
+previews and five-domain reconciliation rehearsals. Evidence is digest-only and
+expiring; credentials cannot activate a market, payment quotes cannot become
+brokerage cash, and live connectivity, real cash, positions, custody, funding,
+routing and settlement remain disabled. See
+[`docs/GLOBAL_BROKERAGE_CUSTODY_ORCHESTRATION.md`](docs/GLOBAL_BROKERAGE_CUSTODY_ORCHESTRATION.md).
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction

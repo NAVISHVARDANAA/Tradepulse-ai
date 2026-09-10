@@ -162,8 +162,8 @@ for (const contract of ["from('payment_sandbox_transfer_lifecycle_reference')", 
 assert(browserTest.includes('money-movement readiness, sandbox lifecycle'), 'Browser regression omits Phase 7D lifecycle coverage')
 assert(productionBrowserTest.includes('Money movement readiness'), 'Production browser smoke omits the current payments heading')
 
-assert(manifest.phase === '8C', 'Release manifest is not Phase 8C')
-assert(manifest.status === 'options_education_paper_trading_candidate', 'Release status is not the global venue and instrument intelligence candidate')
+assert(manifest.phase === '8D', 'Release manifest is not Phase 8D')
+assert(manifest.status === 'global_brokerage_custody_candidate', 'Release status is not the global venue and instrument intelligence candidate')
 assert(manifest.requiredChecks.includes('check:sandbox-transfers'), 'Release manifest omits the Phase 7D gate')
 assert(packageJson.scripts?.['check:sandbox-transfers'], 'Package scripts omit the Phase 7D gate')
 const release = manifest.sandboxTransferLifecycle
@@ -208,11 +208,11 @@ for (const lock of [
 ]) assert(release?.[lock] === false, `Sandbox transfer lock is not false: ${lock}`)
 
 for (const [workflow, contract] of [
-  [deployData, 'DEPLOY_DATA_PHASE_8C'],
-  [verifyData, 'VERIFY_DATA_PHASE_8C'],
-  [buildWeb, 'BUILD_PHASE_8C'],
-  [deployWeb, 'DEPLOY_PHASE_8C'],
-  [verifyWeb, 'VERIFY_WEB_PHASE_8C'],
+  [deployData, 'DEPLOY_DATA_PHASE_8D'],
+  [verifyData, 'VERIFY_DATA_PHASE_8D'],
+  [buildWeb, 'BUILD_PHASE_8D'],
+  [deployWeb, 'DEPLOY_PHASE_8D'],
+  [verifyWeb, 'VERIFY_WEB_PHASE_8D'],
 ]) assert(workflow.includes(contract), `Release workflow omits ${contract}`)
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
   assert(workflow.includes('check:sandbox-transfers'), 'A web gate omits sandbox transfer lifecycle')

@@ -12,6 +12,7 @@ endpoints=(
   'global_venue_instrument_reference?select=listing_key&limit=1'
   'international_paper_market_catalog?select=listing_key&limit=1'
   'options_paper_chain_catalog?select=contract_symbol&limit=1'
+  'global_brokerage_launch_matrix_catalog?select=matrix_code&limit=1'
   'academy_catalog?select=slug&limit=1'
   'investment_instruments?select=id&paper_trading_enabled=eq.true&limit=1'
   'payment_corridors?select=id&enabled=eq.true&limit=1'

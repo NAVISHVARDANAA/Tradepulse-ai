@@ -281,6 +281,39 @@ if (
   throw new Error('Deployed options education boundary is incomplete or connected to live execution.')
 }
 if (
+  manifest.globalBrokerageCustody?.workspaceEnabled !== true ||
+  manifest.globalBrokerageCustody?.failClosedOrchestration !== true ||
+  manifest.globalBrokerageCustody?.launchMatrixCount !== 4 ||
+  manifest.globalBrokerageCustody?.partnerRoleCount !== 5 ||
+  manifest.globalBrokerageCustody?.onboardingRequirementCount !== 10 ||
+  manifest.globalBrokerageCustody?.approvalDomainCount !== 8 ||
+  manifest.globalBrokerageCustody?.partnersPerPreview !== 5 ||
+  manifest.globalBrokerageCustody?.reconciliationDomainCount !== 5 ||
+  manifest.globalBrokerageCustody?.identityBoundEvidenceRehearsal !== true ||
+  manifest.globalBrokerageCustody?.expiringEvidenceRehearsal !== true ||
+  manifest.globalBrokerageCustody?.rawEvidenceStorageEnabled !== false ||
+  manifest.globalBrokerageCustody?.approvalEffectEnabled !== false ||
+  manifest.globalBrokerageCustody?.deterministicCostPreviewEnabled !== true ||
+  manifest.globalBrokerageCustody?.buyingPowerAvailable !== false ||
+  manifest.globalBrokerageCustody?.routeOptionCount !== 0 ||
+  manifest.globalBrokerageCustody?.crossBorderPaymentsSeparated !== true ||
+  manifest.globalBrokerageCustody?.liveBrokerConnectivityEnabled !== false ||
+  manifest.globalBrokerageCustody?.exchangeAccessAssigned !== false ||
+  manifest.globalBrokerageCustody?.exchangeConnectivityEnabled !== false ||
+  manifest.globalBrokerageCustody?.clearingConnectivityEnabled !== false ||
+  manifest.globalBrokerageCustody?.custodyAccountsEnabled !== false ||
+  manifest.globalBrokerageCustody?.customerAssetSafeguardingEnabled !== false ||
+  manifest.globalBrokerageCustody?.realCashLedgerEnabled !== false ||
+  manifest.globalBrokerageCustody?.realPositionLedgerEnabled !== false ||
+  manifest.globalBrokerageCustody?.settlementInstructionsEnabled !== false ||
+  manifest.globalBrokerageCustody?.marketDataCredentialsEnabled !== false ||
+  manifest.globalBrokerageCustody?.crossBorderFundingLinkEnabled !== false ||
+  manifest.globalBrokerageCustody?.liveOrderRoutingEnabled !== false ||
+  manifest.globalBrokerageCustody?.automaticActivationEnabled !== false
+) {
+  throw new Error('Deployed global brokerage and custody boundary is incomplete or operational.')
+}
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||
