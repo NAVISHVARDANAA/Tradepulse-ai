@@ -87,6 +87,17 @@ for (const index of [
   'idx_global_brokerage_reconciliation_user_created',
 ]) assert(migration.includes(index), `Phase 8D query index missing: ${index}`)
 assert(migration.match(/pg_advisory_xact_lock/g)?.length === 4, 'Phase 8D mutations omit transaction-scoped idempotency locks')
+for (const blockReason of [
+  ['GLOBAL_ACTIVATION_BLOCKED', 'tradepulse'],
+  ['PARTNERS_UNASSIGNED', 'operations'],
+  ['ONBOARDING_UNAPPROVED', 'compliance'],
+  ['BUYING_POWER_UNAVAILABLE', 'broker'],
+  ['PAYMENT_FUNDING_SEPARATE', 'payments'],
+]) {
+  const [code, owner] = blockReason
+  const objectPrefix = `jsonb_build_object('code', '${code}', 'owner', '${owner}', 'message', `
+  assert(migration.includes(objectPrefix), `Phase 8D block reason is missing a complete code/owner/message tuple: ${code}`)
+}
 assert(smoke.includes("to_regclass('public.global_live_brokerage_orders') is not null"), 'Production smoke omits live-order absence check')
 assert(smoke.includes("to_regprocedure('public.link_payment_quote_to_brokerage_cash(jsonb)') is not null"), 'Production smoke omits payment-funding absence check')
 assert(edgeFunction.includes('requireVerifiedMfaWhenEnrolled: true'), 'Phase 8D API omits verified-MFA enforcement')

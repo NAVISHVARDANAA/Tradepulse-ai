@@ -706,10 +706,10 @@ begin
     ),
     jsonb_build_array(
       jsonb_build_object('code', 'GLOBAL_ACTIVATION_BLOCKED', 'owner', 'tradepulse', 'message', 'The exact launch matrix has no activation decision.'),
-      jsonb_build_object('code', 'PARTNERS_UNASSIGNED', 'owner', 'operations', 'Broker, clearing, custody and market-data roles are unassigned.'),
-      jsonb_build_object('code', 'ONBOARDING_UNAPPROVED', 'owner', 'compliance', 'Rehearsal evidence never satisfies onboarding approval.'),
-      jsonb_build_object('code', 'BUYING_POWER_UNAVAILABLE', 'owner', 'broker', 'No real brokerage cash or buying power exists.'),
-      jsonb_build_object('code', 'PAYMENT_FUNDING_SEPARATE', 'owner', 'payments', 'A payment quote cannot become brokerage cash.')
+      jsonb_build_object('code', 'PARTNERS_UNASSIGNED', 'owner', 'operations', 'message', 'Broker, clearing, custody and market-data roles are unassigned.'),
+      jsonb_build_object('code', 'ONBOARDING_UNAPPROVED', 'owner', 'compliance', 'message', 'Rehearsal evidence never satisfies onboarding approval.'),
+      jsonb_build_object('code', 'BUYING_POWER_UNAVAILABLE', 'owner', 'broker', 'message', 'No real brokerage cash or buying power exists.'),
+      jsonb_build_object('code', 'PAYMENT_FUNDING_SEPARATE', 'owner', 'payments', 'message', 'A payment quote cannot become brokerage cash.')
     ),
     'global-brokerage-custody-v1', now() + interval '5 minutes'
   ) returning id into v_preview_id;
