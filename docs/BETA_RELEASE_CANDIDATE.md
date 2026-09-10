@@ -60,6 +60,12 @@ strategy builder for long options and protected debit spreads, payoff and Greek
 context, appropriateness rehearsal and auditable virtual lifecycle events. It
 cannot grant options permission, connect live data or a broker, create a real
 position, provide margin or allow an uncovered short option.
+Phase 8D adds four exact global brokerage launch matrices, independently
+unassigned broker, exchange, clearing, custody and market-data responsibilities,
+identity-bound expiring evidence rehearsals, complete-cost previews and
+independent reconciliation gaps. It cannot activate a market, connect a partner,
+link a payment quote to brokerage cash, hold assets, route an order or settle a
+trade.
 
 The artifact contains `beta-release.json`, a machine-readable statement of its
 scope. Live brokerage, payment execution, charge collection, custody and
@@ -74,6 +80,9 @@ personalized advice remain false. Search indexing also remains disabled.
 - Paper investing, decision journals and portfolio-risk controls with no live routing.
 - Options education with deterministic chains, visible payoff boundaries, long
   options and protected debit-spread simulations with no options permission.
+- A fail-closed global brokerage and custody control plane with exact launch
+  matrices, expiring evidence rehearsal, transparent costs and independent
+  reconciliation gaps.
 - Brokerage-readiness previews, corridor money-movement approval ledgers, sandbox-transfer lifecycles, payment-compliance maps, beneficiary-protection rehearsals and transparent corridor comparisons that cannot execute.
 - Responsive navigation, installable web assets and desktop/mobile accessibility gates.
 
@@ -110,7 +119,7 @@ personalized advice remain false. Search indexing also remains disabled.
 8. Approve funding, custody, settlement and production market-data arrangements.
 9. Retain observed risk, monitoring, reconciliation and kill-switch drill evidence.
 
-These are operational, legal and business launch decisions. Passing Phase 8C
+These are operational, legal and business launch decisions. Passing Phase 8D
 means the engineering candidate is ready for that review; it does not certify
 regulatory approval or declare a public production launch.
 
@@ -132,20 +141,21 @@ evidence in a public issue or artifact.
 
 ## Hosting deployment procedure
 
-After the Phase 8C PR is merged and all `main` checks pass:
+After the Phase 8D PR is merged and all `main` checks pass:
 
-1. Deploy and verify migration 047 with `DEPLOY_DATA_PHASE_8C` and `VERIFY_DATA_PHASE_8C`.
+1. Deploy and verify migration 048 with `DEPLOY_DATA_PHASE_8D` and `VERIFY_DATA_PHASE_8D`.
 2. Open **Actions → Build production web release**.
-3. Select `main`, enter `BUILD_PHASE_8C` and run the workflow.
+3. Select `main`, enter `BUILD_PHASE_8D` and run the workflow.
 4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 5. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-6. Run **Verify web production** with `VERIFY_WEB_PHASE_8C` after deployment
+6. Run **Verify web production** with `VERIFY_WEB_PHASE_8D` after deployment
    or any customer-facing operational incident.
 7. Do not invite external testers until every manual prerequisite above is approved.
 
-Phase 8C adds migration 047, the protected options education simulation
-function and the defined-risk options paper lab; deploy and verify them before
-the web release. Live market-data connectivity, automatic options permission,
-order routing, broker connectivity, real positions, funding, custody, real
-settlement, margin, uncovered short options and every Phase 7E money-movement
-capability remain database-locked off.
+Phase 8D adds migration 048, the protected global brokerage and custody
+orchestration function and its control-plane workspace; deploy and verify them
+before the web release. Exact launch matrices remain blocked, every partner role
+is unassigned, approval evidence is rehearsal-only, and live market-data,
+broker, exchange, clearing and custody connectivity, real cash and positions,
+cross-border funding links, order routing, settlement and every Phase 7E
+money-movement capability remain database-locked off.

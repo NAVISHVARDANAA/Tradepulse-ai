@@ -49,3 +49,9 @@ Phase 8C keeps `options_paper_chain_catalog` inside the lazy `#options-paper`
 workspace. Private account, assessment, strategy and reconciliation reads begin
 only after an authenticated user selects a paper portfolio. Options education
 adds no shared startup query or realtime subscription.
+
+Phase 8D keeps `global_brokerage_launch_matrix_catalog` and the orchestration
+summary inside the lazy `#brokerage-custody` workspace. Private onboarding,
+evidence-rehearsal, cost-preview and reconciliation reads begin only after an
+authenticated user opens that workspace. Brokerage and custody orchestration
+adds no shared startup query or realtime subscription.

@@ -57,9 +57,9 @@ assert(manifest.operations?.browserTesterApprovalEnabled === false, 'Browser tes
 assert(manifest.operations?.privateSignals?.length === 4, 'Private operations signal inventory changed')
 
 for (const [name, workflow, confirmation] of [
-  ['build', buildWorkflow, 'BUILD_PHASE_8C'],
-  ['deploy', deployWorkflow, 'DEPLOY_PHASE_8C'],
-  ['verify', verifyWorkflow, 'VERIFY_WEB_PHASE_8C'],
+  ['build', buildWorkflow, 'BUILD_PHASE_8D'],
+  ['deploy', deployWorkflow, 'DEPLOY_PHASE_8D'],
+  ['verify', verifyWorkflow, 'VERIFY_WEB_PHASE_8D'],
 ]) {
   assert(workflow.includes(confirmation), `Phase 5F ${name} confirmation is missing`)
   assert(workflow.includes('check:beta-operations'), `Phase 5I ${name} omits the operations contract`)

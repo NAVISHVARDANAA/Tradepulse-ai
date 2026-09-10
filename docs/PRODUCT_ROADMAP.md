@@ -922,7 +922,7 @@ reconcile against independent fixtures, every strategy shows bounded loss and
 bounded or explicitly unbounded profit potential, and no paper-options action
 can create a live position or grant options permission.
 
-### Phase 8D — global brokerage and custody orchestration
+### Phase 8D — global brokerage and custody orchestration (implemented foundation)
 
 - Broker, exchange, clearing, custody and market-data integrations are approved
   separately by jurisdiction, customer residency, account type, asset class and
@@ -938,9 +938,18 @@ can create a live position or grant options permission.
   independently with partner statements, signed events and disaster-recovery
   drills.
 
-**Phase 8D exit gate:** written legal, compliance, tax, market-data, broker,
-custody, security and operational approvals exist for each exact launch matrix;
-production credentials alone cannot enable an instrument or market.
+**Phase 8D exit gate:** green global-brokerage-custody, options-paper-trading,
+international-paper, global-market, route-aware-loading, database, browser,
+security and release contracts; reviewed `DEPLOY_DATA_PHASE_8D`; read-only
+`VERIFY_DATA_PHASE_8D`; successful `BUILD_PHASE_8D`; reviewed
+`DEPLOY_PHASE_8D`; and read-only `VERIFY_WEB_PHASE_8D` evidence. The implemented
+foundation rehearses identity-bound expiring evidence, transparent order costs
+and independent order, allocation, cash, custody and settlement reconciliation.
+Every launch matrix remains blocked until written legal, compliance, tax,
+market-data, broker, custody, security and operational approvals exist for that
+exact matrix. Production credentials alone cannot enable an instrument or
+market, payment quotes cannot become brokerage cash, and live connectivity,
+funding, custody, routing and settlement remain database-locked off.
 
 ### Phase 8E — controlled international live rollout
 

@@ -96,6 +96,9 @@ jobs:
       - name: Verify options education and paper trading
         run: npm run check:options-paper-trading
 
+      - name: Verify global brokerage and custody orchestration
+        run: npm run check:global-brokerage-custody
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 
@@ -203,6 +206,7 @@ jobs:
           deno check supabase/functions/evaluate-data-quality/index.ts
           deno check supabase/functions/manage-international-paper/index.ts
           deno check supabase/functions/manage-options-paper/index.ts
+          deno check supabase/functions/manage-global-brokerage-custody/index.ts
 
       - name: Test shared Edge Function security controls
         run: >-
@@ -298,6 +302,9 @@ jobs:
 
       - name: Test options education paper-trading database contracts
         run: npx --no-install supabase test db supabase/tests/database/options_education_paper_trading.test.sql
+
+      - name: Test global brokerage and custody orchestration database contracts
+        run: npx --no-install supabase test db supabase/tests/database/global_brokerage_custody_orchestration.test.sql
 
       - name: Test broker-sandbox certification contracts
         run: npx --no-install supabase test db supabase/tests/database/broker_sandbox_certification.test.sql
@@ -454,6 +461,15 @@ jobs:
           npx --no-install supabase db query
           --local
           --file supabase/tests/production/options_education_paper_trading_smoke.sql
+
+      - name: Assert global brokerage and custody smoke SQL is query-only
+        run: bash scripts/assert-read-only-sql.sh supabase/tests/production/global_brokerage_custody_orchestration_smoke.sql
+
+      - name: Test global brokerage and custody production smoke query
+        run: >-
+          npx --no-install supabase db query
+          --local
+          --file supabase/tests/production/global_brokerage_custody_orchestration_smoke.sql
 
       - name: Stop isolated Supabase services
         if: always()

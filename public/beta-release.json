@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "8C",
-  "status": "options_education_paper_trading_candidate",
+  "phase": "8D",
+  "status": "global_brokerage_custody_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -42,7 +42,8 @@
       "equity",
       "globalAccess",
       "internationalPaper",
-      "optionsPaper"
+      "optionsPaper",
+      "globalBrokerageCustody"
     ]
   },
   "trustLayer": {
@@ -87,6 +88,7 @@
     "check:global-market-intelligence",
     "check:international-paper-trading",
     "check:options-paper-trading",
+    "check:global-brokerage-custody",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -361,6 +363,37 @@
     "marginEnabled": false,
     "uncoveredShortOptionsEnabled": false,
     "automaticOptionsPermissionEnabled": false
+  },
+  "globalBrokerageCustody": {
+    "workspaceEnabled": true,
+    "failClosedOrchestration": true,
+    "launchMatrixCount": 4,
+    "partnerRoleCount": 5,
+    "onboardingRequirementCount": 10,
+    "approvalDomainCount": 8,
+    "partnersPerPreview": 5,
+    "reconciliationDomainCount": 5,
+    "identityBoundEvidenceRehearsal": true,
+    "expiringEvidenceRehearsal": true,
+    "rawEvidenceStorageEnabled": false,
+    "approvalEffectEnabled": false,
+    "deterministicCostPreviewEnabled": true,
+    "buyingPowerAvailable": false,
+    "routeOptionCount": 0,
+    "crossBorderPaymentsSeparated": true,
+    "liveBrokerConnectivityEnabled": false,
+    "exchangeAccessAssigned": false,
+    "exchangeConnectivityEnabled": false,
+    "clearingConnectivityEnabled": false,
+    "custodyAccountsEnabled": false,
+    "customerAssetSafeguardingEnabled": false,
+    "realCashLedgerEnabled": false,
+    "realPositionLedgerEnabled": false,
+    "settlementInstructionsEnabled": false,
+    "marketDataCredentialsEnabled": false,
+    "crossBorderFundingLinkEnabled": false,
+    "liveOrderRoutingEnabled": false,
+    "automaticActivationEnabled": false
   },
   "globalVenueInstrumentIntelligence": {
     "workspaceEnabled": true,

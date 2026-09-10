@@ -100,6 +100,9 @@ const InternationalPaperTradingPanel = lazy(() => import('./components/Internati
 const OptionsPaperTradingPanel = lazy(() => import('./components/OptionsPaperTradingPanel').then((module) => ({
   default: module.OptionsPaperTradingPanel,
 })))
+const GlobalBrokerageCustodyPanel = lazy(() => import('./components/GlobalBrokerageCustodyPanel').then((module) => ({
+  default: module.GlobalBrokerageCustodyPanel,
+})))
 const PaymentQuotePanel = lazy(() => import('./components/PaymentQuotePanel').then((module) => ({
   default: module.PaymentQuotePanel,
 })))
@@ -713,6 +716,14 @@ function App() {
           <ProductErrorBoundary title="Options paper education is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Options education and paper trading" />}>
               <OptionsPaperTradingPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#brokerage-custody' ? <section id="brokerage-custody" className="product-workspace">
+          <ProductErrorBoundary title="Global brokerage and custody orchestration is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Global brokerage and custody orchestration" />}>
+              <GlobalBrokerageCustodyPanel />
             </Suspense>
           </ProductErrorBoundary>
         </section> : null}

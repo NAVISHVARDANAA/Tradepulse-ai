@@ -106,7 +106,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(31)
+  await expect(navigation.getByRole('link')).toHaveCount(32)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -145,6 +145,13 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByText('Options permission is never granted here')).toBeVisible()
   await expect(page.getByText('Private options simulation account required')).toBeVisible()
   await expect(page.getByRole('button', { name: /save defined-risk|record lifecycle|reconcile options|create education/i })).toHaveCount(0)
+
+  await page.goto('/#brokerage-custody')
+  await expect(page.getByRole('heading', { level: 1, name: 'Brokerage and custody control plane' })).toBeVisible()
+  await expect(page.getByText('Production credentials cannot activate a market')).toBeVisible()
+  await expect(page.getByText(/A payment quote cannot become brokerage cash/)).toBeVisible()
+  await expect(page.getByText('Your onboarding and preview rehearsals are private')).toBeVisible()
+  await expect(page.getByRole('button', { name: /create review|record evidence|generate blocked|rehearse reconciliation|activate|route|fund|execute/i })).toHaveCount(0)
 
   await page.goto('/#account-security')
   await expect(page.getByText(/Controlled-beta access is limited to approved email addresses/)).toBeVisible()

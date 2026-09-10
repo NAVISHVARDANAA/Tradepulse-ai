@@ -106,6 +106,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Learn long options and protected debit spreads through deterministic chains, payoff diagrams, Greeks and lifecycle simulations.',
     boundary: 'Education only · no options permission',
   },
+  '#brokerage-custody': {
+    eyebrow: 'Global regulated orchestration',
+    title: 'Brokerage and custody control plane',
+    description: 'Review exact launch matrices, identity-bound onboarding requirements, transparent cost rehearsals and independent reconciliation gaps.',
+    boundary: 'Activation blocked · no partners',
+  },
   '#risk-command-center': {
     eyebrow: 'Portfolio controls',
     title: 'Risk command center',
