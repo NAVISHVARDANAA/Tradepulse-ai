@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 
 import { GuidedOnboarding } from './components/GuidedOnboarding'
+import { AccountMenu } from './components/AccountMenu'
 import { PlatformReadiness } from './components/PlatformReadiness'
 import { ProductErrorBoundary } from './components/ProductErrorBoundary'
 import { ProductPageHeader } from './components/ProductPageHeader'
@@ -39,6 +40,9 @@ const AcademyPanel = lazy(() => import('./components/AcademyPanel').then((module
 })))
 const AnalyticsStudioPanel = lazy(() => import('./components/AnalyticsStudioPanel').then((module) => ({
   default: module.AnalyticsStudioPanel,
+})))
+const AgenticInvestingPanel = lazy(() => import('./components/AgenticInvestingPanel').then((module) => ({
+  default: module.AgenticInvestingPanel,
 })))
 const AccountSecurityPanel = lazy(() => import('./components/AccountSecurityPanel').then((module) => ({
   default: module.AccountSecurityPanel,
@@ -435,7 +439,10 @@ function App() {
 
         <ProductNavigation activeHref={activeHref} />
 
-        <span className="environment-pill">Data intelligence</span>
+        <div className="topbar-account-cluster">
+          <span className="environment-pill">Data intelligence</span>
+          <AccountMenu />
+        </div>
       </header>
 
       <main className="dashboard" id="main-content" tabIndex={-1}>
@@ -467,6 +474,14 @@ function App() {
                 equityResearch={equityResearch}
                 tradeDashboard={tradeDashboard}
               />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#agentic-ai' ? <section id="agentic-ai" className="product-workspace">
+          <ProductErrorBoundary title="The TradePulse Agent workspace is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Private agentic AI workspace" />}>
+              <AgenticInvestingPanel securities={equityResearch} />
             </Suspense>
           </ProductErrorBoundary>
         </section> : null}

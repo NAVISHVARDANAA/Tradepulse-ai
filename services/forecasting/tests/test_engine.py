@@ -6,9 +6,10 @@ from datetime import datetime, timedelta, timezone
 
 import numpy as np
 
-from tradepulse_forecasting import ForecastEngine, Observation
+from tradepulse_forecasting import ForecastEngine, NewsSignal, Observation
 from tradepulse_forecasting.engine import cost_aware_backtest, expanding_window_splits
-from tradepulse_forecasting.features import build_feature_dataset
+from tradepulse_forecasting.features import build_feature_dataset, build_news_feature_rows
+from tradepulse_forecasting.worker import _eligible_news_rows, _group_news_signals
 
 
 def synthetic_observations(count: int = 260) -> list[Observation]:
@@ -55,6 +56,41 @@ class FeatureTests(unittest.TestCase):
                 [item.observed_at for item in observations],
             )
 
+    def test_news_features_never_use_future_signals(self) -> None:
+        timestamp = datetime(2025, 1, 10, tzinfo=timezone.utc)
+        rows = build_news_feature_rows(
+            [timestamp, timestamp + timedelta(days=1)],
+            [
+                NewsSignal(timestamp - timedelta(hours=1), 0.5, 0.8, 0.9),
+                NewsSignal(timestamp + timedelta(hours=12), -0.9, 1.0, 1.0),
+            ],
+        )
+
+        self.assertGreater(rows[0, 0], 0)
+        self.assertLess(rows[1, 0], 0)
+        self.assertTrue(np.all(np.isfinite(rows)))
+
+    def test_news_features_reject_invalid_scores(self) -> None:
+        with self.assertRaisesRegex(ValueError, "normalized range"):
+            build_news_feature_rows(
+                [datetime(2025, 1, 1, tzinfo=timezone.utc)],
+                [NewsSignal(datetime(2025, 1, 1, tzinfo=timezone.utc), 2.0, 1.0, 1.0)],
+            )
+
+    def test_worker_batches_news_and_enforces_asset_cutoff(self) -> None:
+        cutoff = datetime(2025, 1, 10, tzinfo=timezone.utc)
+        grouped = _group_news_signals([
+            {"asset_id": None, "published_at": "2025-01-08T00:00:00Z"},
+            {"asset_id": 7, "published_at": "2025-01-09T00:00:00Z"},
+            {"asset_id": 7, "published_at": "2025-01-11T00:00:00Z"},
+            {"asset_id": 8, "published_at": "2025-01-09T00:00:00Z"},
+        ])
+
+        eligible = _eligible_news_rows(grouped, 7, cutoff)
+
+        self.assertEqual(len(eligible), 2)
+        self.assertTrue(all(row["asset_id"] in {None, 7} for row in eligible))
+
 
 class ValidationTests(unittest.TestCase):
     def test_expanding_windows_have_a_leakage_gap(self) -> None:
@@ -90,8 +126,10 @@ class ValidationTests(unittest.TestCase):
 
 class ForecastEngineTests(unittest.TestCase):
     def test_engine_returns_auditable_ensemble_forecast(self) -> None:
+        observations = synthetic_observations()
         result = ForecastEngine(minimum_observations=120).forecast(
-            synthetic_observations(),
+            observations,
+            [NewsSignal(observations[-2].observed_at, 0.3, 0.8, 0.7)],
         )
 
         self.assertGreater(result.predicted_price, 0)
@@ -111,6 +149,8 @@ class ForecastEngineTests(unittest.TestCase):
         self.assertGreaterEqual(result.cost_adjusted_max_drawdown, 0)
         self.assertLessEqual(result.cost_adjusted_max_drawdown, 1)
         self.assertGreater(result.estimated_turnover, 0)
+        self.assertEqual(result.feature_snapshot["news_signal_count"], 1)
+        self.assertIn("news_weighted_sentiment_7d", result.feature_snapshot["feature_names"])
 
     def test_engine_rejects_short_history(self) -> None:
         engine = ForecastEngine(minimum_observations=120)

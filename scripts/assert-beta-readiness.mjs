@@ -13,9 +13,9 @@ const artifactManifest = JSON.parse(artifactManifestText)
 
 assert(manifest.schemaVersion === 1, 'Unexpected beta manifest schema')
 assert(manifest.release === 'controlled-beta-rc2', 'Unexpected beta release identifier')
-assert(manifest.phase === '8D', 'Beta manifest is not on Phase 8D')
+assert(manifest.phase === '8E', 'Beta manifest is not on Phase 8E')
 assert(
-  manifest.status === 'global_brokerage_custody_candidate',
+  manifest.status === 'agentic_investing_candidate',
   'Beta manifest overstates the release status',
 )
 assert(manifest.audience === 'internal_release_review', 'Beta audience boundary changed')
@@ -36,7 +36,7 @@ for (const gate of ['publicUrlConfigured', 'externalInvitationsApproved']) {
   assert(manifest.distribution?.[gate] === false, `Unapproved beta distribution state: ${gate}`)
 }
 assert(
-  Array.isArray(manifest.manualPrerequisites) && manifest.manualPrerequisites.length === 11,
+  Array.isArray(manifest.manualPrerequisites) && manifest.manualPrerequisites.length === 12,
   'Manual beta prerequisite inventory changed',
 )
 
@@ -63,6 +63,8 @@ const expectedChecks = [
   'check:global-market-intelligence',
   'check:international-paper-trading',
   'check:options-paper-trading',
+  'check:global-brokerage-custody',
+  'check:agentic-investing',
   'check:production-experience',
   'check:bundle',
   'check:release',
@@ -96,17 +98,17 @@ const [buildWorkflow, deployWorkflow, verifyWebWorkflow, ciWorkflow, securityWor
   ])
 
 for (const contract of [
-  'BUILD_PHASE_8D',
+  'BUILD_PHASE_8E',
   'npm run check:beta',
   'tradepulse-beta-rc2-${{ github.sha }}',
   'environment: production',
 ]) {
   assert(buildWorkflow.includes(contract), `Beta build workflow contract missing: ${contract}`)
 }
-for (const contract of ['DEPLOY_PHASE_8D', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['DEPLOY_PHASE_8E', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
   assert(deployWorkflow.includes(contract), `Beta deploy workflow contract missing: ${contract}`)
 }
-for (const contract of ['VERIFY_WEB_PHASE_8D', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['VERIFY_WEB_PHASE_8E', 'verify:web-deployment', 'test:e2e:production']) {
   assert(verifyWebWorkflow.includes(contract), `Beta web verification workflow contract missing: ${contract}`)
 }
 for (const contract of [
@@ -129,6 +131,8 @@ for (const contract of [
   'npm run check:global-market-intelligence',
   'npm run check:international-paper-trading',
   'npm run check:options-paper-trading',
+  'npm run check:global-brokerage-custody',
+  'npm run check:agentic-investing',
   'npm run check:security',
   'npm run check:hosting',
 ]) {
@@ -159,7 +163,8 @@ assert(roadmap.includes('Phase 8A — global venue and instrument intelligence')
 assert(roadmap.includes('Phase 8B — international multi-asset paper trading'), 'Roadmap omits international paper trading')
 assert(roadmap.includes('Phase 8C — options education and paper trading'), 'Roadmap omits options paper trading')
 assert(roadmap.includes('Phase 8D — global brokerage and custody orchestration'), 'Roadmap omits global brokerage orchestration')
-assert(roadmap.includes('Phase 8E — controlled international live rollout'), 'Roadmap omits controlled global activation')
+assert(roadmap.includes('Phase 8E — personalized agentic investing workspace'), 'Roadmap omits agentic investing workspace')
+assert(roadmap.includes('Phase 8F — controlled international live rollout'), 'Roadmap omits controlled global activation')
 assert(roadmap.includes('Phase 5E — controlled-beta onboarding and operations'), 'Roadmap omits Phase 5E')
 assert(roadmap.includes('Phase 5F — route-aware data loading'), 'Roadmap omits Phase 5F')
 assert(candidateDoc.includes('Artifact-only status'), 'Candidate documentation omits artifact status')
@@ -191,5 +196,5 @@ for (const lock of ['checkout_enabled', 'charge_collection_enabled', 'customer_p
 }
 
 console.log(
-  'Controlled-beta readiness passed: Cloudflare RC2 candidate, 7 execution locks, 11 manual prerequisites.',
+  'Controlled-beta readiness passed: Cloudflare RC2 candidate, 7 execution locks, 12 manual prerequisites.',
 )

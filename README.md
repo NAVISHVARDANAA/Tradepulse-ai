@@ -641,6 +641,17 @@ brokerage cash, and live connectivity, real cash, positions, custody, funding,
 routing and settlement remain disabled. See
 [`docs/GLOBAL_BROKERAGE_CUSTODY_ORCHESTRATION.md`](docs/GLOBAL_BROKERAGE_CUSTODY_ORCHESTRATION.md).
 
+Phase 8E adds migration `049_agentic_investing_workspace.sql`, the authenticated
+`run-investing-agent` function, a top-level account menu and a lazy-loaded
+TradePulse Agent workspace. Private conversations, preferences and reusable
+reports are server stored; answers coordinate grounded market, news, forecast,
+risk, report and safety roles with auditable evidence. The forecasting worker
+supports strictly time-bounded licensed-news features, while synthetic fixtures
+remain display-only. Prompt training is off by default, model promotion is
+human-reviewed, and external LLMs, autonomous trading, funding and custody stay
+disabled. See
+[`docs/AGENTIC_INVESTING_WORKSPACE.md`](docs/AGENTIC_INVESTING_WORKSPACE.md).
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction

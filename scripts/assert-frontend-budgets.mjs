@@ -39,10 +39,10 @@ const largestAsset = assetFiles.reduce((largest, asset) => (
 
 const budgets = {
   initialGzipBytes: 160 * 1024,
-  // Phase 8C adds a 6.4 KiB route-deferred options education workspace while
-  // the initial shell remains below 160 KiB. The bounded total increase keeps
-  // both load-critical budgets unchanged and leaves measured headroom.
-  totalJavaScriptGzipBytes: 340 * 1024,
+  // Phase 8E adds a 5.6 KiB route-deferred agent workspace. The initial shell
+  // and largest-chunk limits stay unchanged; the bounded total budget retains
+  // measured headroom without making the new workspace load on other routes.
+  totalJavaScriptGzipBytes: 350 * 1024,
   largestAssetGzipBytes: 90 * 1024,
 }
 

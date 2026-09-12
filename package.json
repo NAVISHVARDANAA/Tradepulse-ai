@@ -28,6 +28,7 @@
     "check:international-paper-trading": "node scripts/assert-international-multi-asset-paper-trading.mjs",
     "check:options-paper-trading": "node scripts/assert-options-education-paper-trading.mjs",
     "check:global-brokerage-custody": "node scripts/assert-global-brokerage-custody-orchestration.mjs",
+    "check:agentic-investing": "node scripts/assert-agentic-investing-workspace.mjs",
     "check:bundle": "node scripts/assert-frontend-budgets.mjs",
     "check:beta": "node scripts/assert-beta-readiness.mjs",
     "check:hosting": "node scripts/assert-cloudflare-hosting.mjs",

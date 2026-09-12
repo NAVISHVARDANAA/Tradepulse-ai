@@ -99,6 +99,9 @@ jobs:
       - name: Verify global brokerage and custody orchestration
         run: npm run check:global-brokerage-custody
 
+      - name: Verify personalized agentic investing workspace
+        run: npm run check:agentic-investing
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 
@@ -207,6 +210,7 @@ jobs:
           deno check supabase/functions/manage-international-paper/index.ts
           deno check supabase/functions/manage-options-paper/index.ts
           deno check supabase/functions/manage-global-brokerage-custody/index.ts
+          deno check supabase/functions/run-investing-agent/index.ts
 
       - name: Test shared Edge Function security controls
         run: >-
@@ -305,6 +309,9 @@ jobs:
 
       - name: Test global brokerage and custody orchestration database contracts
         run: npx --no-install supabase test db supabase/tests/database/global_brokerage_custody_orchestration.test.sql
+
+      - name: Test personalized agentic investing database contracts
+        run: npx --no-install supabase test db supabase/tests/database/agentic_investing_workspace.test.sql
 
       - name: Test broker-sandbox certification contracts
         run: npx --no-install supabase test db supabase/tests/database/broker_sandbox_certification.test.sql
@@ -470,6 +477,15 @@ jobs:
           npx --no-install supabase db query
           --local
           --file supabase/tests/production/global_brokerage_custody_orchestration_smoke.sql
+
+      - name: Assert agentic investing smoke SQL is query-only
+        run: bash scripts/assert-read-only-sql.sh supabase/tests/production/agentic_investing_workspace_smoke.sql
+
+      - name: Test agentic investing production smoke query
+        run: >-
+          npx --no-install supabase db query
+          --local
+          --file supabase/tests/production/agentic_investing_workspace_smoke.sql
 
       - name: Stop isolated Supabase services
         if: always()

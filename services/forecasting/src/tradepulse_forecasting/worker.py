@@ -11,6 +11,7 @@ from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 from .engine import MODEL_NAME, MODEL_VERSION, ForecastEngine, Observation
+from .features import NewsSignal
 
 
 class SupabaseRestClient:
@@ -74,6 +75,43 @@ def _parse_observations(rows: list[dict[str, Any]]) -> list[Observation]:
     return observations
 
 
+def _parse_news_signals(rows: list[dict[str, Any]]) -> list[NewsSignal]:
+    return [
+        NewsSignal(
+            published_at=datetime.fromisoformat(row["published_at"].replace("Z", "+00:00")),
+            sentiment_score=float(row["sentiment_score"]),
+            relevance_score=float(row["relevance_score"]),
+            novelty_score=float(row["novelty_score"]),
+        )
+        for row in rows
+    ]
+
+
+def _group_news_signals(
+    rows: list[dict[str, Any]],
+) -> dict[int | None, list[dict[str, Any]]]:
+    grouped: dict[int | None, list[dict[str, Any]]] = {}
+    for row in rows:
+        raw_asset_id = row.get("asset_id")
+        asset_key = int(raw_asset_id) if raw_asset_id is not None else None
+        grouped.setdefault(asset_key, []).append(row)
+    return grouped
+
+
+def _eligible_news_rows(
+    grouped: dict[int | None, list[dict[str, Any]]],
+    asset_id: int,
+    observation_cutoff: datetime,
+) -> list[dict[str, Any]]:
+    return [
+        row
+        for row in grouped.get(None, []) + grouped.get(asset_id, [])
+        if datetime.fromisoformat(
+            row["published_at"].replace("Z", "+00:00"),
+        ) <= observation_cutoff
+    ]
+
+
 def run() -> dict[str, object]:
     minimum_observations = int(os.environ.get("FORECAST_MIN_OBSERVATIONS", "120"))
     horizon_hours = int(os.environ.get("FORECAST_HORIZON_HOURS", "24"))
@@ -113,6 +151,18 @@ def run() -> dict[str, object]:
             "market_assets",
             query={"select": "id,symbol", "order": "symbol.asc"},
         )
+        training_news = client.request(
+            "global_news_signals",
+            query={
+                "select": "asset_id,published_at,sentiment_score,relevance_score,novelty_score",
+                "training_eligible": "eq.true",
+                "synthetic": "eq.false",
+                "published_at": f"lte.{started_at.isoformat()}",
+                "order": "published_at.asc",
+                "limit": "10000",
+            },
+        )
+        news_by_asset = _group_news_signals(training_news)
 
         for asset in assets:
             rows = client.request(
@@ -125,9 +175,19 @@ def run() -> dict[str, object]:
                     "limit": "2000",
                 },
             )
+            observations = _parse_observations(rows)
+            observation_cutoff = observations[-1].observed_at if observations else started_at
+            news_rows = _eligible_news_rows(
+                news_by_asset,
+                int(asset["id"]),
+                observation_cutoff,
+            )
 
             try:
-                result = engine.forecast(_parse_observations(rows))
+                result = engine.forecast(
+                    observations,
+                    _parse_news_signals(news_rows),
+                )
             except ValueError as error:
                 skipped[asset["symbol"]] = str(error)
                 continue

@@ -41,5 +41,8 @@ verify_jwt = true
 [functions.manage-global-brokerage-custody]
 verify_jwt = true
 
+[functions.run-investing-agent]
+verify_jwt = true
+
 [functions.generate-equity-research]
 verify_jwt = false

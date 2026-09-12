@@ -6,6 +6,7 @@ const routeDataRequirements: Partial<
   Record<ProductHref, readonly ProductDataDomain[]>
 > = {
   '#analytics-studio': ['markets', 'trade', 'forecasts', 'equity'],
+  '#agentic-ai': ['forecasts', 'equity'],
   '#markets': ['markets', 'trade'],
   '#trade-data': ['trade'],
   '#forecasts': ['forecasts'],

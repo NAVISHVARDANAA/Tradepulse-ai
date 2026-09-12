@@ -314,6 +314,29 @@ if (
   throw new Error('Deployed global brokerage and custody boundary is incomplete or operational.')
 }
 if (
+  manifest.agenticInvesting?.workspaceEnabled !== true ||
+  manifest.agenticInvesting?.topLevelAccountAccess !== true ||
+  manifest.agenticInvesting?.privateConversationHistory !== true ||
+  manifest.agenticInvesting?.serverStoredReportDefinitions !== true ||
+  manifest.agenticInvesting?.groundedResponsesRequired !== true ||
+  manifest.agenticInvesting?.citationsRequired !== true ||
+  manifest.agenticInvesting?.continuousCandidateTrainingEnabled !== true ||
+  manifest.agenticInvesting?.licensedNewsFeaturesSupported !== true ||
+  manifest.agenticInvesting?.walkForwardValidationRequired !== true ||
+  manifest.agenticInvesting?.leakageGapRequired !== true ||
+  manifest.agenticInvesting?.costAwareBacktestRequired !== true ||
+  manifest.agenticInvesting?.humanModelPromotionRequired !== true ||
+  manifest.agenticInvesting?.promptTrainingDefaultOptIn !== false ||
+  manifest.agenticInvesting?.rawNewsStorageEnabled !== false ||
+  manifest.agenticInvesting?.externalLlmConnected !== false ||
+  manifest.agenticInvesting?.productionNewsProviderConnected !== false ||
+  manifest.agenticInvesting?.directSelfPromotionEnabled !== false ||
+  manifest.agenticInvesting?.autonomousTradeExecutionEnabled !== false ||
+  manifest.agenticInvesting?.customerFundingEnabled !== false
+) {
+  throw new Error('Deployed agentic-investing boundary is incomplete or unsafe.')
+}
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||

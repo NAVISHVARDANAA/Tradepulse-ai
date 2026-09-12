@@ -106,7 +106,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(32)
+  await expect(navigation.getByRole('link')).toHaveCount(33)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -152,6 +152,13 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByText(/A payment quote cannot become brokerage cash/)).toBeVisible()
   await expect(page.getByText('Your onboarding and preview rehearsals are private')).toBeVisible()
   await expect(page.getByRole('button', { name: /create review|record evidence|generate blocked|rehearse reconciliation|activate|route|fund|execute/i })).toHaveCount(0)
+
+  await page.goto('/#agentic-ai')
+  await expect(page.getByRole('heading', { level: 1, name: 'TradePulse Agent workspace' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'TradePulse Agent' })).toBeVisible()
+  await expect(page.getByText('Account required')).toBeVisible()
+  await expect(page.getByText(/conversations, report designs and preferences are private/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /run grounded agents|save preferences|save reusable report/i })).toHaveCount(0)
 
   await page.goto('/#account-security')
   await expect(page.getByText(/Controlled-beta access is limited to approved email addresses/)).toBeVisible()
