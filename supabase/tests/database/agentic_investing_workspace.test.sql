@@ -126,7 +126,7 @@ select lives_ok(
 select is((select count(*) from public.agentic_report_definitions), 1::bigint, 'idempotent report save remains singular');
 select is((select output_format from public.agentic_report_definitions), 'csv', 'report output format is customizable');
 select lives_ok(
-  $$do $block$
+  $test$do $block$
   begin
     for report_number in 2..8 loop
       perform public.save_agentic_report_definition(
@@ -136,7 +136,7 @@ select lives_ok(
       );
     end loop;
   end
-  $block$$,
+  $block$$test$,
   'an account can store the bounded report inventory'
 );
 select throws_ok(

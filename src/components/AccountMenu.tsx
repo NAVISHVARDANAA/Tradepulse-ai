@@ -9,7 +9,7 @@ export function AccountMenu() {
   if (loading) return <span className="account-menu loading" role="status">Account…</span>
   if (!session) {
     return (
-      <a className="account-menu" href="#account-security">
+      <a className="account-menu" href="#account-security" aria-label="Sign in">
         <LogIn size={15} /> <span>Sign in</span>
       </a>
     )
