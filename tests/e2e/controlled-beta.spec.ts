@@ -25,6 +25,69 @@ async function mockGuestBackend(page: Page) {
       })
       return
     }
+    if (path === '/rest/v1/global_event_intelligence_status') {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          control_key: 'global-event-intelligence', policy_version: 'global-event-policy-v1',
+          country_coverage_target: 195, catalogued_country_count: 12,
+          display_event_count: 1, scenario_count: 1,
+          source_authenticity_required: true, multi_source_corroboration_required: true,
+          causal_impact_graph_enabled: true, scenario_forecasting_enabled: true,
+          personalized_alerts_enabled: true, raw_web_scraping_enabled: false,
+          rumor_promotion_enabled: false, production_provider_connectivity_enabled: false,
+          autonomous_trade_execution_enabled: false,
+        }),
+      })
+      return
+    }
+    if (path === '/rest/v1/global_event_signal_catalog') {
+      await route.fulfill({
+        status: 200, contentType: 'application/json',
+        body: JSON.stringify([{
+          id: 1, event_key: 'synthetic-india-gold-discovery', country_code: 'IN',
+          country_name: 'India', region_code: 'IN', event_type: 'resource_discovery',
+          normalized_summary: 'Synthetic discovery scenario tests global gold supply and pricing.',
+          source_reference: 'synthetic://india-gold-discovery', source_name: 'TradePulse synthetic event laboratory',
+          source_class: 'synthetic_fixture', rights_status: 'synthetic', authenticity_tier: 'reference',
+          authenticity_score: 0, corroboration_count: 0, verification_status: 'synthetic',
+          severity: 'high', novelty_score: 0.92, source_published_at: '2026-09-12T08:00:00Z',
+          synthetic: true, model_eligible: false,
+        }]),
+      })
+      return
+    }
+    if (path === '/rest/v1/global_event_impact_graph') {
+      await route.fulfill({
+        status: 200, contentType: 'application/json',
+        body: JSON.stringify([{
+          id: 1, edge_key: 'india-gold-supply-to-price', event_id: 1,
+          event_key: 'synthetic-india-gold-discovery', event_type: 'resource_discovery',
+          event_summary: 'Synthetic discovery scenario', origin_country_code: 'IN', region_code: 'IN',
+          sequence_number: 1, from_entity_kind: 'commodity', entity_key: 'commodity-gold',
+          from_entity_name: 'Global gold supply', to_entity_kind: 'market_asset',
+          target_entity_key: 'asset-XAUUSD', to_entity_name: 'Gold / US Dollar', mechanism: 'supply',
+          impact_direction: 'negative', probability: 0.63, confidence_score: 0.42,
+          horizon: '1y', lag_description: 'multi-year', rationale: 'Higher expected supply can pressure global gold prices while demand can offset the effect.',
+          assumptions: ['commercial viability unknown'], target_symbol: 'XAUUSD',
+          estimated_effect_low_pct: -3.5, estimated_effect_high_pct: 0.5,
+          terminal_edge: true, human_review_required: true, synthetic: true,
+        }]),
+      })
+      return
+    }
+    if (path === '/rest/v1/global_country_intelligence_coverage') {
+      await route.fulfill({
+        status: 200, contentType: 'application/json',
+        body: JSON.stringify([{
+          country_code: 'IN', country_name: 'India', region: 'Asia', coverage_status: 'catalogued',
+          approved_source_count: 0, provider_coverage_enabled: false, current_event_count: 1,
+          latest_event_at: '2026-09-12T08:00:00Z', evidence_state: 'synthetic_scenario_only',
+        }]),
+      })
+      return
+    }
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -106,7 +169,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(33)
+  await expect(navigation.getByRole('link')).toHaveCount(34)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -159,6 +222,14 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByText('Account required')).toBeVisible()
   await expect(page.getByText(/conversations, report designs and preferences are private/)).toBeVisible()
   await expect(page.getByRole('button', { name: /run grounded agents|save preferences|save reusable report/i })).toHaveCount(0)
+
+  await page.goto('/#global-events')
+  await expect(page.getByRole('heading', { level: 1, name: 'Global event impact engine' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Event impact command center' })).toBeVisible()
+  await expect(page.getByText(/current event set is synthetic and cannot train a model/i)).toBeVisible()
+  await expect(page.getByText('Rumor promotion off')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Save private in-app alert' })).toHaveCount(0)
+  await expect(page.getByRole('link', { name: 'Sign in to account' })).toBeVisible()
 
   await page.goto('/#account-security')
   await expect(page.getByText(/Controlled-beta access is limited to approved email addresses/)).toBeVisible()

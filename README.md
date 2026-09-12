@@ -652,6 +652,15 @@ human-reviewed, and external LLMs, autonomous trading, funding and custody stay
 disabled. See
 [`docs/AGENTIC_INVESTING_WORKSPACE.md`](docs/AGENTIC_INVESTING_WORKSPACE.md).
 
+Phase 8F adds migration `050_global_event_intelligence_engine.sql`, an
+authenticity-gated global event registry, a country/commodity/currency/logistics
+knowledge graph, probabilistic impact paths, private in-app alert policies and
+a lazy-loaded Global Event Impact Engine workspace. Five synthetic scenarios
+demonstrate gold, crude, logistics and FX transmission while live providers,
+raw scraping, rumor promotion, automatic publication and every execution path
+remain disabled. See
+[`docs/GLOBAL_EVENT_INTELLIGENCE_ENGINE.md`](docs/GLOBAL_EVENT_INTELLIGENCE_ENGINE.md).
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction

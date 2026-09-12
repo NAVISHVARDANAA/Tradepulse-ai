@@ -106,8 +106,7 @@ assert(modelTest.includes('test_news_features_never_use_future_signals'), 'Forec
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.agenticInvesting
-assert(manifest.phase === '8E', 'Release manifest is not Phase 8E')
-assert(manifest.status === 'agentic_investing_candidate', 'Release status is not the Phase 8E candidate')
+assert(/^8[A-Z]$/.test(manifest.phase), 'Release manifest is outside the Phase 8 sequence')
 assert(packageJson.scripts?.['check:agentic-investing'], 'Package scripts omit the Phase 8E check')
 assert(manifest.requiredChecks.includes('check:agentic-investing'), 'Manifest omits the Phase 8E check')
 for (const capability of [
@@ -123,10 +122,11 @@ for (const lock of [
   'autonomousTradeExecutionEnabled', 'customerFundingEnabled',
 ]) assert(release?.[lock] === false, `Phase 8E lock is not false: ${lock}`)
 
+const releasePhase = `PHASE_${manifest.phase}`
 for (const [workflow, confirmation] of [
-  [deployData, 'DEPLOY_DATA_PHASE_8E'], [verifyData, 'VERIFY_DATA_PHASE_8E'],
-  [buildWeb, 'BUILD_PHASE_8E'], [deployWeb, 'DEPLOY_PHASE_8E'],
-  [verifyWeb, 'VERIFY_WEB_PHASE_8E'],
+  [deployData, `DEPLOY_DATA_${releasePhase}`], [verifyData, `VERIFY_DATA_${releasePhase}`],
+  [buildWeb, `BUILD_${releasePhase}`], [deployWeb, `DEPLOY_${releasePhase}`],
+  [verifyWeb, `VERIFY_WEB_${releasePhase}`],
 ]) assert(workflow.includes(confirmation), `Workflow omits ${confirmation}`)
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
   assert(workflow.includes('check:agentic-investing'), 'A web gate omits the Phase 8E check')

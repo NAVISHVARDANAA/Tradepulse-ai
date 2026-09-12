@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type DEPLOY_DATA_PHASE_8E for the agentic investing workspace candidate
+        description: Type DEPLOY_DATA_PHASE_8F for the global event intelligence candidate
         required: true
         type: string
 
@@ -39,8 +39,8 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_8E" || {
-            echo "Release confirmation did not match DEPLOY_DATA_PHASE_8E."
+          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_8F" || {
+            echo "Release confirmation did not match DEPLOY_DATA_PHASE_8F."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -212,7 +212,7 @@ jobs:
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])049([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])050([^0-9]|$)' migration-list.txt
 
       - name: Verify approved-tester pilot production boundary
         run: |
@@ -325,6 +325,14 @@ jobs:
             --linked \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --file supabase/tests/production/agentic_investing_workspace_smoke.sql
+
+      - name: Verify global event intelligence production boundary
+        run: |
+          bash scripts/assert-read-only-sql.sh supabase/tests/production/global_event_intelligence_engine_smoke.sql
+          npx --no-install supabase db query \
+            --linked \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --file supabase/tests/production/global_event_intelligence_engine_smoke.sql
 
       - name: Verify production public web reads
         run: bash scripts/verify-public-runtime-read.sh
@@ -730,6 +738,8 @@ jobs:
             echo "## Supabase production deployment"
             echo
             echo "- Commit: \`$GITHUB_SHA\`"
+            echo "- Migration 050: global event intelligence authenticity, causal graph and private alerts deployed"
+            echo "- Live event providers, raw scraping, rumor promotion and autonomous publication: disabled"
             echo "- Migration 026: verified"
             echo "- Subscription reconciliation: scheduled"
             echo "- Checkout and charge collection: disabled"

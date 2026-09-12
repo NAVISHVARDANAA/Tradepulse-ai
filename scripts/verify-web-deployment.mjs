@@ -337,6 +337,35 @@ if (
   throw new Error('Deployed agentic-investing boundary is incomplete or unsafe.')
 }
 if (
+  manifest.globalEventIntelligence?.workspaceEnabled !== true ||
+  manifest.globalEventIntelligence?.sourceAuthenticityRequired !== true ||
+  manifest.globalEventIntelligence?.multiSourceCorroborationRequired !== true ||
+  manifest.globalEventIntelligence?.causalImpactGraphEnabled !== true ||
+  manifest.globalEventIntelligence?.scenarioForecastingEnabled !== true ||
+  manifest.globalEventIntelligence?.personalizedAlertsEnabled !== true ||
+  manifest.globalEventIntelligence?.countryCoverageTarget !== 195 ||
+  manifest.globalEventIntelligence?.cataloguedCountryCount !== 12 ||
+  manifest.globalEventIntelligence?.syntheticEventCount !== 5 ||
+  manifest.globalEventIntelligence?.causalImpactEdgeCount !== 9 ||
+  manifest.globalEventIntelligence?.terminalScenarioCount !== 6 ||
+  manifest.globalEventIntelligence?.privateInAppAlerts !== true ||
+  manifest.globalEventIntelligence?.humanReviewRequired !== true ||
+  manifest.globalEventIntelligence?.syntheticModelTrainingEnabled !== false ||
+  manifest.globalEventIntelligence?.rawWebScrapingEnabled !== false ||
+  manifest.globalEventIntelligence?.credentialedSourceBypassEnabled !== false ||
+  manifest.globalEventIntelligence?.unlicensedContentStorageEnabled !== false ||
+  manifest.globalEventIntelligence?.automaticVerificationWithoutEvidenceEnabled !== false ||
+  manifest.globalEventIntelligence?.rumorPromotionEnabled !== false ||
+  manifest.globalEventIntelligence?.autonomousPublicationEnabled !== false ||
+  manifest.globalEventIntelligence?.productionProviderConnectivityEnabled !== false ||
+  manifest.globalEventIntelligence?.autonomousTradeExecutionEnabled !== false ||
+  manifest.globalEventIntelligence?.customerFundingEnabled !== false ||
+  manifest.globalEventIntelligence?.custodyEnabled !== false ||
+  manifest.globalEventIntelligence?.settlementEnabled !== false
+) {
+  throw new Error('Deployed global event intelligence boundary is incomplete or unsafe.')
+}
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||

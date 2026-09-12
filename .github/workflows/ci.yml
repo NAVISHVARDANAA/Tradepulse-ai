@@ -102,6 +102,9 @@ jobs:
       - name: Verify personalized agentic investing workspace
         run: npm run check:agentic-investing
 
+      - name: Verify global event intelligence engine
+        run: npm run check:global-event-intelligence
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 
@@ -313,6 +316,9 @@ jobs:
       - name: Test personalized agentic investing database contracts
         run: npx --no-install supabase test db supabase/tests/database/agentic_investing_workspace.test.sql
 
+      - name: Test global event intelligence database contracts
+        run: npx --no-install supabase test db supabase/tests/database/global_event_intelligence_engine.test.sql
+
       - name: Test broker-sandbox certification contracts
         run: npx --no-install supabase test db supabase/tests/database/broker_sandbox_certification.test.sql
 
@@ -486,6 +492,15 @@ jobs:
           npx --no-install supabase db query
           --local
           --file supabase/tests/production/agentic_investing_workspace_smoke.sql
+
+      - name: Assert global event intelligence smoke SQL is query-only
+        run: bash scripts/assert-read-only-sql.sh supabase/tests/production/global_event_intelligence_engine_smoke.sql
+
+      - name: Test global event intelligence production smoke query
+        run: >-
+          npx --no-install supabase db query
+          --local
+          --file supabase/tests/production/global_event_intelligence_engine_smoke.sql
 
       - name: Stop isolated Supabase services
         if: always()

@@ -46,6 +46,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Coordinate grounded market, news, forecast and risk agents, then save account-level analysis and reusable report designs.',
     boundary: 'Human-governed · no execution',
   },
+  '#global-events': {
+    eyebrow: 'Global event intelligence',
+    title: 'Global event impact engine',
+    description: 'Trace authenticated country, commodity, currency and logistics events through probabilistic causal paths with explicit evidence gaps.',
+    boundary: 'Scenarios—not predictions of certainty',
+  },
   '#global-access': {
     eyebrow: 'Global market intelligence',
     title: 'Venue and instrument access map',

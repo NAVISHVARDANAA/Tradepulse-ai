@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type BUILD_PHASE_8E for the agentic investing workspace candidate
+        description: Type BUILD_PHASE_8F for the global event intelligence candidate
         required: true
         type: string
 
@@ -29,7 +29,7 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "BUILD_PHASE_8E"
+          test "$RELEASE_CONFIRMATION" = "BUILD_PHASE_8F"
           test -n "$SUPABASE_PROJECT_REF"
           test -n "$VITE_SUPABASE_ANON_KEY"
           case "$VITE_SUPABASE_ANON_KEY" in *service_role*|*secret*) echo "A server credential cannot be used by the web client."; exit 1;; esac
@@ -62,6 +62,7 @@ jobs:
       - run: npm run check:options-paper-trading
       - run: npm run check:global-brokerage-custody
       - run: npm run check:agentic-investing
+      - run: npm run check:global-event-intelligence
       - run: npm run check:production-experience
       - run: npm run check:bundle
       - run: npm run check:release
