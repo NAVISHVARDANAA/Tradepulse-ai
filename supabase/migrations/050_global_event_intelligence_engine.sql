@@ -559,8 +559,11 @@ begin
     raise exception 'Unsupported event type';
   end if;
   if exists (
-    select 1 from unnest(p_asset_symbols) symbol
-    where not exists (select 1 from public.market_assets asset where asset.symbol = symbol)
+    select 1 from unnest(p_asset_symbols) as requested(symbol)
+    where not exists (
+      select 1 from public.market_assets asset
+      where asset.symbol = requested.symbol
+    )
   ) then
     raise exception 'Unsupported market asset';
   end if;

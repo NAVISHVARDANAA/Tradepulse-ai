@@ -64,6 +64,7 @@ for (const contract of [
   'idx_global_event_records_display_time',
   'Global event intelligence evidence is append-only',
   'Global event alert policy limit reached', 'pg_advisory_xact_lock',
+  'asset.symbol = requested.symbol',
 ]) assert(migration.includes(contract), `Migration contract missing: ${contract}`)
 
 assert(databaseTest.includes('select plan(80)'), 'Phase 8F PgTAP plan changed unexpectedly')
