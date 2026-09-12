@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "8E",
-  "status": "agentic_investing_candidate",
+  "phase": "8F",
+  "status": "global_event_intelligence_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -44,7 +44,8 @@
       "internationalPaper",
       "optionsPaper",
       "globalBrokerageCustody",
-      "agenticInvesting"
+      "agenticInvesting",
+      "globalEventIntelligence"
     ]
   },
   "trustLayer": {
@@ -91,6 +92,7 @@
     "check:options-paper-trading",
     "check:global-brokerage-custody",
     "check:agentic-investing",
+    "check:global-event-intelligence",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -114,7 +116,8 @@
     "written-corridor-legal-compliance-security-and-partner-approvals",
     "safeguarding-treasury-reconciliation-and-customer-redress-approvals",
     "observed-risk-monitoring-reconciliation-and-kill-switch-drills",
-    "licensed-news-rights-and-model-promotion-review"
+    "licensed-news-rights-and-model-promotion-review",
+    "global-event-source-rights-authenticity-corroboration-and-publication-review"
   ],
   "betaHardening": {
     "workspaceEnabled": true,
@@ -424,6 +427,33 @@
     "directSelfPromotionEnabled": false,
     "autonomousTradeExecutionEnabled": false,
     "customerFundingEnabled": false
+  },
+  "globalEventIntelligence": {
+    "workspaceEnabled": true,
+    "sourceAuthenticityRequired": true,
+    "multiSourceCorroborationRequired": true,
+    "causalImpactGraphEnabled": true,
+    "scenarioForecastingEnabled": true,
+    "personalizedAlertsEnabled": true,
+    "countryCoverageTarget": 195,
+    "cataloguedCountryCount": 12,
+    "syntheticEventCount": 5,
+    "causalImpactEdgeCount": 9,
+    "terminalScenarioCount": 6,
+    "privateInAppAlerts": true,
+    "humanReviewRequired": true,
+    "syntheticModelTrainingEnabled": false,
+    "rawWebScrapingEnabled": false,
+    "credentialedSourceBypassEnabled": false,
+    "unlicensedContentStorageEnabled": false,
+    "automaticVerificationWithoutEvidenceEnabled": false,
+    "rumorPromotionEnabled": false,
+    "autonomousPublicationEnabled": false,
+    "productionProviderConnectivityEnabled": false,
+    "autonomousTradeExecutionEnabled": false,
+    "customerFundingEnabled": false,
+    "custodyEnabled": false,
+    "settlementEnabled": false
   },
   "globalVenueInstrumentIntelligence": {
     "workspaceEnabled": true,

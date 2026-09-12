@@ -44,6 +44,9 @@ const AnalyticsStudioPanel = lazy(() => import('./components/AnalyticsStudioPane
 const AgenticInvestingPanel = lazy(() => import('./components/AgenticInvestingPanel').then((module) => ({
   default: module.AgenticInvestingPanel,
 })))
+const GlobalEventIntelligencePanel = lazy(() => import('./components/GlobalEventIntelligencePanel').then((module) => ({
+  default: module.GlobalEventIntelligencePanel,
+})))
 const AccountSecurityPanel = lazy(() => import('./components/AccountSecurityPanel').then((module) => ({
   default: module.AccountSecurityPanel,
 })))
@@ -482,6 +485,14 @@ function App() {
           <ProductErrorBoundary title="The TradePulse Agent workspace is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Private agentic AI workspace" />}>
               <AgenticInvestingPanel securities={equityResearch} />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#global-events' ? <section id="global-events" className="product-workspace">
+          <ProductErrorBoundary title="Global event intelligence is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Global event intelligence engine" />}>
+              <GlobalEventIntelligencePanel />
             </Suspense>
           </ProductErrorBoundary>
         </section> : null}

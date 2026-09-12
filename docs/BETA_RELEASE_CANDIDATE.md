@@ -73,6 +73,12 @@ cannot train models, prompts are excluded from training by default, model
 promotion requires human review and the agent cannot execute trades or move
 money.
 
+Phase 8F adds a global event impact workspace with a governed source registry,
+explicit country coverage, country/commodity/currency/logistics graph links,
+probabilistic causal scenarios and private in-app alerts. The initial events are
+clearly synthetic and cannot train models. Live providers, raw scraping,
+unlicensed storage, rumor promotion and autonomous publication remain disabled.
+
 The artifact contains `beta-release.json`, a machine-readable statement of its
 scope. Live brokerage, payment execution, charge collection, custody and
 personalized advice remain false. Search indexing also remains disabled.
@@ -92,6 +98,8 @@ personalized advice remain false. Search indexing also remains disabled.
 - A private grounded agent workspace with customizable analysis, reusable
   reports, normalized global-news signals and evaluation-gated forecast
   candidates.
+- A source-authenticity-gated global event workspace with explicit country
+  coverage, causal impact paths and private in-app alert policies.
 - Brokerage-readiness previews, corridor money-movement approval ledgers, sandbox-transfer lifecycles, payment-compliance maps, beneficiary-protection rehearsals and transparent corridor comparisons that cannot execute.
 - Responsive navigation, installable web assets and desktop/mobile accessibility gates.
 
@@ -128,8 +136,9 @@ personalized advice remain false. Search indexing also remains disabled.
 8. Approve funding, custody, settlement and production market-data arrangements.
 9. Retain observed risk, monitoring, reconciliation and kill-switch drill evidence.
 10. Approve licensed news usage, source retention rules and the human model-promotion process.
+11. Approve event-source rights, authenticity thresholds, corroboration policy and publication review.
 
-These are operational, legal and business launch decisions. Passing Phase 8E
+These are operational, legal and business launch decisions. Passing Phase 8F
 means the engineering candidate is ready for that review; it does not certify
 regulatory approval or declare a public production launch.
 
@@ -151,20 +160,21 @@ evidence in a public issue or artifact.
 
 ## Hosting deployment procedure
 
-After the Phase 8E PR is merged and all `main` checks pass:
+After the Phase 8F PR is merged and all `main` checks pass:
 
-1. Deploy and verify migration 049 with `DEPLOY_DATA_PHASE_8E` and `VERIFY_DATA_PHASE_8E`.
+1. Deploy and verify migration 050 with `DEPLOY_DATA_PHASE_8F` and `VERIFY_DATA_PHASE_8F`.
 2. Open **Actions → Build production web release**.
-3. Select `main`, enter `BUILD_PHASE_8E` and run the workflow.
+3. Select `main`, enter `BUILD_PHASE_8F` and run the workflow.
 4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 5. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-6. Run **Verify web production** with `VERIFY_WEB_PHASE_8E` after deployment
+6. Run **Verify web production** with `VERIFY_WEB_PHASE_8F` after deployment
    or any customer-facing operational incident.
 7. Do not invite external testers until every manual prerequisite above is approved.
 
-Phase 8E adds migration 049, the protected investing-agent function and its
-private account workspace; deploy and verify them before the web release. The
-news fixtures are synthetic and display-only, production news and external LLM
-providers remain disconnected, model promotion remains manual, and all live
+Phase 8F adds migration 050, the global event intelligence views and an
+event-aware update to the protected investing-agent function; deploy and verify
+them before the web release. Event fixtures are synthetic and display-only,
+production event sources and external LLM providers remain disconnected,
+publication and model promotion remain manual, and all live
 brokerage, funding, custody, settlement and money-movement capabilities remain
 database-locked off.

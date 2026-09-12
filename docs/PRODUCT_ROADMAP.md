@@ -973,7 +973,35 @@ reviewed `DEPLOY_DATA_PHASE_8E`; read-only `VERIFY_DATA_PHASE_8E`; successful
 `VERIFY_WEB_PHASE_8E` evidence. A licensed news provider, content rights and any
 external model provider remain separately approved prerequisites.
 
-### Phase 8F — controlled international live rollout
+### Phase 8F — global event intelligence engine (implemented foundation)
+
+- A source registry records rights, authenticity tier, review state and
+  connectivity before normalized event evidence can be displayed or evaluated.
+- Country, commodity, currency, logistics-node and market-asset entities form a
+  causal graph with ordered impact edges, explicit assumptions, probability,
+  confidence, lag and bounded effect ranges.
+- Country coverage has a documented 195-country target while the product shows
+  the actual catalogue and evidence gaps instead of fabricating universal data.
+- Resource discoveries, energy changes, logistics disruption, monetary policy,
+  geopolitics, weather, macro data, regulation, infrastructure and technology
+  share a governed event contract.
+- Private in-app alert policies let customers choose countries, event types,
+  assets, severity, authenticity and confidence without granting notification
+  delivery or execution rights outside the product.
+- Five clearly labelled synthetic scenarios prove gold, crude, logistics and FX
+  impact paths. They cannot train models, become verified evidence or publish
+  themselves.
+
+**Phase 8F exit gate:** green global-event-intelligence, agentic-investing,
+forecasting, route-aware, database, browser, security, bundle and release
+contracts; reviewed `DEPLOY_DATA_PHASE_8F`; read-only `VERIFY_DATA_PHASE_8F`;
+successful `BUILD_PHASE_8F`; reviewed `DEPLOY_PHASE_8F`; and read-only
+`VERIFY_WEB_PHASE_8F` evidence. A production source requires separate licensing,
+rights, authenticity, corroboration, privacy and operating approval. Raw web
+scraping, rumor promotion, automatic verification, autonomous publishing,
+trading, funding, custody and settlement remain database-locked off.
+
+### Phase 8G — controlled international live rollout
 
 - Launch begins with small approved customer cohorts and cash equities on named
   venues, with conservative notional, concentration, velocity and funding
@@ -990,7 +1018,7 @@ external model provider remain separately approved prerequisites.
   never markets universal access when law, sanctions, licensing, tax rules,
   market-data rights or partner coverage restrict availability.
 
-**Phase 8F exit gate:** the exact country-market-product cohort has signed
+**Phase 8G exit gate:** the exact country-market-product cohort has signed
 approval, observed operational drills, reconciled production evidence and a
 tested rollback. Approval for one market never activates another market,
 country, payment corridor or options permission.

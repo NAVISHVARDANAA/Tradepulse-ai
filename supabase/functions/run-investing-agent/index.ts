@@ -77,7 +77,27 @@ type NewsRow = {
   synthetic: boolean
 }
 
-const ORCHESTRATOR_VERSION = 'tradepulse-agentic-research-v1.0.0'
+type EventImpactRow = {
+  id: number
+  event_id: number
+  event_type: string
+  event_summary: string
+  origin_country_code: string | null
+  region_code: string
+  mechanism: string
+  impact_direction: string
+  probability: number | string
+  confidence_score: number | string
+  horizon: string
+  target_asset_id: number | null
+  target_symbol: string | null
+  rationale: string
+  terminal_edge: boolean
+  synthetic: boolean
+  source_published_at: string
+}
+
+const ORCHESTRATOR_VERSION = 'tradepulse-agentic-research-v1.1.0'
 const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 const clientIdPattern = /^[A-Za-z0-9:_-]{8,100}$/
 const allowedModes = new Set<AgentMode>(['market_brief', 'stock_analysis', 'risk_review', 'report_builder'])
@@ -123,6 +143,7 @@ function responseCopy(
   research: ResearchRow[],
   forecasts: ForecastRow[],
   news: NewsRow[],
+  eventImpacts: EventImpactRow[],
 ) {
   const lead = research[0]
   const forecast = lead ? forecasts.find((item) => item.asset_id === lead.market_asset_id) : forecasts[0]
@@ -135,6 +156,13 @@ function responseCopy(
   const evidenceGap = research.length === 0 && forecasts.length === 0
     ? ' No display-qualified stock research or forecasts were available, so I will not infer a direction.'
     : ''
+  const strongestEvent = eventImpacts.filter((item) => item.terminal_edge).sort(
+    (left, right) => ((numeric(right.probability) ?? 0) * (numeric(right.confidence_score) ?? 0)) -
+      ((numeric(left.probability) ?? 0) * (numeric(left.confidence_score) ?? 0)),
+  )[0]
+  const eventCopy = strongestEvent
+    ? ` The global event graph contributes ${eventImpacts.length} causal edges; its strongest in-scope terminal scenario is ${readable(strongestEvent.impact_direction)} for ${strongestEvent.target_symbol ?? 'the affected market'} at ${rounded((numeric(strongestEvent.probability) ?? 0) * 100, 0)}% scenario probability and ${rounded((numeric(strongestEvent.confidence_score) ?? 0) * 100, 0)}% evidence confidence.`
+    : ' No eligible global event impact path is available, so I will not infer an event-driven effect.'
 
   if (mode === 'stock_analysis' && lead) {
     const base = `${lead.display_symbol} (${lead.company_name}) has a current research classification of ${readable(lead.research_classification)} with a score of ${rounded(numeric(lead.research_score), 0)} out of 100. The latest observed price is ${rounded(numeric(lead.price), 2)}, and its recorded move is ${rounded(numeric(lead.change_percent), 2)}%.`
@@ -150,17 +178,17 @@ function responseCopy(
     const newsCopy = strongestNews
       ? ` ${relevantNews.length} normalized news signals are in scope; the highest-relevance signal is ${readable(strongestNews.impact_direction)} with sentiment ${rounded(numeric(strongestNews.sentiment_score), 2)} from ${strongestNews.source_name}.`
       : ' No eligible normalized news signal is available for this stock, so news impact is not inferred.'
-    return personalizeCopy(`${base}${forecastCopy}${riskCopy}${newsCopy}${syntheticNotice}`, preferences)
+    return personalizeCopy(`${base}${forecastCopy}${riskCopy}${newsCopy}${eventCopy}${syntheticNotice}`, preferences)
   }
 
   if (mode === 'risk_review') {
     const flags = research.flatMap((item) => strings(item.risk_flags).map((flag) => `${item.display_symbol}: ${flag}`))
     const negativeNews = news.filter((item) => numeric(item.sentiment_score) !== null && Number(item.sentiment_score) < -0.2)
-    return personalizeCopy(`I reviewed ${research.length} covered stocks, ${forecasts.length} governed forecasts and ${news.length} normalized news signals through a ${preferences.risk_lens} risk lens. ${flags.length ? `Priority methodology flags are ${flags.slice(0, 4).join('; ')}.` : 'No explicit methodology flags are present in the current snapshot.'} ${negativeNews.length} news signals cross the negative-sentiment review threshold. This is a research risk review, not a suitability decision.${syntheticNotice}${evidenceGap}`, preferences)
+    return personalizeCopy(`I reviewed ${research.length} covered stocks, ${forecasts.length} governed forecasts, ${news.length} normalized news signals and ${eventImpacts.length} causal event edges through a ${preferences.risk_lens} risk lens. ${flags.length ? `Priority methodology flags are ${flags.slice(0, 4).join('; ')}.` : 'No explicit methodology flags are present in the current snapshot.'} ${negativeNews.length} news signals cross the negative-sentiment review threshold.${eventCopy} This is a research risk review, not a suitability decision.${syntheticNotice}${evidenceGap}`, preferences)
   }
 
   if (mode === 'report_builder') {
-    return personalizeCopy(`Your preferred report combines ${preferences.report_sections.map(readable).join(', ')} in ${preferences.default_currency}, using a ${preferences.default_horizon} horizon and ${preferences.assistant_style} explanations. I found ${research.length} covered stocks, ${forecasts.length} governed forecasts and ${news.length} eligible news signals for the current evidence snapshot. Save a report definition to reuse these choices.${syntheticNotice}${evidenceGap}`, preferences)
+    return personalizeCopy(`Your preferred report combines ${preferences.report_sections.map(readable).join(', ')} in ${preferences.default_currency}, using a ${preferences.default_horizon} horizon and ${preferences.assistant_style} explanations. I found ${research.length} covered stocks, ${forecasts.length} governed forecasts, ${news.length} eligible news signals and ${eventImpacts.length} causal event edges for the current evidence snapshot. Save a report definition to reuse these choices.${eventCopy}${syntheticNotice}${evidenceGap}`, preferences)
   }
 
   const positive = research.filter((item) => item.research_classification === 'research_positive').length
@@ -169,7 +197,7 @@ function responseCopy(
     summary[item.direction] = (summary[item.direction] ?? 0) + 1
     return summary
   }, {})
-  return personalizeCopy(`The grounded market brief covers ${research.length} stocks: ${positive} research-positive and ${cautious} research-cautious. Governed forecasts currently show ${directional.up ?? 0} up, ${directional.down ?? 0} down and ${directional.flat ?? 0} flat classifications. ${news.length} normalized global-news signals are visible across your selected evidence scope.${syntheticNotice}${evidenceGap}`, preferences)
+  return personalizeCopy(`The grounded market brief covers ${research.length} stocks: ${positive} research-positive and ${cautious} research-cautious. Governed forecasts currently show ${directional.up ?? 0} up, ${directional.down ?? 0} down and ${directional.flat ?? 0} flat classifications. ${news.length} normalized global-news signals are visible across your selected evidence scope.${eventCopy}${syntheticNotice}${evidenceGap}`, preferences)
 }
 
 Deno.serve(observeEdgeHandler('agentic-investing', async (request) => {
@@ -315,11 +343,12 @@ Deno.serve(observeEdgeHandler('agentic-investing', async (request) => {
       forecastQuery = forecastQuery.in('asset_id', assetIds)
     }
 
-    const [researchResult, forecastResult, newsResult] = await Promise.all([
+    const [researchResult, forecastResult, newsResult, eventImpactResult] = await Promise.all([
       researchQuery, forecastQuery,
       admin.from('global_news_signal_catalog').select('*').order('published_at', { ascending: false }).limit(20),
+      admin.from('global_event_impact_graph').select('*').order('source_published_at', { ascending: false }).limit(40),
     ])
-    const queryError = researchResult.error ?? forecastResult.error ?? newsResult.error
+    const queryError = researchResult.error ?? forecastResult.error ?? newsResult.error ?? eventImpactResult.error
     if (queryError) throw queryError
     const research = (researchResult.data ?? []) as ResearchRow[]
     const forecasts = (forecastResult.data ?? []) as ForecastRow[]
@@ -327,15 +356,28 @@ Deno.serve(observeEdgeHandler('agentic-investing', async (request) => {
       (assetIds.length === 0 || item.asset_id === null || assetIds.includes(item.asset_id)) &&
       (preferences.preferred_regions.includes('GLOBAL') || preferences.preferred_regions.includes(item.region_code)),
     ).slice(0, 10)
+    const availableEventImpacts = (eventImpactResult.data ?? []) as EventImpactRow[]
+    const assetScopedEventIds = new Set(availableEventImpacts.filter((item) =>
+      item.terminal_edge && item.target_asset_id !== null && assetIds.includes(item.target_asset_id),
+    ).map((item) => item.event_id))
+    const eventImpacts = availableEventImpacts.filter((item) =>
+      (
+        assetIds.length === 0 ||
+        (assetScopedEventIds.has(item.event_id) &&
+          (item.target_asset_id === null || assetIds.includes(item.target_asset_id)))
+      ) &&
+      (preferences.preferred_regions.includes('GLOBAL') || preferences.preferred_regions.includes(item.region_code)),
+    ).slice(0, 16)
 
     const evidence = [
       ...research.map((item) => ({ type: 'research', assetId: item.market_asset_id, symbol: item.display_symbol, observedAt: item.research_generated_at ?? item.observed_at })),
       ...forecasts.map((item) => ({ type: 'forecast', assetId: item.asset_id, symbol: item.symbol, observedAt: item.generated_at, model: `${item.model_name}@${item.model_version}` })),
       ...news.map((item) => ({ type: 'news_signal', assetId: item.asset_id, symbol: item.symbol, observedAt: item.published_at, source: item.source_name, sourceReference: item.source_reference, synthetic: item.synthetic })),
+      ...eventImpacts.map((item) => ({ type: 'global_event_impact', eventId: item.event_id, eventType: item.event_type, assetId: item.target_asset_id, symbol: item.target_symbol, observedAt: item.source_published_at, probability: numeric(item.probability), confidence: numeric(item.confidence_score), synthetic: item.synthetic })),
     ]
-    const answer = responseCopy(mode, preferences, research, forecasts, news)
+    const answer = responseCopy(mode, preferences, research, forecasts, news, eventImpacts)
     const dataCutoff = evidence.map((item) => item.observedAt).filter(Boolean).sort().at(-1) ?? new Date().toISOString()
-    const agents = ['planner', 'news_analyst', 'forecast_analyst', 'risk_analyst', ...(mode === 'report_builder' ? ['report_builder'] : []), 'safety_reviewer']
+    const agents = ['planner', 'news_analyst', 'event_intelligence_analyst', 'forecast_analyst', 'risk_analyst', ...(mode === 'report_builder' ? ['report_builder'] : []), 'safety_reviewer']
     const response = {
       answer, agents, evidence,
       disclaimer: 'Probabilistic research support only—not financial advice, a suitability decision, or an order instruction.',
@@ -351,7 +393,7 @@ Deno.serve(observeEdgeHandler('agentic-investing', async (request) => {
     const writes = await Promise.all([
       admin.from('agentic_run_steps').insert(stepRows),
       admin.from('agentic_runs').update({
-        status: 'completed', source_snapshot: { assetIds, dataCutoff },
+        status: 'completed', source_snapshot: { assetIds, dataCutoff, globalEventImpactCount: eventImpacts.length },
         evidence_count: evidence.length, response_payload: response, completed_at: completedAt,
       }).eq('id', runId),
       admin.from('agentic_messages').insert({

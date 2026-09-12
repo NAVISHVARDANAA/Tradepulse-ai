@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type VERIFY_DATA_PHASE_8E for the agentic investing workspace candidate
+        description: Type VERIFY_DATA_PHASE_8F for the global event intelligence candidate
         required: true
         type: string
 
@@ -39,8 +39,8 @@ jobs:
           VERIFICATION_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$VERIFICATION_CONFIRMATION" = "VERIFY_DATA_PHASE_8E" || {
-            echo "Verification confirmation did not match VERIFY_DATA_PHASE_8E."
+          test "$VERIFICATION_CONFIRMATION" = "VERIFY_DATA_PHASE_8F" || {
+            echo "Verification confirmation did not match VERIFY_DATA_PHASE_8F."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -69,13 +69,13 @@ jobs:
       - name: Install the repository-pinned Supabase CLI
         run: npm ci
 
-      - name: Verify migration 049 and remote migration parity
+      - name: Verify migration 050 and remote migration parity
         run: |
           set -eu
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])049([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])050([^0-9]|$)' migration-list.txt
           npx --no-install supabase db push \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" \
@@ -209,6 +209,14 @@ jobs:
             --linked \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --file supabase/tests/production/agentic_investing_workspace_smoke.sql
+
+      - name: Verify global event intelligence production boundary
+        run: |
+          bash scripts/assert-read-only-sql.sh supabase/tests/production/global_event_intelligence_engine_smoke.sql
+          npx --no-install supabase db query \
+            --linked \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --file supabase/tests/production/global_event_intelligence_engine_smoke.sql
 
       - name: Verify the deployed Edge Function
         run: |
@@ -606,7 +614,8 @@ jobs:
             echo "## Supabase production verification"
             echo
             echo "- Commit: \`$GITHUB_SHA\`"
-            echo "- Migration history: synchronized through 049"
+            echo "- Migration history: synchronized through 050"
+            echo "- Global event intelligence: authenticity gates, causal scenarios, explicit country gaps and private in-app alerts verified; live sources and autonomous publication remain blocked"
             echo "- Agentic investing workspace: private reports and grounded evidence verified; external LLMs, model self-promotion and autonomous execution remain blocked"
             echo "- Global brokerage and custody orchestration: exact launch matrices, evidence rehearsals, cost previews and independent reconciliation verified; activation remains blocked"
             echo "- International paper trading: deterministic venue, FX, cost, lot and ledger simulation verified"
