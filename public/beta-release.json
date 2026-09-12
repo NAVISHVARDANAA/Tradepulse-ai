@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "8D",
-  "status": "global_brokerage_custody_candidate",
+  "phase": "8E",
+  "status": "agentic_investing_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -43,7 +43,8 @@
       "globalAccess",
       "internationalPaper",
       "optionsPaper",
-      "globalBrokerageCustody"
+      "globalBrokerageCustody",
+      "agenticInvesting"
     ]
   },
   "trustLayer": {
@@ -89,6 +90,7 @@
     "check:international-paper-trading",
     "check:options-paper-trading",
     "check:global-brokerage-custody",
+    "check:agentic-investing",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -111,7 +113,8 @@
     "funding-custody-settlement-and-market-data-approvals",
     "written-corridor-legal-compliance-security-and-partner-approvals",
     "safeguarding-treasury-reconciliation-and-customer-redress-approvals",
-    "observed-risk-monitoring-reconciliation-and-kill-switch-drills"
+    "observed-risk-monitoring-reconciliation-and-kill-switch-drills",
+    "licensed-news-rights-and-model-promotion-review"
   ],
   "betaHardening": {
     "workspaceEnabled": true,
@@ -394,6 +397,33 @@
     "crossBorderFundingLinkEnabled": false,
     "liveOrderRoutingEnabled": false,
     "automaticActivationEnabled": false
+  },
+  "agenticInvesting": {
+    "workspaceEnabled": true,
+    "topLevelAccountAccess": true,
+    "privateConversationHistory": true,
+    "serverStoredReportDefinitions": true,
+    "customAssistantStyle": true,
+    "customRiskLens": true,
+    "customForecastHorizon": true,
+    "customReportingCurrency": true,
+    "coordinatedAgentRoleCount": 7,
+    "normalizedNewsSignalCount": 4,
+    "groundedResponsesRequired": true,
+    "citationsRequired": true,
+    "continuousCandidateTrainingEnabled": true,
+    "licensedNewsFeaturesSupported": true,
+    "walkForwardValidationRequired": true,
+    "leakageGapRequired": true,
+    "costAwareBacktestRequired": true,
+    "humanModelPromotionRequired": true,
+    "promptTrainingDefaultOptIn": false,
+    "rawNewsStorageEnabled": false,
+    "externalLlmConnected": false,
+    "productionNewsProviderConnected": false,
+    "directSelfPromotionEnabled": false,
+    "autonomousTradeExecutionEnabled": false,
+    "customerFundingEnabled": false
   },
   "globalVenueInstrumentIntelligence": {
     "workspaceEnabled": true,

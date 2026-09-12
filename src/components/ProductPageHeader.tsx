@@ -40,6 +40,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Explore reusable semantic KPIs with slicers, cross-filtering, drill-through, saved views, export and visible source lineage.',
     boundary: 'Certified metrics',
   },
+  '#agentic-ai': {
+    eyebrow: 'Personal agentic intelligence',
+    title: 'TradePulse Agent workspace',
+    description: 'Coordinate grounded market, news, forecast and risk agents, then save account-level analysis and reusable report designs.',
+    boundary: 'Human-governed · no execution',
+  },
   '#global-access': {
     eyebrow: 'Global market intelligence',
     title: 'Venue and instrument access map',

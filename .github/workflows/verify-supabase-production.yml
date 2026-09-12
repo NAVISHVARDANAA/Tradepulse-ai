@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type VERIFY_DATA_PHASE_8D for the global brokerage and custody orchestration candidate
+        description: Type VERIFY_DATA_PHASE_8E for the agentic investing workspace candidate
         required: true
         type: string
 
@@ -39,8 +39,8 @@ jobs:
           VERIFICATION_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$VERIFICATION_CONFIRMATION" = "VERIFY_DATA_PHASE_8D" || {
-            echo "Verification confirmation did not match VERIFY_DATA_PHASE_8D."
+          test "$VERIFICATION_CONFIRMATION" = "VERIFY_DATA_PHASE_8E" || {
+            echo "Verification confirmation did not match VERIFY_DATA_PHASE_8E."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -69,13 +69,13 @@ jobs:
       - name: Install the repository-pinned Supabase CLI
         run: npm ci
 
-      - name: Verify migration 048 and remote migration parity
+      - name: Verify migration 049 and remote migration parity
         run: |
           set -eu
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])048([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])049([^0-9]|$)' migration-list.txt
           npx --no-install supabase db push \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" \
@@ -202,6 +202,14 @@ jobs:
             --project-ref "$SUPABASE_PROJECT_REF" \
             --file supabase/tests/production/global_brokerage_custody_orchestration_smoke.sql
 
+      - name: Verify personalized agentic investing production boundary
+        run: |
+          bash scripts/assert-read-only-sql.sh supabase/tests/production/agentic_investing_workspace_smoke.sql
+          npx --no-install supabase db query \
+            --linked \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --file supabase/tests/production/agentic_investing_workspace_smoke.sql
+
       - name: Verify the deployed Edge Function
         run: |
           set -eu
@@ -275,6 +283,7 @@ jobs:
             manage-international-paper \
             manage-options-paper \
             manage-global-brokerage-custody \
+            run-investing-agent \
             sync-fx-market-data \
             generate-market-forecasts \
             sync-equity-market-data \
@@ -350,6 +359,23 @@ jobs:
             "https://${SUPABASE_PROJECT_REF}.supabase.co/functions/v1/manage-global-brokerage-custody")"
           test "$status_code" = "401" || {
             echo "Expected unauthenticated global brokerage and custody action to return 401; received $status_code."
+            exit 1
+          }
+
+      - name: Verify unauthenticated investing-agent requests remain blocked
+        run: |
+          set -eu
+          status_code="$(curl \
+            --silent \
+            --show-error \
+            --output investing-agent-response.json \
+            --write-out '%{http_code}' \
+            --request POST \
+            --header 'Content-Type: application/json' \
+            --data '{}' \
+            "https://${SUPABASE_PROJECT_REF}.supabase.co/functions/v1/run-investing-agent")"
+          test "$status_code" = "401" || {
+            echo "Expected unauthenticated investing-agent request to return 401; received $status_code."
             exit 1
           }
 
@@ -580,7 +606,8 @@ jobs:
             echo "## Supabase production verification"
             echo
             echo "- Commit: \`$GITHUB_SHA\`"
-            echo "- Migration history: synchronized through 048"
+            echo "- Migration history: synchronized through 049"
+            echo "- Agentic investing workspace: private reports and grounded evidence verified; external LLMs, model self-promotion and autonomous execution remain blocked"
             echo "- Global brokerage and custody orchestration: exact launch matrices, evidence rehearsals, cost previews and independent reconciliation verified; activation remains blocked"
             echo "- International paper trading: deterministic venue, FX, cost, lot and ledger simulation verified"
             echo "- Global venue, listing, calendar, entitlement and residency reference: verified"

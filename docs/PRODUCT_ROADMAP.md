@@ -951,7 +951,29 @@ exact matrix. Production credentials alone cannot enable an instrument or
 market, payment quotes cannot become brokerage cash, and live connectivity,
 funding, custody, routing and settlement remain database-locked off.
 
-### Phase 8E — controlled international live rollout
+### Phase 8E — personalized agentic investing workspace (implemented foundation)
+
+- A top-level account experience provides private agent conversations,
+  account-scoped preferences and server-stored reusable report definitions.
+- A grounded orchestrator coordinates market, news, forecast, risk, reporting
+  and safety roles with evidence references and an explicit data cutoff.
+- Customers can customize answer depth, risk lens, horizon, currency, subject,
+  report sections and cadence without weakening common evidence controls.
+- Forecast candidates add time-bounded normalized news features with strict
+  no-future-data tests, walk-forward validation, leakage gaps and cost-aware
+  backtesting.
+- Prompt training is off by default, synthetic news is never training eligible,
+  and every model promotion requires human review. No agent can place a trade,
+  move money or silently promote itself.
+
+**Phase 8E exit gate:** green agentic-investing, forecasting, route-aware,
+database, Edge Function, browser, security, bundle and release contracts;
+reviewed `DEPLOY_DATA_PHASE_8E`; read-only `VERIFY_DATA_PHASE_8E`; successful
+`BUILD_PHASE_8E`; reviewed `DEPLOY_PHASE_8E`; and read-only
+`VERIFY_WEB_PHASE_8E` evidence. A licensed news provider, content rights and any
+external model provider remain separately approved prerequisites.
+
+### Phase 8F — controlled international live rollout
 
 - Launch begins with small approved customer cohorts and cash equities on named
   venues, with conservative notional, concentration, velocity and funding
@@ -968,7 +990,7 @@ funding, custody, routing and settlement remain database-locked off.
   never markets universal access when law, sanctions, licensing, tax rules,
   market-data rights or partner coverage restrict availability.
 
-**Phase 8E exit gate:** the exact country-market-product cohort has signed
+**Phase 8F exit gate:** the exact country-market-product cohort has signed
 approval, observed operational drills, reconciled production evidence and a
 tested rollback. Approval for one market never activates another market,
 country, payment corridor or options permission.

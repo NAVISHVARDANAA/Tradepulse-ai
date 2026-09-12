@@ -13,11 +13,11 @@ from sklearn.metrics import mean_absolute_error
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
-from .features import annualized_volatility, build_feature_dataset
+from .features import NewsSignal, annualized_volatility, build_feature_dataset
 
 
-MODEL_NAME = "ridge-histgb-ensemble"
-MODEL_VERSION = "1.0.0"
+MODEL_NAME = "ridge-histgb-news-ensemble"
+MODEL_VERSION = "1.1.0"
 
 
 @dataclass(frozen=True)
@@ -134,7 +134,11 @@ class ForecastEngine:
             ),
         }
 
-    def forecast(self, observations: Sequence[Observation]) -> ForecastResult:
+    def forecast(
+        self,
+        observations: Sequence[Observation],
+        news_signals: Sequence[NewsSignal] = (),
+    ) -> ForecastResult:
         if any(item.observed_at.tzinfo is None for item in observations):
             raise ValueError("observation timestamps must include a timezone")
 
@@ -164,7 +168,7 @@ class ForecastEngine:
                 "observation frequency does not match the configured forecast horizon",
             )
 
-        dataset = build_feature_dataset(prices, timestamps)
+        dataset = build_feature_dataset(prices, timestamps, news_signals=news_signals)
         predictions: dict[str, np.ndarray] = {
             name: np.full(dataset.targets.shape, np.nan, dtype=float)
             for name in self._models
@@ -295,6 +299,9 @@ class ForecastEngine:
                 "cost_adjusted_max_drawdown": backtest.max_drawdown,
                 "estimated_turnover": backtest.turnover,
                 "transaction_cost_bps": 10.0,
+                "news_feature_version": "normalized-news-v1",
+                "news_signal_count": len(news_signals),
+                "news_features_training_eligible_only": True,
                 "qualified_for_display": validation_status == "passed",
             },
         )

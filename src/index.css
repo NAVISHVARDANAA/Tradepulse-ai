@@ -9873,3 +9873,89 @@ html[data-theme='light'] .global-custody-case-form select,html[data-theme='light
   .global-custody-reconciliation { grid-template-columns:1fr; }
   .global-custody-reconciliation > div:nth-child(2) { text-align:left; }
 }
+
+/* Phase 8E: private agentic investing workspace */
+.topbar-account-cluster { display:flex;align-items:center;gap:.55rem; }
+.account-menu { position:relative;display:inline-flex;align-items:center;gap:.4rem;min-height:38px;padding:.45rem .7rem;color:#dbeafe;border:1px solid var(--border);border-radius:999px;background:rgba(15,23,42,.72);font-size:.76rem;font-weight:700;text-decoration:none; }
+.account-menu.loading { color:var(--muted); }
+.account-menu summary { display:flex;align-items:center;gap:.4rem;cursor:pointer;list-style:none; }
+.account-menu summary::-webkit-details-marker { display:none; }
+.account-menu-popover { position:absolute;right:0;top:calc(100% + .65rem);z-index:90;display:grid;min-width:250px;padding:.75rem;border:1px solid var(--border);border-radius:.85rem;background:#0d1a2b;box-shadow:var(--shadow); }
+.account-menu-popover small { color:var(--muted); }
+.account-menu-popover strong { margin:.15rem 0 .55rem;overflow-wrap:anywhere;font-size:.82rem; }
+.account-menu-popover a,.account-menu-popover button { display:flex;align-items:center;gap:.4rem;min-height:40px;padding:.5rem .6rem;color:#dbeafe;border:0;border-radius:.55rem;background:transparent;font:inherit;font-size:.78rem;text-align:left;text-decoration:none;cursor:pointer; }
+.account-menu-popover a:hover,.account-menu-popover button:hover { background:rgba(79,70,229,.2); }
+
+.agentic-panel { display:grid;gap:1rem; }
+.agentic-signin-card,.agentic-control-strip { display:flex;align-items:center;gap:.8rem;padding:1rem;border:1px solid rgba(56,189,248,.25);border-radius:.9rem;background:rgba(14,116,144,.08); }
+.agentic-signin-card > div { display:grid;gap:.25rem;flex:1; }
+.agentic-signin-card span { color:var(--muted);font-size:.8rem; }
+.agentic-signin-card .primary-button { text-decoration:none;white-space:nowrap; }
+.agentic-control-strip { display:grid;grid-template-columns:repeat(4,minmax(0,1fr)); }
+.agentic-control-strip span { display:flex;align-items:center;gap:.45rem;color:#bae6fd;font-size:.75rem; }
+.agentic-control-strip svg { color:#38bdf8;flex:0 0 auto; }
+.agentic-workspace-grid { display:grid;grid-template-columns:minmax(0,1.5fr) minmax(310px,.7fr);gap:1rem;align-items:start; }
+.agentic-chat-card,.agentic-settings-card,.agentic-evidence-grid > section { display:grid;gap:.9rem;padding:1rem;border:1px solid var(--border);border-radius:1rem;background:rgba(15,23,42,.52); }
+.agentic-card-heading { display:flex;align-items:center;justify-content:space-between;gap:.7rem; }
+.agentic-card-heading > div { display:flex;align-items:center;gap:.5rem;font-weight:800; }
+.agentic-card-heading svg { color:#38bdf8; }
+.agentic-card-heading small { color:var(--muted);font-size:.7rem; }
+.agentic-quick-prompts { display:flex;flex-wrap:wrap;gap:.45rem; }
+.agentic-quick-prompts button { min-height:34px;padding:.35rem .65rem;color:#bae6fd;border:1px solid rgba(56,189,248,.22);border-radius:999px;background:rgba(14,116,144,.1);font:inherit;font-size:.7rem;cursor:pointer; }
+.agentic-thread { display:grid;align-content:start;gap:.65rem;min-height:260px;max-height:480px;overflow:auto;padding:.75rem;border:1px solid rgba(148,163,184,.12);border-radius:.85rem;background:rgba(2,6,23,.38); }
+.agentic-empty-message { display:grid;place-items:center;align-content:center;gap:.35rem;min-height:230px;color:var(--muted);text-align:center; }
+.agentic-empty-message svg { color:#38bdf8; }
+.agentic-empty-message span { max-width:420px;font-size:.76rem;line-height:1.5; }
+.agent-message { display:grid;gap:.35rem;max-width:88%;padding:.7rem .8rem;border:1px solid var(--border);border-radius:.85rem;background:rgba(30,41,59,.72); }
+.agent-message.user { justify-self:end;background:rgba(79,70,229,.15);border-color:rgba(129,140,248,.25); }
+.agent-message.assistant { justify-self:start;background:rgba(14,116,144,.1);border-color:rgba(56,189,248,.22); }
+.agent-message > div { display:flex;align-items:center;justify-content:space-between;gap:1rem; }
+.agent-message small,.agent-message > span { color:var(--muted);font-size:.65rem; }
+.agent-message p { margin:0;color:#e2e8f0;font-size:.8rem;line-height:1.55;white-space:pre-wrap; }
+.agentic-prompt-form { display:grid;gap:.7rem; }
+.agentic-prompt-controls,.agentic-form-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.65rem; }
+.agentic-prompt-form label,.agentic-settings-card label { display:grid;gap:.35rem;color:var(--muted);font-size:.72rem;font-weight:700; }
+.agentic-prompt-form select,.agentic-prompt-form textarea,.agentic-settings-card select,.agentic-settings-card input:not([type='checkbox']) { width:100%;min-height:42px;padding:.6rem .7rem;color:var(--text);border:1px solid var(--border);border-radius:.65rem;background:#0b1627;font:inherit; }
+.agentic-prompt-form textarea { resize:vertical;line-height:1.45; }
+.agentic-prompt-form select:focus,.agentic-prompt-form textarea:focus,.agentic-settings-card select:focus,.agentic-settings-card input:focus { border-color:rgba(56,189,248,.65);box-shadow:0 0 0 3px rgba(56,189,248,.1);outline:0; }
+.agentic-submit-row { display:flex;align-items:center;justify-content:space-between;gap:.7rem; }
+.agentic-submit-row small { color:var(--muted);font-size:.68rem; }
+.agentic-settings-stack { display:grid;gap:1rem; }
+.agentic-consent-row { display:grid!important;grid-template-columns:auto 1fr;align-items:start;gap:.55rem!important;padding:.65rem;border:1px solid rgba(148,163,184,.12);border-radius:.7rem;background:rgba(2,6,23,.24);font-weight:500!important;line-height:1.45; }
+.agentic-consent-row input { margin-top:.15rem; }
+.agentic-section-picker { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem;margin:0;padding:.7rem;border:1px solid rgba(148,163,184,.13);border-radius:.7rem; }
+.agentic-section-picker legend { padding:0 .3rem;color:var(--muted);font-size:.7rem;font-weight:700; }
+.agentic-section-picker label { display:flex;align-items:center;gap:.4rem;font-weight:500; }
+.agentic-evidence-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem; }
+.agentic-news-list { display:grid;gap:.6rem; }
+.agentic-news-list article,.agentic-model-card { display:grid;gap:.35rem;padding:.75rem;border:1px solid rgba(148,163,184,.12);border-radius:.75rem;background:rgba(2,6,23,.28); }
+.agentic-news-list article > div { display:flex;align-items:center;justify-content:space-between;gap:.7rem; }
+.agentic-news-list p,.agentic-model-card p,.agentic-boundary-note { margin:0;color:#cbd5e1;font-size:.75rem;line-height:1.48; }
+.agentic-news-list small,.agentic-model-card small { color:var(--muted);font-size:.66rem; }
+.agentic-impact { padding:.2rem .45rem;border-radius:999px;background:rgba(148,163,184,.1);color:var(--muted);font-size:.62rem; }
+.agentic-impact.positive { color:#6ee7b7;background:rgba(16,185,129,.1); }
+.agentic-impact.negative { color:#fca5a5;background:rgba(239,68,68,.1); }
+.agentic-impact.mixed { color:#fcd34d;background:rgba(245,158,11,.1); }
+.agentic-model-card > span { color:var(--muted);font-size:.68rem;text-transform:uppercase; }
+.agentic-boundary-note { padding:.75rem;border-left:3px solid #38bdf8;background:rgba(14,116,144,.08); }
+.agent-message-evidence { display:flex;flex-wrap:wrap;gap:.3rem .55rem;color:var(--muted);font-size:.72rem; }
+.agent-message-evidence > span { flex-basis:100%; }
+.agent-message-evidence small { border:1px solid var(--border);border-radius:999px;padding:.18rem .45rem; }
+
+html[data-theme='light'] .account-menu,html[data-theme='light'] .account-menu-popover,html[data-theme='light'] .agentic-chat-card,html[data-theme='light'] .agentic-settings-card,html[data-theme='light'] .agentic-evidence-grid > section { color:#102033;background:#fff;border-color:#b9cadb; }
+html[data-theme='light'] .account-menu-popover a,html[data-theme='light'] .account-menu-popover button,html[data-theme='light'] .agent-message p { color:#102033; }
+html[data-theme='light'] .agentic-prompt-form select,html[data-theme='light'] .agentic-prompt-form textarea,html[data-theme='light'] .agentic-settings-card select,html[data-theme='light'] .agentic-settings-card input:not([type='checkbox']) { color:#102033;background:#fff; }
+
+@media (max-width: 1080px) {
+  .agentic-control-strip { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .agentic-workspace-grid { grid-template-columns:1fr; }
+}
+
+@media (max-width: 720px) {
+  .topbar-account-cluster .environment-pill { display:none; }
+  .account-menu > span,.account-menu summary span { display:none; }
+  .account-menu-popover { position:fixed;top:78px;right:14px;left:14px; }
+  .agentic-signin-card,.agentic-submit-row { align-items:stretch;flex-direction:column; }
+  .agentic-control-strip,.agentic-evidence-grid,.agentic-prompt-controls,.agentic-form-grid,.agentic-section-picker { grid-template-columns:1fr; }
+  .agent-message { max-width:96%; }
+}

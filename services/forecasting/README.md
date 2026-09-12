@@ -8,7 +8,8 @@ registry.
 
 - Forecast target: next-observation log return.
 - Features: lagged returns, price-to-moving-average gaps, momentum, rolling
-  volatility, drawdown, RSI-style strength and UTC calendar cycles.
+  volatility, drawdown, RSI-style strength, UTC calendar cycles and optional
+  time-bounded normalized-news sentiment, volume, shock and freshness.
 - Models: standardized Ridge regression and histogram gradient boosting.
 - Validation: expanding-window folds with a one-observation gap.
 - Baseline: zero-return forecast.
@@ -21,6 +22,9 @@ registry.
 - Production governance: each successful run invokes the service-only database
   evaluator for matured forecasts. Rolling production evidence can qualify,
   watch or suspend a model version independently of its training validation.
+- News boundary: the worker reads only non-synthetic, training-eligible signals
+  published no later than the latest observation in the training snapshot.
+  Production provider connectivity and training rights must be approved first.
 
 Failed and unqualified runs remain in the database for auditability. The web
 application only displays forecasts that pass validation and are not suspended

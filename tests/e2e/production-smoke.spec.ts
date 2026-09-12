@@ -15,6 +15,7 @@ const publicWorkspaces = [
   ['#international-paper', 'International paper trading lab'],
   ['#options-paper', 'Defined-risk options paper lab'],
   ['#brokerage-custody', 'Brokerage and custody control plane'],
+  ['#agentic-ai', 'TradePulse Agent workspace'],
   ['#risk-command-center', 'Risk command center'],
   ['#regulated-preflight', 'Preflight evidence review'],
   ['#sandbox-orders', 'Sandbox order lifecycle'],
@@ -141,6 +142,11 @@ test('production execution boundaries remain closed to guests', async ({ page })
   await expect(page.getByText(/A payment quote cannot become brokerage cash/)).toBeVisible()
   await expect(page.getByText('Your onboarding and preview rehearsals are private')).toBeVisible()
   await expect(page.getByRole('button', { name: /create review|record evidence|generate blocked|rehearse reconciliation|activate|route|fund|execute/i })).toHaveCount(0)
+
+  await page.goto('/#agentic-ai', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByText('Account required')).toBeVisible()
+  await expect(page.getByText(/conversations, report designs and preferences are private/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /run grounded agents|save preferences|save reusable report/i })).toHaveCount(0)
 
   await page.goto('/#account-security', { waitUntil: 'domcontentloaded' })
   await expect(page.getByText(/Controlled-beta access is limited to approved email addresses/)).toBeVisible()

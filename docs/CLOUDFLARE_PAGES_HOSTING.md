@@ -31,28 +31,28 @@ is intentionally public and is still constrained by RLS and server-side auth.
 After this PR is merged and all `main` checks pass:
 
 1. Open **Actions → Deploy Supabase production**, choose `main`, enter
-   `DEPLOY_DATA_PHASE_8D` and wait for it to pass.
+   `DEPLOY_DATA_PHASE_8E` and wait for it to pass.
 2. Run **Verify Supabase production** on `main` with
-   `VERIFY_DATA_PHASE_8D` and retain the read-only evidence.
+   `VERIFY_DATA_PHASE_8E` and retain the read-only evidence.
 3. Open **Actions → Build production web release**, choose `main`, enter
-   `BUILD_PHASE_8D` and record the green brokerage-and-custody web artifact.
+   `BUILD_PHASE_8E` and record the green agentic-investing web artifact.
 4. Open **Actions → Deploy controlled beta web**, choose `main`, enter
-   `DEPLOY_PHASE_8D` and approve the protected production environment.
+   `DEPLOY_PHASE_8E` and approve the protected production environment.
 5. Record the immutable commit, workflow run and Cloudflare deployment URL from
    the job summary. The workflow verifies HTTPS, browser security headers, the
    release manifest and every hard lock after upload. It then runs desktop and
    mobile production browser checks across the public workspaces, Analytics
    interactions, console/network failures and guest execution locks.
 6. After a release or operational incident, open **Actions → Verify web
-   production**, choose `main`, enter `VERIFY_WEB_PHASE_8D` and retain the green
+   production**, choose `main`, enter `VERIFY_WEB_PHASE_8E` and retain the green
    production-browser report.
 7. Do not invite testers yet. Choose and validate the final domain, configure
    its exact Supabase Auth site URL and redirect allow-list, then complete the
    remaining launch prerequisites in `docs/BETA_RELEASE_CANDIDATE.md`.
 
-Deploy and verify migration 048 with the Phase 8D data gates before deploying
-the web workspace. Brokerage and custody launch matrices, evidence, cost
-previews and reconciliation are fail-closed rehearsals. The product cannot
-activate a market, connect a partner, link cross-border payments to brokerage
-cash, route an order, accept real funds, hold assets or settle a trade. Every
-Phase 7E payment and money-movement lock remains unchanged.
+Deploy and verify migration 049 with the Phase 8E data gates before deploying
+the web workspace. Agent conversations and report definitions are private;
+news fixtures are synthetic and excluded from training; production news and
+external LLM providers remain disconnected; and models cannot self-promote.
+The product still cannot route an order, move money, accept real funds, hold
+assets or settle a trade.
