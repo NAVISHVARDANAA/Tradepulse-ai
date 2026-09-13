@@ -279,7 +279,7 @@ from public.controlled_live_rollout_controls control;
 create view public.controlled_live_rollout_cohort_catalog with (security_invoker=true) as
 select cohort.id cohort_id, cohort.cohort_key, cohort.cohort_label,
   cohort.residency_country, cohort.execution_jurisdiction, cohort.mic_code,
-  venue.name venue_name, cohort.settlement_currency, cohort.account_type,
+  venue.venue_name, cohort.settlement_currency, cohort.account_type,
   cohort.asset_class, cohort.allowed_order_types, cohort.maximum_customer_count,
   cohort.approval_status, cohort.activation_status,
   (select count(*) from public.controlled_live_rollout_scope_decisions d where d.cohort_id=cohort.id)::integer scope_decision_count,
