@@ -88,6 +88,42 @@ async function mockGuestBackend(page: Page) {
       })
       return
     }
+    if (path === '/rest/v1/controlled_live_rollout_status') {
+      await route.fulfill({ status:200,contentType:'application/json',body:JSON.stringify({
+        policy_version:'controlled-live-rollout-v1',candidate_cohort_count:3,live_cohort_count:0,
+        requirement_count:18,drill_template_count:4,observed_drill_count:0,
+      }) }); return
+    }
+    if (path === '/rest/v1/controlled_live_rollout_cohort_catalog') {
+      await route.fulfill({ status:200,contentType:'application/json',body:JSON.stringify([{
+        cohort_key:'IN:XNSE:CASH:EQUITY:COHORT-01',cohort_label:'India cash-equity candidate',
+        residency_country:'IN',mic_code:'XNSE',venue_name:'National Stock Exchange of India',
+        settlement_currency:'INR',account_type:'cash',asset_class:'equity',allowed_order_types:['market','limit'],
+        maximum_customer_count:20,activation_status:'blocked',scope_decision_count:10,
+        open_scope_decision_count:10,gate_count:18,blocking_gate_count:18,
+      }]) }); return
+    }
+    if (path === '/rest/v1/controlled_live_rollout_limit_catalog') {
+      await route.fulfill({ status:200,contentType:'application/json',body:JSON.stringify([{
+        cohort_key:'IN:XNSE:CASH:EQUITY:COHORT-01',settlement_currency:'INR',maximum_order_notional:2000,
+        maximum_daily_notional:7500,maximum_position_concentration_pct:10,maximum_orders_per_window:6,
+        velocity_window_minutes:5,maximum_open_orders:5,maximum_funding_credit:0,
+      }]) }); return
+    }
+    if (path === '/rest/v1/controlled_live_rollout_gate_catalog') {
+      await route.fulfill({ status:200,contentType:'application/json',body:JSON.stringify([{
+        requirement_key:'kill_switch_rollback',title:'Kill switch and rollback',
+        summary:'Observed kill-switch and rollback drills must prove a bounded stop.',
+        cohort_review_count:3,blocking_review_count:3,
+      }]) }); return
+    }
+    if (path === '/rest/v1/controlled_live_rollout_drill_catalog') {
+      await route.fulfill({ status:200,contentType:'application/json',body:JSON.stringify([{
+        drill_key:'rollback',title:'Cohort rollback rehearsal',
+        objective:'Prove one exact cohort can be withdrawn without changing another decision.',
+        success_criteria:['scope isolated','version retained'],observed_count:0,
+      }]) }); return
+    }
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -169,7 +205,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(34)
+    await expect(navigation.getByRole('link')).toHaveCount(35)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -230,6 +266,14 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByText('Rumor promotion off')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Save private in-app alert' })).toHaveCount(0)
   await expect(page.getByRole('link', { name: 'Sign in to account' })).toBeVisible()
+
+  await page.goto('/#live-rollout')
+  await expect(page.getByRole('heading', { level: 1, name: 'Controlled live rollout' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Live rollout control plane' })).toBeVisible()
+  await expect(page.getByText('No live order endpoint exists in Phase 8G')).toBeVisible()
+  await expect(page.getByText(/Approval for one row never propagates/)).toBeVisible()
+  await expect(page.getByText('Exit gate remains closed')).toBeVisible()
+  await expect(page.getByRole('button', { name: /activate|submit|route|fund|execute|approve/i })).toHaveCount(0)
 
   await page.goto('/#account-security')
   await expect(page.getByText(/Controlled-beta access is limited to approved email addresses/)).toBeVisible()

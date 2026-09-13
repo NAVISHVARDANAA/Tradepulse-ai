@@ -105,6 +105,9 @@ jobs:
       - name: Verify global event intelligence engine
         run: npm run check:global-event-intelligence
 
+      - name: Verify controlled international live rollout
+        run: npm run check:controlled-live-rollout
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 
@@ -319,6 +322,9 @@ jobs:
       - name: Test global event intelligence database contracts
         run: npx --no-install supabase test db supabase/tests/database/global_event_intelligence_engine.test.sql
 
+      - name: Test controlled international live-rollout database contracts
+        run: npx --no-install supabase test db supabase/tests/database/controlled_international_live_rollout.test.sql
+
       - name: Test broker-sandbox certification contracts
         run: npx --no-install supabase test db supabase/tests/database/broker_sandbox_certification.test.sql
 
@@ -501,6 +507,15 @@ jobs:
           npx --no-install supabase db query
           --local
           --file supabase/tests/production/global_event_intelligence_engine_smoke.sql
+
+      - name: Assert controlled live-rollout smoke SQL is query-only
+        run: bash scripts/assert-read-only-sql.sh supabase/tests/production/controlled_international_live_rollout_smoke.sql
+
+      - name: Test controlled live-rollout production smoke query
+        run: >-
+          npx --no-install supabase db query
+          --local
+          --file supabase/tests/production/controlled_international_live_rollout_smoke.sql
 
       - name: Stop isolated Supabase services
         if: always()

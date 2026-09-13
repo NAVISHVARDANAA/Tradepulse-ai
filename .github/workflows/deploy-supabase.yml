@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type DEPLOY_DATA_PHASE_8F for the global event intelligence candidate
+        description: Type DEPLOY_DATA_PHASE_8G for the controlled live-rollout candidate
         required: true
         type: string
 
@@ -39,8 +39,8 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_8F" || {
-            echo "Release confirmation did not match DEPLOY_DATA_PHASE_8F."
+          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_8G" || {
+            echo "Release confirmation did not match DEPLOY_DATA_PHASE_8G."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -333,6 +333,14 @@ jobs:
             --linked \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --file supabase/tests/production/global_event_intelligence_engine_smoke.sql
+
+      - name: Verify controlled international live-rollout production boundary
+        run: |
+          bash scripts/assert-read-only-sql.sh supabase/tests/production/controlled_international_live_rollout_smoke.sql
+          npx --no-install supabase db query \
+            --linked \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --file supabase/tests/production/controlled_international_live_rollout_smoke.sql
 
       - name: Verify production public web reads
         run: bash scripts/verify-public-runtime-read.sh

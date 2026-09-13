@@ -1001,7 +1001,12 @@ rights, authenticity, corroboration, privacy and operating approval. Raw web
 scraping, rumor promotion, automatic verification, autonomous publishing,
 trading, funding, custody and settlement remain database-locked off.
 
-### Phase 8G — controlled international live rollout
+### Phase 8G — controlled international live rollout (implemented control plane)
+
+The implemented foundation exposes three independently blocked cash-equity
+candidate cohorts, conservative rehearsal-only limits, eighteen per-cohort
+gates and four operational drill templates. It fabricates no signed approval or
+observed drill and creates no activation, routing, funding or custody path.
 
 - Launch begins with small approved customer cohorts and cash equities on named
   venues, with conservative notional, concentration, velocity and funding
@@ -1018,7 +1023,7 @@ trading, funding, custody and settlement remain database-locked off.
   never markets universal access when law, sanctions, licensing, tax rules,
   market-data rights or partner coverage restrict availability.
 
-**Phase 8G exit gate:** the exact country-market-product cohort has signed
+**Phase 8G activation exit gate (not satisfied by this foundation):** the exact country-market-product cohort has signed
 approval, observed operational drills, reconciled production evidence and a
 tested rollback. Approval for one market never activates another market,
 country, payment corridor or options permission.

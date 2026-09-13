@@ -366,6 +366,36 @@ if (
   throw new Error('Deployed global event intelligence boundary is incomplete or unsafe.')
 }
 if (
+  manifest.controlledLiveRollout?.workspaceEnabled !== true ||
+  manifest.controlledLiveRollout?.rolloutStatus !== 'approval_required' ||
+  manifest.controlledLiveRollout?.candidateCohortCount !== 3 ||
+  manifest.controlledLiveRollout?.liveCohortCount !== 0 ||
+  manifest.controlledLiveRollout?.cashEquitiesOnly !== true ||
+  manifest.controlledLiveRollout?.scopeDecisionsPerCohort !== 10 ||
+  manifest.controlledLiveRollout?.requirementCount !== 18 ||
+  manifest.controlledLiveRollout?.drillTemplateCount !== 4 ||
+  manifest.controlledLiveRollout?.observedOperationalDrillCount !== 0 ||
+  manifest.controlledLiveRollout?.exactCohortDecisionsRequired !== true ||
+  manifest.controlledLiveRollout?.approvalInheritanceEnabled !== false ||
+  manifest.controlledLiveRollout?.conservativeLimitRehearsalEnabled !== true ||
+  manifest.controlledLiveRollout?.limitsProductionEffect !== false ||
+  manifest.controlledLiveRollout?.maximumFundingCredit !== 0 ||
+  manifest.controlledLiveRollout?.appendOnlyDecisionEvidence !== true ||
+  manifest.controlledLiveRollout?.appendOnlyDrillEvidence !== true ||
+  manifest.controlledLiveRollout?.manualSignedActivationRequired !== true ||
+  manifest.controlledLiveRollout?.browserActivationEnabled !== false ||
+  manifest.controlledLiveRollout?.brokerConnectivityEnabled !== false ||
+  manifest.controlledLiveRollout?.exchangeConnectivityEnabled !== false ||
+  manifest.controlledLiveRollout?.liveMarketDataEnabled !== false ||
+  manifest.controlledLiveRollout?.liveOrderRoutingEnabled !== false ||
+  manifest.controlledLiveRollout?.customerFundingEnabled !== false ||
+  manifest.controlledLiveRollout?.custodyEnabled !== false ||
+  manifest.controlledLiveRollout?.settlementEnabled !== false ||
+  manifest.controlledLiveRollout?.marginEnabled !== false ||
+  manifest.controlledLiveRollout?.optionsEnabled !== false ||
+  manifest.controlledLiveRollout?.automaticActivationEnabled !== false
+) throw new Error('Deployed controlled live-rollout boundary is incomplete or operational.')
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||

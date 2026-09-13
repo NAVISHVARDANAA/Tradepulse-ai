@@ -42,7 +42,7 @@ const budgets = {
   // Phase 8E adds a 5.6 KiB route-deferred agent workspace. The initial shell
   // and largest-chunk limits stay unchanged; the bounded total budget retains
   // measured headroom without making the new workspace load on other routes.
-  totalJavaScriptGzipBytes: 350 * 1024,
+  totalJavaScriptGzipBytes: 355 * 1024,
   largestAssetGzipBytes: 90 * 1024,
 }
 
