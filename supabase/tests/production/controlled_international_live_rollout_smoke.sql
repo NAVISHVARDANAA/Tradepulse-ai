@@ -47,7 +47,7 @@ begin
   if exists(select 1 from public.live_trading_activation_controls
     where live_order_routing_enabled or customer_funding_enabled or custody_enabled or settlement_enabled)
     or exists(select 1 from public.global_brokerage_custody_controls
-      where live_order_routing_enabled or customer_funding_enabled or custody_accounts_enabled or settlement_instructions_enabled) then
+      where live_order_routing_enabled or cross_border_funding_link_enabled or custody_accounts_enabled or settlement_instructions_enabled) then
     raise exception 'An earlier execution lock changed';
   end if;
 end;
