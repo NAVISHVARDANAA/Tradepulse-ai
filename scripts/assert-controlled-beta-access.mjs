@@ -64,9 +64,9 @@ assert(manifest.access?.implicitSignupEnabled === false, 'Implicit controlled-be
 assert(manifest.distribution?.externalInvitationsApproved === false, 'External invitations were approved in code')
 
 for (const [name, workflow, confirmation] of [
-  ['build', buildWorkflow, 'BUILD_PHASE_8F'],
-  ['deploy', deployWorkflow, 'DEPLOY_PHASE_8F'],
-  ['verify', verifyWorkflow, 'VERIFY_WEB_PHASE_8F'],
+  ['build', buildWorkflow, 'BUILD_PHASE_8G'],
+  ['deploy', deployWorkflow, 'DEPLOY_PHASE_8G'],
+  ['verify', verifyWorkflow, 'VERIFY_WEB_PHASE_8G'],
 ]) {
   assert(workflow.includes(confirmation), `Current ${name} confirmation is missing`)
   assert(workflow.includes('check:beta-access'), `Current ${name} omits the beta access contract`)

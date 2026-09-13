@@ -110,6 +110,9 @@ const OptionsPaperTradingPanel = lazy(() => import('./components/OptionsPaperTra
 const GlobalBrokerageCustodyPanel = lazy(() => import('./components/GlobalBrokerageCustodyPanel').then((module) => ({
   default: module.GlobalBrokerageCustodyPanel,
 })))
+const ControlledLiveRolloutPanel = lazy(() => import('./components/ControlledLiveRolloutPanel').then((module) => ({
+  default: module.ControlledLiveRolloutPanel,
+})))
 const PaymentQuotePanel = lazy(() => import('./components/PaymentQuotePanel').then((module) => ({
   default: module.PaymentQuotePanel,
 })))
@@ -790,6 +793,14 @@ function App() {
           <ProductErrorBoundary title="Live trading readiness is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Live trading readiness" />}>
               <LiveTradingReadinessPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#live-rollout' ? <section id="live-rollout" className="product-workspace">
+          <ProductErrorBoundary title="Controlled international rollout is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Controlled international rollout" />}>
+              <ControlledLiveRolloutPanel />
             </Suspense>
           </ProductErrorBoundary>
         </section> : null}

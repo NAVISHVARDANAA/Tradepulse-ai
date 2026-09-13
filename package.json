@@ -30,6 +30,7 @@
     "check:global-brokerage-custody": "node scripts/assert-global-brokerage-custody-orchestration.mjs",
     "check:agentic-investing": "node scripts/assert-agentic-investing-workspace.mjs",
     "check:global-event-intelligence": "node scripts/assert-global-event-intelligence-engine.mjs",
+    "check:controlled-live-rollout": "node scripts/assert-controlled-international-live-rollout.mjs",
     "check:bundle": "node scripts/assert-frontend-budgets.mjs",
     "check:beta": "node scripts/assert-beta-readiness.mjs",
     "check:hosting": "node scripts/assert-cloudflare-hosting.mjs",

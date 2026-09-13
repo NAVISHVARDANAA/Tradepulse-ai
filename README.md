@@ -661,6 +661,13 @@ raw scraping, rumor promotion, automatic publication and every execution path
 remain disabled. See
 [`docs/GLOBAL_EVENT_INTELLIGENCE_ENGINE.md`](docs/GLOBAL_EVENT_INTELLIGENCE_ENGINE.md).
 
+Phase 8G adds migration `051_controlled_international_live_rollout.sql` and a
+lazy-loaded controlled rollout workspace. Three exact cash-equity candidates
+expose independent decisions, conservative rehearsal limits, eighteen gates and
+four drill templates. Every live brokerage, funding, custody, settlement,
+margin, options and automatic activation path remains disabled. See
+[`docs/CONTROLLED_INTERNATIONAL_LIVE_ROLLOUT.md`](docs/CONTROLLED_INTERNATIONAL_LIVE_ROLLOUT.md).
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction

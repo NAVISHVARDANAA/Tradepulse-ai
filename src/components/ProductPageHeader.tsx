@@ -154,6 +154,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Track sanitized written-approval evidence across jurisdiction, broker, compliance, money, risk, operations and customer-protection gates.',
     boundary: 'Activation remains blocked',
   },
+  '#live-rollout': {
+    eyebrow: 'Controlled international rollout',
+    title: 'Controlled live rollout',
+    description: 'Inspect exact cash-equity candidates, conservative limits, independent approval gaps and rollback evidence.',
+    boundary: 'Zero live cohorts · approval required',
+  },
   '#payments': {
     eyebrow: 'Cross-border payment operations',
     title: 'Money movement readiness',

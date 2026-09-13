@@ -21,6 +21,7 @@ const publicWorkspaces = [
   ['#regulated-preflight', 'Preflight evidence review'],
   ['#sandbox-orders', 'Sandbox order lifecycle'],
   ['#live-readiness', 'Live trading readiness'],
+  ['#live-rollout', 'Controlled live rollout'],
   ['#data-trust', 'Data trust and notifications'],
   ['#trust-center', 'Trust and activity center'],
   ['#payments', 'Money movement readiness'],

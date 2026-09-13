@@ -79,6 +79,11 @@ probabilistic causal scenarios and private in-app alerts. The initial events are
 clearly synthetic and cannot train models. Live providers, raw scraping,
 unlicensed storage, rumor promotion and autonomous publication remain disabled.
 
+Phase 8G adds three exact blocked cash-equity candidates, independent scope
+decisions, conservative rehearsal limits, eighteen gates and four drill
+templates. It claims no signed approval or observed drill and has no activation
+or live-order path.
+
 The artifact contains `beta-release.json`, a machine-readable statement of its
 scope. Live brokerage, payment execution, charge collection, custody and
 personalized advice remain false. Search indexing also remains disabled.
@@ -160,21 +165,16 @@ evidence in a public issue or artifact.
 
 ## Hosting deployment procedure
 
-After the Phase 8F PR is merged and all `main` checks pass:
+After the Phase 8G PR is merged and all `main` checks pass:
 
-1. Deploy and verify migration 050 with `DEPLOY_DATA_PHASE_8F` and `VERIFY_DATA_PHASE_8F`.
+1. Deploy and verify migration 051 with `DEPLOY_DATA_PHASE_8G` and `VERIFY_DATA_PHASE_8G`.
 2. Open **Actions → Build production web release**.
-3. Select `main`, enter `BUILD_PHASE_8F` and run the workflow.
+3. Select `main`, enter `BUILD_PHASE_8G` and run the workflow.
 4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 5. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-6. Run **Verify web production** with `VERIFY_WEB_PHASE_8F` after deployment
+6. Run **Verify web production** with `VERIFY_WEB_PHASE_8G` after deployment
    or any customer-facing operational incident.
 7. Do not invite external testers until every manual prerequisite above is approved.
 
-Phase 8F adds migration 050, the global event intelligence views and an
-event-aware update to the protected investing-agent function; deploy and verify
-them before the web release. Event fixtures are synthetic and display-only,
-production event sources and external LLM providers remain disconnected,
-publication and model promotion remain manual, and all live
-brokerage, funding, custody, settlement and money-movement capabilities remain
-database-locked off.
+Phase 8G adds migration 051 and the controlled rollout workspace. Its cohort
+rows are approval candidates only; every live capability remains locked off.
