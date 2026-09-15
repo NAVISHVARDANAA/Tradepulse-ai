@@ -13,9 +13,9 @@ const artifactManifest = JSON.parse(artifactManifestText)
 
 assert(manifest.schemaVersion === 1, 'Unexpected beta manifest schema')
 assert(manifest.release === 'controlled-beta-rc2', 'Unexpected beta release identifier')
-assert(manifest.phase === '8G', 'Beta manifest is not on Phase 8F')
+assert(manifest.phase === '8H', 'Beta manifest is not on Phase 8H')
 assert(
-  manifest.status === 'controlled_live_rollout_candidate',
+  manifest.status === 'global_evidence_corroboration_candidate',
   'Beta manifest overstates the release status',
 )
 assert(manifest.audience === 'internal_release_review', 'Beta audience boundary changed')
@@ -65,6 +65,9 @@ const expectedChecks = [
   'check:options-paper-trading',
   'check:global-brokerage-custody',
   'check:agentic-investing',
+  'check:global-event-intelligence',
+  'check:controlled-live-rollout',
+  'check:global-evidence-operations',
   'check:production-experience',
   'check:bundle',
   'check:release',
@@ -98,17 +101,17 @@ const [buildWorkflow, deployWorkflow, verifyWebWorkflow, ciWorkflow, securityWor
   ])
 
 for (const contract of [
-  'BUILD_PHASE_8G',
+  'BUILD_PHASE_8H',
   'npm run check:beta',
   'tradepulse-beta-rc2-${{ github.sha }}',
   'environment: production',
 ]) {
   assert(buildWorkflow.includes(contract), `Beta build workflow contract missing: ${contract}`)
 }
-for (const contract of ['DEPLOY_PHASE_8G', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['DEPLOY_PHASE_8H', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
   assert(deployWorkflow.includes(contract), `Beta deploy workflow contract missing: ${contract}`)
 }
-for (const contract of ['VERIFY_WEB_PHASE_8G', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['VERIFY_WEB_PHASE_8H', 'verify:web-deployment', 'test:e2e:production']) {
   assert(verifyWebWorkflow.includes(contract), `Beta web verification workflow contract missing: ${contract}`)
 }
 for (const contract of [
@@ -133,6 +136,9 @@ for (const contract of [
   'npm run check:options-paper-trading',
   'npm run check:global-brokerage-custody',
   'npm run check:agentic-investing',
+  'npm run check:global-event-intelligence',
+  'npm run check:controlled-live-rollout',
+  'npm run check:global-evidence-operations',
   'npm run check:security',
   'npm run check:hosting',
 ]) {
@@ -166,6 +172,7 @@ assert(roadmap.includes('Phase 8D — global brokerage and custody orchestration
 assert(roadmap.includes('Phase 8E — personalized agentic investing workspace'), 'Roadmap omits agentic investing workspace')
 assert(roadmap.includes('Phase 8F — global event intelligence engine'), 'Roadmap omits global event intelligence')
 assert(roadmap.includes('Phase 8G — controlled international live rollout'), 'Roadmap omits controlled global activation')
+assert(roadmap.includes('Phase 8H — global evidence corroboration operations'), 'Roadmap omits global evidence operations')
 assert(roadmap.includes('Phase 5E — controlled-beta onboarding and operations'), 'Roadmap omits Phase 5E')
 assert(roadmap.includes('Phase 5F — route-aware data loading'), 'Roadmap omits Phase 5F')
 assert(candidateDoc.includes('Artifact-only status'), 'Candidate documentation omits artifact status')

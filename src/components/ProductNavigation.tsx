@@ -23,6 +23,7 @@ export const productNavigation: NavGroup[] = [
       { label: 'Global access', href: '#global-access' },
       { label: 'Stock research', href: '#stock-research' },
       { label: 'Global events', href: '#global-events' },
+      { label: 'Evidence operations', href: '#evidence-operations' },
       { label: 'TradePulse Agent', href: '#agentic-ai' },
       { label: 'AI Copilot', href: '#research-copilot' },
       { label: 'Team research', href: '#business-research' },

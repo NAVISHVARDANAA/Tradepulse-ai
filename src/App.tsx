@@ -47,6 +47,9 @@ const AgenticInvestingPanel = lazy(() => import('./components/AgenticInvestingPa
 const GlobalEventIntelligencePanel = lazy(() => import('./components/GlobalEventIntelligencePanel').then((module) => ({
   default: module.GlobalEventIntelligencePanel,
 })))
+const EvidenceCorroborationPanel = lazy(() => import('./components/EvidenceCorroborationPanel').then((module) => ({
+  default: module.EvidenceCorroborationPanel,
+})))
 const AccountSecurityPanel = lazy(() => import('./components/AccountSecurityPanel').then((module) => ({
   default: module.AccountSecurityPanel,
 })))
@@ -496,6 +499,14 @@ function App() {
           <ProductErrorBoundary title="Global event intelligence is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Global event intelligence engine" />}>
               <GlobalEventIntelligencePanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#evidence-operations' ? <section id="evidence-operations" className="product-workspace">
+          <ProductErrorBoundary title="Global evidence operations are temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Global evidence operations" />}>
+              <EvidenceCorroborationPanel />
             </Suspense>
           </ProductErrorBoundary>
         </section> : null}

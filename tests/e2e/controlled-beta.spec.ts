@@ -124,6 +124,70 @@ async function mockGuestBackend(page: Page) {
         success_criteria:['scope isolated','version retained'],observed_count:0,
       }]) }); return
     }
+    if (path === '/rest/v1/global_evidence_operations_status') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+        control_key: 'global-evidence-operations', policy_version: 'global-evidence-policy-v1',
+        country_coverage_target: 195, minimum_independent_sources: 2,
+        connected_source_count: 0, source_lane_count: 5, enabled_source_lane_count: 0,
+        corroboration_policy_count: 6, rehearsal_case_count: 5,
+        publication_eligible_case_count: 0, immutable_provenance_required: true,
+        source_rights_review_required: true, independent_corroboration_required: true,
+        conflict_review_required: true, human_publication_review_required: true,
+        raw_web_scraping_enabled: false, private_source_access_enabled: false,
+        unlicensed_content_storage_enabled: false, automatic_verification_enabled: false,
+        rumor_promotion_enabled: false, autonomous_publication_enabled: false,
+        production_ingestion_enabled: false, model_training_enabled: false,
+        autonomous_trade_execution_enabled: false,
+      }) }); return
+    }
+    if (path === '/rest/v1/global_evidence_source_lane_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, lane_key: 'official-authority-lane', display_name: 'Official authority evidence',
+        source_class: 'official_authority', review_priority: 1,
+        supported_claim_classes: ['macro_data', 'resource_discovery'],
+        rights_status: 'review_required', authenticity_status: 'review_required',
+        privacy_status: 'review_required', security_status: 'review_required',
+        retention_status: 'review_required', connectivity_status: 'disconnected',
+        ingestion_enabled: false, publication_enabled: false, model_training_enabled: false,
+        review_note: 'Named authorities require full review before connection.',
+      }]) }); return
+    }
+    if (path === '/rest/v1/global_evidence_corroboration_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, claim_class: 'resource_discovery', display_name: 'Resource discovery',
+        minimum_independent_sources: 3, minimum_primary_sources: 1,
+        maximum_source_age_hours: 720, geographic_alignment_required: true,
+        temporal_alignment_required: true, conflict_resolution: 'reject_until_resolved',
+        human_review_required: true, publication_enabled: false, model_training_enabled: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/global_evidence_review_queue_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, case_key: 'rehearsal-resource-discovery', claim_class: 'resource_discovery',
+        claim_class_name: 'Resource discovery', country_scope: 'IN',
+        rehearsal_summary: 'Synthetic intake drill; no real discovery or country assertion is represented.',
+        independent_source_count: 0, required_independent_sources: 3,
+        primary_source_count: 0, required_primary_sources: 1,
+        rights_status: 'evidence_missing', authenticity_status: 'evidence_missing',
+        corroboration_status: 'evidence_missing', conflict_status: 'not_evaluated',
+        review_status: 'blocked', synthetic: true, display_eligible: false,
+        publication_eligible: false, model_eligible: false,
+        observed_at: '2026-09-15T08:00:00Z', stage_count: 8, blocking_stage_count: 8,
+      }]) }); return
+    }
+    if (path === '/rest/v1/global_evidence_review_stage_catalog') {
+      const stages = ['source_rights', 'source_authenticity', 'extraction_integrity',
+        'temporal_alignment', 'independent_corroboration', 'conflict_resolution',
+        'editorial_approval', 'model_eligibility']
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(
+        stages.map((stage, index) => ({
+          id: index + 1, review_case_id: 1, case_key: 'rehearsal-resource-discovery',
+          sequence_number: index + 1, stage_key: stage, stage_status: 'evidence_missing',
+          requirement_note: 'Independent evidence and accountable human review are required.',
+          human_review_required: true, production_effect: false,
+        })),
+      ) }); return
+    }
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -205,7 +269,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-    await expect(navigation.getByRole('link')).toHaveCount(35)
+    await expect(navigation.getByRole('link')).toHaveCount(36)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -266,6 +330,13 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByText('Rumor promotion off')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Save private in-app alert' })).toHaveCount(0)
   await expect(page.getByRole('link', { name: 'Sign in to account' })).toBeVisible()
+
+  await page.goto('/#evidence-operations')
+  await expect(page.getByRole('heading', { level: 1, name: 'Evidence operations' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Global evidence control room' })).toBeVisible()
+  await expect(page.getByText('No external source is connected in Phase 8H')).toBeVisible()
+  await expect(page.getByText(/workflow fixture, not a real-world claim/i)).toBeVisible()
+  await expect(page.getByRole('button', { name: /publish|verify|ingest|train|execute|trade/i })).toHaveCount(0)
 
   await page.goto('/#live-rollout')
   await expect(page.getByRole('heading', { level: 1, name: 'Controlled live rollout' })).toBeVisible()

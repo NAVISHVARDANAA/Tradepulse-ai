@@ -108,6 +108,9 @@ jobs:
       - name: Verify controlled international live rollout
         run: npm run check:controlled-live-rollout
 
+      - name: Verify global evidence corroboration operations
+        run: npm run check:global-evidence-operations
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 
@@ -324,6 +327,9 @@ jobs:
 
       - name: Test controlled international live-rollout database contracts
         run: npx --no-install supabase test db supabase/tests/database/controlled_international_live_rollout.test.sql
+
+      - name: Test global evidence corroboration database contracts
+        run: npx --no-install supabase test db supabase/tests/database/global_evidence_corroboration_operations.test.sql
 
       - name: Test broker-sandbox certification contracts
         run: npx --no-install supabase test db supabase/tests/database/broker_sandbox_certification.test.sql

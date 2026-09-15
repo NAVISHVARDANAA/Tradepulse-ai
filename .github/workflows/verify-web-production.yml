@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type VERIFY_WEB_PHASE_8G for the controlled live-rollout candidate
+        description: Type VERIFY_WEB_PHASE_8H for the global evidence corroboration candidate
         required: true
         type: string
 
@@ -32,7 +32,7 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "VERIFY_WEB_PHASE_8G"
+          test "$RELEASE_CONFIRMATION" = "VERIFY_WEB_PHASE_8H"
           test -n "$CLOUDFLARE_PAGES_PROJECT"
           case "$CLOUDFLARE_PAGES_PROJECT" in *[!a-z0-9-]*) echo "Invalid Cloudflare Pages project name."; exit 1;; esac
           echo "WEB_PRODUCTION_URL=https://${CLOUDFLARE_PAGES_PROJECT}.pages.dev" >> "$GITHUB_ENV"
@@ -63,6 +63,7 @@ jobs:
       - run: npm run check:agentic-investing
       - run: npm run check:global-event-intelligence
       - run: npm run check:controlled-live-rollout
+      - run: npm run check:global-evidence-operations
       - run: npm run check:production-experience
       - run: npm run verify:web-deployment -- "$WEB_PRODUCTION_URL"
       - name: Install Chromium

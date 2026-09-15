@@ -17,6 +17,7 @@ const publicWorkspaces = [
   ['#brokerage-custody', 'Brokerage and custody control plane'],
   ['#agentic-ai', 'TradePulse Agent workspace'],
   ['#global-events', 'Global event impact engine'],
+  ['#evidence-operations', 'Evidence operations'],
   ['#risk-command-center', 'Risk command center'],
   ['#regulated-preflight', 'Preflight evidence review'],
   ['#sandbox-orders', 'Sandbox order lifecycle'],
@@ -154,6 +155,11 @@ test('production execution boundaries remain closed to guests', async ({ page })
   await expect(page.getByText(/current event set is synthetic and cannot train a model/i)).toBeVisible()
   await expect(page.getByText('Rumor promotion off')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Save private in-app alert' })).toHaveCount(0)
+
+  await page.goto('/#evidence-operations', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByText('No external source is connected in Phase 8H')).toBeVisible()
+  await expect(page.getByText(/workflow fixture, not a real-world claim/i)).toBeVisible()
+  await expect(page.getByRole('button', { name: /publish|verify|ingest|train|execute|trade/i })).toHaveCount(0)
 
   await page.goto('/#account-security', { waitUntil: 'domcontentloaded' })
   await expect(page.getByText(/Controlled-beta access is limited to approved email addresses/)).toBeVisible()

@@ -396,6 +396,31 @@ if (
   manifest.controlledLiveRollout?.automaticActivationEnabled !== false
 ) throw new Error('Deployed controlled live-rollout boundary is incomplete or operational.')
 if (
+  manifest.globalEvidenceOperations?.workspaceEnabled !== true ||
+  manifest.globalEvidenceOperations?.countryCoverageTarget !== 195 ||
+  manifest.globalEvidenceOperations?.sourceLaneCount !== 5 ||
+  manifest.globalEvidenceOperations?.connectedSourceCount !== 0 ||
+  manifest.globalEvidenceOperations?.corroborationPolicyCount !== 6 ||
+  manifest.globalEvidenceOperations?.rehearsalCaseCount !== 5 ||
+  manifest.globalEvidenceOperations?.reviewStagesPerCase !== 8 ||
+  manifest.globalEvidenceOperations?.immutableProvenanceRequired !== true ||
+  manifest.globalEvidenceOperations?.sourceRightsReviewRequired !== true ||
+  manifest.globalEvidenceOperations?.independentCorroborationRequired !== true ||
+  manifest.globalEvidenceOperations?.conflictReviewRequired !== true ||
+  manifest.globalEvidenceOperations?.humanPublicationReviewRequired !== true ||
+  manifest.globalEvidenceOperations?.appendOnlyDecisionEvidence !== true ||
+  manifest.globalEvidenceOperations?.rawWebScrapingEnabled !== false ||
+  manifest.globalEvidenceOperations?.privateSourceAccessEnabled !== false ||
+  manifest.globalEvidenceOperations?.credentialBypassEnabled !== false ||
+  manifest.globalEvidenceOperations?.unlicensedContentStorageEnabled !== false ||
+  manifest.globalEvidenceOperations?.automaticVerificationEnabled !== false ||
+  manifest.globalEvidenceOperations?.rumorPromotionEnabled !== false ||
+  manifest.globalEvidenceOperations?.autonomousPublicationEnabled !== false ||
+  manifest.globalEvidenceOperations?.productionIngestionEnabled !== false ||
+  manifest.globalEvidenceOperations?.modelTrainingEnabled !== false ||
+  manifest.globalEvidenceOperations?.autonomousTradeExecutionEnabled !== false
+) throw new Error('Deployed global evidence operations boundary is incomplete or unsafe.')
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||

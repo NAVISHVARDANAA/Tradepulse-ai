@@ -1028,6 +1028,34 @@ approval, observed operational drills, reconciled production evidence and a
 tested rollback. Approval for one market never activates another market,
 country, payment corridor or options permission.
 
+### Phase 8H — global evidence corroboration operations (implemented foundation)
+
+- Five disconnected source lanes define separate rights, authenticity, privacy,
+  security and retention review for official, regulatory, licensed news,
+  logistics and geoscience evidence.
+- Six claim-specific policies require at least two independent sources, at least
+  one primary source, bounded freshness, temporal alignment and explicit
+  conflict handling before a claim can proceed.
+- Five synthetic review cases exercise eight independent gates without
+  representing a real-world claim, fabricating evidence or becoming visible to
+  the Phase 8F event engine.
+- Sanitized source, policy and review state is publicly inspectable while
+  evidence digests and reviewer references remain restricted.
+- The 195-country value remains a coverage target; missing countries, sources
+  and evidence are shown as gaps rather than filled with generated facts.
+- Raw web scraping, private-source access, credential bypass, unlicensed
+  storage, automatic verification, rumor promotion, autonomous publication,
+  production ingestion, model training and execution remain locked off.
+
+**Phase 8H exit gate:** green global-evidence-operations,
+global-event-intelligence, agentic-investing, route-aware, database, browser,
+security, bundle and release contracts; reviewed `DEPLOY_DATA_PHASE_8H`;
+read-only `VERIFY_DATA_PHASE_8H`; successful `BUILD_PHASE_8H`; reviewed
+`DEPLOY_PHASE_8H`; and read-only `VERIFY_WEB_PHASE_8H` evidence. A named source
+requires separate contractual rights, privacy, security, retention,
+corroboration, editorial and operating approval before a later migration can
+connect it.
+
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.

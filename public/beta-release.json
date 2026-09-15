@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "8G",
-  "status": "controlled_live_rollout_candidate",
+  "phase": "8H",
+  "status": "global_evidence_corroboration_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -46,7 +46,8 @@
       "globalBrokerageCustody",
       "agenticInvesting",
       "globalEventIntelligence",
-      "controlledLiveRollout"
+      "controlledLiveRollout",
+      "globalEvidenceOperations"
     ]
   },
   "trustLayer": {
@@ -95,6 +96,7 @@
     "check:agentic-investing",
     "check:global-event-intelligence",
     "check:controlled-live-rollout",
+    "check:global-evidence-operations",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -487,6 +489,31 @@
     "marginEnabled": false,
     "optionsEnabled": false,
     "automaticActivationEnabled": false
+  },
+  "globalEvidenceOperations": {
+    "workspaceEnabled": true,
+    "countryCoverageTarget": 195,
+    "sourceLaneCount": 5,
+    "connectedSourceCount": 0,
+    "corroborationPolicyCount": 6,
+    "rehearsalCaseCount": 5,
+    "reviewStagesPerCase": 8,
+    "immutableProvenanceRequired": true,
+    "sourceRightsReviewRequired": true,
+    "independentCorroborationRequired": true,
+    "conflictReviewRequired": true,
+    "humanPublicationReviewRequired": true,
+    "appendOnlyDecisionEvidence": true,
+    "rawWebScrapingEnabled": false,
+    "privateSourceAccessEnabled": false,
+    "credentialBypassEnabled": false,
+    "unlicensedContentStorageEnabled": false,
+    "automaticVerificationEnabled": false,
+    "rumorPromotionEnabled": false,
+    "autonomousPublicationEnabled": false,
+    "productionIngestionEnabled": false,
+    "modelTrainingEnabled": false,
+    "autonomousTradeExecutionEnabled": false
   },
   "globalVenueInstrumentIntelligence": {
     "workspaceEnabled": true,

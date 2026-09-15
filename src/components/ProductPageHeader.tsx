@@ -52,6 +52,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Trace authenticated country, commodity, currency and logistics events through probabilistic causal paths with explicit evidence gaps.',
     boundary: 'Scenarios—not predictions of certainty',
   },
+  '#evidence-operations': {
+    eyebrow: 'Global evidence governance',
+    title: 'Evidence operations',
+    description: 'Inspect how candidate source lanes, claim-specific corroboration and human review would protect the event engine before any external feed is connected.',
+    boundary: 'No connected sources · no publication',
+  },
   '#global-access': {
     eyebrow: 'Global market intelligence',
     title: 'Venue and instrument access map',
