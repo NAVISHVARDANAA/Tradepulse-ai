@@ -444,6 +444,31 @@ if (
   manifest.globalCountryCoverage?.autonomousTradeExecutionEnabled !== false
 ) throw new Error('Deployed global country coverage boundary is incomplete or unsafe.')
 if (
+  manifest.globalDependencyTransmission?.workspaceEnabled !== true ||
+  manifest.globalDependencyTransmission?.sovereignCountryCount !== 195 ||
+  manifest.globalDependencyTransmission?.dependencyDomainCount !== 8 ||
+  manifest.globalDependencyTransmission?.readinessCellCount !== 1560 ||
+  manifest.globalDependencyTransmission?.relationshipGapCount !== 1560 ||
+  manifest.globalDependencyTransmission?.verifiedRelationshipCount !== 0 ||
+  manifest.globalDependencyTransmission?.mechanismTemplateCount !== 6 ||
+  manifest.globalDependencyTransmission?.reviewGateCount !== 8 ||
+  manifest.globalDependencyTransmission?.explicitRelationshipGapsRequired !== true ||
+  manifest.globalDependencyTransmission?.directedRelationshipEvidenceRequired !== true ||
+  manifest.globalDependencyTransmission?.temporalAlignmentRequired !== true ||
+  manifest.globalDependencyTransmission?.exposureMagnitudeRequired !== true ||
+  manifest.globalDependencyTransmission?.substitutePathReviewRequired !== true ||
+  manifest.globalDependencyTransmission?.humanReleaseReviewRequired !== true ||
+  manifest.globalDependencyTransmission?.appendOnlyDependencyReference !== true ||
+  manifest.globalDependencyTransmission?.liveProviderConnectivityEnabled !== false ||
+  manifest.globalDependencyTransmission?.automaticRelationshipInferenceEnabled !== false ||
+  manifest.globalDependencyTransmission?.generatedDependencyFillEnabled !== false ||
+  manifest.globalDependencyTransmission?.automaticImpactScoringEnabled !== false ||
+  manifest.globalDependencyTransmission?.productionScenarioPromotionEnabled !== false ||
+  manifest.globalDependencyTransmission?.modelTrainingEnabled !== false ||
+  manifest.globalDependencyTransmission?.autonomousPublicationEnabled !== false ||
+  manifest.globalDependencyTransmission?.autonomousTradeExecutionEnabled !== false
+) throw new Error('Deployed global dependency transmission boundary is incomplete or unsafe.')
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||

@@ -1085,6 +1085,32 @@ domain observations require a later source-specific migration with contractual
 rights, privacy, security, retention, freshness, corroboration and named human
 operating ownership.
 
+### Phase 8J — global dependency and transmission readiness fabric (implemented foundation)
+
+- Eight dependency domains apply directed identity, magnitude, freshness,
+  substitution and multi-source evidence requirements to all 195 country
+  references.
+- The 195-by-eight readiness matrix records 1,560 explicit relationship gaps,
+  with zero verified upstream or downstream links and no inferred values.
+- Six evidence-empty mechanism templates describe possible supply, route,
+  currency, rate, climate and regulatory transmission paths without assigning
+  probability, confidence or market effect.
+- Eight human gates cover source rights, direction, units, time, magnitude,
+  substitution, uncertainty and accountable release.
+- Sanitized public views expose the evidence standard and missing state while
+  preserving private source, evidence and reviewer boundaries.
+- Live providers, generated relationship filling, impact scoring, scenario
+  promotion, model training, publication and execution remain locked off.
+
+**Phase 8J exit gate:** green global-dependency-transmission,
+global-country-coverage, global-evidence-operations, database, browser,
+security, bundle and release contracts; reviewed `DEPLOY_DATA_PHASE_8J`;
+read-only `VERIFY_DATA_PHASE_8J`; successful `BUILD_PHASE_8J`; reviewed
+`DEPLOY_PHASE_8J`; and read-only `VERIFY_WEB_PHASE_8J` evidence. A real
+relationship requires source-specific rights, directed identity, temporal and
+unit reconciliation, observed magnitude, substitution review and accountable
+human approval before any scenario use.
+
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.

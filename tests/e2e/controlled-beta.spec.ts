@@ -229,6 +229,64 @@ async function mockGuestBackend(page: Page) {
         blocks_publication: true, blocks_model_use: true, automatic_approval_enabled: false,
       }]) }); return
     }
+    if (path === '/rest/v1/global_dependency_transmission_status') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+        control_key: 'global-dependency-transmission', policy_version: 'global-dependency-transmission-v1',
+        sovereign_country_target: 195, dependency_domain_target: 8,
+        reference_country_count: 195, dependency_domain_count: 8,
+        readiness_cell_count: 1560, relationship_gap_count: 1560,
+        verified_relationship_count: 0, mechanism_template_count: 6, review_gate_count: 8,
+        explicit_relationship_gaps_required: true, directed_relationship_evidence_required: true,
+        temporal_alignment_required: true, exposure_magnitude_required: true,
+        substitute_path_review_required: true, human_release_review_required: true,
+        live_provider_connectivity_enabled: false, automatic_relationship_inference_enabled: false,
+        generated_dependency_fill_enabled: false, automatic_impact_scoring_enabled: false,
+        production_scenario_promotion_enabled: false, model_training_enabled: false,
+        autonomous_publication_enabled: false, autonomous_trade_execution_enabled: false,
+      }) }); return
+    }
+    if (path === '/rest/v1/global_dependency_domain_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, domain_key: 'bilateral_trade', display_name: 'Bilateral trade',
+        relationship_question: 'Which directed product and service flows connect two economies, in what units, period and reporting scope?',
+        transmission_mechanism: 'trade', required_evidence_classes: ['official_trade', 'classification_mapping'],
+        minimum_independent_sources: 2, maximum_source_age_hours: 1488,
+        directional_evidence_required: true, magnitude_evidence_required: true,
+        substitution_review_required: true, provider_connected: false,
+        automatic_inference_enabled: false, country_count: 195, missing_country_count: 195,
+      }]) }); return
+    }
+    if (path === '/rest/v1/global_country_dependency_readiness_catalog') {
+      const domains = ['bilateral_trade', 'commodity_supply', 'energy_flows', 'logistics_routes',
+        'currency_funding', 'monetary_policy', 'corporate_supply_chain', 'climate_regulatory']
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([
+        { id: 1, country_code: 'IN', country_name: 'India', region_group: 'Asia', dependency_domain_count: 8, missing_domain_count: 8, missing_domain_keys: domains, verified_relationship_count: 0, upstream_link_count: 0, downstream_link_count: 0, scenario_eligible: false, model_eligible: false, publication_eligible: false },
+        { id: 2, country_code: 'GB', country_name: 'United Kingdom', region_group: 'Europe', dependency_domain_count: 8, missing_domain_count: 8, missing_domain_keys: domains, verified_relationship_count: 0, upstream_link_count: 0, downstream_link_count: 0, scenario_eligible: false, model_eligible: false, publication_eligible: false },
+        { id: 3, country_code: 'US', country_name: 'United States', region_group: 'Americas', dependency_domain_count: 8, missing_domain_count: 8, missing_domain_keys: domains, verified_relationship_count: 0, upstream_link_count: 0, downstream_link_count: 0, scenario_eligible: false, model_eligible: false, publication_eligible: false },
+      ]) }); return
+    }
+    if (path === '/rest/v1/global_transmission_mechanism_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, template_key: 'supply_expansion', display_name: 'Supply expansion',
+        origin_state: 'Verified change in available supply',
+        intermediary_state: 'Reconciled production, inventory, substitution and time-to-market path',
+        downstream_state: 'Conditional availability, trade-balance and price-pressure scenarios',
+        explanation: 'A discovery or production change becomes analyzable only after commercial timing, quality, substitution and cross-border flow evidence are verified.',
+        template_status: 'template_only', probability: null, confidence_score: null,
+        estimated_effect_low_pct: null, estimated_effect_high_pct: null,
+        evidence_required: true, human_review_required: true,
+        automatic_scenario_generation_enabled: false, model_eligible: false,
+        publication_eligible: false, production_effect: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/global_dependency_release_gate_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, gate_key: 'source_rights', display_name: 'Source rights',
+        requirement_note: 'Approve the exact source, endpoint, field, display, retention, derivation and model-use rights.',
+        blocks_scenario_use: true, blocks_model_use: true, blocks_publication: true,
+        automatic_approval_enabled: false,
+      }]) }); return
+    }
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -310,7 +368,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(37)
+  await expect(navigation.getByRole('link')).toHaveCount(38)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -386,6 +444,14 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByText('1,560', { exact: true })).toBeVisible()
   await expect(page.getByText(/reference checklist, not real-world coverage/i)).toBeVisible()
   await expect(page.getByRole('button', { name: /publish|generate|infer|score|train|execute|trade/i })).toHaveCount(0)
+
+  await page.goto('/#dependency-intelligence')
+  await expect(page.getByRole('heading', { level: 1, name: 'Global dependency and transmission fabric' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Global dependency and transmission fabric' })).toBeVisible()
+  await expect(page.getByText('No dependency relationship is inferred in Phase 8J')).toBeVisible()
+  await expect(page.getByText('1,560', { exact: true })).toBeVisible()
+  await expect(page.getByText('Evidence-empty templates, not market predictions')).toBeVisible()
+  await expect(page.getByRole('button', { name: /publish|infer|score|train|execute|trade/i })).toHaveCount(0)
 
   await page.goto('/#live-rollout')
   await expect(page.getByRole('heading', { level: 1, name: 'Controlled live rollout' })).toBeVisible()

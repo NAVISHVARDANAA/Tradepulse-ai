@@ -684,6 +684,15 @@ seven human-governed release gates. It does not generate country facts, connect
 live providers, publish claims, train models or execute trades. See
 [`docs/GLOBAL_COUNTRY_INTELLIGENCE_COVERAGE.md`](docs/GLOBAL_COUNTRY_INTELLIGENCE_COVERAGE.md).
 
+Phase 8J adds migration `054_global_dependency_transmission_readiness.sql` and
+a lazy-loaded global dependency and transmission fabric. It records 1,560
+explicit country-domain relationship gaps across eight evidence contracts,
+provides six evidence-empty transmission templates and requires eight human
+release gates. No relationship, probability, confidence or impact is inferred;
+provider connection, generated filling, scoring, scenario promotion, training,
+publication and execution remain locked off. See
+[`docs/GLOBAL_DEPENDENCY_TRANSMISSION_READINESS.md`](docs/GLOBAL_DEPENDENCY_TRANSMISSION_READINESS.md).
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction

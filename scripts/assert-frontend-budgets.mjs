@@ -39,9 +39,9 @@ const largestAsset = assetFiles.reduce((largest, asset) => (
 
 const budgets = {
   initialGzipBytes: 160 * 1024,
-  // Phase 8I adds a 3.4 KiB route-deferred country coverage workspace. The
-  // initial shell and largest-chunk limits stay unchanged; the bounded total
-  // budget retains measured headroom without loading that workspace elsewhere.
+  // Phase 8J adds a 3.8 KiB route-deferred dependency workspace. The initial
+  // shell and largest-chunk limits stay unchanged; the bounded total budget
+  // proves the new workspace is not loaded outside its route.
   totalJavaScriptGzipBytes: 362 * 1024,
   largestAssetGzipBytes: 90 * 1024,
 }

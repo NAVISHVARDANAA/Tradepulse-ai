@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type BUILD_PHASE_8I for the global country coverage candidate
+        description: Type BUILD_PHASE_8J for the global dependency transmission candidate
         required: true
         type: string
 
@@ -29,7 +29,7 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "BUILD_PHASE_8I"
+          test "$RELEASE_CONFIRMATION" = "BUILD_PHASE_8J"
           test -n "$SUPABASE_PROJECT_REF"
           test -n "$VITE_SUPABASE_ANON_KEY"
           case "$VITE_SUPABASE_ANON_KEY" in *service_role*|*secret*) echo "A server credential cannot be used by the web client."; exit 1;; esac
@@ -66,6 +66,7 @@ jobs:
       - run: npm run check:controlled-live-rollout
       - run: npm run check:global-evidence-operations
       - run: npm run check:global-country-coverage
+      - run: npm run check:global-dependency-transmission
       - run: npm run check:production-experience
       - run: npm run check:bundle
       - run: npm run check:release

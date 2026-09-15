@@ -114,6 +114,9 @@ jobs:
       - name: Verify global country intelligence coverage
         run: npm run check:global-country-coverage
 
+      - name: Verify global dependency and transmission readiness
+        run: npm run check:global-dependency-transmission
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 
@@ -336,6 +339,9 @@ jobs:
 
       - name: Test global country intelligence coverage database contracts
         run: npx --no-install supabase test db supabase/tests/database/global_country_intelligence_coverage.test.sql
+
+      - name: Test global dependency and transmission readiness database contracts
+        run: npx --no-install supabase test db supabase/tests/database/global_dependency_transmission_readiness.test.sql
 
       - name: Test broker-sandbox certification contracts
         run: npx --no-install supabase test db supabase/tests/database/broker_sandbox_certification.test.sql
