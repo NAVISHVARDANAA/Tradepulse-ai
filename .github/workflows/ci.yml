@@ -111,6 +111,9 @@ jobs:
       - name: Verify global evidence corroboration operations
         run: npm run check:global-evidence-operations
 
+      - name: Verify global country intelligence coverage
+        run: npm run check:global-country-coverage
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 
@@ -330,6 +333,9 @@ jobs:
 
       - name: Test global evidence corroboration database contracts
         run: npx --no-install supabase test db supabase/tests/database/global_evidence_corroboration_operations.test.sql
+
+      - name: Test global country intelligence coverage database contracts
+        run: npx --no-install supabase test db supabase/tests/database/global_country_intelligence_coverage.test.sql
 
       - name: Test broker-sandbox certification contracts
         run: npx --no-install supabase test db supabase/tests/database/broker_sandbox_certification.test.sql

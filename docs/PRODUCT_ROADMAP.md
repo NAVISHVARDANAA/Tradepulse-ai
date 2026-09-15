@@ -1056,6 +1056,35 @@ requires separate contractual rights, privacy, security, retention,
 corroboration, editorial and operating approval before a later migration can
 connect it.
 
+### Phase 8I — global country intelligence coverage fabric (implemented foundation)
+
+- A deterministic catalogue covers the 193 United Nations members plus the
+  Holy See and State of Palestine: 195 sovereign reference identities in total.
+- Eight intelligence domains apply the same evidence checklist to every
+  country: macro economy, currency and monetary policy, resources and
+  commodities, trade, logistics, markets and corporates, climate and weather,
+  and geopolitics and regulation.
+- The 195-by-eight matrix creates 1,560 explicit evidence gaps. It starts with
+  zero approved country observations and never fills a missing fact with a
+  generated value or hidden score.
+- Seven gates cover exact source rights, country identity, freshness,
+  cross-source reconciliation, dependency validation, uncertainty calibration
+  and accountable human release review.
+- The public workspace exposes reference identities, domain requirements and
+  sanitized gap counts. It does not expose private sources, reviewer identities
+  or raw evidence.
+- Live provider connectivity, automatic country scoring, production ingestion,
+  autonomous publication, model training and execution remain locked off.
+
+**Phase 8I exit gate:** green global-country-coverage,
+global-evidence-operations, global-event-intelligence, database, browser,
+security, bundle and release contracts; reviewed `DEPLOY_DATA_PHASE_8I`;
+read-only `VERIFY_DATA_PHASE_8I`; successful `BUILD_PHASE_8I`; reviewed
+`DEPLOY_PHASE_8I`; and read-only `VERIFY_WEB_PHASE_8I` evidence. Country or
+domain observations require a later source-specific migration with contractual
+rights, privacy, security, retention, freshness, corroboration and named human
+operating ownership.
+
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.

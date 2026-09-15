@@ -58,6 +58,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Inspect how candidate source lanes, claim-specific corroboration and human review would protect the event engine before any external feed is connected.',
     boundary: 'No connected sources · no publication',
   },
+  '#country-coverage': {
+    eyebrow: 'World intelligence coverage',
+    title: 'Global country coverage fabric',
+    description: 'Inspect one consistent evidence checklist across 195 sovereign-state references and eight intelligence domains without hiding missing facts.',
+    boundary: 'Reference identity · evidence gaps visible',
+  },
   '#global-access': {
     eyebrow: 'Global market intelligence',
     title: 'Venue and instrument access map',

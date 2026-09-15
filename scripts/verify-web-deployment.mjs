@@ -421,6 +421,29 @@ if (
   manifest.globalEvidenceOperations?.autonomousTradeExecutionEnabled !== false
 ) throw new Error('Deployed global evidence operations boundary is incomplete or unsafe.')
 if (
+  manifest.globalCountryCoverage?.workspaceEnabled !== true ||
+  manifest.globalCountryCoverage?.sovereignCountryCount !== 195 ||
+  manifest.globalCountryCoverage?.intelligenceDomainCount !== 8 ||
+  manifest.globalCountryCoverage?.coverageCellCount !== 1560 ||
+  manifest.globalCountryCoverage?.evidenceGapCount !== 1560 ||
+  manifest.globalCountryCoverage?.evidencedCountryCount !== 0 ||
+  manifest.globalCountryCoverage?.reviewGateCount !== 7 ||
+  manifest.globalCountryCoverage?.sovereignReferenceCatalogEnabled !== true ||
+  manifest.globalCountryCoverage?.explicitEvidenceGapsRequired !== true ||
+  manifest.globalCountryCoverage?.sourceRightsReviewRequired !== true ||
+  manifest.globalCountryCoverage?.independentCorroborationRequired !== true ||
+  manifest.globalCountryCoverage?.temporalFreshnessRequired !== true ||
+  manifest.globalCountryCoverage?.humanReleaseReviewRequired !== true ||
+  manifest.globalCountryCoverage?.appendOnlyCoverageReference !== true ||
+  manifest.globalCountryCoverage?.liveProviderConnectivityEnabled !== false ||
+  manifest.globalCountryCoverage?.generatedFactFillEnabled !== false ||
+  manifest.globalCountryCoverage?.automaticCountryScoringEnabled !== false ||
+  manifest.globalCountryCoverage?.productionIngestionEnabled !== false ||
+  manifest.globalCountryCoverage?.modelTrainingEnabled !== false ||
+  manifest.globalCountryCoverage?.autonomousPublicationEnabled !== false ||
+  manifest.globalCountryCoverage?.autonomousTradeExecutionEnabled !== false
+) throw new Error('Deployed global country coverage boundary is incomplete or unsafe.')
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||

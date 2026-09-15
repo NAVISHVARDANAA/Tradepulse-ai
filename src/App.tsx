@@ -50,6 +50,9 @@ const GlobalEventIntelligencePanel = lazy(() => import('./components/GlobalEvent
 const EvidenceCorroborationPanel = lazy(() => import('./components/EvidenceCorroborationPanel').then((module) => ({
   default: module.EvidenceCorroborationPanel,
 })))
+const GlobalCountryCoveragePanel = lazy(() => import('./components/GlobalCountryCoveragePanel').then((module) => ({
+  default: module.GlobalCountryCoveragePanel,
+})))
 const AccountSecurityPanel = lazy(() => import('./components/AccountSecurityPanel').then((module) => ({
   default: module.AccountSecurityPanel,
 })))
@@ -507,6 +510,14 @@ function App() {
           <ProductErrorBoundary title="Global evidence operations are temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Global evidence operations" />}>
               <EvidenceCorroborationPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#country-coverage' ? <section id="country-coverage" className="product-workspace">
+          <ProductErrorBoundary title="Global country coverage is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Global country coverage fabric" />}>
+              <GlobalCountryCoveragePanel />
             </Suspense>
           </ProductErrorBoundary>
         </section> : null}

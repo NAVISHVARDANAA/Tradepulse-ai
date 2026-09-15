@@ -89,6 +89,11 @@ corroboration policies and five synthetic eight-stage review drills. It exposes
 only sanitized workflow state, claims no provider approval or real evidence and
 cannot ingest, verify, publish, train a model or execute a trade.
 
+Phase 8I adds 195 sovereign reference identities, eight consistent intelligence
+domains, 1,560 explicit evidence gaps and seven human-governed release gates.
+It does not invent country facts or enable a live provider, automatic country
+scoring, publication, model training or execution.
+
 The artifact contains `beta-release.json`, a machine-readable statement of its
 scope. Live brokerage, payment execution, charge collection, custody and
 personalized advice remain false. Search indexing also remains disabled.
@@ -170,17 +175,18 @@ evidence in a public issue or artifact.
 
 ## Hosting deployment procedure
 
-After the Phase 8H PR is merged and all `main` checks pass:
+After the Phase 8I PR is merged and all `main` checks pass:
 
-1. Deploy and verify migration 052 with `DEPLOY_DATA_PHASE_8H` and `VERIFY_DATA_PHASE_8H`.
+1. Deploy and verify migration 053 with `DEPLOY_DATA_PHASE_8I` and `VERIFY_DATA_PHASE_8I`.
 2. Open **Actions → Build production web release**.
-3. Select `main`, enter `BUILD_PHASE_8H` and run the workflow.
+3. Select `main`, enter `BUILD_PHASE_8I` and run the workflow.
 4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 5. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-6. Run **Verify web production** with `VERIFY_WEB_PHASE_8H` after deployment
+6. Run **Verify web production** with `VERIFY_WEB_PHASE_8I` after deployment
    or any customer-facing operational incident.
 7. Do not invite external testers until every manual prerequisite above is approved.
 
-Phase 8H adds migration 052 and the evidence operations workspace. Its source
-lanes and review cases are disconnected rehearsals only; ingestion,
-publication, model training and every live capability remain locked off.
+Phase 8I adds migration 053 and the global country coverage workspace. Its 195
+country identities are reference rows and all 1,560 country-domain cells remain
+explicit evidence gaps; provider connectivity, generated facts, publication,
+model training and every live capability remain locked off.

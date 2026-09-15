@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "8H",
-  "status": "global_evidence_corroboration_candidate",
+  "phase": "8I",
+  "status": "global_country_coverage_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -47,7 +47,8 @@
       "agenticInvesting",
       "globalEventIntelligence",
       "controlledLiveRollout",
-      "globalEvidenceOperations"
+      "globalEvidenceOperations",
+      "globalCountryCoverage"
     ]
   },
   "trustLayer": {
@@ -97,6 +98,7 @@
     "check:global-event-intelligence",
     "check:controlled-live-rollout",
     "check:global-evidence-operations",
+    "check:global-country-coverage",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -121,7 +123,8 @@
     "safeguarding-treasury-reconciliation-and-customer-redress-approvals",
     "observed-risk-monitoring-reconciliation-and-kill-switch-drills",
     "licensed-news-rights-and-model-promotion-review",
-    "global-event-source-rights-authenticity-corroboration-and-publication-review"
+    "global-event-source-rights-authenticity-corroboration-and-publication-review",
+    "global-country-domain-source-freshness-and-release-review"
   ],
   "betaHardening": {
     "workspaceEnabled": true,
@@ -513,6 +516,29 @@
     "autonomousPublicationEnabled": false,
     "productionIngestionEnabled": false,
     "modelTrainingEnabled": false,
+    "autonomousTradeExecutionEnabled": false
+  },
+  "globalCountryCoverage": {
+    "workspaceEnabled": true,
+    "sovereignCountryCount": 195,
+    "intelligenceDomainCount": 8,
+    "coverageCellCount": 1560,
+    "evidenceGapCount": 1560,
+    "evidencedCountryCount": 0,
+    "reviewGateCount": 7,
+    "sovereignReferenceCatalogEnabled": true,
+    "explicitEvidenceGapsRequired": true,
+    "sourceRightsReviewRequired": true,
+    "independentCorroborationRequired": true,
+    "temporalFreshnessRequired": true,
+    "humanReleaseReviewRequired": true,
+    "appendOnlyCoverageReference": true,
+    "liveProviderConnectivityEnabled": false,
+    "generatedFactFillEnabled": false,
+    "automaticCountryScoringEnabled": false,
+    "productionIngestionEnabled": false,
+    "modelTrainingEnabled": false,
+    "autonomousPublicationEnabled": false,
     "autonomousTradeExecutionEnabled": false
   },
   "globalVenueInstrumentIntelligence": {

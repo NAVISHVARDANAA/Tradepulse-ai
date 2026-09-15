@@ -677,6 +677,13 @@ automatic verification, publication, model training or execution path is
 enabled. See
 [`docs/GLOBAL_EVIDENCE_CORROBORATION_OPERATIONS.md`](docs/GLOBAL_EVIDENCE_CORROBORATION_OPERATIONS.md).
 
+Phase 8I adds migration `053_global_country_intelligence_coverage.sql` and a
+lazy-loaded global country coverage fabric. It catalogs 195 sovereign-state
+references, eight uniform intelligence domains, 1,560 visible evidence gaps and
+seven human-governed release gates. It does not generate country facts, connect
+live providers, publish claims, train models or execute trades. See
+[`docs/GLOBAL_COUNTRY_INTELLIGENCE_COVERAGE.md`](docs/GLOBAL_COUNTRY_INTELLIGENCE_COVERAGE.md).
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction

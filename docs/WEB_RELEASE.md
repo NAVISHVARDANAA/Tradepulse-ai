@@ -1,4 +1,4 @@
-# Phase 8H production web release foundation
+# Phase 8I production web release foundation
 
 Phase 4W creates a host-neutral controlled-beta candidate for the TradePulse AI web
 application. The artifact includes SPA routing, a static-only service worker,
@@ -17,7 +17,7 @@ the project's public Supabase anon key. `SUPABASE_PROJECT_REF` remains the sourc
 for the approved HTTPS origin.
 
 After merging, open **Actions → Build production web release**, select `main`
-and enter `BUILD_PHASE_8H`. The workflow validates the public configuration,
+and enter `BUILD_PHASE_8I`. The workflow validates the public configuration,
 builds the application and retains the immutable commit-addressed artifact for
 14 days as `tradepulse-beta-rc-<commit>`. It does not publish to a hosting
 provider; provider selection and the first production URL remain manual launch
