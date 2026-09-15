@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type VERIFY_DATA_PHASE_8H for the global evidence corroboration candidate
+        description: Type VERIFY_DATA_PHASE_8I for the global country coverage candidate
         required: true
         type: string
 
@@ -39,8 +39,8 @@ jobs:
           VERIFICATION_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$VERIFICATION_CONFIRMATION" = "VERIFY_DATA_PHASE_8H" || {
-            echo "Verification confirmation did not match VERIFY_DATA_PHASE_8H."
+          test "$VERIFICATION_CONFIRMATION" = "VERIFY_DATA_PHASE_8I" || {
+            echo "Verification confirmation did not match VERIFY_DATA_PHASE_8I."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -69,13 +69,13 @@ jobs:
       - name: Install the repository-pinned Supabase CLI
         run: npm ci
 
-      - name: Verify migration 052 and remote migration parity
+      - name: Verify migration 053 and remote migration parity
         run: |
           set -eu
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])052([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])053([^0-9]|$)' migration-list.txt
           npx --no-install supabase db push \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" \
@@ -233,6 +233,14 @@ jobs:
             --linked \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --file supabase/tests/production/global_evidence_corroboration_operations_smoke.sql
+
+      - name: Verify global country coverage production boundary
+        run: |
+          bash scripts/assert-read-only-sql.sh supabase/tests/production/global_country_intelligence_coverage_smoke.sql
+          npx --no-install supabase db query \
+            --linked \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --file supabase/tests/production/global_country_intelligence_coverage_smoke.sql
 
       - name: Verify the deployed Edge Function
         run: |
@@ -630,7 +638,9 @@ jobs:
             echo "## Supabase production verification"
             echo
             echo "- Commit: \`$GITHUB_SHA\`"
-            echo "- Migration history: synchronized through 050"
+            echo "- Migration history: synchronized through 053"
+            echo "- Global country coverage: 195 sovereign references, eight domains, 1,560 explicit evidence gaps and seven human gates verified; generated facts and providers remain disabled"
+            echo "- Global evidence operations: source rights, corroboration and publication gates verified; all external lanes remain disconnected"
             echo "- Global event intelligence: authenticity gates, causal scenarios, explicit country gaps and private in-app alerts verified; live sources and autonomous publication remain blocked"
             echo "- Agentic investing workspace: private reports and grounded evidence verified; external LLMs, model self-promotion and autonomous execution remain blocked"
             echo "- Global brokerage and custody orchestration: exact launch matrices, evidence rehearsals, cost previews and independent reconciliation verified; activation remains blocked"

@@ -188,6 +188,47 @@ async function mockGuestBackend(page: Page) {
         })),
       ) }); return
     }
+    if (path === '/rest/v1/global_country_coverage_status') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+        control_key: 'global-country-coverage', policy_version: 'global-country-coverage-v1',
+        sovereign_country_target: 195, intelligence_domain_target: 8,
+        reference_country_count: 195, mapped_product_country_count: 12,
+        evidenced_country_count: 0, intelligence_domain_count: 8,
+        coverage_cell_count: 1560, evidence_gap_count: 1560, review_gate_count: 7,
+        explicit_evidence_gaps_required: true, independent_corroboration_required: true,
+        temporal_freshness_required: true, human_release_review_required: true,
+        live_provider_connectivity_enabled: false, generated_fact_fill_enabled: false,
+        automatic_country_scoring_enabled: false, production_ingestion_enabled: false,
+        model_training_enabled: false, autonomous_publication_enabled: false,
+        autonomous_trade_execution_enabled: false,
+      }) }); return
+    }
+    if (path === '/rest/v1/global_sovereign_country_catalog') {
+      const domains = ['macro_economy', 'currency_monetary', 'resources_commodities', 'trade_flows',
+        'logistics_supply_chain', 'markets_corporates', 'climate_weather', 'geopolitics_regulation']
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([
+        { id: 1, country_code: 'IN', country_name: 'India', region_group: 'Asia', existing_country_id: 1, reference_status: 'reference_only', approved_source_count: 0, current_observation_count: 0, completeness_status: 'evidence_missing', intelligence_domain_count: 8, missing_domain_count: 8, missing_domain_keys: domains, publication_eligible: false, model_eligible: false },
+        { id: 2, country_code: 'GB', country_name: 'United Kingdom', region_group: 'Europe', existing_country_id: 2, reference_status: 'reference_only', approved_source_count: 0, current_observation_count: 0, completeness_status: 'evidence_missing', intelligence_domain_count: 8, missing_domain_count: 8, missing_domain_keys: domains, publication_eligible: false, model_eligible: false },
+        { id: 3, country_code: 'US', country_name: 'United States', region_group: 'Americas', existing_country_id: 3, reference_status: 'reference_only', approved_source_count: 0, current_observation_count: 0, completeness_status: 'evidence_missing', intelligence_domain_count: 8, missing_domain_count: 8, missing_domain_keys: domains, publication_eligible: false, model_eligible: false },
+      ]) }); return
+    }
+    if (path === '/rest/v1/global_country_intelligence_domain_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, domain_key: 'resources_commodities', display_name: 'Resources and commodities',
+        coverage_question: 'What licensed evidence supports resource reserves, discoveries, production, imports, exports and substitution risk?',
+        minimum_independent_sources: 3, maximum_source_age_hours: 8760,
+        primary_source_required: true, human_review_required: true,
+        provider_connected: false, automatic_fill_enabled: false,
+        country_count: 195, missing_country_count: 195,
+      }]) }); return
+    }
+    if (path === '/rest/v1/global_country_coverage_gate_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, gate_key: 'source_rights', display_name: 'Source rights',
+        requirement_note: 'Approve the exact provider, endpoint, display, retention, derivation and model-use rights.',
+        blocks_publication: true, blocks_model_use: true, automatic_approval_enabled: false,
+      }]) }); return
+    }
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -337,6 +378,14 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByText('No external source is connected in Phase 8H')).toBeVisible()
   await expect(page.getByText(/workflow fixture, not a real-world claim/i)).toBeVisible()
   await expect(page.getByRole('button', { name: /publish|verify|ingest|train|execute|trade/i })).toHaveCount(0)
+
+  await page.goto('/#country-coverage')
+  await expect(page.getByRole('heading', { level: 1, name: 'Global country coverage fabric' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Global country coverage fabric' })).toBeVisible()
+  await expect(page.getByText('No country fact is generated or inferred in Phase 8I')).toBeVisible()
+  await expect(page.getByText('1,560', { exact: true })).toBeVisible()
+  await expect(page.getByText(/reference checklist, not real-world coverage/i)).toBeVisible()
+  await expect(page.getByRole('button', { name: /publish|generate|infer|score|train|execute|trade/i })).toHaveCount(0)
 
   await page.goto('/#live-rollout')
   await expect(page.getByRole('heading', { level: 1, name: 'Controlled live rollout' })).toBeVisible()
