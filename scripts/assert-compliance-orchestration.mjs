@@ -90,8 +90,8 @@ assert(productionBrowserTest.includes("['#payments', 'Money movement readiness']
 
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
-assert(manifest.phase === '8G', 'Release manifest is not Phase 8D')
-assert(manifest.status === 'controlled_live_rollout_candidate', 'Release status is not the global venue and instrument intelligence candidate')
+assert(manifest.phase === '8H', 'Release manifest is not Phase 8D')
+assert(manifest.status === 'global_evidence_corroboration_candidate', 'Release status is not the global venue and instrument intelligence candidate')
 for (const [key, expected] of Object.entries({
   workspaceEnabled: true,
   syntheticCaseRehearsalOnly: true,
@@ -125,11 +125,11 @@ assert(manifest.requiredChecks.includes('check:compliance-orchestration'), 'Mani
 assert(packageJson.scripts?.['check:compliance-orchestration'], 'Package compliance orchestration check is missing')
 
 for (const [workflow, contract] of [
-  [deployData, 'DEPLOY_DATA_PHASE_8G'],
-  [verifyData, 'VERIFY_DATA_PHASE_8G'],
-  [buildWeb, 'BUILD_PHASE_8G'],
-  [deployWeb, 'DEPLOY_PHASE_8G'],
-  [verifyWeb, 'VERIFY_WEB_PHASE_8G'],
+  [deployData, 'DEPLOY_DATA_PHASE_8H'],
+  [verifyData, 'VERIFY_DATA_PHASE_8H'],
+  [buildWeb, 'BUILD_PHASE_8H'],
+  [deployWeb, 'DEPLOY_PHASE_8H'],
+  [verifyWeb, 'VERIFY_WEB_PHASE_8H'],
 ]) assert(workflow.includes(contract), `Release workflow omits ${contract}`)
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
   assert(workflow.includes('check:compliance-orchestration'), 'A web gate omits compliance orchestration')

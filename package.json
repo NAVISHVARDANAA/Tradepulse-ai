@@ -31,6 +31,7 @@
     "check:agentic-investing": "node scripts/assert-agentic-investing-workspace.mjs",
     "check:global-event-intelligence": "node scripts/assert-global-event-intelligence-engine.mjs",
     "check:controlled-live-rollout": "node scripts/assert-controlled-international-live-rollout.mjs",
+    "check:global-evidence-operations": "node scripts/assert-global-evidence-corroboration-operations.mjs",
     "check:bundle": "node scripts/assert-frontend-budgets.mjs",
     "check:beta": "node scripts/assert-beta-readiness.mjs",
     "check:hosting": "node scripts/assert-cloudflare-hosting.mjs",

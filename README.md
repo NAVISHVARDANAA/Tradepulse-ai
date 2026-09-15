@@ -668,6 +668,15 @@ four drill templates. Every live brokerage, funding, custody, settlement,
 margin, options and automatic activation path remains disabled. See
 [`docs/CONTROLLED_INTERNATIONAL_LIVE_ROLLOUT.md`](docs/CONTROLLED_INTERNATIONAL_LIVE_ROLLOUT.md).
 
+Phase 8H adds migration `052_global_evidence_corroboration_operations.sql` and a
+lazy-loaded global evidence control room. Five disconnected source lanes, six
+claim-specific corroboration policies and five synthetic eight-stage review
+drills make rights, authenticity, freshness, conflicts and human publication
+review explicit. No external source, raw scraping, private-source access,
+automatic verification, publication, model training or execution path is
+enabled. See
+[`docs/GLOBAL_EVIDENCE_CORROBORATION_OPERATIONS.md`](docs/GLOBAL_EVIDENCE_CORROBORATION_OPERATIONS.md).
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction
