@@ -19,6 +19,7 @@ const publicWorkspaces = [
   ['#global-events', 'Global event impact engine'],
   ['#evidence-operations', 'Evidence operations'],
   ['#country-coverage', 'Global country coverage fabric'],
+  ['#dependency-intelligence', 'Global dependency and transmission fabric'],
   ['#risk-command-center', 'Risk command center'],
   ['#regulated-preflight', 'Preflight evidence review'],
   ['#sandbox-orders', 'Sandbox order lifecycle'],
@@ -166,6 +167,11 @@ test('production execution boundaries remain closed to guests', async ({ page })
   await expect(page.getByText('No country fact is generated or inferred in Phase 8I')).toBeVisible()
   await expect(page.getByText(/reference checklist, not real-world coverage/i)).toBeVisible()
   await expect(page.getByRole('button', { name: /publish|generate|infer|score|train|execute|trade/i })).toHaveCount(0)
+
+  await page.goto('/#dependency-intelligence', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByText('No dependency relationship is inferred in Phase 8J')).toBeVisible()
+  await expect(page.getByText('Evidence-empty templates, not market predictions')).toBeVisible()
+  await expect(page.getByRole('button', { name: /publish|infer|score|train|execute|trade/i })).toHaveCount(0)
 
   await page.goto('/#account-security', { waitUntil: 'domcontentloaded' })
   await expect(page.getByText(/Controlled-beta access is limited to approved email addresses/)).toBeVisible()

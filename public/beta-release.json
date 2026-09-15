@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "8I",
-  "status": "global_country_coverage_candidate",
+  "phase": "8J",
+  "status": "global_dependency_transmission_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -48,7 +48,8 @@
       "globalEventIntelligence",
       "controlledLiveRollout",
       "globalEvidenceOperations",
-      "globalCountryCoverage"
+      "globalCountryCoverage",
+      "globalDependencyTransmission"
     ]
   },
   "trustLayer": {
@@ -99,6 +100,7 @@
     "check:controlled-live-rollout",
     "check:global-evidence-operations",
     "check:global-country-coverage",
+    "check:global-dependency-transmission",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -124,7 +126,8 @@
     "observed-risk-monitoring-reconciliation-and-kill-switch-drills",
     "licensed-news-rights-and-model-promotion-review",
     "global-event-source-rights-authenticity-corroboration-and-publication-review",
-    "global-country-domain-source-freshness-and-release-review"
+    "global-country-domain-source-freshness-and-release-review",
+    "global-dependency-direction-magnitude-substitution-and-release-review"
   ],
   "betaHardening": {
     "workspaceEnabled": true,
@@ -537,6 +540,31 @@
     "generatedFactFillEnabled": false,
     "automaticCountryScoringEnabled": false,
     "productionIngestionEnabled": false,
+    "modelTrainingEnabled": false,
+    "autonomousPublicationEnabled": false,
+    "autonomousTradeExecutionEnabled": false
+  },
+  "globalDependencyTransmission": {
+    "workspaceEnabled": true,
+    "sovereignCountryCount": 195,
+    "dependencyDomainCount": 8,
+    "readinessCellCount": 1560,
+    "relationshipGapCount": 1560,
+    "verifiedRelationshipCount": 0,
+    "mechanismTemplateCount": 6,
+    "reviewGateCount": 8,
+    "explicitRelationshipGapsRequired": true,
+    "directedRelationshipEvidenceRequired": true,
+    "temporalAlignmentRequired": true,
+    "exposureMagnitudeRequired": true,
+    "substitutePathReviewRequired": true,
+    "humanReleaseReviewRequired": true,
+    "appendOnlyDependencyReference": true,
+    "liveProviderConnectivityEnabled": false,
+    "automaticRelationshipInferenceEnabled": false,
+    "generatedDependencyFillEnabled": false,
+    "automaticImpactScoringEnabled": false,
+    "productionScenarioPromotionEnabled": false,
     "modelTrainingEnabled": false,
     "autonomousPublicationEnabled": false,
     "autonomousTradeExecutionEnabled": false

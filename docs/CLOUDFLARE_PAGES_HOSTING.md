@@ -31,27 +31,27 @@ is intentionally public and is still constrained by RLS and server-side auth.
 After this PR is merged and all `main` checks pass:
 
 1. Open **Actions → Deploy Supabase production**, choose `main`, enter
-   `DEPLOY_DATA_PHASE_8I` and wait for it to pass.
+   `DEPLOY_DATA_PHASE_8J` and wait for it to pass.
 2. Run **Verify Supabase production** on `main` with
-   `VERIFY_DATA_PHASE_8I` and retain the read-only evidence.
+   `VERIFY_DATA_PHASE_8J` and retain the read-only evidence.
 3. Open **Actions → Build production web release**, choose `main`, enter
-   `BUILD_PHASE_8I` and record the green global-country-coverage web artifact.
+   `BUILD_PHASE_8J` and record the green global-dependency-transmission web artifact.
 4. Open **Actions → Deploy controlled beta web**, choose `main`, enter
-   `DEPLOY_PHASE_8I` and approve the protected production environment.
+   `DEPLOY_PHASE_8J` and approve the protected production environment.
 5. Record the immutable commit, workflow run and Cloudflare deployment URL from
    the job summary. The workflow verifies HTTPS, browser security headers, the
    release manifest and every hard lock after upload. It then runs desktop and
    mobile production browser checks across the public workspaces, Analytics
    interactions, console/network failures and guest execution locks.
 6. After a release or operational incident, open **Actions → Verify web
-   production**, choose `main`, enter `VERIFY_WEB_PHASE_8I` and retain the green
+   production**, choose `main`, enter `VERIFY_WEB_PHASE_8J` and retain the green
    production-browser report.
 7. Do not invite testers yet. Choose and validate the final domain, configure
    its exact Supabase Auth site URL and redirect allow-list, then complete the
    remaining launch prerequisites in `docs/BETA_RELEASE_CANDIDATE.md`.
 
-Deploy and verify migration 053 with the Phase 8I data gates before the web
-workspace. Country identities are reference-only and every country-domain cell
-remains an explicit gap until licensed evidence passes human review. The product
-cannot generate country facts, ingest or publish external claims, train on them,
-route an order, move money, hold assets or settle a trade.
+Deploy and verify migration 054 with the Phase 8J data gates before the web
+workspace. Every country-domain relationship remains an explicit gap until
+licensed, directed and reconciled evidence passes human review. The product
+cannot infer dependencies, score impacts, promote scenarios, publish or train
+on external claims, route an order, move money, hold assets or settle a trade.

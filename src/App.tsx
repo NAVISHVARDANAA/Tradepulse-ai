@@ -53,6 +53,9 @@ const EvidenceCorroborationPanel = lazy(() => import('./components/EvidenceCorro
 const GlobalCountryCoveragePanel = lazy(() => import('./components/GlobalCountryCoveragePanel').then((module) => ({
   default: module.GlobalCountryCoveragePanel,
 })))
+const GlobalDependencyTransmissionPanel = lazy(() => import('./components/GlobalDependencyTransmissionPanel').then((module) => ({
+  default: module.GlobalDependencyTransmissionPanel,
+})))
 const AccountSecurityPanel = lazy(() => import('./components/AccountSecurityPanel').then((module) => ({
   default: module.AccountSecurityPanel,
 })))
@@ -518,6 +521,14 @@ function App() {
           <ProductErrorBoundary title="Global country coverage is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Global country coverage fabric" />}>
               <GlobalCountryCoveragePanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#dependency-intelligence' ? <section id="dependency-intelligence" className="product-workspace">
+          <ProductErrorBoundary title="Global dependency intelligence is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Global dependency and transmission fabric" />}>
+              <GlobalDependencyTransmissionPanel />
             </Suspense>
           </ProductErrorBoundary>
         </section> : null}

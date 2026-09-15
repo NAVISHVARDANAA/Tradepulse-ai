@@ -64,6 +64,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Inspect one consistent evidence checklist across 195 sovereign-state references and eight intelligence domains without hiding missing facts.',
     boundary: 'Reference identity · evidence gaps visible',
   },
+  '#dependency-intelligence': {
+    eyebrow: 'Global dependency intelligence',
+    title: 'Global dependency and transmission fabric',
+    description: 'Inspect the evidence contracts and mechanism templates required before country, commodity, logistics, currency or policy relationships can support an impact scenario.',
+    boundary: 'No inferred links · no impact score',
+  },
   '#global-access': {
     eyebrow: 'Global market intelligence',
     title: 'Venue and instrument access map',

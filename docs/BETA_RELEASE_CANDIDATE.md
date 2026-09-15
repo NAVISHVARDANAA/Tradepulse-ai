@@ -94,6 +94,12 @@ domains, 1,560 explicit evidence gaps and seven human-governed release gates.
 It does not invent country facts or enable a live provider, automatic country
 scoring, publication, model training or execution.
 
+Phase 8J adds eight directed dependency evidence domains across all 195 country
+references, creating 1,560 explicit relationship gaps. Six evidence-empty
+transmission templates and eight human gates define the only path toward later
+scenario use. It does not infer relationships, score impacts, promote
+scenarios, publish, train models or execute trades.
+
 The artifact contains `beta-release.json`, a machine-readable statement of its
 scope. Live brokerage, payment execution, charge collection, custody and
 personalized advice remain false. Search indexing also remains disabled.
@@ -153,7 +159,12 @@ personalized advice remain false. Search indexing also remains disabled.
 10. Approve licensed news usage, source retention rules and the human model-promotion process.
 11. Approve event-source rights, authenticity thresholds, corroboration policy and publication review.
 
-These are operational, legal and business launch decisions. Passing Phase 8F
+12. Approve global evidence-source rights, privacy, security, retention and editorial ownership.
+13. Approve country-domain sources, freshness, reconciliation and human release ownership.
+14. Approve dependency direction, units, magnitude, substitution and uncertainty review.
+15. Approve any later source-specific scenario integration independently.
+
+These are operational, legal and business launch decisions. Passing Phase 8J
 means the engineering candidate is ready for that review; it does not certify
 regulatory approval or declare a public production launch.
 
@@ -175,18 +186,19 @@ evidence in a public issue or artifact.
 
 ## Hosting deployment procedure
 
-After the Phase 8I PR is merged and all `main` checks pass:
+After the Phase 8J PR is merged and all `main` checks pass:
 
-1. Deploy and verify migration 053 with `DEPLOY_DATA_PHASE_8I` and `VERIFY_DATA_PHASE_8I`.
+1. Deploy and verify migration 054 with `DEPLOY_DATA_PHASE_8J` and `VERIFY_DATA_PHASE_8J`.
 2. Open **Actions → Build production web release**.
-3. Select `main`, enter `BUILD_PHASE_8I` and run the workflow.
+3. Select `main`, enter `BUILD_PHASE_8J` and run the workflow.
 4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 5. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-6. Run **Verify web production** with `VERIFY_WEB_PHASE_8I` after deployment
+6. Run **Verify web production** with `VERIFY_WEB_PHASE_8J` after deployment
    or any customer-facing operational incident.
 7. Do not invite external testers until every manual prerequisite above is approved.
 
-Phase 8I adds migration 053 and the global country coverage workspace. Its 195
-country identities are reference rows and all 1,560 country-domain cells remain
-explicit evidence gaps; provider connectivity, generated facts, publication,
-model training and every live capability remain locked off.
+Phase 8J adds migration 054 and the dependency/transmission workspace. All 1,560
+country-domain cells remain explicit relationship gaps, and every mechanism
+template lacks probability, confidence and effect values. Provider connectivity,
+inference, generated filling, scoring, scenario promotion, publication, model
+training and every live capability remain locked off.
