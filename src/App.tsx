@@ -56,6 +56,9 @@ const GlobalCountryCoveragePanel = lazy(() => import('./components/GlobalCountry
 const GlobalDependencyTransmissionPanel = lazy(() => import('./components/GlobalDependencyTransmissionPanel').then((module) => ({
   default: module.GlobalDependencyTransmissionPanel,
 })))
+const GlobalObservationProvenancePanel = lazy(() => import('./components/GlobalObservationProvenancePanel').then((module) => ({
+  default: module.GlobalObservationProvenancePanel,
+})))
 const AccountSecurityPanel = lazy(() => import('./components/AccountSecurityPanel').then((module) => ({
   default: module.AccountSecurityPanel,
 })))
@@ -529,6 +532,14 @@ function App() {
           <ProductErrorBoundary title="Global dependency intelligence is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Global dependency and transmission fabric" />}>
               <GlobalDependencyTransmissionPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#observation-intake' ? <section id="observation-intake" className="product-workspace">
+          <ProductErrorBoundary title="Global observation provenance is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Global observation provenance and quarantine fabric" />}>
+              <GlobalObservationProvenancePanel />
             </Suspense>
           </ProductErrorBoundary>
         </section> : null}

@@ -453,6 +453,13 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByText('Evidence-empty templates, not market predictions')).toBeVisible()
   await expect(page.getByRole('button', { name: /publish|infer|score|train|execute|trade/i })).toHaveCount(0)
 
+  await page.goto('/#observation-intake')
+  await expect(page.getByRole('heading', { level: 1, name: 'Observation intake and quarantine' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Global observation provenance and quarantine fabric' })).toBeVisible()
+  await expect(page.getByText('No provider or observation is connected in Phase 8K')).toBeVisible()
+  await expect(page.getByText('Nine canonical normalization contracts')).toBeVisible()
+  await expect(page.getByRole('button', { name: /ingest|normalize|release|publish|train|execute|trade/i })).toHaveCount(0)
+
   await page.goto('/#live-rollout')
   await expect(page.getByRole('heading', { level: 1, name: 'Controlled live rollout' })).toBeVisible()
   await expect(page.getByRole('heading', { level: 2, name: 'Live rollout control plane' })).toBeVisible()

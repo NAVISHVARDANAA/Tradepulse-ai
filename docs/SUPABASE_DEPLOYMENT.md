@@ -40,18 +40,18 @@ The dashboard will show `not run`; an authorized probe without credentials fails
 closed and stores only `CONFIGURATION_INVALID`. Never use Alpaca live credentials
 for this adapter.
 
-## Release Phase 8J
+## Release Phase 8K
 
 1. Confirm the CI workflow on `main` is green.
 2. Open **Actions → Deploy Supabase production → Run workflow**.
 3. Select the `main` branch.
-4. Enter `DEPLOY_DATA_PHASE_8J` as the confirmation value.
+4. Enter `DEPLOY_DATA_PHASE_8K` as the confirmation value.
 5. Approve the `production` environment deployment when prompted.
 
 The workflow performs a database dry run, applies every pending migration in
 filename order and redeploys every customer and internal Edge Function affected
 by the shared security, observability and account-protection boundary. It verifies
-migration `054`, checks active functions, verifies global-dependency-transmission, global-country-coverage, global-evidence, controlled-live-rollout, global-event-intelligence, private agentic-investing, regulated-preflight,
+migration `055`, checks active functions, verifies global-observation-provenance, global-dependency-transmission, global-country-coverage, global-evidence, controlled-live-rollout, global-event-intelligence, private agentic-investing, regulated-preflight,
 internal-only sandbox-order, corridor-intelligence, beneficiary-protection and payment-compliance boundaries, and confirms approved public
 runtime reads return HTTP 2xx. It also runs query-only production lock smoke
 checks and proves that unauthenticated brokerage, paper-simulation,
@@ -60,7 +60,7 @@ platform-evaluation and account-security requests receive HTTP 401.
 ## Read-only production verification
 
 Run **Actions → Verify Supabase production → Run workflow** after a release or
-operational incident. Select `main` and enter `VERIFY_DATA_PHASE_8J`.
+operational incident. Select `main` and enter `VERIFY_DATA_PHASE_8K`.
 
 The verification workflow performs no production writes. It confirms local and
 remote migration parity, executes the audited, query-only
@@ -79,6 +79,7 @@ remote migration parity, executes the audited, query-only
 `global_evidence_corroboration_operations_smoke.sql` blocks,
 `global_country_intelligence_coverage_smoke.sql` blocks,
 `global_dependency_transmission_readiness_smoke.sql` blocks,
+`global_observation_provenance_quarantine_smoke.sql` blocks,
 checks that protected Edge Functions are active,
 proves that approved anonymous browser reads work, confirms that protected
 unauthenticated requests remain blocked and confirms that internal broker jobs
@@ -115,6 +116,10 @@ Phase 8J adds the global dependency and transmission readiness fabric described
 in `docs/GLOBAL_DEPENDENCY_TRANSMISSION_READINESS.md`; it cannot infer or fill a
 relationship, score an impact, promote a scenario, train a model, publish or
 execute a trade.
+Phase 8K adds the global observation provenance and quarantine fabric described
+in `docs/GLOBAL_OBSERVATION_PROVENANCE_QUARANTINE.md`; it cannot connect a
+provider, ingest or release an observation, auto-normalize or resolve conflicts,
+train a model, publish or execute a trade.
 
 ## Runtime baseline
 

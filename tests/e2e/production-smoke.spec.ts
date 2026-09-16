@@ -20,6 +20,7 @@ const publicWorkspaces = [
   ['#evidence-operations', 'Evidence operations'],
   ['#country-coverage', 'Global country coverage fabric'],
   ['#dependency-intelligence', 'Global dependency and transmission fabric'],
+  ['#observation-intake', 'Observation intake and quarantine'],
   ['#risk-command-center', 'Risk command center'],
   ['#regulated-preflight', 'Preflight evidence review'],
   ['#sandbox-orders', 'Sandbox order lifecycle'],
@@ -172,6 +173,11 @@ test('production execution boundaries remain closed to guests', async ({ page })
   await expect(page.getByText('No dependency relationship is inferred in Phase 8J')).toBeVisible()
   await expect(page.getByText('Evidence-empty templates, not market predictions')).toBeVisible()
   await expect(page.getByRole('button', { name: /publish|infer|score|train|execute|trade/i })).toHaveCount(0)
+
+  await page.goto('/#observation-intake', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByText('No provider or observation is connected in Phase 8K')).toBeVisible()
+  await expect(page.getByText('Nine canonical normalization contracts')).toBeVisible()
+  await expect(page.getByRole('button', { name: /ingest|normalize|release|publish|train|execute|trade/i })).toHaveCount(0)
 
   await page.goto('/#account-security', { waitUntil: 'domcontentloaded' })
   await expect(page.getByText(/Controlled-beta access is limited to approved email addresses/)).toBeVisible()

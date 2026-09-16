@@ -70,6 +70,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Inspect the evidence contracts and mechanism templates required before country, commodity, logistics, currency or policy relationships can support an impact scenario.',
     boundary: 'No inferred links · no impact score',
   },
+  '#observation-intake': {
+    eyebrow: 'Global observation provenance',
+    title: 'Observation intake and quarantine',
+    description: 'Inspect the source, normalization, temporal, rights and human-review contracts required before a future observation may leave quarantine.',
+    boundary: 'No connected providers · no released data',
+  },
   '#global-access': {
     eyebrow: 'Global market intelligence',
     title: 'Venue and instrument access map',

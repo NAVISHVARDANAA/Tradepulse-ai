@@ -100,6 +100,12 @@ transmission templates and eight human gates define the only path toward later
 scenario use. It does not infer relationships, score impacts, promote
 scenarios, publish, train models or execute trades.
 
+Phase 8K adds eight disconnected source-family contracts, nine canonical
+normalization contracts, eight empty quarantine lanes and eight human release
+gates. It connects no endpoint, approves no source right, receives or releases
+no observation, resolves no conflict, publishes nothing and enables no model or
+execution path.
+
 The artifact contains `beta-release.json`, a machine-readable statement of its
 scope. Live brokerage, payment execution, charge collection, custody and
 personalized advice remain false. Search indexing also remains disabled.
@@ -162,9 +168,10 @@ personalized advice remain false. Search indexing also remains disabled.
 12. Approve global evidence-source rights, privacy, security, retention and editorial ownership.
 13. Approve country-domain sources, freshness, reconciliation and human release ownership.
 14. Approve dependency direction, units, magnitude, substitution and uncertainty review.
-15. Approve any later source-specific scenario integration independently.
+15. Approve provider rights, endpoint and schema certification, deterministic normalization, corroboration and conflict ownership.
+16. Approve any later observation release or source-specific scenario integration independently.
 
-These are operational, legal and business launch decisions. Passing Phase 8J
+These are operational, legal and business launch decisions. Passing Phase 8K
 means the engineering candidate is ready for that review; it does not certify
 regulatory approval or declare a public production launch.
 
@@ -186,19 +193,19 @@ evidence in a public issue or artifact.
 
 ## Hosting deployment procedure
 
-After the Phase 8J PR is merged and all `main` checks pass:
+After the Phase 8K PR is merged and all `main` checks pass:
 
-1. Deploy and verify migration 054 with `DEPLOY_DATA_PHASE_8J` and `VERIFY_DATA_PHASE_8J`.
+1. Deploy and verify migration 055 with `DEPLOY_DATA_PHASE_8K` and `VERIFY_DATA_PHASE_8K`.
 2. Open **Actions → Build production web release**.
-3. Select `main`, enter `BUILD_PHASE_8J` and run the workflow.
+3. Select `main`, enter `BUILD_PHASE_8K` and run the workflow.
 4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 5. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-6. Run **Verify web production** with `VERIFY_WEB_PHASE_8J` after deployment
+6. Run **Verify web production** with `VERIFY_WEB_PHASE_8K` after deployment
    or any customer-facing operational incident.
 7. Do not invite external testers until every manual prerequisite above is approved.
 
-Phase 8J adds migration 054 and the dependency/transmission workspace. All 1,560
-country-domain cells remain explicit relationship gaps, and every mechanism
-template lacks probability, confidence and effect values. Provider connectivity,
-inference, generated filling, scoring, scenario promotion, publication, model
-training and every live capability remain locked off.
+Phase 8K adds migration 055 and the observation provenance/quarantine workspace.
+All eight source families remain disconnected, all eight quarantine lanes are
+empty, and no endpoint, credential, source right, candidate observation or
+release is approved. Automatic normalization, conflict resolution, publication,
+model training and every live capability remain locked off.

@@ -693,6 +693,14 @@ provider connection, generated filling, scoring, scenario promotion, training,
 publication and execution remain locked off. See
 [`docs/GLOBAL_DEPENDENCY_TRANSMISSION_READINESS.md`](docs/GLOBAL_DEPENDENCY_TRANSMISSION_READINESS.md).
 
+Phase 8K adds migration `055_global_observation_provenance_quarantine.sql` and
+a lazy-loaded global observation intake workspace. It defines eight disconnected
+source-family contracts, nine canonical normalization requirements, eight empty
+quarantine lanes and eight human release gates. No endpoint, credential, source
+right, observation, automatic normalization, conflict resolution, model use,
+publication or execution path is enabled. See
+[`docs/GLOBAL_OBSERVATION_PROVENANCE_QUARANTINE.md`](docs/GLOBAL_OBSERVATION_PROVENANCE_QUARANTINE.md).
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction
