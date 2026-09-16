@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type DEPLOY_PHASE_8J for the global dependency transmission candidate
+        description: Type DEPLOY_PHASE_8K for the global observation provenance candidate
         required: true
         type: string
 
@@ -36,7 +36,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "DEPLOY_PHASE_8J"
+          test "$RELEASE_CONFIRMATION" = "DEPLOY_PHASE_8K"
           test -n "$CLOUDFLARE_API_TOKEN"
           test -n "$CLOUDFLARE_ACCOUNT_ID"
           test -n "$CLOUDFLARE_PAGES_PROJECT"
@@ -79,6 +79,7 @@ jobs:
       - run: npm run check:global-evidence-operations
       - run: npm run check:global-country-coverage
       - run: npm run check:global-dependency-transmission
+      - run: npm run check:global-observation-provenance
       - run: npm run check:production-experience
       - run: npm run check:bundle
       - run: npm run check:release

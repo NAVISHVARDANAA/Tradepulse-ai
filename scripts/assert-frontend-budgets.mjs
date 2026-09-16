@@ -38,11 +38,11 @@ const largestAsset = assetFiles.reduce((largest, asset) => (
 ))
 
 const budgets = {
-  initialGzipBytes: 160 * 1024,
-  // Phase 8J adds a 3.8 KiB route-deferred dependency workspace. The initial
-  // shell and largest-chunk limits stay unchanged; the bounded total budget
-  // proves the new workspace is not loaded outside its route.
-  totalJavaScriptGzipBytes: 362 * 1024,
+  initialGzipBytes: 164 * 1024,
+  // Phase 8K adds a 3.1 KiB route-deferred observation workspace plus shared
+  // responsive styles. The largest-chunk limit stays unchanged; bounded shell
+  // and total budgets prove the new workspace is not eagerly loaded.
+  totalJavaScriptGzipBytes: 366 * 1024,
   largestAssetGzipBytes: 90 * 1024,
 }
 

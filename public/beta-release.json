@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "8J",
-  "status": "global_dependency_transmission_candidate",
+  "phase": "8K",
+  "status": "global_observation_provenance_quarantine_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -49,7 +49,8 @@
       "controlledLiveRollout",
       "globalEvidenceOperations",
       "globalCountryCoverage",
-      "globalDependencyTransmission"
+      "globalDependencyTransmission",
+      "globalObservationProvenance"
     ]
   },
   "trustLayer": {
@@ -101,6 +102,7 @@
     "check:global-evidence-operations",
     "check:global-country-coverage",
     "check:global-dependency-transmission",
+    "check:global-observation-provenance",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -127,7 +129,8 @@
     "licensed-news-rights-and-model-promotion-review",
     "global-event-source-rights-authenticity-corroboration-and-publication-review",
     "global-country-domain-source-freshness-and-release-review",
-    "global-dependency-direction-magnitude-substitution-and-release-review"
+    "global-dependency-direction-magnitude-substitution-and-release-review",
+    "global-observation-provider-rights-normalization-corroboration-and-release-review"
   ],
   "betaHardening": {
     "workspaceEnabled": true,
@@ -565,6 +568,33 @@
     "generatedDependencyFillEnabled": false,
     "automaticImpactScoringEnabled": false,
     "productionScenarioPromotionEnabled": false,
+    "modelTrainingEnabled": false,
+    "autonomousPublicationEnabled": false,
+    "autonomousTradeExecutionEnabled": false
+  },
+  "globalObservationProvenance": {
+    "workspaceEnabled": true,
+    "sourceFamilyCount": 8,
+    "disconnectedSourceCount": 8,
+    "normalizationContractCount": 9,
+    "quarantineLaneCount": 8,
+    "candidateObservationCount": 0,
+    "releasedObservationCount": 0,
+    "releaseGateCount": 8,
+    "immutableProvenanceRequired": true,
+    "sourceRightsRequired": true,
+    "schemaValidationRequired": true,
+    "unitNormalizationRequired": true,
+    "temporalLineageRequired": true,
+    "independentCorroborationRequired": true,
+    "conflictQuarantineRequired": true,
+    "humanReleaseReviewRequired": true,
+    "appendOnlyReferenceContracts": true,
+    "liveProviderConnectivityEnabled": false,
+    "productionIngestionEnabled": false,
+    "automaticNormalizationApprovalEnabled": false,
+    "automaticConflictResolutionEnabled": false,
+    "automaticReleaseEnabled": false,
     "modelTrainingEnabled": false,
     "autonomousPublicationEnabled": false,
     "autonomousTradeExecutionEnabled": false

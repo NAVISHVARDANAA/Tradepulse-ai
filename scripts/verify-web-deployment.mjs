@@ -469,6 +469,33 @@ if (
   manifest.globalDependencyTransmission?.autonomousTradeExecutionEnabled !== false
 ) throw new Error('Deployed global dependency transmission boundary is incomplete or unsafe.')
 if (
+  manifest.globalObservationProvenance?.workspaceEnabled !== true ||
+  manifest.globalObservationProvenance?.sourceFamilyCount !== 8 ||
+  manifest.globalObservationProvenance?.disconnectedSourceCount !== 8 ||
+  manifest.globalObservationProvenance?.normalizationContractCount !== 9 ||
+  manifest.globalObservationProvenance?.quarantineLaneCount !== 8 ||
+  manifest.globalObservationProvenance?.candidateObservationCount !== 0 ||
+  manifest.globalObservationProvenance?.releasedObservationCount !== 0 ||
+  manifest.globalObservationProvenance?.releaseGateCount !== 8 ||
+  manifest.globalObservationProvenance?.immutableProvenanceRequired !== true ||
+  manifest.globalObservationProvenance?.sourceRightsRequired !== true ||
+  manifest.globalObservationProvenance?.schemaValidationRequired !== true ||
+  manifest.globalObservationProvenance?.unitNormalizationRequired !== true ||
+  manifest.globalObservationProvenance?.temporalLineageRequired !== true ||
+  manifest.globalObservationProvenance?.independentCorroborationRequired !== true ||
+  manifest.globalObservationProvenance?.conflictQuarantineRequired !== true ||
+  manifest.globalObservationProvenance?.humanReleaseReviewRequired !== true ||
+  manifest.globalObservationProvenance?.appendOnlyReferenceContracts !== true ||
+  manifest.globalObservationProvenance?.liveProviderConnectivityEnabled !== false ||
+  manifest.globalObservationProvenance?.productionIngestionEnabled !== false ||
+  manifest.globalObservationProvenance?.automaticNormalizationApprovalEnabled !== false ||
+  manifest.globalObservationProvenance?.automaticConflictResolutionEnabled !== false ||
+  manifest.globalObservationProvenance?.automaticReleaseEnabled !== false ||
+  manifest.globalObservationProvenance?.modelTrainingEnabled !== false ||
+  manifest.globalObservationProvenance?.autonomousPublicationEnabled !== false ||
+  manifest.globalObservationProvenance?.autonomousTradeExecutionEnabled !== false
+) throw new Error('Deployed global observation provenance boundary is incomplete or unsafe.')
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||

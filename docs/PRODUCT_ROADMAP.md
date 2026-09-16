@@ -1111,6 +1111,33 @@ relationship requires source-specific rights, directed identity, temporal and
 unit reconciliation, observed magnitude, substitution review and accountable
 human approval before any scenario use.
 
+### Phase 8K — global observation provenance and quarantine fabric (implemented foundation)
+
+- Eight source-family contracts cover official statistics, central banks,
+  regulators and law, issuer filings, licensed market data, licensed news,
+  licensed logistics, and official geoscience and hazard evidence.
+- Every connector is explicitly disconnected and every quarantine lane contains
+  zero candidate, validated, corroborated, conflicting or released observations.
+- Nine canonical contracts preserve source and subject identity, field meaning,
+  value and missingness, units, geography, observation time, revision lineage
+  and exact use rights.
+- Eight gates cover source rights, authenticity, identity, normalization,
+  temporal lineage, schema quality, independent corroboration and accountable
+  conflict-aware human release.
+- Sanitized public views expose readiness contracts and explicit empty states
+  without exposing endpoints, credentials, payloads or reviewer evidence.
+- Live connectivity, production ingestion, automatic normalization or conflict
+  decisions, release, model training, publication and execution remain locked off.
+
+**Phase 8K exit gate:** green global-observation-provenance,
+global-dependency-transmission, global-country-coverage, database, browser,
+security, bundle and release contracts; reviewed `DEPLOY_DATA_PHASE_8K`;
+read-only `VERIFY_DATA_PHASE_8K`; successful `BUILD_PHASE_8K`; reviewed
+`DEPLOY_PHASE_8K`; and read-only `VERIFY_WEB_PHASE_8K` evidence. A real
+observation requires provider-specific licensing, endpoint and schema
+certification, deterministic normalization, corroboration, conflict review and
+accountable human release in a later phase.
+
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.

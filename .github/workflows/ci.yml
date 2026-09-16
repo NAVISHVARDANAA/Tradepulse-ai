@@ -117,6 +117,9 @@ jobs:
       - name: Verify global dependency and transmission readiness
         run: npm run check:global-dependency-transmission
 
+      - name: Verify global observation provenance quarantine
+        run: npm run check:global-observation-provenance
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 
@@ -342,6 +345,9 @@ jobs:
 
       - name: Test global dependency and transmission readiness database contracts
         run: npx --no-install supabase test db supabase/tests/database/global_dependency_transmission_readiness.test.sql
+
+      - name: Test global observation provenance quarantine database contracts
+        run: npx --no-install supabase test db supabase/tests/database/global_observation_provenance_quarantine.test.sql
 
       - name: Test broker-sandbox certification contracts
         run: npx --no-install supabase test db supabase/tests/database/broker_sandbox_certification.test.sql
