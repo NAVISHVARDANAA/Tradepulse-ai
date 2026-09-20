@@ -120,6 +120,9 @@ jobs:
       - name: Verify global observation provenance quarantine
         run: npm run check:global-observation-provenance
 
+      - name: Verify global provider certification and isolated intake
+        run: npm run check:global-provider-certification
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 
@@ -348,6 +351,9 @@ jobs:
 
       - name: Test global observation provenance quarantine database contracts
         run: npx --no-install supabase test db supabase/tests/database/global_observation_provenance_quarantine.test.sql
+
+      - name: Test global provider certification and isolated intake database contracts
+        run: npx --no-install supabase test db supabase/tests/database/global_provider_certification_isolated_intake.test.sql
 
       - name: Test broker-sandbox certification contracts
         run: npx --no-install supabase test db supabase/tests/database/broker_sandbox_certification.test.sql

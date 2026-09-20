@@ -76,6 +76,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Inspect the source, normalization, temporal, rights and human-review contracts required before a future observation may leave quarantine.',
     boundary: 'No connected providers · no released data',
   },
+  '#provider-certification': {
+    eyebrow: 'Provider certification readiness',
+    title: 'Provider certification and isolation',
+    description: 'Inspect the legal, rights, privacy, security, schema and failure-drill evidence required before a future provider may enter a bounded test environment.',
+    boundary: 'No selected provider · no endpoint test',
+  },
   '#global-access': {
     eyebrow: 'Global market intelligence',
     title: 'Venue and instrument access map',

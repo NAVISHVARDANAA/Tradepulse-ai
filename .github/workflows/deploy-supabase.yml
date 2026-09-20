@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type DEPLOY_DATA_PHASE_8K for the global observation provenance candidate
+        description: Type DEPLOY_DATA_PHASE_8L for the provider certification and isolated intake candidate
         required: true
         type: string
 
@@ -39,8 +39,8 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_8K" || {
-            echo "Release confirmation did not match DEPLOY_DATA_PHASE_8K."
+          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_8L" || {
+            echo "Release confirmation did not match DEPLOY_DATA_PHASE_8L."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -212,7 +212,7 @@ jobs:
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])055([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])056([^0-9]|$)' migration-list.txt
 
       - name: Verify approved-tester pilot production boundary
         run: |
@@ -373,6 +373,14 @@ jobs:
             --linked \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --file supabase/tests/production/global_observation_provenance_quarantine_smoke.sql
+
+      - name: Verify global provider certification and isolated intake production boundary
+        run: |
+          bash scripts/assert-read-only-sql.sh supabase/tests/production/global_provider_certification_isolated_intake_smoke.sql
+          npx --no-install supabase db query \
+            --linked \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --file supabase/tests/production/global_provider_certification_isolated_intake_smoke.sql
 
       - name: Verify production public web reads
         run: bash scripts/verify-public-runtime-read.sh
@@ -778,7 +786,8 @@ jobs:
             echo "## Supabase production deployment"
             echo
             echo "- Commit: \`$GITHUB_SHA\`"
-            echo "- Migration 055: disconnected source contracts, normalization contracts, empty quarantine lanes and human release gates deployed"
+            echo "- Migration 056: unselected provider profiles, certification gates, unprovisioned isolation profiles and failure-drill templates deployed"
+            echo "- Provider selection, endpoint testing, credentials, candidate intake and observation release: disabled"
             echo "- Dependency inference, automatic filling, scoring, scenario promotion, model training, publication and execution: disabled"
             echo "- Migration 053: global country reference, eight-domain coverage matrix and explicit evidence gaps verified"
             echo "- Country fact generation, automatic scoring, publication and model training: disabled"

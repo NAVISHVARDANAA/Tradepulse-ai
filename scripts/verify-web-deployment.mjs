@@ -496,6 +496,34 @@ if (
   manifest.globalObservationProvenance?.autonomousTradeExecutionEnabled !== false
 ) throw new Error('Deployed global observation provenance boundary is incomplete or unsafe.')
 if (
+  manifest.globalProviderCertification?.workspaceEnabled !== true ||
+  manifest.globalProviderCertification?.sourceFamilyCount !== 8 ||
+  manifest.globalProviderCertification?.unselectedProviderCount !== 8 ||
+  manifest.globalProviderCertification?.certifiedProviderCount !== 0 ||
+  manifest.globalProviderCertification?.certificationGateCount !== 10 ||
+  manifest.globalProviderCertification?.isolationProfileCount !== 8 ||
+  manifest.globalProviderCertification?.unprovisionedIsolationCount !== 8 ||
+  manifest.globalProviderCertification?.failureDrillCount !== 6 ||
+  manifest.globalProviderCertification?.observedDrillCount !== 0 ||
+  manifest.globalProviderCertification?.namedLegalOwnerRequired !== true ||
+  manifest.globalProviderCertification?.sourceRightsReviewRequired !== true ||
+  manifest.globalProviderCertification?.privacySecurityReviewRequired !== true ||
+  manifest.globalProviderCertification?.versionedSchemaContractRequired !== true ||
+  manifest.globalProviderCertification?.boundedIsolationRequired !== true ||
+  manifest.globalProviderCertification?.accountableHumanActivationRequired !== true ||
+  manifest.globalProviderCertification?.appendOnlyReferenceContracts !== true ||
+  manifest.globalProviderCertification?.providerSelectionEnabled !== false ||
+  manifest.globalProviderCertification?.endpointTestingEnabled !== false ||
+  manifest.globalProviderCertification?.credentialStorageEnabled !== false ||
+  manifest.globalProviderCertification?.candidateIntakeEnabled !== false ||
+  manifest.globalProviderCertification?.productionIngestionEnabled !== false ||
+  manifest.globalProviderCertification?.automaticCertificationEnabled !== false ||
+  manifest.globalProviderCertification?.observationReleaseEnabled !== false ||
+  manifest.globalProviderCertification?.modelTrainingEnabled !== false ||
+  manifest.globalProviderCertification?.autonomousPublicationEnabled !== false ||
+  manifest.globalProviderCertification?.autonomousTradeExecutionEnabled !== false
+) throw new Error('Deployed global provider certification boundary is incomplete or unsafe.')
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||

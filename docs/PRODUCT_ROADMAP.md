@@ -1138,6 +1138,32 @@ observation requires provider-specific licensing, endpoint and schema
 certification, deterministic normalization, corroboration, conflict review and
 accountable human release in a later phase.
 
+### Phase 8L — provider certification and isolated intake readiness (implemented foundation)
+
+- Eight provider-family profiles preserve an explicit unselected and
+  uncertified state, with no provider identity, endpoint or credentials.
+- Ten human certification gates cover legal ownership, access, display,
+  retention, derivation, privacy, security, endpoint/schema integrity,
+  availability, change management and accountable activation.
+- Eight isolated-intake profiles remain unprovisioned, with no network route,
+  secret reference, retention approval or candidate payload.
+- Six evidence-required failure-drill templates cover credential rejection,
+  schema drift, rights withdrawal, replay or staleness, conflicting evidence and
+  isolation escape; none claims observed evidence.
+- Sanitized public views expose only readiness gaps and fail-closed controls.
+- Provider selection, endpoint testing, credential storage, intake, ingestion,
+  certification, observation release, model training, publication and execution
+  remain locked off.
+
+**Phase 8L exit gate:** green global-provider-certification,
+global-observation-provenance, database, browser, security, bundle and release
+contracts; reviewed `DEPLOY_DATA_PHASE_8L`; read-only `VERIFY_DATA_PHASE_8L`;
+successful `BUILD_PHASE_8L`; reviewed `DEPLOY_PHASE_8L`; and read-only
+`VERIFY_WEB_PHASE_8L` evidence. A real provider still requires independently
+approved legal rights, privacy and security evidence, endpoint and schema
+certification, provisioned isolation, observed failure drills and accountable
+human activation before a candidate observation can enter quarantine.
+
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.
