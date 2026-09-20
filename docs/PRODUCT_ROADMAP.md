@@ -1164,6 +1164,31 @@ approved legal rights, privacy and security evidence, endpoint and schema
 certification, provisioned isolation, observed failure drills and accountable
 human activation before a candidate observation can enter quarantine.
 
+### Phase 8M — provider-neutral contract-test laboratory (implemented foundation)
+
+- Eight specification-only contract suites map the established observation
+  source families without recording a provider, endpoint, credential or payload.
+- Ten canonical assertions define fail-closed identity, schema, field,
+  missingness, unit, temporal, lineage and idempotency behavior.
+- Twenty-four deterministic synthetic fixture specifications cover minimal-valid,
+  missing-required-field and schema-drift cases across all eight source families.
+- No fixture or contract test is represented as executed, passed or approved;
+  every execution counter remains zero.
+- Sanitized public views expose reference specifications only, while append-only
+  database controls prevent browser or service-role mutation.
+- Provider selection, endpoint execution, credential access, external payload
+  intake, fixture execution, candidate writes, automatic approval, observation
+  release, model training, publication and trading remain locked off.
+
+**Phase 8M exit gate:** green global-provider-contract-tests,
+global-provider-certification, database, browser, security, bundle and release
+contracts; reviewed `DEPLOY_DATA_PHASE_8M`; read-only `VERIFY_DATA_PHASE_8M`;
+successful `BUILD_PHASE_8M`; reviewed `DEPLOY_PHASE_8M`; and read-only
+`VERIFY_WEB_PHASE_8M` evidence. A provider-specific adapter test still requires
+approved legal rights, privacy and security evidence, isolated secrets, a
+versioned field mapping, observed fail-closed evidence and accountable human
+authorization in a separate change.
+
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.

@@ -13,9 +13,9 @@ const artifactManifest = JSON.parse(artifactManifestText)
 
 assert(manifest.schemaVersion === 1, 'Unexpected beta manifest schema')
 assert(manifest.release === 'controlled-beta-rc2', 'Unexpected beta release identifier')
-assert(manifest.phase === '8L', 'Beta manifest is not on Phase 8L')
+assert(manifest.phase === '8M', 'Beta manifest is not on Phase 8M')
 assert(
-  manifest.status === 'global_provider_certification_isolated_intake_candidate',
+  manifest.status === 'global_provider_contract_test_lab_candidate',
   'Beta manifest overstates the release status',
 )
 assert(manifest.audience === 'internal_release_review', 'Beta audience boundary changed')
@@ -36,7 +36,7 @@ for (const gate of ['publicUrlConfigured', 'externalInvitationsApproved']) {
   assert(manifest.distribution?.[gate] === false, `Unapproved beta distribution state: ${gate}`)
 }
 assert(
-  Array.isArray(manifest.manualPrerequisites) && manifest.manualPrerequisites.length === 17,
+  Array.isArray(manifest.manualPrerequisites) && manifest.manualPrerequisites.length === 18,
   'Manual beta prerequisite inventory changed',
 )
 
@@ -72,6 +72,7 @@ const expectedChecks = [
   'check:global-dependency-transmission',
   'check:global-observation-provenance',
   'check:global-provider-certification',
+  'check:global-provider-contract-tests',
   'check:production-experience',
   'check:bundle',
   'check:release',
@@ -105,17 +106,17 @@ const [buildWorkflow, deployWorkflow, verifyWebWorkflow, ciWorkflow, securityWor
   ])
 
 for (const contract of [
-  'BUILD_PHASE_8L',
+  'BUILD_PHASE_8M',
   'npm run check:beta',
   'tradepulse-beta-rc2-${{ github.sha }}',
   'environment: production',
 ]) {
   assert(buildWorkflow.includes(contract), `Beta build workflow contract missing: ${contract}`)
 }
-for (const contract of ['DEPLOY_PHASE_8L', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['DEPLOY_PHASE_8M', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
   assert(deployWorkflow.includes(contract), `Beta deploy workflow contract missing: ${contract}`)
 }
-for (const contract of ['VERIFY_WEB_PHASE_8L', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['VERIFY_WEB_PHASE_8M', 'verify:web-deployment', 'test:e2e:production']) {
   assert(verifyWebWorkflow.includes(contract), `Beta web verification workflow contract missing: ${contract}`)
 }
 for (const contract of [
@@ -147,6 +148,7 @@ for (const contract of [
   'npm run check:global-dependency-transmission',
   'npm run check:global-observation-provenance',
   'npm run check:global-provider-certification',
+  'npm run check:global-provider-contract-tests',
   'npm run check:security',
   'npm run check:hosting',
 ]) {
@@ -216,5 +218,5 @@ for (const lock of ['checkout_enabled', 'charge_collection_enabled', 'customer_p
 }
 
 console.log(
-  'Controlled-beta readiness passed: Cloudflare RC2 candidate, 7 execution locks, 17 manual prerequisites.',
+  'Controlled-beta readiness passed: Cloudflare RC2 candidate, 7 execution locks, 18 manual prerequisites.',
 )

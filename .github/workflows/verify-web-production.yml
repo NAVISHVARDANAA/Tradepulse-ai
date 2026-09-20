@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type VERIFY_WEB_PHASE_8L for the provider certification and isolated intake candidate
+        description: Type VERIFY_WEB_PHASE_8M for the provider-neutral contract-test candidate
         required: true
         type: string
 
@@ -32,7 +32,7 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "VERIFY_WEB_PHASE_8L"
+          test "$RELEASE_CONFIRMATION" = "VERIFY_WEB_PHASE_8M"
           test -n "$CLOUDFLARE_PAGES_PROJECT"
           case "$CLOUDFLARE_PAGES_PROJECT" in *[!a-z0-9-]*) echo "Invalid Cloudflare Pages project name."; exit 1;; esac
           echo "WEB_PRODUCTION_URL=https://${CLOUDFLARE_PAGES_PROJECT}.pages.dev" >> "$GITHUB_ENV"
@@ -68,6 +68,7 @@ jobs:
       - run: npm run check:global-dependency-transmission
       - run: npm run check:global-observation-provenance
       - run: npm run check:global-provider-certification
+      - run: npm run check:global-provider-contract-tests
       - run: npm run check:production-experience
       - run: npm run verify:web-deployment -- "$WEB_PRODUCTION_URL"
       - name: Install Chromium

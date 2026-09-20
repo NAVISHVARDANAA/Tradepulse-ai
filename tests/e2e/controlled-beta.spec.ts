@@ -338,6 +338,45 @@ async function mockGuestBackend(page: Page) {
         manual_evidence_required: true, blocks_certification: true,
       }]) }); return
     }
+    if (path === '/rest/v1/global_provider_contract_test_status') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+        control_key: 'global-provider-contract-test-lab',
+        policy_version: 'global-provider-contract-test-lab-v1',
+        contract_suite_count: 8, specification_only_suite_count: 8,
+        executed_test_count: 0, passed_test_count: 0, assertion_count: 10,
+        synthetic_fixture_count: 24, fixture_execution_count: 0,
+      }) }); return
+    }
+    if (path === '/rest/v1/global_provider_contract_suite_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, source_family_key: 'official_statistics',
+        source_family_name: 'Official statistics', source_class: 'authoritative',
+        suite_status: 'specification_only', schema_contract_version: 'provider-neutral-v1',
+        executed_test_count: 0, passed_test_count: 0, conformance_approved: false,
+        candidate_write_enabled: false, release_enabled: false, production_effect: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/global_provider_contract_assertion_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, assertion_key: 'source_identity',
+        display_name: 'Source identity',
+        assertion_requirement: 'Require a stable source-family identity without naming or connecting an external provider.',
+        failure_disposition: 'reject', blocks_external_execution: true,
+        blocks_candidate_write: true, blocks_release: true, automatic_pass_enabled: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/global_provider_synthetic_fixture_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, source_family_key: 'official_statistics',
+        suite_sequence_number: 1, fixture_key: 'official_statistics-valid_minimal',
+        fixture_class: 'valid_minimal',
+        specification: 'Specify the smallest provider-neutral shape satisfying canonical identity, version, field, unit, time and lineage requirements.',
+        expected_disposition: 'accept_to_ephemeral_test', provider_neutral: true,
+        contains_external_data: false, contains_real_world_observation: false,
+        execution_count: 0, candidate_write_enabled: false,
+        release_enabled: false, production_effect: false,
+      }]) }); return
+    }
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -517,6 +556,14 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByText('No provider is selected or connected in Phase 8L')).toBeVisible()
   await expect(page.getByText('Ten gates before an endpoint test')).toBeVisible()
   await expect(page.getByRole('button', { name: /connect|test endpoint|provision|ingest|release|publish|train|execute|trade/i })).toHaveCount(0)
+
+  await page.goto('/#provider-contract-tests')
+  await expect(page.getByRole('heading', { level: 1, name: 'Provider contract test laboratory' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Provider-neutral contract test readiness' })).toBeVisible()
+  await expect(page.getByText('No provider payload is tested in Phase 8M')).toBeVisible()
+  await expect(page.getByText('Ten fail-closed conformance assertions')).toBeVisible()
+  await expect(page.getByText(/Synthetic fixtures are specifications, not observations/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /connect|run test|ingest|release|publish|train|execute|trade/i })).toHaveCount(0)
 
   await page.goto('/#live-rollout')
   await expect(page.getByRole('heading', { level: 1, name: 'Controlled live rollout' })).toBeVisible()
