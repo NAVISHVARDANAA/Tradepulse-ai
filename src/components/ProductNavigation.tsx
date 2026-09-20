@@ -28,6 +28,7 @@ export const productNavigation: NavGroup[] = [
       { label: 'Dependency intelligence', href: '#dependency-intelligence' },
       { label: 'Observation intake', href: '#observation-intake' },
       { label: 'Provider certification', href: '#provider-certification' },
+      { label: 'Contract test lab', href: '#provider-contract-tests' },
       { label: 'TradePulse Agent', href: '#agentic-ai' },
       { label: 'AI Copilot', href: '#research-copilot' },
       { label: 'Team research', href: '#business-research' },

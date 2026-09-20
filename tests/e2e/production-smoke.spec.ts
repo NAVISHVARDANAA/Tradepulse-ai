@@ -22,6 +22,7 @@ const publicWorkspaces = [
   ['#dependency-intelligence', 'Global dependency and transmission fabric'],
   ['#observation-intake', 'Observation intake and quarantine'],
   ['#provider-certification', 'Provider certification and isolation'],
+  ['#provider-contract-tests', 'Provider contract test laboratory'],
   ['#risk-command-center', 'Risk command center'],
   ['#regulated-preflight', 'Preflight evidence review'],
   ['#sandbox-orders', 'Sandbox order lifecycle'],
@@ -184,6 +185,12 @@ test('production execution boundaries remain closed to guests', async ({ page })
   await expect(page.getByText('No provider is selected or connected in Phase 8L')).toBeVisible()
   await expect(page.getByText('Ten gates before an endpoint test')).toBeVisible()
   await expect(page.getByRole('button', { name: /connect|test endpoint|provision|ingest|release|publish|train|execute|trade/i })).toHaveCount(0)
+
+  await page.goto('/#provider-contract-tests', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByText('No provider payload is tested in Phase 8M')).toBeVisible()
+  await expect(page.getByText('Ten fail-closed conformance assertions')).toBeVisible()
+  await expect(page.getByText(/Synthetic fixtures are specifications, not observations/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /connect|run test|ingest|release|publish|train|execute|trade/i })).toHaveCount(0)
 
   await page.goto('/#account-security', { waitUntil: 'domcontentloaded' })
   await expect(page.getByText(/Controlled-beta access is limited to approved email addresses/)).toBeVisible()

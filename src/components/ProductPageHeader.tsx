@@ -82,6 +82,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Inspect the legal, rights, privacy, security, schema and failure-drill evidence required before a future provider may enter a bounded test environment.',
     boundary: 'No selected provider · no endpoint test',
   },
+  '#provider-contract-tests': {
+    eyebrow: 'Provider contract readiness',
+    title: 'Provider contract test laboratory',
+    description: 'Inspect provider-neutral conformance assertions and deterministic synthetic fixture specifications before any provider-specific adapter may be tested.',
+    boundary: 'Specifications only · no provider payload',
+  },
   '#global-access': {
     eyebrow: 'Global market intelligence',
     title: 'Venue and instrument access map',

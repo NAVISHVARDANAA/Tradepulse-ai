@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "8L",
-  "status": "global_provider_certification_isolated_intake_candidate",
+  "phase": "8M",
+  "status": "global_provider_contract_test_lab_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -51,7 +51,8 @@
       "globalCountryCoverage",
       "globalDependencyTransmission",
       "globalObservationProvenance",
-      "globalProviderCertification"
+      "globalProviderCertification",
+      "globalProviderContractTests"
     ]
   },
   "trustLayer": {
@@ -105,6 +106,7 @@
     "check:global-dependency-transmission",
     "check:global-observation-provenance",
     "check:global-provider-certification",
+    "check:global-provider-contract-tests",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -133,7 +135,8 @@
     "global-country-domain-source-freshness-and-release-review",
     "global-dependency-direction-magnitude-substitution-and-release-review",
     "global-observation-provider-rights-normalization-corroboration-and-release-review",
-    "global-provider-legal-rights-privacy-security-schema-isolation-and-drill-review"
+    "global-provider-legal-rights-privacy-security-schema-isolation-and-drill-review",
+    "global-provider-specific-contract-mapping-fixture-and-conformance-review"
   ],
   "betaHardening": {
     "workspaceEnabled": true,
@@ -625,6 +628,33 @@
     "candidateIntakeEnabled": false,
     "productionIngestionEnabled": false,
     "automaticCertificationEnabled": false,
+    "observationReleaseEnabled": false,
+    "modelTrainingEnabled": false,
+    "autonomousPublicationEnabled": false,
+    "autonomousTradeExecutionEnabled": false
+  },
+  "globalProviderContractTests": {
+    "workspaceEnabled": true,
+    "sourceFamilyCount": 8,
+    "contractSuiteCount": 8,
+    "specificationOnlySuiteCount": 8,
+    "assertionCount": 10,
+    "syntheticFixtureCount": 24,
+    "executedTestCount": 0,
+    "passedTestCount": 0,
+    "fixtureExecutionCount": 0,
+    "deterministicFixtureRequired": true,
+    "explicitMissingnessRequired": true,
+    "schemaVersionRequired": true,
+    "failClosedDispositionRequired": true,
+    "appendOnlyReferenceContracts": true,
+    "providerSelectionEnabled": false,
+    "endpointExecutionEnabled": false,
+    "credentialAccessEnabled": false,
+    "externalPayloadIntakeEnabled": false,
+    "syntheticFixtureExecutionEnabled": false,
+    "candidateWriteEnabled": false,
+    "automaticConformanceApprovalEnabled": false,
     "observationReleaseEnabled": false,
     "modelTrainingEnabled": false,
     "autonomousPublicationEnabled": false,

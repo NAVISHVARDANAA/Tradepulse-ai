@@ -112,6 +112,11 @@ drills. It selects no provider, tests no endpoint, stores no credential, accepts
 no candidate observation and enables no ingestion, release, model, publication
 or execution path.
 
+Phase 8M adds eight provider-neutral contract-suite specifications, ten
+fail-closed conformance assertions and twenty-four deterministic synthetic
+fixture specifications. No fixture contains provider data or a real-world
+observation; no contract test is represented as executed, passed or approved.
+
 The artifact contains `beta-release.json`, a machine-readable statement of its
 scope. Live brokerage, payment execution, charge collection, custody and
 personalized advice remain false. Search indexing also remains disabled.
@@ -177,8 +182,9 @@ personalized advice remain false. Search indexing also remains disabled.
 15. Approve provider rights, endpoint and schema certification, deterministic normalization, corroboration and conflict ownership.
 16. Approve any later observation release or source-specific scenario integration independently.
 17. Approve provider legal ownership, privacy and security review, bounded isolation and observed failure-drill evidence before any endpoint test.
+18. Approve the provider-specific field mapping, deterministic fixtures and observed conformance evidence before any adapter activation.
 
-These are operational, legal and business launch decisions. Passing Phase 8L
+These are operational, legal and business launch decisions. Passing Phase 8M
 means the engineering candidate is ready for that review; it does not certify
 regulatory approval or declare a public production launch.
 
@@ -200,20 +206,20 @@ evidence in a public issue or artifact.
 
 ## Hosting deployment procedure
 
-After the Phase 8L PR is merged and all `main` checks pass:
+After the Phase 8M PR is merged and all `main` checks pass:
 
-1. Deploy and verify migration 056 with `DEPLOY_DATA_PHASE_8L` and `VERIFY_DATA_PHASE_8L`.
+1. Deploy and verify migration 057 with `DEPLOY_DATA_PHASE_8M` and `VERIFY_DATA_PHASE_8M`.
 2. Open **Actions → Build production web release**.
-3. Select `main`, enter `BUILD_PHASE_8L` and run the workflow.
+3. Select `main`, enter `BUILD_PHASE_8M` and run the workflow.
 4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 5. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-6. Run **Verify web production** with `VERIFY_WEB_PHASE_8L` after deployment
+6. Run **Verify web production** with `VERIFY_WEB_PHASE_8M` after deployment
    or any customer-facing operational incident.
 7. Do not invite external testers until every manual prerequisite above is approved.
 
-Phase 8L adds migration 056 and the provider-certification/isolation workspace.
-All eight provider families remain unselected and uncertified, all eight
-isolation profiles remain unprovisioned, and no endpoint, credential, candidate
-observation or failure-drill evidence is approved. Intake, ingestion,
-certification, observation release, publication, model training and every live
+Phase 8M adds migration 057 and the provider-neutral contract-test workspace.
+All eight suites remain specification-only, all twenty-four synthetic fixtures
+remain unexecuted, and no provider, endpoint, credential, external payload,
+candidate observation or conformance evidence is approved. Intake, test
+execution, writes, release, publication, model training and every live
 capability remain locked off.

@@ -524,6 +524,33 @@ if (
   manifest.globalProviderCertification?.autonomousTradeExecutionEnabled !== false
 ) throw new Error('Deployed global provider certification boundary is incomplete or unsafe.')
 if (
+  manifest.globalProviderContractTests?.workspaceEnabled !== true ||
+  manifest.globalProviderContractTests?.sourceFamilyCount !== 8 ||
+  manifest.globalProviderContractTests?.contractSuiteCount !== 8 ||
+  manifest.globalProviderContractTests?.specificationOnlySuiteCount !== 8 ||
+  manifest.globalProviderContractTests?.assertionCount !== 10 ||
+  manifest.globalProviderContractTests?.syntheticFixtureCount !== 24 ||
+  manifest.globalProviderContractTests?.executedTestCount !== 0 ||
+  manifest.globalProviderContractTests?.passedTestCount !== 0 ||
+  manifest.globalProviderContractTests?.fixtureExecutionCount !== 0 ||
+  manifest.globalProviderContractTests?.deterministicFixtureRequired !== true ||
+  manifest.globalProviderContractTests?.explicitMissingnessRequired !== true ||
+  manifest.globalProviderContractTests?.schemaVersionRequired !== true ||
+  manifest.globalProviderContractTests?.failClosedDispositionRequired !== true ||
+  manifest.globalProviderContractTests?.appendOnlyReferenceContracts !== true ||
+  manifest.globalProviderContractTests?.providerSelectionEnabled !== false ||
+  manifest.globalProviderContractTests?.endpointExecutionEnabled !== false ||
+  manifest.globalProviderContractTests?.credentialAccessEnabled !== false ||
+  manifest.globalProviderContractTests?.externalPayloadIntakeEnabled !== false ||
+  manifest.globalProviderContractTests?.syntheticFixtureExecutionEnabled !== false ||
+  manifest.globalProviderContractTests?.candidateWriteEnabled !== false ||
+  manifest.globalProviderContractTests?.automaticConformanceApprovalEnabled !== false ||
+  manifest.globalProviderContractTests?.observationReleaseEnabled !== false ||
+  manifest.globalProviderContractTests?.modelTrainingEnabled !== false ||
+  manifest.globalProviderContractTests?.autonomousPublicationEnabled !== false ||
+  manifest.globalProviderContractTests?.autonomousTradeExecutionEnabled !== false
+) throw new Error('Deployed global provider contract-test boundary is incomplete or unsafe.')
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||

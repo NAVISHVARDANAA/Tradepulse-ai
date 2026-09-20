@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type VERIFY_DATA_PHASE_8L for the provider certification and isolated intake candidate
+        description: Type VERIFY_DATA_PHASE_8M for the provider-neutral contract-test candidate
         required: true
         type: string
 
@@ -39,8 +39,8 @@ jobs:
           VERIFICATION_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$VERIFICATION_CONFIRMATION" = "VERIFY_DATA_PHASE_8L" || {
-            echo "Verification confirmation did not match VERIFY_DATA_PHASE_8L."
+          test "$VERIFICATION_CONFIRMATION" = "VERIFY_DATA_PHASE_8M" || {
+            echo "Verification confirmation did not match VERIFY_DATA_PHASE_8M."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -69,13 +69,13 @@ jobs:
       - name: Install the repository-pinned Supabase CLI
         run: npm ci
 
-      - name: Verify migration 056 and remote migration parity
+      - name: Verify migration 057 and remote migration parity
         run: |
           set -eu
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])056([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])057([^0-9]|$)' migration-list.txt
           npx --no-install supabase db push \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" \
@@ -265,6 +265,14 @@ jobs:
             --linked \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --file supabase/tests/production/global_provider_certification_isolated_intake_smoke.sql
+
+      - name: Verify provider-neutral contract-test production boundary
+        run: |
+          bash scripts/assert-read-only-sql.sh supabase/tests/production/global_provider_contract_test_lab_smoke.sql
+          npx --no-install supabase db query \
+            --linked \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --file supabase/tests/production/global_provider_contract_test_lab_smoke.sql
 
       - name: Verify the deployed Edge Function
         run: |
@@ -662,7 +670,8 @@ jobs:
             echo "## Supabase production verification"
             echo
             echo "- Commit: \`$GITHUB_SHA\`"
-            echo "- Migration history: synchronized through 056"
+            echo "- Migration history: synchronized through 057"
+            echo "- Provider contract tests: eight specification-only suites, ten fail-closed assertions and twenty-four synthetic fixture specifications verified; execution and external payload intake remain disabled"
             echo "- Global provider certification: eight unselected providers, ten certification gates, eight unprovisioned isolation profiles and six unobserved failure drills verified; endpoint tests and intake remain disabled"
             echo "- Global dependency transmission: eight evidence domains, 1,560 country-readiness gaps, six mechanism templates and eight human release gates verified; inference, scoring and execution remain disabled"
             echo "- Global country coverage: 195 sovereign references, eight domains, 1,560 explicit evidence gaps and seven human gates verified; generated facts and providers remain disabled"

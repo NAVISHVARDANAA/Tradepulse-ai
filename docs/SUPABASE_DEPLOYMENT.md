@@ -40,18 +40,18 @@ The dashboard will show `not run`; an authorized probe without credentials fails
 closed and stores only `CONFIGURATION_INVALID`. Never use Alpaca live credentials
 for this adapter.
 
-## Release Phase 8L
+## Release Phase 8M
 
 1. Confirm the CI workflow on `main` is green.
 2. Open **Actions → Deploy Supabase production → Run workflow**.
 3. Select the `main` branch.
-4. Enter `DEPLOY_DATA_PHASE_8L` as the confirmation value.
+4. Enter `DEPLOY_DATA_PHASE_8M` as the confirmation value.
 5. Approve the `production` environment deployment when prompted.
 
 The workflow performs a database dry run, applies every pending migration in
 filename order and redeploys every customer and internal Edge Function affected
 by the shared security, observability and account-protection boundary. It verifies
-migration `056`, checks active functions, verifies global-provider-certification, global-observation-provenance, global-dependency-transmission, global-country-coverage, global-evidence, controlled-live-rollout, global-event-intelligence, private agentic-investing, regulated-preflight,
+migration `057`, checks active functions, verifies global-provider-contract-tests, global-provider-certification, global-observation-provenance, global-dependency-transmission, global-country-coverage, global-evidence, controlled-live-rollout, global-event-intelligence, private agentic-investing, regulated-preflight,
 internal-only sandbox-order, corridor-intelligence, beneficiary-protection and payment-compliance boundaries, and confirms approved public
 runtime reads return HTTP 2xx. It also runs query-only production lock smoke
 checks and proves that unauthenticated brokerage, paper-simulation,
@@ -60,7 +60,7 @@ platform-evaluation and account-security requests receive HTTP 401.
 ## Read-only production verification
 
 Run **Actions → Verify Supabase production → Run workflow** after a release or
-operational incident. Select `main` and enter `VERIFY_DATA_PHASE_8L`.
+operational incident. Select `main` and enter `VERIFY_DATA_PHASE_8M`.
 
 The verification workflow performs no production writes. It confirms local and
 remote migration parity, executes the audited, query-only
@@ -125,6 +125,10 @@ Phase 8L adds the provider certification and isolated intake readiness fabric
 described in `docs/GLOBAL_PROVIDER_CERTIFICATION_ISOLATED_INTAKE.md`; it cannot
 select a provider, test an endpoint, store a credential, provision intake,
 ingest or release an observation, train a model, publish or execute a trade.
+Phase 8M adds the provider-neutral contract-test specification laboratory
+described in `docs/GLOBAL_PROVIDER_CONTRACT_TEST_LAB.md`; its twenty-four
+synthetic fixture specifications contain no provider payload or real-world
+observation and none is represented as executed.
 
 ## Runtime baseline
 
