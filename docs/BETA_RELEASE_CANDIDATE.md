@@ -106,6 +106,12 @@ gates. It connects no endpoint, approves no source right, receives or releases
 no observation, resolves no conflict, publishes nothing and enables no model or
 execution path.
 
+Phase 8L adds eight unselected provider-family profiles, ten certification
+gates, eight unprovisioned isolated-intake profiles and six unobserved failure
+drills. It selects no provider, tests no endpoint, stores no credential, accepts
+no candidate observation and enables no ingestion, release, model, publication
+or execution path.
+
 The artifact contains `beta-release.json`, a machine-readable statement of its
 scope. Live brokerage, payment execution, charge collection, custody and
 personalized advice remain false. Search indexing also remains disabled.
@@ -170,8 +176,9 @@ personalized advice remain false. Search indexing also remains disabled.
 14. Approve dependency direction, units, magnitude, substitution and uncertainty review.
 15. Approve provider rights, endpoint and schema certification, deterministic normalization, corroboration and conflict ownership.
 16. Approve any later observation release or source-specific scenario integration independently.
+17. Approve provider legal ownership, privacy and security review, bounded isolation and observed failure-drill evidence before any endpoint test.
 
-These are operational, legal and business launch decisions. Passing Phase 8K
+These are operational, legal and business launch decisions. Passing Phase 8L
 means the engineering candidate is ready for that review; it does not certify
 regulatory approval or declare a public production launch.
 
@@ -193,19 +200,20 @@ evidence in a public issue or artifact.
 
 ## Hosting deployment procedure
 
-After the Phase 8K PR is merged and all `main` checks pass:
+After the Phase 8L PR is merged and all `main` checks pass:
 
-1. Deploy and verify migration 055 with `DEPLOY_DATA_PHASE_8K` and `VERIFY_DATA_PHASE_8K`.
+1. Deploy and verify migration 056 with `DEPLOY_DATA_PHASE_8L` and `VERIFY_DATA_PHASE_8L`.
 2. Open **Actions → Build production web release**.
-3. Select `main`, enter `BUILD_PHASE_8K` and run the workflow.
+3. Select `main`, enter `BUILD_PHASE_8L` and run the workflow.
 4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 5. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-6. Run **Verify web production** with `VERIFY_WEB_PHASE_8K` after deployment
+6. Run **Verify web production** with `VERIFY_WEB_PHASE_8L` after deployment
    or any customer-facing operational incident.
 7. Do not invite external testers until every manual prerequisite above is approved.
 
-Phase 8K adds migration 055 and the observation provenance/quarantine workspace.
-All eight source families remain disconnected, all eight quarantine lanes are
-empty, and no endpoint, credential, source right, candidate observation or
-release is approved. Automatic normalization, conflict resolution, publication,
-model training and every live capability remain locked off.
+Phase 8L adds migration 056 and the provider-certification/isolation workspace.
+All eight provider families remain unselected and uncertified, all eight
+isolation profiles remain unprovisioned, and no endpoint, credential, candidate
+observation or failure-drill evidence is approved. Intake, ingestion,
+certification, observation release, publication, model training and every live
+capability remain locked off.

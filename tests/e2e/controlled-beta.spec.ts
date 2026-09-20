@@ -287,6 +287,57 @@ async function mockGuestBackend(page: Page) {
         automatic_approval_enabled: false,
       }]) }); return
     }
+    if (path === '/rest/v1/global_provider_certification_status') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+        control_key: 'global-provider-certification-isolated-intake',
+        policy_version: 'global-provider-certification-isolated-intake-v1',
+        source_family_count: 8, unselected_provider_count: 8, certified_provider_count: 0,
+        certification_gate_count: 10, isolation_profile_count: 8,
+        unprovisioned_isolation_count: 8, failure_drill_count: 6, observed_drill_count: 0,
+      }) }); return
+    }
+    if (path === '/rest/v1/global_provider_certification_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, source_family_key: 'official_statistics',
+        source_family_name: 'Official statistics', source_class: 'authoritative',
+        certification_status: 'provider_unselected', rights_review_status: 'not_started',
+        privacy_security_review_status: 'not_started', schema_review_status: 'not_started',
+        provenance_review_status: 'not_started', resilience_review_status: 'not_started',
+        accountable_owner_assigned: false, certification_approved: false,
+        isolated_intake_approved: false, production_effect: false,
+        gap_reason: 'No provider has been selected; contractual, security, schema, provenance and resilience reviews have not started.',
+      }]) }); return
+    }
+    if (path === '/rest/v1/global_provider_certification_gate_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, gate_key: 'legal_identity_ownership',
+        display_name: 'Legal identity and source ownership',
+        certification_requirement: 'Verify the contracting entity, publisher authority and accountable source ownership.',
+        evidence_class: 'legal', blocks_endpoint_test: true,
+        blocks_candidate_intake: true, blocks_release: true, automatic_approval_enabled: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/global_isolated_intake_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, source_family_key: 'official_statistics',
+        environment_status: 'not_provisioned', network_egress_enabled: false,
+        credential_access_enabled: false, payload_storage_enabled: false,
+        candidate_write_enabled: false, maximum_candidate_rows: 0,
+        destructive_test_data_only: true, quarantine_release_enabled: false,
+        downstream_read_enabled: false, publication_eligible: false,
+        model_eligible: false, production_effect: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/global_provider_failure_drill_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, drill_key: 'credential_exposure',
+        display_name: 'Credential exposure',
+        drill_requirement: 'Rehearse immediate secret revocation, access-log review and evidence-preserving recovery.',
+        expected_safe_state: 'No credential remains usable and no candidate observation is admitted.',
+        observed_drill_count: 0, automatic_pass_enabled: false,
+        manual_evidence_required: true, blocks_certification: true,
+      }]) }); return
+    }
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -368,7 +419,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(39)
+  await expect(navigation.getByRole('link')).toHaveCount(40)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -459,6 +510,13 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByText('No provider or observation is connected in Phase 8K')).toBeVisible()
   await expect(page.getByText('Nine canonical normalization contracts')).toBeVisible()
   await expect(page.getByRole('button', { name: /ingest|normalize|release|publish|train|execute|trade/i })).toHaveCount(0)
+
+  await page.goto('/#provider-certification')
+  await expect(page.getByRole('heading', { level: 1, name: 'Provider certification and isolation' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Provider certification and isolated intake readiness' })).toBeVisible()
+  await expect(page.getByText('No provider is selected or connected in Phase 8L')).toBeVisible()
+  await expect(page.getByText('Ten gates before an endpoint test')).toBeVisible()
+  await expect(page.getByRole('button', { name: /connect|test endpoint|provision|ingest|release|publish|train|execute|trade/i })).toHaveCount(0)
 
   await page.goto('/#live-rollout')
   await expect(page.getByRole('heading', { level: 1, name: 'Controlled live rollout' })).toBeVisible()

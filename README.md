@@ -701,6 +701,15 @@ right, observation, automatic normalization, conflict resolution, model use,
 publication or execution path is enabled. See
 [`docs/GLOBAL_OBSERVATION_PROVENANCE_QUARANTINE.md`](docs/GLOBAL_OBSERVATION_PROVENANCE_QUARANTINE.md).
 
+Phase 8L adds migration
+`056_global_provider_certification_isolated_intake.sql` and a lazy-loaded
+provider certification workspace. Eight provider families remain unselected
+and uncertified, ten certification gates remain unmet, eight isolation profiles
+remain unprovisioned and six failure drills remain unobserved. No endpoint,
+credential, candidate intake, ingestion, release, model use, publication or
+execution path is enabled. See
+[`docs/GLOBAL_PROVIDER_CERTIFICATION_ISOLATED_INTAKE.md`](docs/GLOBAL_PROVIDER_CERTIFICATION_ISOLATED_INTAKE.md).
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction

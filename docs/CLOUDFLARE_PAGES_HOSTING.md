@@ -31,28 +31,29 @@ is intentionally public and is still constrained by RLS and server-side auth.
 After this PR is merged and all `main` checks pass:
 
 1. Open **Actions → Deploy Supabase production**, choose `main`, enter
-   `DEPLOY_DATA_PHASE_8K` and wait for it to pass.
+   `DEPLOY_DATA_PHASE_8L` and wait for it to pass.
 2. Run **Verify Supabase production** on `main` with
-   `VERIFY_DATA_PHASE_8K` and retain the read-only evidence.
+   `VERIFY_DATA_PHASE_8L` and retain the read-only evidence.
 3. Open **Actions → Build production web release**, choose `main`, enter
-   `BUILD_PHASE_8K` and record the green global-observation-provenance web artifact.
+   `BUILD_PHASE_8L` and record the green provider-certification web artifact.
 4. Open **Actions → Deploy controlled beta web**, choose `main`, enter
-   `DEPLOY_PHASE_8K` and approve the protected production environment.
+   `DEPLOY_PHASE_8L` and approve the protected production environment.
 5. Record the immutable commit, workflow run and Cloudflare deployment URL from
    the job summary. The workflow verifies HTTPS, browser security headers, the
    release manifest and every hard lock after upload. It then runs desktop and
    mobile production browser checks across the public workspaces, Analytics
    interactions, console/network failures and guest execution locks.
 6. After a release or operational incident, open **Actions → Verify web
-   production**, choose `main`, enter `VERIFY_WEB_PHASE_8K` and retain the green
+   production**, choose `main`, enter `VERIFY_WEB_PHASE_8L` and retain the green
    production-browser report.
 7. Do not invite testers yet. Choose and validate the final domain, configure
    its exact Supabase Auth site URL and redirect allow-list, then complete the
    remaining launch prerequisites in `docs/BETA_RELEASE_CANDIDATE.md`.
 
-Deploy and verify migration 055 with the Phase 8K data gates before the web
-workspace. Every source family remains disconnected and every quarantine lane
-remains empty until licensed, normalized and corroborated evidence passes human
-review. The product cannot ingest or release observations, resolve conflicts,
+Deploy and verify migration 056 with the Phase 8L data gates before the web
+workspace. Every provider family remains unselected and every isolated-intake
+profile remains unprovisioned until legal, rights, privacy, security, schema,
+isolation and failure-drill evidence passes human review. The product cannot
+test an endpoint, store a provider credential, ingest or release observations,
 publish or train on external evidence, route an order, move money, hold assets
 or settle a trade.
