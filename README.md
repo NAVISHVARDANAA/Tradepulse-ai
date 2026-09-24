@@ -710,6 +710,23 @@ credential, candidate intake, ingestion, release, model use, publication or
 execution path is enabled. See
 [`docs/GLOBAL_PROVIDER_CERTIFICATION_ISOLATED_INTAKE.md`](docs/GLOBAL_PROVIDER_CERTIFICATION_ISOLATED_INTAKE.md).
 
+Phase 8M adds migration `057_global_provider_contract_test_lab.sql` and a
+lazy-loaded provider-neutral contract-test laboratory. Eight source-family
+suites, ten fail-closed assertions and twenty-four deterministic synthetic
+fixture specifications define the adapter boundary without selecting a
+provider or running a test. No endpoint, credential, payload, candidate write,
+release, model use, publication or trading path is enabled. See
+[`docs/GLOBAL_PROVIDER_CONTRACT_TEST_LAB.md`](docs/GLOBAL_PROVIDER_CONTRACT_TEST_LAB.md).
+
+Phase 8N adds migration
+`058_global_provider_candidate_evidence_review.sql` and a lazy-loaded candidate
+evidence-review workspace. Eight source-family packets remain unopened, twelve
+human evidence gates remain unmet and all ninety-six matrix cells remain
+explicitly missing. No provider, evidence document, reviewer, endpoint,
+credential, payload, test, approval, release, model or trading path is enabled.
+See
+[`docs/GLOBAL_PROVIDER_CANDIDATE_EVIDENCE_REVIEW.md`](docs/GLOBAL_PROVIDER_CANDIDATE_EVIDENCE_REVIEW.md).
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction

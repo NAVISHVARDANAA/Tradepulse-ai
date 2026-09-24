@@ -117,6 +117,11 @@ fail-closed conformance assertions and twenty-four deterministic synthetic
 fixture specifications. No fixture contains provider data or a real-world
 observation; no contract test is represented as executed, passed or approved.
 
+Phase 8N adds eight unopened provider-candidate review packets, twelve human
+evidence gates and ninety-six explicitly missing evidence cells. No provider is
+selected, no document or reviewer is stored, and no endpoint, test, approval,
+candidate write, release, model or execution path is enabled.
+
 The artifact contains `beta-release.json`, a machine-readable statement of its
 scope. Live brokerage, payment execution, charge collection, custody and
 personalized advice remain false. Search indexing also remains disabled.
@@ -183,8 +188,9 @@ personalized advice remain false. Search indexing also remains disabled.
 16. Approve any later observation release or source-specific scenario integration independently.
 17. Approve provider legal ownership, privacy and security review, bounded isolation and observed failure-drill evidence before any endpoint test.
 18. Approve the provider-specific field mapping, deterministic fixtures and observed conformance evidence before any adapter activation.
+19. Open a provider candidate-review packet only through a separately reviewed change with signed rights, controlled evidence handling and accountable activation ownership.
 
-These are operational, legal and business launch decisions. Passing Phase 8M
+These are operational, legal and business launch decisions. Passing Phase 8N
 means the engineering candidate is ready for that review; it does not certify
 regulatory approval or declare a public production launch.
 
@@ -206,20 +212,21 @@ evidence in a public issue or artifact.
 
 ## Hosting deployment procedure
 
-After the Phase 8M PR is merged and all `main` checks pass:
+After the Phase 8N PR is merged and all `main` checks pass:
 
-1. Deploy and verify migration 057 with `DEPLOY_DATA_PHASE_8M` and `VERIFY_DATA_PHASE_8M`.
+1. Deploy and verify migration 058 with `DEPLOY_DATA_PHASE_8N` and `VERIFY_DATA_PHASE_8N`.
 2. Open **Actions → Build production web release**.
-3. Select `main`, enter `BUILD_PHASE_8M` and run the workflow.
+3. Select `main`, enter `BUILD_PHASE_8N` and run the workflow.
 4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 5. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-6. Run **Verify web production** with `VERIFY_WEB_PHASE_8M` after deployment
+6. Run **Verify web production** with `VERIFY_WEB_PHASE_8N` after deployment
    or any customer-facing operational incident.
 7. Do not invite external testers until every manual prerequisite above is approved.
 
-Phase 8M adds migration 057 and the provider-neutral contract-test workspace.
-All eight suites remain specification-only, all twenty-four synthetic fixtures
-remain unexecuted, and no provider, endpoint, credential, external payload,
-candidate observation or conformance evidence is approved. Intake, test
-execution, writes, release, publication, model training and every live
-capability remain locked off.
+Phase 8N adds migration 058 and the provider candidate evidence-review
+workspace. All eight packets remain unopened, all twelve requirements remain
+unapproved and all ninety-six evidence cells remain missing. No provider,
+endpoint, credential, evidence document, payload, reviewer or candidate
+observation is approved. Review opening, intake, test execution, writes,
+release, publication, model training and every live capability remain locked
+off.

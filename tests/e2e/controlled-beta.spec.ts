@@ -377,6 +377,45 @@ async function mockGuestBackend(page: Page) {
         release_enabled: false, production_effect: false,
       }]) }); return
     }
+    if (path === '/rest/v1/global_provider_candidate_review_status') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+        control_key: 'global-provider-candidate-evidence-review',
+        policy_version: 'global-provider-candidate-evidence-review-v1',
+        review_packet_count: 8, unopened_review_packet_count: 8,
+        selected_candidate_count: 0, evidence_requirement_count: 12,
+        review_matrix_count: 96, missing_evidence_count: 96,
+        approved_evidence_count: 0,
+      }) }); return
+    }
+    if (path === '/rest/v1/global_provider_candidate_review_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, source_family_key: 'official_statistics',
+        source_family_name: 'Official statistics', source_class: 'authoritative',
+        contract_suite_sequence_number: 1, review_status: 'not_opened',
+        conformance_state: 'blocked', submitted_requirement_count: 0,
+        approved_requirement_count: 0, executed_fixture_count: 0,
+        passed_fixture_count: 0, accountable_activation_approved: false,
+        candidate_write_enabled: false, release_enabled: false, production_effect: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/global_provider_candidate_evidence_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, requirement_key: 'legal_identity_owner',
+        review_domain: 'legal', display_name: 'Legal identity and owner',
+        evidence_requirement: 'Require the named contracting entity, accountable internal owner and review authority before a provider candidate can be opened.',
+        blocks_endpoint_execution: true, blocks_candidate_write: true,
+        blocks_release: true, automatic_pass_enabled: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/global_provider_candidate_review_matrix_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, source_family_key: 'official_statistics',
+        requirement_key: 'legal_identity_owner', requirement_sequence_number: 1,
+        evidence_status: 'not_submitted', human_approved: false,
+        endpoint_execution_effect: false, candidate_write_effect: false,
+        release_effect: false, production_effect: false,
+      }]) }); return
+    }
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -458,7 +497,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(41)
+  await expect(navigation.getByRole('link')).toHaveCount(42)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -564,6 +603,14 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByText('Ten fail-closed conformance assertions')).toBeVisible()
   await expect(page.getByText(/Synthetic fixtures are specifications, not observations/)).toBeVisible()
   await expect(page.getByRole('button', { name: /connect|run test|ingest|release|publish|train|execute|trade/i })).toHaveCount(0)
+
+  await page.goto('/#provider-candidate-review')
+  await expect(page.getByRole('heading', { level: 1, name: 'Provider candidate evidence review' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Provider candidate evidence review' })).toBeVisible()
+  await expect(page.getByText('No provider candidate is selected in Phase 8N')).toBeVisible()
+  await expect(page.getByText('Twelve evidence gates before conformance testing')).toBeVisible()
+  await expect(page.getByText(/Phase 8N is an evidence checklist, not a provider onboarding or activation/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /open review|submit|approve|connect|run test|ingest|release|publish|train|execute|trade/i })).toHaveCount(0)
 
   await page.goto('/#live-rollout')
   await expect(page.getByRole('heading', { level: 1, name: 'Controlled live rollout' })).toBeVisible()
