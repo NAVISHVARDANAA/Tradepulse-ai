@@ -551,6 +551,36 @@ if (
   manifest.globalProviderContractTests?.autonomousTradeExecutionEnabled !== false
 ) throw new Error('Deployed global provider contract-test boundary is incomplete or unsafe.')
 if (
+  manifest.globalProviderCandidateReviews?.workspaceEnabled !== true ||
+  manifest.globalProviderCandidateReviews?.sourceFamilyCount !== 8 ||
+  manifest.globalProviderCandidateReviews?.reviewPacketCount !== 8 ||
+  manifest.globalProviderCandidateReviews?.unopenedReviewPacketCount !== 8 ||
+  manifest.globalProviderCandidateReviews?.selectedCandidateCount !== 0 ||
+  manifest.globalProviderCandidateReviews?.evidenceRequirementCount !== 12 ||
+  manifest.globalProviderCandidateReviews?.reviewMatrixCount !== 96 ||
+  manifest.globalProviderCandidateReviews?.missingEvidenceCount !== 96 ||
+  manifest.globalProviderCandidateReviews?.approvedEvidenceCount !== 0 ||
+  manifest.globalProviderCandidateReviews?.manualReviewRequired !== true ||
+  manifest.globalProviderCandidateReviews?.signedEvidenceReferenceRequired !== true ||
+  manifest.globalProviderCandidateReviews?.versionedFieldMappingRequired !== true ||
+  manifest.globalProviderCandidateReviews?.observedFailureDrillRequired !== true ||
+  manifest.globalProviderCandidateReviews?.appendOnlyReferenceContracts !== true ||
+  manifest.globalProviderCandidateReviews?.providerCandidateSelectionEnabled !== false ||
+  manifest.globalProviderCandidateReviews?.reviewPacketOpenEnabled !== false ||
+  manifest.globalProviderCandidateReviews?.evidenceSubmissionEnabled !== false ||
+  manifest.globalProviderCandidateReviews?.evidenceDocumentStorageEnabled !== false ||
+  manifest.globalProviderCandidateReviews?.endpointConnectivityEnabled !== false ||
+  manifest.globalProviderCandidateReviews?.credentialStorageEnabled !== false ||
+  manifest.globalProviderCandidateReviews?.externalPayloadIntakeEnabled !== false ||
+  manifest.globalProviderCandidateReviews?.fixtureExecutionEnabled !== false ||
+  manifest.globalProviderCandidateReviews?.conformanceApprovalEnabled !== false ||
+  manifest.globalProviderCandidateReviews?.candidateWriteEnabled !== false ||
+  manifest.globalProviderCandidateReviews?.observationReleaseEnabled !== false ||
+  manifest.globalProviderCandidateReviews?.modelTrainingEnabled !== false ||
+  manifest.globalProviderCandidateReviews?.autonomousPublicationEnabled !== false ||
+  manifest.globalProviderCandidateReviews?.autonomousTradeExecutionEnabled !== false
+) throw new Error('Deployed global provider candidate-review boundary is incomplete or unsafe.')
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||

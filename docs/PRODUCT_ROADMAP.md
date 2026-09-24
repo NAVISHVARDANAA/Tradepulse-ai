@@ -1189,6 +1189,31 @@ approved legal rights, privacy and security evidence, isolated secrets, a
 versioned field mapping, observed fail-closed evidence and accountable human
 authorization in a separate change.
 
+### Phase 8N — provider-candidate evidence review (implemented foundation)
+
+- Eight source-family review packets remain unopened, blocked and provider-empty.
+- Twelve human evidence gates cover legal identity, access, display, retention,
+  derivation, privacy, security, schema mapping, deterministic fixtures,
+  negative tests, failure drills, operations and accountable activation.
+- Ninety-six deterministic matrix cells expose every missing evidence item;
+  none contains a document, reviewer, approval or expiry.
+- Sanitized public views expose only evidence gaps, while append-only database
+  controls prevent browser or service-role mutation.
+- Provider selection, review opening, evidence submission, document storage,
+  endpoint access, credentials, payload intake, fixture execution, conformance
+  approval, candidate writes, observation release, model training, publication
+  and trading remain locked off.
+
+**Phase 8N exit gate:** green global-provider-candidate-review,
+global-provider-contract-tests, global-provider-certification, database,
+browser, security, bundle and release contracts; reviewed
+`DEPLOY_DATA_PHASE_8N`; read-only `VERIFY_DATA_PHASE_8N`; successful
+`BUILD_PHASE_8N`; reviewed `DEPLOY_PHASE_8N`; and read-only
+`VERIFY_WEB_PHASE_8N` evidence. Opening one real candidate packet still
+requires an independently approved provider-specific change with signed rights,
+controlled evidence handling, isolated credentials, observed test and drill
+evidence, and accountable human authorization.
+
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.

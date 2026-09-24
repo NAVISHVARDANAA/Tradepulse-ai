@@ -57,7 +57,7 @@ assert(production.includes("'#evidence-operations'"), 'Production test omits evi
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.globalEvidenceOperations
-assert(manifest.phase === '8M' && manifest.status === 'global_provider_contract_test_lab_candidate', 'Manifest is not Phase 8H')
+assert(manifest.phase === '8N' && manifest.status === 'global_provider_candidate_evidence_review_candidate', 'Manifest is not Phase 8H')
 assert(packageJson.scripts?.['check:global-evidence-operations'], 'Package omits Phase 8H check')
 assert(manifest.requiredChecks.includes('check:global-evidence-operations'), 'Manifest omits Phase 8H check')
 for (const key of ['workspaceEnabled', 'immutableProvenanceRequired', 'sourceRightsReviewRequired',
@@ -76,9 +76,9 @@ assert(release.countryCoverageTarget === 195 && release.connectedSourceCount ===
 assert(release.sourceLaneCount === 5 && release.corroborationPolicyCount === 6, 'Evidence policy counts changed')
 assert(release.rehearsalCaseCount === 5 && release.reviewStagesPerCase === 8, 'Review counts changed')
 
-for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8M'],
-  [verifyData, 'VERIFY_DATA_PHASE_8M'], [buildWeb, 'BUILD_PHASE_8M'],
-  [deployWeb, 'DEPLOY_PHASE_8M'], [verifyWeb, 'VERIFY_WEB_PHASE_8M']]) {
+for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8N'],
+  [verifyData, 'VERIFY_DATA_PHASE_8N'], [buildWeb, 'BUILD_PHASE_8N'],
+  [deployWeb, 'DEPLOY_PHASE_8N'], [verifyWeb, 'VERIFY_WEB_PHASE_8N']]) {
   assert(workflow.includes(token), `Workflow omits ${token}`)
 }
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {

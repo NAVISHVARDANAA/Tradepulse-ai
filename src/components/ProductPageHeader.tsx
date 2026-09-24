@@ -88,6 +88,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Inspect provider-neutral conformance assertions and deterministic synthetic fixture specifications before any provider-specific adapter may be tested.',
     boundary: 'Specifications only · no provider payload',
   },
+  '#provider-candidate-review': {
+    eyebrow: 'Provider evidence governance',
+    title: 'Provider candidate evidence review',
+    description: 'Inspect the legal, rights, privacy, security, schema, test and operational evidence required before a provider-specific conformance review may be opened.',
+    boundary: 'No selected candidate · no evidence submission',
+  },
   '#global-access': {
     eyebrow: 'Global market intelligence',
     title: 'Venue and instrument access map',

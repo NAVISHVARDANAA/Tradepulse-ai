@@ -65,6 +65,9 @@ const GlobalProviderCertificationPanel = lazy(() => import('./components/GlobalP
 const GlobalProviderContractTestPanel = lazy(() => import('./components/GlobalProviderContractTestPanel').then((module) => ({
   default: module.GlobalProviderContractTestPanel,
 })))
+const GlobalProviderCandidateReviewPanel = lazy(() => import('./components/GlobalProviderCandidateReviewPanel').then((module) => ({
+  default: module.GlobalProviderCandidateReviewPanel,
+})))
 const AccountSecurityPanel = lazy(() => import('./components/AccountSecurityPanel').then((module) => ({
   default: module.AccountSecurityPanel,
 })))
@@ -562,6 +565,14 @@ function App() {
           <ProductErrorBoundary title="Provider contract-test readiness is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Provider-neutral contract-test laboratory" />}>
               <GlobalProviderContractTestPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#provider-candidate-review' ? <section id="provider-candidate-review" className="product-workspace">
+          <ProductErrorBoundary title="Provider candidate-review readiness is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Provider candidate evidence review" />}>
+              <GlobalProviderCandidateReviewPanel />
             </Suspense>
           </ProductErrorBoundary>
         </section> : null}

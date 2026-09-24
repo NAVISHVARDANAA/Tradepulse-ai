@@ -29,6 +29,7 @@ export const productNavigation: NavGroup[] = [
       { label: 'Observation intake', href: '#observation-intake' },
       { label: 'Provider certification', href: '#provider-certification' },
       { label: 'Contract test lab', href: '#provider-contract-tests' },
+      { label: 'Candidate evidence', href: '#provider-candidate-review' },
       { label: 'TradePulse Agent', href: '#agentic-ai' },
       { label: 'AI Copilot', href: '#research-copilot' },
       { label: 'Team research', href: '#business-research' },
