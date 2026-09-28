@@ -31,32 +31,31 @@ is intentionally public and is still constrained by RLS and server-side auth.
 After this PR is merged and all `main` checks pass:
 
 1. Open **Actions → Deploy Supabase production**, choose `main`, enter
-   `DEPLOY_DATA_PHASE_8P` and wait for it to pass.
+   `DEPLOY_DATA_PHASE_8Q` and wait for it to pass.
 2. Run **Verify Supabase production** on `main` with
-   `VERIFY_DATA_PHASE_8P` and retain the read-only evidence.
+   `VERIFY_DATA_PHASE_8Q` and retain the read-only evidence.
 3. Open **Actions → Build production web release**, choose `main`, enter
-   `BUILD_PHASE_8P` and record the green provider review-governance web artifact.
+   `BUILD_PHASE_8Q` and record the green provider review decision-control web artifact.
 4. Open **Actions → Deploy controlled beta web**, choose `main`, enter
-   `DEPLOY_PHASE_8P` and approve the protected production environment.
+   `DEPLOY_PHASE_8Q` and approve the protected production environment.
 5. Record the immutable commit, workflow run and Cloudflare deployment URL from
    the job summary. The workflow verifies HTTPS, browser security headers, the
    release manifest and every hard lock after upload. It then runs desktop and
    mobile production browser checks across the public workspaces, Analytics
    interactions, console/network failures and guest execution locks.
 6. After a release or operational incident, open **Actions → Verify web
-   production**, choose `main`, enter `VERIFY_WEB_PHASE_8P` and retain the green
+   production**, choose `main`, enter `VERIFY_WEB_PHASE_8Q` and retain the green
    production-browser report.
 7. Do not invite testers yet. Choose and validate the final domain, configure
    its exact Supabase Auth site URL and redirect allow-list, then complete the
    remaining launch prerequisites in `docs/BETA_RELEASE_CANDIDATE.md`.
 
-Deploy and verify migration 059 with the Phase 8P data gates before the web
-workspace. Every review role and responsibility remains unassigned, every
-evidence lifecycle stage remains reference-only, every provider review packet
-remains unopened and every Phase 8M synthetic fixture remains unexecuted until
-legal, rights, privacy, security, schema, isolation, custody and failure-drill
-evidence passes independent review. The product cannot assign a reviewer,
-receive evidence, select a provider, open a review packet, test an endpoint,
-store a provider credential, receive an external payload, ingest or release observations,
-publish or train on external evidence, route an order, move money, hold assets
-or settle a trade.
+Deploy and verify migration 060 with the Phase 8Q data gates before the web
+workspace. Every decision state remains reference-only, every mandatory gate
+and readiness cell remains unmet, every provider packet remains unopened and
+every Phase 8M fixture remains unexecuted until legal, rights, privacy,
+security, schema, custody, conformance and dual-control evidence passes
+independent review. The product cannot record a decision, store a signature,
+link evidence, evaluate quorum, select a provider, open a review packet, test an
+endpoint, ingest or release observations, publish, train, route an order, move
+money, hold assets or settle a trade.

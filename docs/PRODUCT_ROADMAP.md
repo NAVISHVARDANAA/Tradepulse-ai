@@ -1241,6 +1241,35 @@ real reviewer or receiving evidence still requires a separate authorized change
 with approved identities, controlled custody, audit retention, signed rights,
 explicit expiry and revocation, independent review and dual-control activation.
 
+### Phase 8Q — provider review decisions and audit controls (implemented foundation)
+
+- Seven human-only decision-state templates define not assessed, independent
+  review, gap, remediation, decision-ready, bounded acceptance and
+  expiry/revocation semantics without recording a real decision.
+- Eight mandatory decision gates cover accountable scope, legal authority,
+  rights, privacy, security and custody, schema and provenance, conformance
+  operations, and separate dual control.
+- Sixty-four deterministic readiness cells map eight gates across eight source
+  families; every cell remains unmet, empty and unauthorized.
+- Independent decisions, explicit reason codes, immutable audit retention,
+  conflict review, dual control, expiry and revocation are mandatory.
+- Sanitized public views expose only readiness gaps, while append-only database
+  controls prevent browser or service-role mutation.
+- Decision recording, reviewer signatures, evidence linkage, automated quorum,
+  provider selection, packet opening, endpoint access, credentials, payloads,
+  testing, approval, writes, release, model training, publication and trading
+  remain locked off.
+
+**Phase 8Q exit gate:** green global-provider-review-decisions,
+global-provider-review-governance, database, browser, security, bundle and
+release contracts; reviewed `DEPLOY_DATA_PHASE_8Q`; read-only
+`VERIFY_DATA_PHASE_8Q`; successful `BUILD_PHASE_8Q`; reviewed
+`DEPLOY_PHASE_8Q`; and read-only `VERIFY_WEB_PHASE_8Q` evidence. Recording one
+real decision still requires a separate authorized change with verified
+identities, controlled evidence links, independent domain reviews, explicit
+reason codes, immutable audit retention, conflict handling, bounded scope,
+dual control, expiry, revocation and rollback.
+
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.

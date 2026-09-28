@@ -197,8 +197,12 @@ personalized advice remain false. Search indexing also remains disabled.
 20. Assign reviewers and evidence custody only through a separately authorized
     process with verified identities, least privilege, separation of duties,
     audit retention, expiry, revocation and dual-control activation.
+21. Record a provider-review decision only through a separately authorized
+    process with independent review, controlled evidence links, explicit reason
+    codes, immutable audit, conflict handling, bounded scope, dual control,
+    expiry, revocation and rollback.
 
-These are operational, legal and business launch decisions. Passing Phase 8P
+These are operational, legal and business launch decisions. Passing Phase 8Q
 means the engineering candidate is ready for that review; it does not certify
 regulatory approval or declare a public production launch.
 
@@ -220,21 +224,21 @@ evidence in a public issue or artifact.
 
 ## Hosting deployment procedure
 
-After the Phase 8P PR is merged and all `main` checks pass:
+After the Phase 8Q PR is merged and all `main` checks pass:
 
-1. Deploy and verify migration 059 with `DEPLOY_DATA_PHASE_8P` and `VERIFY_DATA_PHASE_8P`.
+1. Deploy and verify migration 060 with `DEPLOY_DATA_PHASE_8Q` and `VERIFY_DATA_PHASE_8Q`.
 2. Open **Actions → Build production web release**.
-3. Select `main`, enter `BUILD_PHASE_8P` and run the workflow.
+3. Select `main`, enter `BUILD_PHASE_8Q` and run the workflow.
 4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 5. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-6. Run **Verify web production** with `VERIFY_WEB_PHASE_8P` after deployment
+6. Run **Verify web production** with `VERIFY_WEB_PHASE_8Q` after deployment
    or any customer-facing operational incident.
 7. Do not invite external testers until every manual prerequisite above is approved.
 
-Phase 8P adds migration 059 and the provider review-authority and evidence-custody
-workspace. All eight roles remain unassigned, all seven lifecycle stages remain
-reference-only and all sixty-four responsibility cells remain unauthorized. No
-reviewer, custodian, evidence location, provider, endpoint, credential, document,
-payload or candidate observation is approved. Assignment, evidence receipt,
-review opening, intake, test execution, writes, release, publication, model
-training and every live capability remain locked off.
+Phase 8Q adds migration 060 and the provider review decision-control workspace.
+All seven states remain reference-only, all eight decision gates remain unmet
+and all sixty-four readiness cells remain unauthorized. No reviewer, evidence
+reference, reason code, signature, decision, provider, endpoint, credential,
+payload or candidate observation is approved. Decision recording, evidence
+linkage, quorum evaluation, review opening, tests, writes, release, publication,
+model training and every live capability remain locked off.

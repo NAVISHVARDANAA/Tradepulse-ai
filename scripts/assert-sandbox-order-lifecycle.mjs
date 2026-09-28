@@ -107,7 +107,7 @@ assert(productionBrowserTest.includes("['#sandbox-orders', 'Sandbox order lifecy
 
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
-assert(manifest.phase === '8P', 'Release manifest is not Phase 8D')
+assert(manifest.phase === '8Q', 'Release manifest is not Phase 8D')
 for (const [key, expected] of Object.entries({
   workspaceEnabled: true,
   partnerSandboxOnly: true,
@@ -127,11 +127,11 @@ assert(packageJson.scripts?.['check:sandbox-orders'], 'Package sandbox lifecycle
 assert(config.includes('[functions.manage-alpaca-sandbox-order]'), 'Supabase config omits lifecycle handler')
 
 for (const [workflow, contract] of [
-  [deployData, 'DEPLOY_DATA_PHASE_8P'],
-  [verifyData, 'VERIFY_DATA_PHASE_8P'],
-  [buildWeb, 'BUILD_PHASE_8P'],
-  [deployWeb, 'DEPLOY_PHASE_8P'],
-  [verifyWeb, 'VERIFY_WEB_PHASE_8P'],
+  [deployData, 'DEPLOY_DATA_PHASE_8Q'],
+  [verifyData, 'VERIFY_DATA_PHASE_8Q'],
+  [buildWeb, 'BUILD_PHASE_8Q'],
+  [deployWeb, 'DEPLOY_PHASE_8Q'],
+  [verifyWeb, 'VERIFY_WEB_PHASE_8Q'],
 ]) assert(workflow.includes(contract), `Release workflow omits ${contract}`)
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
   assert(workflow.includes('check:sandbox-orders'), 'A web gate omits sandbox lifecycle check')

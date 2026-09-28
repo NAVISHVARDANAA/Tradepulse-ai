@@ -736,6 +736,15 @@ reviewer identity, evidence location, provider, endpoint, credential, payload,
 test, approval, release, model or trading path is enabled. See
 [`docs/GLOBAL_PROVIDER_REVIEW_GOVERNANCE.md`](docs/GLOBAL_PROVIDER_REVIEW_GOVERNANCE.md).
 
+Phase 8Q adds migration `060_global_provider_review_decision_controls.sql` and
+a lazy-loaded provider review decision-control workspace. Seven human-only
+decision states, eight mandatory gates and sixty-four readiness cells make
+independent review, reason codes, immutable audit, conflict handling, dual
+control, expiry and revocation explicit while every gate remains unmet and no
+decision exists. No reviewer, evidence reference, signature, provider,
+endpoint, credential, approval, release, model or trading path is enabled. See
+[`docs/GLOBAL_PROVIDER_REVIEW_DECISION_CONTROLS.md`](docs/GLOBAL_PROVIDER_REVIEW_DECISION_CONTROLS.md).
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction

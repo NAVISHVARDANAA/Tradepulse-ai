@@ -71,6 +71,9 @@ const GlobalProviderCandidateReviewPanel = lazy(() => import('./components/Globa
 const GlobalProviderReviewGovernancePanel = lazy(() => import('./components/GlobalProviderReviewGovernancePanel').then((module) => ({
   default: module.GlobalProviderReviewGovernancePanel,
 })))
+const GlobalProviderReviewDecisionPanel = lazy(() => import('./components/GlobalProviderReviewDecisionPanel').then((module) => ({
+  default: module.GlobalProviderReviewDecisionPanel,
+})))
 const AccountSecurityPanel = lazy(() => import('./components/AccountSecurityPanel').then((module) => ({
   default: module.AccountSecurityPanel,
 })))
@@ -584,6 +587,14 @@ function App() {
           <ProductErrorBoundary title="Provider review-governance readiness is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Provider review authority and evidence custody" />}>
               <GlobalProviderReviewGovernancePanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#provider-review-decisions' ? <section id="provider-review-decisions" className="product-workspace">
+          <ProductErrorBoundary title="Provider review decision readiness is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Provider review decisions and audit controls" />}>
+              <GlobalProviderReviewDecisionPanel />
             </Suspense>
           </ProductErrorBoundary>
         </section> : null}

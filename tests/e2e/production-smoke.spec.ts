@@ -25,6 +25,7 @@ const publicWorkspaces = [
   ['#provider-contract-tests', 'Provider contract test laboratory'],
   ['#provider-candidate-review', 'Provider candidate evidence review'],
   ['#provider-review-governance', 'Provider review authority and evidence custody'],
+  ['#provider-review-decisions', 'Provider review decisions and audit controls'],
   ['#risk-command-center', 'Risk command center'],
   ['#regulated-preflight', 'Preflight evidence review'],
   ['#sandbox-orders', 'Sandbox order lifecycle'],
@@ -205,6 +206,12 @@ test('production execution boundaries remain closed to guests', async ({ page })
   await expect(page.getByText('Seven-stage sealed-evidence lifecycle')).toBeVisible()
   await expect(page.getByText(/Phase 8P is governance scaffolding, not provider onboarding/)).toBeVisible()
   await expect(page.getByRole('button', { name: /assign|receive|open review|submit|approve|connect|run test|ingest|release|publish|train|execute|trade/i })).toHaveCount(0)
+
+  await page.goto('/#provider-review-decisions', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByText('No provider review decision exists in Phase 8Q')).toBeVisible()
+  await expect(page.getByText('Seven human-only decision states')).toBeVisible()
+  await expect(page.getByText(/Phase 8Q is decision scaffolding, not provider approval/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /record|sign|authorize|approve|connect|run test|release|publish|train|execute|trade/i })).toHaveCount(0)
 
   await page.goto('/#account-security', { waitUntil: 'domcontentloaded' })
   await expect(page.getByText(/Controlled-beta access is limited to approved email addresses/)).toBeVisible()

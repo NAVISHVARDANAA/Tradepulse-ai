@@ -452,6 +452,44 @@ async function mockGuestBackend(page: Page) {
         candidate_write_effect: false, release_effect: false, production_effect: false,
       }]) }); return
     }
+    if (path === '/rest/v1/global_provider_review_decision_status') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+        control_key: 'global-provider-review-decision-controls',
+        policy_version: 'global-provider-review-decision-controls-v1',
+        source_family_count: 8, decision_gate_count: 8, decision_state_count: 7,
+        readiness_cell_count: 64, unmet_readiness_cell_count: 64,
+        authorized_readiness_cell_count: 0,
+      }) }); return
+    }
+    if (path === '/rest/v1/global_provider_review_decision_state_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, state_key: 'not_assessed',
+        display_name: 'Not assessed',
+        state_definition: 'No authorized review decision exists; every provider, endpoint, write, release and downstream use remains blocked.',
+        real_decision_present: false, automatic_transition_enabled: false,
+        human_decision_required: true, endpoint_access_effect: false,
+        release_effect: false, production_effect: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/global_provider_review_decision_gate_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, gate_key: 'accountable_scope',
+        review_domain: 'governance', display_name: 'Accountable scope',
+        gate_definition: 'Confirm a bounded purpose, source family, permitted use, escalation owner and decision scope before any review can advance.',
+        gate_status: 'unmet', evidence_present: false,
+        reviewer_assigned: false, human_authorized: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/global_provider_review_decision_readiness_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, source_family_key: 'official_statistics', source_family_name: 'Official statistics',
+        gate_key: 'accountable_scope', gate_sequence_number: 1,
+        gate_name: 'Accountable scope', review_domain: 'governance',
+        readiness_status: 'unmet', human_authorized: false,
+        packet_open_effect: false, endpoint_access_effect: false,
+        candidate_write_effect: false, release_effect: false, production_effect: false,
+      }]) }); return
+    }
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -533,7 +571,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(43)
+  await expect(navigation.getByRole('link')).toHaveCount(44)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -655,6 +693,14 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByText('Seven-stage sealed-evidence lifecycle')).toBeVisible()
   await expect(page.getByText(/Phase 8P is governance scaffolding, not provider onboarding/)).toBeVisible()
   await expect(page.getByRole('button', { name: /assign|receive|open review|submit|approve|connect|run test|ingest|release|publish|train|execute|trade/i })).toHaveCount(0)
+
+  await page.goto('/#provider-review-decisions')
+  await expect(page.getByRole('heading', { level: 1, name: 'Provider review decisions and audit controls' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Provider review decisions and audit controls' })).toBeVisible()
+  await expect(page.getByText('No provider review decision exists in Phase 8Q')).toBeVisible()
+  await expect(page.getByText('Seven human-only decision states')).toBeVisible()
+  await expect(page.getByText(/Phase 8Q is decision scaffolding, not provider approval/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /record|sign|authorize|approve|connect|run test|release|publish|train|execute|trade/i })).toHaveCount(0)
 
   await page.goto('/#live-rollout')
   await expect(page.getByRole('heading', { level: 1, name: 'Controlled live rollout' })).toBeVisible()

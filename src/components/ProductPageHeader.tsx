@@ -100,6 +100,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Inspect the independent roles, separation of duties and sealed-evidence lifecycle required before a real provider candidate can be evaluated.',
     boundary: 'No assigned reviewer · no evidence custody',
   },
+  '#provider-review-decisions': {
+    eyebrow: 'Provider decision governance',
+    title: 'Provider review decisions and audit controls',
+    description: 'Inspect the human-only decision states, mandatory gates and immutable audit requirements needed before a bounded provider review could be authorized.',
+    boundary: 'No decision · no approval · no activation',
+  },
   '#global-access': {
     eyebrow: 'Global market intelligence',
     title: 'Venue and instrument access map',
