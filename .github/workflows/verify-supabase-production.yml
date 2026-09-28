@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type VERIFY_DATA_PHASE_8P for the provider review-governance candidate
+        description: Type VERIFY_DATA_PHASE_8Q for the provider review decision-control candidate
         required: true
         type: string
 
@@ -39,8 +39,8 @@ jobs:
           VERIFICATION_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$VERIFICATION_CONFIRMATION" = "VERIFY_DATA_PHASE_8P" || {
-            echo "Verification confirmation did not match VERIFY_DATA_PHASE_8P."
+          test "$VERIFICATION_CONFIRMATION" = "VERIFY_DATA_PHASE_8Q" || {
+            echo "Verification confirmation did not match VERIFY_DATA_PHASE_8Q."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -69,13 +69,13 @@ jobs:
       - name: Install the repository-pinned Supabase CLI
         run: npm ci
 
-      - name: Verify migration 059 and remote migration parity
+      - name: Verify migration 060 and remote migration parity
         run: |
           set -eu
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])059([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])060([^0-9]|$)' migration-list.txt
           npx --no-install supabase db push \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" \
@@ -289,6 +289,14 @@ jobs:
             --linked \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --file supabase/tests/production/global_provider_review_governance_smoke.sql
+
+      - name: Verify provider review decision-control production boundary
+        run: |
+          bash scripts/assert-read-only-sql.sh supabase/tests/production/global_provider_review_decision_controls_smoke.sql
+          npx --no-install supabase db query \
+            --linked \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --file supabase/tests/production/global_provider_review_decision_controls_smoke.sql
 
       - name: Verify the deployed Edge Function
         run: |
