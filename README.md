@@ -727,6 +727,15 @@ credential, payload, test, approval, release, model or trading path is enabled.
 See
 [`docs/GLOBAL_PROVIDER_CANDIDATE_EVIDENCE_REVIEW.md`](docs/GLOBAL_PROVIDER_CANDIDATE_EVIDENCE_REVIEW.md).
 
+Phase 8P adds migration `059_global_provider_review_governance.sql` and a
+lazy-loaded provider review-governance workspace. Eight review-role templates,
+seven sealed-evidence lifecycle stages and sixty-four responsibility cells make
+authority, custody, separation of duties, expiry and revocation explicit while
+every role remains unassigned and every evidence state remains empty. No
+reviewer identity, evidence location, provider, endpoint, credential, payload,
+test, approval, release, model or trading path is enabled. See
+[`docs/GLOBAL_PROVIDER_REVIEW_GOVERNANCE.md`](docs/GLOBAL_PROVIDER_REVIEW_GOVERNANCE.md).
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "8N",
-  "status": "global_provider_candidate_evidence_review_candidate",
+  "phase": "8P",
+  "status": "global_provider_review_governance_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -53,7 +53,8 @@
       "globalObservationProvenance",
       "globalProviderCertification",
       "globalProviderContractTests",
-      "globalProviderCandidateReviews"
+      "globalProviderCandidateReviews",
+      "globalProviderReviewGovernance"
     ]
   },
   "trustLayer": {
@@ -109,6 +110,7 @@
     "check:global-provider-certification",
     "check:global-provider-contract-tests",
     "check:global-provider-candidate-review",
+    "check:global-provider-review-governance",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -139,7 +141,8 @@
     "global-observation-provider-rights-normalization-corroboration-and-release-review",
     "global-provider-legal-rights-privacy-security-schema-isolation-and-drill-review",
     "global-provider-specific-contract-mapping-fixture-and-conformance-review",
-    "global-provider-candidate-evidence-review-and-signed-activation-approval"
+    "global-provider-candidate-evidence-review-and-signed-activation-approval",
+    "global-provider-review-authority-custody-separation-and-expiry-approval"
   ],
   "betaHardening": {
     "workspaceEnabled": true,
@@ -682,6 +685,40 @@
     "reviewPacketOpenEnabled": false,
     "evidenceSubmissionEnabled": false,
     "evidenceDocumentStorageEnabled": false,
+    "endpointConnectivityEnabled": false,
+    "credentialStorageEnabled": false,
+    "externalPayloadIntakeEnabled": false,
+    "fixtureExecutionEnabled": false,
+    "conformanceApprovalEnabled": false,
+    "candidateWriteEnabled": false,
+    "observationReleaseEnabled": false,
+    "modelTrainingEnabled": false,
+    "autonomousPublicationEnabled": false,
+    "autonomousTradeExecutionEnabled": false
+  },
+  "globalProviderReviewGovernance": {
+    "workspaceEnabled": true,
+    "sourceFamilyCount": 8,
+    "roleTemplateCount": 8,
+    "unassignedRoleCount": 8,
+    "lifecycleStageCount": 7,
+    "responsibilityCount": 64,
+    "unassignedResponsibilityCount": 64,
+    "authorizedResponsibilityCount": 0,
+    "independentReviewRequired": true,
+    "separationOfDutiesRequired": true,
+    "leastPrivilegeCustodyRequired": true,
+    "dualControlActivationRequired": true,
+    "expiryAndRevocationRequired": true,
+    "appendOnlyReferenceContracts": true,
+    "roleAssignmentEnabled": false,
+    "reviewerIdentityStorageEnabled": false,
+    "evidenceReceiptEnabled": false,
+    "evidenceDocumentStorageEnabled": false,
+    "custodyLocationProvisioningEnabled": false,
+    "providerCandidateSelectionEnabled": false,
+    "reviewPacketOpenEnabled": false,
+    "evidenceSubmissionEnabled": false,
     "endpointConnectivityEnabled": false,
     "credentialStorageEnabled": false,
     "externalPayloadIntakeEnabled": false,

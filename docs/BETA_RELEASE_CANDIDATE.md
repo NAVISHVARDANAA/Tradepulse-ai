@@ -122,6 +122,11 @@ evidence gates and ninety-six explicitly missing evidence cells. No provider is
 selected, no document or reviewer is stored, and no endpoint, test, approval,
 candidate write, release, model or execution path is enabled.
 
+Phase 8P adds eight unassigned review-role templates, seven sealed-evidence
+lifecycle stages and sixty-four unassigned responsibility cells. No reviewer,
+custodian, evidence location, provider candidate or endpoint is assigned, and
+no receipt, test, approval, release, model or execution path is enabled.
+
 The artifact contains `beta-release.json`, a machine-readable statement of its
 scope. Live brokerage, payment execution, charge collection, custody and
 personalized advice remain false. Search indexing also remains disabled.
@@ -189,8 +194,11 @@ personalized advice remain false. Search indexing also remains disabled.
 17. Approve provider legal ownership, privacy and security review, bounded isolation and observed failure-drill evidence before any endpoint test.
 18. Approve the provider-specific field mapping, deterministic fixtures and observed conformance evidence before any adapter activation.
 19. Open a provider candidate-review packet only through a separately reviewed change with signed rights, controlled evidence handling and accountable activation ownership.
+20. Assign reviewers and evidence custody only through a separately authorized
+    process with verified identities, least privilege, separation of duties,
+    audit retention, expiry, revocation and dual-control activation.
 
-These are operational, legal and business launch decisions. Passing Phase 8N
+These are operational, legal and business launch decisions. Passing Phase 8P
 means the engineering candidate is ready for that review; it does not certify
 regulatory approval or declare a public production launch.
 
@@ -212,21 +220,21 @@ evidence in a public issue or artifact.
 
 ## Hosting deployment procedure
 
-After the Phase 8N PR is merged and all `main` checks pass:
+After the Phase 8P PR is merged and all `main` checks pass:
 
-1. Deploy and verify migration 058 with `DEPLOY_DATA_PHASE_8N` and `VERIFY_DATA_PHASE_8N`.
+1. Deploy and verify migration 059 with `DEPLOY_DATA_PHASE_8P` and `VERIFY_DATA_PHASE_8P`.
 2. Open **Actions → Build production web release**.
-3. Select `main`, enter `BUILD_PHASE_8N` and run the workflow.
+3. Select `main`, enter `BUILD_PHASE_8P` and run the workflow.
 4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 5. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-6. Run **Verify web production** with `VERIFY_WEB_PHASE_8N` after deployment
+6. Run **Verify web production** with `VERIFY_WEB_PHASE_8P` after deployment
    or any customer-facing operational incident.
 7. Do not invite external testers until every manual prerequisite above is approved.
 
-Phase 8N adds migration 058 and the provider candidate evidence-review
-workspace. All eight packets remain unopened, all twelve requirements remain
-unapproved and all ninety-six evidence cells remain missing. No provider,
-endpoint, credential, evidence document, payload, reviewer or candidate
-observation is approved. Review opening, intake, test execution, writes,
-release, publication, model training and every live capability remain locked
-off.
+Phase 8P adds migration 059 and the provider review-authority and evidence-custody
+workspace. All eight roles remain unassigned, all seven lifecycle stages remain
+reference-only and all sixty-four responsibility cells remain unauthorized. No
+reviewer, custodian, evidence location, provider, endpoint, credential, document,
+payload or candidate observation is approved. Assignment, evidence receipt,
+review opening, intake, test execution, writes, release, publication, model
+training and every live capability remain locked off.

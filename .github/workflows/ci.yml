@@ -129,6 +129,9 @@ jobs:
       - name: Verify global provider candidate evidence review
         run: npm run check:global-provider-candidate-review
 
+      - name: Verify global provider review governance
+        run: npm run check:global-provider-review-governance
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 
@@ -366,6 +369,9 @@ jobs:
 
       - name: Test global provider candidate evidence-review database contracts
         run: npx --no-install supabase test db supabase/tests/database/global_provider_candidate_evidence_review.test.sql
+
+      - name: Test global provider review-governance database contracts
+        run: npx --no-install supabase test db supabase/tests/database/global_provider_review_governance.test.sql
 
       - name: Test broker-sandbox certification contracts
         run: npx --no-install supabase test db supabase/tests/database/broker_sandbox_certification.test.sql

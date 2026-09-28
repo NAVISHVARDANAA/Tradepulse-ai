@@ -581,6 +581,40 @@ if (
   manifest.globalProviderCandidateReviews?.autonomousTradeExecutionEnabled !== false
 ) throw new Error('Deployed global provider candidate-review boundary is incomplete or unsafe.')
 if (
+  manifest.globalProviderReviewGovernance?.workspaceEnabled !== true ||
+  manifest.globalProviderReviewGovernance?.sourceFamilyCount !== 8 ||
+  manifest.globalProviderReviewGovernance?.roleTemplateCount !== 8 ||
+  manifest.globalProviderReviewGovernance?.unassignedRoleCount !== 8 ||
+  manifest.globalProviderReviewGovernance?.lifecycleStageCount !== 7 ||
+  manifest.globalProviderReviewGovernance?.responsibilityCount !== 64 ||
+  manifest.globalProviderReviewGovernance?.unassignedResponsibilityCount !== 64 ||
+  manifest.globalProviderReviewGovernance?.authorizedResponsibilityCount !== 0 ||
+  manifest.globalProviderReviewGovernance?.independentReviewRequired !== true ||
+  manifest.globalProviderReviewGovernance?.separationOfDutiesRequired !== true ||
+  manifest.globalProviderReviewGovernance?.leastPrivilegeCustodyRequired !== true ||
+  manifest.globalProviderReviewGovernance?.dualControlActivationRequired !== true ||
+  manifest.globalProviderReviewGovernance?.expiryAndRevocationRequired !== true ||
+  manifest.globalProviderReviewGovernance?.appendOnlyReferenceContracts !== true ||
+  manifest.globalProviderReviewGovernance?.roleAssignmentEnabled !== false ||
+  manifest.globalProviderReviewGovernance?.reviewerIdentityStorageEnabled !== false ||
+  manifest.globalProviderReviewGovernance?.evidenceReceiptEnabled !== false ||
+  manifest.globalProviderReviewGovernance?.evidenceDocumentStorageEnabled !== false ||
+  manifest.globalProviderReviewGovernance?.custodyLocationProvisioningEnabled !== false ||
+  manifest.globalProviderReviewGovernance?.providerCandidateSelectionEnabled !== false ||
+  manifest.globalProviderReviewGovernance?.reviewPacketOpenEnabled !== false ||
+  manifest.globalProviderReviewGovernance?.evidenceSubmissionEnabled !== false ||
+  manifest.globalProviderReviewGovernance?.endpointConnectivityEnabled !== false ||
+  manifest.globalProviderReviewGovernance?.credentialStorageEnabled !== false ||
+  manifest.globalProviderReviewGovernance?.externalPayloadIntakeEnabled !== false ||
+  manifest.globalProviderReviewGovernance?.fixtureExecutionEnabled !== false ||
+  manifest.globalProviderReviewGovernance?.conformanceApprovalEnabled !== false ||
+  manifest.globalProviderReviewGovernance?.candidateWriteEnabled !== false ||
+  manifest.globalProviderReviewGovernance?.observationReleaseEnabled !== false ||
+  manifest.globalProviderReviewGovernance?.modelTrainingEnabled !== false ||
+  manifest.globalProviderReviewGovernance?.autonomousPublicationEnabled !== false ||
+  manifest.globalProviderReviewGovernance?.autonomousTradeExecutionEnabled !== false
+) throw new Error('Deployed global provider review-governance boundary is incomplete or unsafe.')
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||
