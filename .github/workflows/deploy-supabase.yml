@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type DEPLOY_DATA_PHASE_8N for the provider candidate evidence-review candidate
+        description: Type DEPLOY_DATA_PHASE_8P for the provider review-governance candidate
         required: true
         type: string
 
@@ -39,8 +39,8 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_8N" || {
-            echo "Release confirmation did not match DEPLOY_DATA_PHASE_8N."
+          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_8P" || {
+            echo "Release confirmation did not match DEPLOY_DATA_PHASE_8P."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -212,7 +212,7 @@ jobs:
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])057([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])059([^0-9]|$)' migration-list.txt
 
       - name: Verify approved-tester pilot production boundary
         run: |
@@ -397,6 +397,14 @@ jobs:
             --linked \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --file supabase/tests/production/global_provider_candidate_evidence_review_smoke.sql
+
+      - name: Verify provider review-governance production boundary
+        run: |
+          bash scripts/assert-read-only-sql.sh supabase/tests/production/global_provider_review_governance_smoke.sql
+          npx --no-install supabase db query \
+            --linked \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --file supabase/tests/production/global_provider_review_governance_smoke.sql
 
       - name: Verify production public web reads
         run: bash scripts/verify-public-runtime-read.sh

@@ -1214,6 +1214,33 @@ requires an independently approved provider-specific change with signed rights,
 controlled evidence handling, isolated credentials, observed test and drill
 evidence, and accountable human authorization.
 
+### Phase 8P — provider review authority and evidence custody (implemented foundation)
+
+- Eight review-role templates define accountable ownership, legal, rights,
+  privacy, security and custody, data-contract, conformance operations and
+  separate activation authority without assigning a person or organization.
+- Seven sealed-evidence lifecycle stages define receipt, triage, review,
+  remediation, bounded acceptance, expiry and revocation as manual reference
+  contracts; none represents real evidence or a provisioned custody location.
+- Sixty-four deterministic responsibility cells map eight roles across eight
+  source families; every cell remains unassigned and unauthorized.
+- Independent review, separation of duties, least-privilege custody,
+  dual-control activation, expiry and revocation are mandatory.
+- Sanitized public views expose only governance gaps, while append-only database
+  controls prevent browser or service-role mutation.
+- Role assignment, evidence receipt and storage, provider selection, packet
+  opening, endpoint access, credentials, payload intake, testing, approval,
+  release, model training, publication and trading remain locked off.
+
+**Phase 8P exit gate:** green global-provider-review-governance,
+global-provider-candidate-review, database, browser, security, bundle and
+release contracts; reviewed `DEPLOY_DATA_PHASE_8P`; read-only
+`VERIFY_DATA_PHASE_8P`; successful `BUILD_PHASE_8P`; reviewed
+`DEPLOY_PHASE_8P`; and read-only `VERIFY_WEB_PHASE_8P` evidence. Assigning one
+real reviewer or receiving evidence still requires a separate authorized change
+with approved identities, controlled custody, audit retention, signed rights,
+explicit expiry and revocation, independent review and dual-control activation.
+
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.

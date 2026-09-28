@@ -416,6 +416,42 @@ async function mockGuestBackend(page: Page) {
         release_effect: false, production_effect: false,
       }]) }); return
     }
+    if (path === '/rest/v1/global_provider_review_governance_status') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+        control_key: 'global-provider-review-governance',
+        policy_version: 'global-provider-review-governance-v1',
+        source_family_count: 8, role_template_count: 8, unassigned_role_count: 8,
+        lifecycle_stage_count: 7, responsibility_count: 64,
+        unassigned_responsibility_count: 64, authorized_responsibility_count: 0,
+      }) }); return
+    }
+    if (path === '/rest/v1/global_provider_review_role_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, role_key: 'candidate_accountable_owner',
+        review_domain: 'governance', display_name: 'Candidate accountable owner',
+        responsibility: 'Own the bounded review purpose, scope, decision record and escalation path without selecting or activating a provider.',
+        assignment_status: 'unassigned', blocks_packet_opening: true,
+        blocks_endpoint_access: true, blocks_release: true, human_authorized: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/global_provider_evidence_lifecycle_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, stage_key: 'not_received', display_name: 'Not received',
+        stage_definition: 'No evidence has been received, referenced or stored; the review remains closed and every downstream action is blocked.',
+        real_evidence_present: false, automatic_transition_enabled: false,
+        human_action_required: true, production_effect: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/global_provider_review_responsibility_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, source_family_key: 'official_statistics', source_family_name: 'Official statistics',
+        role_key: 'candidate_accountable_owner', role_sequence_number: 1,
+        role_name: 'Candidate accountable owner', review_domain: 'governance',
+        responsibility_status: 'unassigned', human_authorized: false,
+        packet_open_effect: false, endpoint_access_effect: false,
+        candidate_write_effect: false, release_effect: false, production_effect: false,
+      }]) }); return
+    }
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -497,7 +533,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(42)
+  await expect(navigation.getByRole('link')).toHaveCount(43)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -611,6 +647,14 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByText('Twelve evidence gates before conformance testing')).toBeVisible()
   await expect(page.getByText(/Phase 8N is an evidence checklist, not a provider onboarding or activation/)).toBeVisible()
   await expect(page.getByRole('button', { name: /open review|submit|approve|connect|run test|ingest|release|publish|train|execute|trade/i })).toHaveCount(0)
+
+  await page.goto('/#provider-review-governance')
+  await expect(page.getByRole('heading', { level: 1, name: 'Provider review authority and evidence custody' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Provider review authority and evidence custody' })).toBeVisible()
+  await expect(page.getByText('No reviewer or evidence custodian is assigned in Phase 8P')).toBeVisible()
+  await expect(page.getByText('Seven-stage sealed-evidence lifecycle')).toBeVisible()
+  await expect(page.getByText(/Phase 8P is governance scaffolding, not provider onboarding/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /assign|receive|open review|submit|approve|connect|run test|ingest|release|publish|train|execute|trade/i })).toHaveCount(0)
 
   await page.goto('/#live-rollout')
   await expect(page.getByRole('heading', { level: 1, name: 'Controlled live rollout' })).toBeVisible()

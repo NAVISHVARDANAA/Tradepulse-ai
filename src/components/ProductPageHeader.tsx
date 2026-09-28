@@ -94,6 +94,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Inspect the legal, rights, privacy, security, schema, test and operational evidence required before a provider-specific conformance review may be opened.',
     boundary: 'No selected candidate · no evidence submission',
   },
+  '#provider-review-governance': {
+    eyebrow: 'Provider review governance',
+    title: 'Provider review authority and evidence custody',
+    description: 'Inspect the independent roles, separation of duties and sealed-evidence lifecycle required before a real provider candidate can be evaluated.',
+    boundary: 'No assigned reviewer · no evidence custody',
+  },
   '#global-access': {
     eyebrow: 'Global market intelligence',
     title: 'Venue and instrument access map',
