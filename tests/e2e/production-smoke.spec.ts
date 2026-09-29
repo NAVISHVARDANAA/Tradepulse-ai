@@ -26,6 +26,7 @@ const publicWorkspaces = [
   ['#provider-candidate-review', 'Provider candidate evidence review'],
   ['#provider-review-governance', 'Provider review authority and evidence custody'],
   ['#provider-review-decisions', 'Provider review decisions and audit controls'],
+  ['#provider-decision-recovery', 'Provider decision recovery and revocation controls'],
   ['#risk-command-center', 'Risk command center'],
   ['#regulated-preflight', 'Preflight evidence review'],
   ['#sandbox-orders', 'Sandbox order lifecycle'],
@@ -212,6 +213,12 @@ test('production execution boundaries remain closed to guests', async ({ page })
   await expect(page.getByText('Seven human-only decision states')).toBeVisible()
   await expect(page.getByText(/Phase 8Q is decision scaffolding, not provider approval/)).toBeVisible()
   await expect(page.getByRole('button', { name: /record|sign|authorize|approve|connect|run test|release|publish|train|execute|trade/i })).toHaveCount(0)
+
+  await page.goto('/#provider-decision-recovery', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByText('No recovery event exists in Phase 8R')).toBeVisible()
+  await expect(page.getByText('Seven manual recovery states')).toBeVisible()
+  await expect(page.getByText(/Phase 8R is recovery scaffolding, not incident handling or provider activation/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /record|challenge|freeze|rollback|revoke|approve|connect|release|publish|train|execute|trade/i })).toHaveCount(0)
 
   await page.goto('/#account-security', { waitUntil: 'domcontentloaded' })
   await expect(page.getByText(/Controlled-beta access is limited to approved email addresses/)).toBeVisible()

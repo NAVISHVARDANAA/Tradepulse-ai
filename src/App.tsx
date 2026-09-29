@@ -74,6 +74,9 @@ const GlobalProviderReviewGovernancePanel = lazy(() => import('./components/Glob
 const GlobalProviderReviewDecisionPanel = lazy(() => import('./components/GlobalProviderReviewDecisionPanel').then((module) => ({
   default: module.GlobalProviderReviewDecisionPanel,
 })))
+const GlobalProviderDecisionRecoveryPanel = lazy(() => import('./components/GlobalProviderDecisionRecoveryPanel').then((module) => ({
+  default: module.GlobalProviderDecisionRecoveryPanel,
+})))
 const AccountSecurityPanel = lazy(() => import('./components/AccountSecurityPanel').then((module) => ({
   default: module.AccountSecurityPanel,
 })))
@@ -595,6 +598,14 @@ function App() {
           <ProductErrorBoundary title="Provider review decision readiness is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Provider review decisions and audit controls" />}>
               <GlobalProviderReviewDecisionPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#provider-decision-recovery' ? <section id="provider-decision-recovery" className="product-workspace">
+          <ProductErrorBoundary title="Provider decision recovery controls are temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Provider decision recovery and revocation controls" />}>
+              <GlobalProviderDecisionRecoveryPanel />
             </Suspense>
           </ProductErrorBoundary>
         </section> : null}

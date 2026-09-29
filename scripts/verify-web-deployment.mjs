@@ -647,6 +647,41 @@ if (
   manifest.globalProviderReviewDecisions?.autonomousTradeExecutionEnabled !== false
 ) throw new Error('Deployed global provider review decision-control boundary is incomplete or unsafe.')
 if (
+  manifest.globalProviderDecisionRecovery?.workspaceEnabled !== true ||
+  manifest.globalProviderDecisionRecovery?.sourceFamilyCount !== 8 ||
+  manifest.globalProviderDecisionRecovery?.recoveryTriggerCount !== 8 ||
+  manifest.globalProviderDecisionRecovery?.recoveryStateCount !== 7 ||
+  manifest.globalProviderDecisionRecovery?.recoveryCellCount !== 64 ||
+  manifest.globalProviderDecisionRecovery?.blockedRecoveryCellCount !== 64 ||
+  manifest.globalProviderDecisionRecovery?.authorizedRecoveryCellCount !== 0 ||
+  manifest.globalProviderDecisionRecovery?.immediateFailClosedFreezeRequired !== true ||
+  manifest.globalProviderDecisionRecovery?.independentRecoveryReviewRequired !== true ||
+  manifest.globalProviderDecisionRecovery?.rollbackRehearsalRequired !== true ||
+  manifest.globalProviderDecisionRecovery?.immutableRecoveryAuditRequired !== true ||
+  manifest.globalProviderDecisionRecovery?.explicitRecoveryReasonRequired !== true ||
+  manifest.globalProviderDecisionRecovery?.expiryAndRevocationEnforced !== true ||
+  manifest.globalProviderDecisionRecovery?.appendOnlyReferenceContracts !== true ||
+  manifest.globalProviderDecisionRecovery?.exceptionRecordingEnabled !== false ||
+  manifest.globalProviderDecisionRecovery?.decisionChallengeRecordingEnabled !== false ||
+  manifest.globalProviderDecisionRecovery?.investigatorIdentityStorageEnabled !== false ||
+  manifest.globalProviderDecisionRecovery?.recoveryEvidenceLinkageEnabled !== false ||
+  manifest.globalProviderDecisionRecovery?.automatedFreezeEnabled !== false ||
+  manifest.globalProviderDecisionRecovery?.rollbackExecutionEnabled !== false ||
+  manifest.globalProviderDecisionRecovery?.decisionRevocationEnabled !== false ||
+  manifest.globalProviderDecisionRecovery?.providerCandidateSelectionEnabled !== false ||
+  manifest.globalProviderDecisionRecovery?.reviewPacketOpenEnabled !== false ||
+  manifest.globalProviderDecisionRecovery?.endpointConnectivityEnabled !== false ||
+  manifest.globalProviderDecisionRecovery?.credentialStorageEnabled !== false ||
+  manifest.globalProviderDecisionRecovery?.externalPayloadIntakeEnabled !== false ||
+  manifest.globalProviderDecisionRecovery?.fixtureExecutionEnabled !== false ||
+  manifest.globalProviderDecisionRecovery?.conformanceApprovalEnabled !== false ||
+  manifest.globalProviderDecisionRecovery?.candidateWriteEnabled !== false ||
+  manifest.globalProviderDecisionRecovery?.observationReleaseEnabled !== false ||
+  manifest.globalProviderDecisionRecovery?.modelTrainingEnabled !== false ||
+  manifest.globalProviderDecisionRecovery?.autonomousPublicationEnabled !== false ||
+  manifest.globalProviderDecisionRecovery?.autonomousTradeExecutionEnabled !== false
+) throw new Error('Deployed global provider decision recovery-control boundary is incomplete or unsafe.')
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||

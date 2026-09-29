@@ -490,6 +490,45 @@ async function mockGuestBackend(page: Page) {
         candidate_write_effect: false, release_effect: false, production_effect: false,
       }]) }); return
     }
+    if (path === '/rest/v1/global_provider_decision_recovery_status') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+        control_key: 'global-provider-decision-recovery-controls',
+        policy_version: 'global-provider-decision-recovery-controls-v1',
+        source_family_count: 8, recovery_trigger_count: 8, recovery_state_count: 7,
+        recovery_cell_count: 64, blocked_recovery_cell_count: 64,
+        authorized_recovery_cell_count: 0,
+      }) }); return
+    }
+    if (path === '/rest/v1/global_provider_decision_recovery_state_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, state_key: 'monitoring_inactive',
+        display_name: 'Monitoring inactive',
+        state_definition: 'No real provider decision or recovery event exists; all exception, freeze, rollback and revocation actions remain unavailable.',
+        real_recovery_event_present: false, automatic_transition_enabled: false,
+        human_recovery_review_required: true, freeze_effect: false,
+        rollback_effect: false, revocation_effect: false, production_effect: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/global_provider_decision_recovery_trigger_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, trigger_key: 'authority_or_scope_change',
+        recovery_domain: 'governance', display_name: 'Authority or scope change',
+        trigger_definition: 'Detect future loss of accountable authority, purpose limitation, approved scope or separation of duties and fail closed.',
+        trigger_status: 'unobserved', real_event_present: false,
+        investigator_assigned: false, human_authorized: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/global_provider_decision_recovery_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, source_family_key: 'official_statistics', source_family_name: 'Official statistics',
+        trigger_key: 'authority_or_scope_change', trigger_sequence_number: 1,
+        trigger_name: 'Authority or scope change', recovery_domain: 'governance',
+        recovery_status: 'blocked', human_authorized: false,
+        automated_freeze_effect: false, rollback_effect: false, revocation_effect: false,
+        endpoint_access_effect: false, candidate_write_effect: false,
+        release_effect: false, production_effect: false,
+      }]) }); return
+    }
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -571,7 +610,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(44)
+  await expect(navigation.getByRole('link')).toHaveCount(45)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -701,6 +740,14 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByText('Seven human-only decision states')).toBeVisible()
   await expect(page.getByText(/Phase 8Q is decision scaffolding, not provider approval/)).toBeVisible()
   await expect(page.getByRole('button', { name: /record|sign|authorize|approve|connect|run test|release|publish|train|execute|trade/i })).toHaveCount(0)
+
+  await page.goto('/#provider-decision-recovery')
+  await expect(page.getByRole('heading', { level: 1, name: 'Provider decision recovery and revocation controls' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Provider decision recovery and revocation controls' })).toBeVisible()
+  await expect(page.getByText('No recovery event exists in Phase 8R')).toBeVisible()
+  await expect(page.getByText('Seven manual recovery states')).toBeVisible()
+  await expect(page.getByText(/Phase 8R is recovery scaffolding, not incident handling or provider activation/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /record|challenge|freeze|rollback|revoke|approve|connect|release|publish|train|execute|trade/i })).toHaveCount(0)
 
   await page.goto('/#live-rollout')
   await expect(page.getByRole('heading', { level: 1, name: 'Controlled live rollout' })).toBeVisible()
