@@ -33,8 +33,8 @@ for (const group of expectedGroups) {
 const hrefs = [...navigation.matchAll(/href: '(#[a-z0-9-]+)'/g)].map(
   (match) => match[1],
 )
-if (hrefs.length !== 44) {
-  throw new Error(`Expected 44 product destinations, found ${hrefs.length}`)
+if (hrefs.length !== 45) {
+  throw new Error(`Expected 45 product destinations, found ${hrefs.length}`)
 }
 if (new Set(hrefs).size !== hrefs.length) {
   throw new Error('Product navigation contains a duplicate destination')
@@ -63,4 +63,4 @@ if (!applicationSource.includes("addEventListener('hashchange'")) {
   throw new Error('Application does not react to hash-route changes')
 }
 
-console.log('Product navigation contract passed: 5 groups, 44 valid destinations.')
+console.log('Product navigation contract passed: 5 groups, 45 valid destinations.')

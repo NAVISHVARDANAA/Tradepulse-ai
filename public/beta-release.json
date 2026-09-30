@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "8Q",
-  "status": "global_provider_review_decision_controls_candidate",
+  "phase": "8R",
+  "status": "global_provider_decision_recovery_controls_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -55,7 +55,8 @@
       "globalProviderContractTests",
       "globalProviderCandidateReviews",
       "globalProviderReviewGovernance",
-      "globalProviderReviewDecisions"
+      "globalProviderReviewDecisions",
+      "globalProviderDecisionRecovery"
     ]
   },
   "trustLayer": {
@@ -113,6 +114,7 @@
     "check:global-provider-candidate-review",
     "check:global-provider-review-governance",
     "check:global-provider-review-decisions",
+    "check:global-provider-decision-recovery",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -145,7 +147,8 @@
     "global-provider-specific-contract-mapping-fixture-and-conformance-review",
     "global-provider-candidate-evidence-review-and-signed-activation-approval",
     "global-provider-review-authority-custody-separation-and-expiry-approval",
-    "global-provider-decision-audit-reason-quorum-expiry-and-revocation-approval"
+    "global-provider-decision-audit-reason-quorum-expiry-and-revocation-approval",
+    "global-provider-recovery-exception-freeze-rollback-and-revocation-approval"
   ],
   "betaHardening": {
     "workspaceEnabled": true,
@@ -752,6 +755,41 @@
     "reviewerSignatureStorageEnabled": false,
     "evidenceLinkageEnabled": false,
     "automatedQuorumEvaluationEnabled": false,
+    "providerCandidateSelectionEnabled": false,
+    "reviewPacketOpenEnabled": false,
+    "endpointConnectivityEnabled": false,
+    "credentialStorageEnabled": false,
+    "externalPayloadIntakeEnabled": false,
+    "fixtureExecutionEnabled": false,
+    "conformanceApprovalEnabled": false,
+    "candidateWriteEnabled": false,
+    "observationReleaseEnabled": false,
+    "modelTrainingEnabled": false,
+    "autonomousPublicationEnabled": false,
+    "autonomousTradeExecutionEnabled": false
+  },
+  "globalProviderDecisionRecovery": {
+    "workspaceEnabled": true,
+    "sourceFamilyCount": 8,
+    "recoveryTriggerCount": 8,
+    "recoveryStateCount": 7,
+    "recoveryCellCount": 64,
+    "blockedRecoveryCellCount": 64,
+    "authorizedRecoveryCellCount": 0,
+    "immediateFailClosedFreezeRequired": true,
+    "independentRecoveryReviewRequired": true,
+    "rollbackRehearsalRequired": true,
+    "immutableRecoveryAuditRequired": true,
+    "explicitRecoveryReasonRequired": true,
+    "expiryAndRevocationEnforced": true,
+    "appendOnlyReferenceContracts": true,
+    "exceptionRecordingEnabled": false,
+    "decisionChallengeRecordingEnabled": false,
+    "investigatorIdentityStorageEnabled": false,
+    "recoveryEvidenceLinkageEnabled": false,
+    "automatedFreezeEnabled": false,
+    "rollbackExecutionEnabled": false,
+    "decisionRevocationEnabled": false,
     "providerCandidateSelectionEnabled": false,
     "reviewPacketOpenEnabled": false,
     "endpointConnectivityEnabled": false,

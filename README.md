@@ -745,6 +745,16 @@ decision exists. No reviewer, evidence reference, signature, provider,
 endpoint, credential, approval, release, model or trading path is enabled. See
 [`docs/GLOBAL_PROVIDER_REVIEW_DECISION_CONTROLS.md`](docs/GLOBAL_PROVIDER_REVIEW_DECISION_CONTROLS.md).
 
+Phase 8R adds migration `061_global_provider_decision_recovery_controls.sql`
+and a lazy-loaded provider decision recovery-control workspace. Seven manual
+recovery states, eight fail-closed triggers and sixty-four blocked cells make
+exception handling, immediate freeze, independent recovery review, rollback
+rehearsal, immutable audit, expiry and revocation explicit while no event or
+recovery action exists. No investigator, evidence reference, signature,
+provider, endpoint, credential, freeze, rollback, revocation, release, model or
+trading path is enabled. See
+[`docs/GLOBAL_PROVIDER_DECISION_RECOVERY_CONTROLS.md`](docs/GLOBAL_PROVIDER_DECISION_RECOVERY_CONTROLS.md).
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction

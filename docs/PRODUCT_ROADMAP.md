@@ -1270,6 +1270,36 @@ identities, controlled evidence links, independent domain reviews, explicit
 reason codes, immutable audit retention, conflict handling, bounded scope,
 dual control, expiry, revocation and rollback.
 
+### Phase 8R — provider decision recovery and revocation controls (implemented foundation)
+
+- Seven manual recovery-state templates define inactive monitoring, exception
+  reporting, protective freeze, independent review, rollback rehearsal,
+  revocation and accountable closeout without recording a real event.
+- Eight fail-closed recovery triggers cover authority and scope, legal status,
+  rights expiry, privacy and transfer, security and custody, schema and
+  provenance, conformance operations, and conflict, quorum or expiry failure.
+- Sixty-four deterministic recovery cells map eight triggers across eight
+  source families; every cell remains blocked, empty and unauthorized.
+- Immediate fail-closed freeze, independent recovery review, rollback
+  rehearsal, immutable audit, explicit reason codes, expiry and revocation are
+  mandatory future requirements.
+- Sanitized public views expose only recovery gaps, while append-only database
+  controls prevent browser or service-role mutation.
+- Exception and challenge recording, investigator identity, evidence linkage,
+  automated freeze, rollback execution, decision revocation, provider
+  selection, endpoint access, credentials, payloads, testing, approval, writes,
+  release, model training, publication and trading remain locked off.
+
+**Phase 8R exit gate:** green global-provider-decision-recovery,
+global-provider-review-decisions, database, browser, security, bundle and
+release contracts; reviewed `DEPLOY_DATA_PHASE_8R`; read-only
+`VERIFY_DATA_PHASE_8R`; successful `BUILD_PHASE_8R`; reviewed
+`DEPLOY_PHASE_8R`; and read-only `VERIFY_WEB_PHASE_8R` evidence. Recording or
+executing one real recovery still requires a separate authorized change with
+verified identities, controlled evidence, explicit reason codes, independent
+review, immutable audit retention, dual control, bounded restoration, observed
+drills and accountable closeout.
+
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.

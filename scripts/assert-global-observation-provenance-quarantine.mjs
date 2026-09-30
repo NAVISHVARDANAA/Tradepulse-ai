@@ -66,7 +66,7 @@ assert(production.includes("'#observation-intake'"), 'Production test omits obse
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.globalObservationProvenance
-assert(manifest.phase === '8Q' && manifest.status === 'global_provider_review_decision_controls_candidate',
+assert(manifest.phase === '8R' && manifest.status === 'global_provider_decision_recovery_controls_candidate',
   'Manifest is not Phase 8K')
 assert(packageJson.scripts?.['check:global-observation-provenance'], 'Package omits Phase 8K check')
 assert(manifest.requiredChecks.includes('check:global-observation-provenance'), 'Manifest omits Phase 8K check')
@@ -89,9 +89,9 @@ assert(release?.normalizationContractCount === 9 && release?.quarantineLaneCount
 assert(release?.candidateObservationCount === 0 && release?.releasedObservationCount === 0
   && release?.releaseGateCount === 8, 'Observation or gate counts changed')
 
-for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8Q'],
-  [verifyData, 'VERIFY_DATA_PHASE_8Q'], [buildWeb, 'BUILD_PHASE_8Q'],
-  [deployWeb, 'DEPLOY_PHASE_8Q'], [verifyWeb, 'VERIFY_WEB_PHASE_8Q']]) {
+for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8R'],
+  [verifyData, 'VERIFY_DATA_PHASE_8R'], [buildWeb, 'BUILD_PHASE_8R'],
+  [deployWeb, 'DEPLOY_PHASE_8R'], [verifyWeb, 'VERIFY_WEB_PHASE_8R']]) {
   assert(workflow.includes(token), `Workflow omits ${token}`)
 }
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {

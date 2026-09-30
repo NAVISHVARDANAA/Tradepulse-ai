@@ -106,6 +106,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Inspect the human-only decision states, mandatory gates and immutable audit requirements needed before a bounded provider review could be authorized.',
     boundary: 'No decision · no approval · no activation',
   },
+  '#provider-decision-recovery': {
+    eyebrow: 'Provider recovery governance',
+    title: 'Provider decision recovery and revocation controls',
+    description: 'Inspect the fail-closed triggers, manual recovery states and rollback requirements needed before a future provider decision could be challenged or withdrawn.',
+    boundary: 'No event · no freeze · no rollback',
+  },
   '#global-access': {
     eyebrow: 'Global market intelligence',
     title: 'Venue and instrument access map',
