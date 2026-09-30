@@ -529,6 +529,45 @@ async function mockGuestBackend(page: Page) {
         release_effect: false, production_effect: false,
       }]) }); return
     }
+    if (path === '/rest/v1/global_provider_activation_status') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+        control_key: 'global-provider-activation-readiness-controls',
+        policy_version: 'global-provider-activation-readiness-controls-v1',
+        source_family_count: 8, activation_gate_count: 8, activation_state_count: 7,
+        readiness_cell_count: 64, blocked_readiness_cell_count: 64,
+        authorized_readiness_cell_count: 0,
+      }) }); return
+    }
+    if (path === '/rest/v1/global_provider_activation_state_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, state_key: 'activation_not_requested',
+        display_name: 'Activation not requested',
+        state_definition: 'No real provider candidate or activation request exists; all connectivity, credential, write and release capabilities remain unavailable.',
+        real_activation_present: false, automatic_transition_enabled: false,
+        human_activation_authorization_required: true, endpoint_access_effect: false,
+        credential_access_effect: false, activation_effect: false, production_effect: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/global_provider_activation_gate_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, gate_key: 'decision_and_recovery_ready',
+        activation_domain: 'governance', display_name: 'Decision and recovery readiness',
+        gate_definition: 'Require a current bounded decision, verified recovery controls, unexpired authority and no unresolved exception before activation review.',
+        gate_status: 'unmet', real_evidence_present: false,
+        reviewer_assigned: false, human_authorized: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/global_provider_activation_readiness_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, source_family_key: 'official_statistics', source_family_name: 'Official statistics',
+        gate_key: 'decision_and_recovery_ready', gate_sequence_number: 1,
+        gate_name: 'Decision and recovery readiness', activation_domain: 'governance',
+        readiness_status: 'blocked', human_authorized: false,
+        endpoint_access_effect: false, credential_access_effect: false,
+        activation_effect: false, candidate_write_effect: false,
+        release_effect: false, production_effect: false,
+      }]) }); return
+    }
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -610,7 +649,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(45)
+  await expect(navigation.getByRole('link')).toHaveCount(46)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -748,6 +787,14 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByText('Seven manual recovery states')).toBeVisible()
   await expect(page.getByText(/Phase 8R is recovery scaffolding, not incident handling or provider activation/)).toBeVisible()
   await expect(page.getByRole('button', { name: /record|challenge|freeze|rollback|revoke|approve|connect|release|publish|train|execute|trade/i })).toHaveCount(0)
+
+  await page.goto('/#provider-activation-readiness')
+  await expect(page.getByRole('heading', { level: 1, name: 'Provider activation authorization and change controls' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Provider activation authorization and change controls' })).toBeVisible()
+  await expect(page.getByText('No provider activation exists in Phase 8S')).toBeVisible()
+  await expect(page.getByText('Seven manual change-control states')).toBeVisible()
+  await expect(page.getByText(/Phase 8S is activation-readiness scaffolding, not provider onboarding or production change execution/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /request|authorize|schedule|connect|activate|write|release|publish|train|execute|trade/i })).toHaveCount(0)
 
   await page.goto('/#live-rollout')
   await expect(page.getByRole('heading', { level: 1, name: 'Controlled live rollout' })).toBeVisible()

@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type VERIFY_WEB_PHASE_8R for the provider decision recovery-control candidate
+        description: Type VERIFY_WEB_PHASE_8S for the provider activation-readiness candidate
         required: true
         type: string
 
@@ -32,7 +32,7 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "VERIFY_WEB_PHASE_8R"
+          test "$RELEASE_CONFIRMATION" = "VERIFY_WEB_PHASE_8S"
           test -n "$CLOUDFLARE_PAGES_PROJECT"
           case "$CLOUDFLARE_PAGES_PROJECT" in *[!a-z0-9-]*) echo "Invalid Cloudflare Pages project name."; exit 1;; esac
           echo "WEB_PRODUCTION_URL=https://${CLOUDFLARE_PAGES_PROJECT}.pages.dev" >> "$GITHUB_ENV"
@@ -73,6 +73,7 @@ jobs:
       - run: npm run check:global-provider-review-governance
       - run: npm run check:global-provider-review-decisions
       - run: npm run check:global-provider-decision-recovery
+      - run: npm run check:global-provider-activation-readiness
       - run: npm run check:production-experience
       - run: npm run verify:web-deployment -- "$WEB_PRODUCTION_URL"
       - name: Install Chromium

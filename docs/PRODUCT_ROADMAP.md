@@ -1300,6 +1300,38 @@ verified identities, controlled evidence, explicit reason codes, independent
 review, immutable audit retention, dual control, bounded restoration, observed
 drills and accountable closeout.
 
+### Phase 8S — provider activation authorization and change controls (implemented foundation)
+
+- Seven manual change-control states define no request, change-packet,
+  independent authorization, pre-activation snapshot, bounded window, abort and
+  verification, and accountable closeout semantics without recording a real
+  provider or activation.
+- Eight fail-closed activation gates cover decision and recovery readiness,
+  bounded provider identity and scope, legal authority, use rights,
+  privacy/security/custody, endpoint and schema contracts, rehearsed abort and
+  restoration, and independent dual control.
+- Sixty-four deterministic readiness cells map eight gates across eight source
+  families; every cell remains blocked, empty and unauthorized.
+- Independent authorization, dual control, bounded expiring windows,
+  pre-activation snapshots, tested abort and restoration, immutable audit and
+  accountable post-change verification are mandatory future requirements.
+- Sanitized public views expose only activation gaps, while append-only database
+  controls prevent browser or service-role mutation.
+- Activation-request and authorization recording, change-window scheduling,
+  provider selection, endpoint access, credentials, payloads, testing,
+  approval, activation, writes, release, model training, publication and trading
+  remain locked off.
+
+**Phase 8S exit gate:** green global-provider-activation-readiness,
+global-provider-decision-recovery, database, browser, security, bundle and
+release contracts; reviewed `DEPLOY_DATA_PHASE_8S`; read-only
+`VERIFY_DATA_PHASE_8S`; successful `BUILD_PHASE_8S`; reviewed
+`DEPLOY_PHASE_8S`; and read-only `VERIFY_WEB_PHASE_8S` evidence. Recording or
+executing one real provider activation still requires a separate provider-
+specific authorized change with verified identity, current rights, controlled
+evidence, isolated secrets, bounded scope, independent dual control, observed
+abort and restoration drills, immutable audit and accountable verification.
+
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.

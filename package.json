@@ -41,6 +41,7 @@
     "check:global-provider-review-governance": "node scripts/assert-global-provider-review-governance.mjs",
     "check:global-provider-review-decisions": "node scripts/assert-global-provider-review-decision-controls.mjs",
     "check:global-provider-decision-recovery": "node scripts/assert-global-provider-decision-recovery-controls.mjs",
+    "check:global-provider-activation-readiness": "node scripts/assert-global-provider-activation-readiness-controls.mjs",
     "check:bundle": "node scripts/assert-frontend-budgets.mjs",
     "check:beta": "node scripts/assert-beta-readiness.mjs",
     "check:hosting": "node scripts/assert-cloudflare-hosting.mjs",

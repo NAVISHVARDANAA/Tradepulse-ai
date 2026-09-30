@@ -77,6 +77,9 @@ const GlobalProviderReviewDecisionPanel = lazy(() => import('./components/Global
 const GlobalProviderDecisionRecoveryPanel = lazy(() => import('./components/GlobalProviderDecisionRecoveryPanel').then((module) => ({
   default: module.GlobalProviderDecisionRecoveryPanel,
 })))
+const GlobalProviderActivationReadinessPanel = lazy(() => import('./components/GlobalProviderActivationReadinessPanel').then((module) => ({
+  default: module.GlobalProviderActivationReadinessPanel,
+})))
 const AccountSecurityPanel = lazy(() => import('./components/AccountSecurityPanel').then((module) => ({
   default: module.AccountSecurityPanel,
 })))
@@ -606,6 +609,14 @@ function App() {
           <ProductErrorBoundary title="Provider decision recovery controls are temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Provider decision recovery and revocation controls" />}>
               <GlobalProviderDecisionRecoveryPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#provider-activation-readiness' ? <section id="provider-activation-readiness" className="product-workspace">
+          <ProductErrorBoundary title="Provider activation readiness is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Provider activation authorization and change controls" />}>
+              <GlobalProviderActivationReadinessPanel />
             </Suspense>
           </ProductErrorBoundary>
         </section> : null}
