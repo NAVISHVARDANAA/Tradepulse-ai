@@ -206,8 +206,13 @@ personalized advice remain false. Search indexing also remains disabled.
     immediate fail-closed containment, independent review, explicit reason
     codes, immutable audit, dual control, tested restoration and accountable
     closeout.
+23. Record or execute provider activation only through a separately authorized
+    provider-specific change with verified identity, current rights, controlled
+    evidence, isolated secrets, bounded scope, independent dual control, an
+    expiring change window, observed abort and restoration drills, immutable
+    audit and accountable post-change verification.
 
-These are operational, legal and business launch decisions. Passing Phase 8R
+These are operational, legal and business launch decisions. Passing Phase 8S
 means the engineering candidate is ready for that review; it does not certify
 regulatory approval or declare a public production launch.
 
@@ -229,19 +234,19 @@ evidence in a public issue or artifact.
 
 ## Hosting deployment procedure
 
-After the Phase 8R PR is merged and all `main` checks pass:
+After the Phase 8S PR is merged and all `main` checks pass:
 
-1. Deploy and verify migration 061 with `DEPLOY_DATA_PHASE_8R` and `VERIFY_DATA_PHASE_8R`.
+1. Deploy and verify migration 062 with `DEPLOY_DATA_PHASE_8S` and `VERIFY_DATA_PHASE_8S`.
 2. Open **Actions → Build production web release**.
-3. Select `main`, enter `BUILD_PHASE_8R` and run the workflow.
+3. Select `main`, enter `BUILD_PHASE_8S` and run the workflow.
 4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 5. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-6. Run **Verify web production** with `VERIFY_WEB_PHASE_8R` after deployment
+6. Run **Verify web production** with `VERIFY_WEB_PHASE_8S` after deployment
    or any customer-facing operational incident.
 7. Do not invite external testers until every manual prerequisite above is approved.
 
-Phase 8R adds migration 061 and the provider decision recovery-control workspace.
-It exposes only empty recovery states, unobserved triggers and blocked reference
-cells. It records no exception, challenge, investigator, evidence, reason code,
-signature, freeze, rollback or revocation and cannot change any provider,
-endpoint, write, release, training, publication or trading boundary.
+Phase 8S adds migration 062 and the provider activation authorization and
+change-control workspace. It exposes only empty activation states, unmet gates
+and blocked readiness cells. It records no provider, change packet, authorizer,
+decision, recovery plan, credential, endpoint, maintenance window or activation
+and cannot change any write, release, training, publication or trading boundary.

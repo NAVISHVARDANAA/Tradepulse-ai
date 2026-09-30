@@ -682,6 +682,39 @@ if (
   manifest.globalProviderDecisionRecovery?.autonomousTradeExecutionEnabled !== false
 ) throw new Error('Deployed global provider decision recovery-control boundary is incomplete or unsafe.')
 if (
+  manifest.globalProviderActivationReadiness?.workspaceEnabled !== true ||
+  manifest.globalProviderActivationReadiness?.sourceFamilyCount !== 8 ||
+  manifest.globalProviderActivationReadiness?.activationGateCount !== 8 ||
+  manifest.globalProviderActivationReadiness?.activationStateCount !== 7 ||
+  manifest.globalProviderActivationReadiness?.readinessCellCount !== 64 ||
+  manifest.globalProviderActivationReadiness?.blockedReadinessCellCount !== 64 ||
+  manifest.globalProviderActivationReadiness?.authorizedReadinessCellCount !== 0 ||
+  manifest.globalProviderActivationReadiness?.independentActivationAuthorizationRequired !== true ||
+  manifest.globalProviderActivationReadiness?.dualControlActivationRequired !== true ||
+  manifest.globalProviderActivationReadiness?.boundedMaintenanceWindowRequired !== true ||
+  manifest.globalProviderActivationReadiness?.preActivationSnapshotRequired !== true ||
+  manifest.globalProviderActivationReadiness?.testedAbortAndRestorationRequired !== true ||
+  manifest.globalProviderActivationReadiness?.postActivationVerificationRequired !== true ||
+  manifest.globalProviderActivationReadiness?.immutableChangeAuditRequired !== true ||
+  manifest.globalProviderActivationReadiness?.expiryAndRevocationEnforced !== true ||
+  manifest.globalProviderActivationReadiness?.appendOnlyReferenceContracts !== true ||
+  manifest.globalProviderActivationReadiness?.activationRequestRecordingEnabled !== false ||
+  manifest.globalProviderActivationReadiness?.activationAuthorizationRecordingEnabled !== false ||
+  manifest.globalProviderActivationReadiness?.maintenanceWindowSchedulingEnabled !== false ||
+  manifest.globalProviderActivationReadiness?.providerCandidateSelectionEnabled !== false ||
+  manifest.globalProviderActivationReadiness?.endpointConnectivityEnabled !== false ||
+  manifest.globalProviderActivationReadiness?.credentialStorageEnabled !== false ||
+  manifest.globalProviderActivationReadiness?.externalPayloadIntakeEnabled !== false ||
+  manifest.globalProviderActivationReadiness?.fixtureExecutionEnabled !== false ||
+  manifest.globalProviderActivationReadiness?.conformanceApprovalEnabled !== false ||
+  manifest.globalProviderActivationReadiness?.providerActivationEnabled !== false ||
+  manifest.globalProviderActivationReadiness?.candidateWriteEnabled !== false ||
+  manifest.globalProviderActivationReadiness?.observationReleaseEnabled !== false ||
+  manifest.globalProviderActivationReadiness?.modelTrainingEnabled !== false ||
+  manifest.globalProviderActivationReadiness?.autonomousPublicationEnabled !== false ||
+  manifest.globalProviderActivationReadiness?.autonomousTradeExecutionEnabled !== false
+) throw new Error('Deployed global provider activation-readiness boundary is incomplete or unsafe.')
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||

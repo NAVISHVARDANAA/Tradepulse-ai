@@ -112,6 +112,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Inspect the fail-closed triggers, manual recovery states and rollback requirements needed before a future provider decision could be challenged or withdrawn.',
     boundary: 'No event · no freeze · no rollback',
   },
+  '#provider-activation-readiness': {
+    eyebrow: 'Provider activation governance',
+    title: 'Provider activation authorization and change controls',
+    description: 'Inspect the human authorization, bounded change window, restoration and verification requirements needed before a future provider could be activated.',
+    boundary: 'No provider · no endpoint · no activation',
+  },
   '#global-access': {
     eyebrow: 'Global market intelligence',
     title: 'Venue and instrument access map',

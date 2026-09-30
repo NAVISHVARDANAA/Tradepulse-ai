@@ -31,29 +31,29 @@ is intentionally public and is still constrained by RLS and server-side auth.
 After this PR is merged and all `main` checks pass:
 
 1. Open **Actions → Deploy Supabase production**, choose `main`, enter
-   `DEPLOY_DATA_PHASE_8R` and wait for it to pass.
+   `DEPLOY_DATA_PHASE_8S` and wait for it to pass.
 2. Run **Verify Supabase production** on `main` with
-   `VERIFY_DATA_PHASE_8R` and retain the read-only evidence.
+   `VERIFY_DATA_PHASE_8S` and retain the read-only evidence.
 3. Open **Actions → Build production web release**, choose `main`, enter
-   `BUILD_PHASE_8R` and record the green provider decision recovery-control web artifact.
+   `BUILD_PHASE_8S` and record the green provider activation-readiness web artifact.
 4. Open **Actions → Deploy controlled beta web**, choose `main`, enter
-   `DEPLOY_PHASE_8R` and approve the protected production environment.
+   `DEPLOY_PHASE_8S` and approve the protected production environment.
 5. Record the immutable commit, workflow run and Cloudflare deployment URL from
    the job summary. The workflow verifies HTTPS, browser security headers, the
    release manifest and every hard lock after upload. It then runs desktop and
    mobile production browser checks across the public workspaces, Analytics
    interactions, console/network failures and guest execution locks.
 6. After a release or operational incident, open **Actions → Verify web
-   production**, choose `main`, enter `VERIFY_WEB_PHASE_8R` and retain the green
+   production**, choose `main`, enter `VERIFY_WEB_PHASE_8S` and retain the green
    production-browser report.
 7. Do not invite testers yet. Choose and validate the final domain, configure
    its exact Supabase Auth site URL and redirect allow-list, then complete the
    remaining launch prerequisites in `docs/BETA_RELEASE_CANDIDATE.md`.
 
-Deploy and verify migration 061 with the Phase 8R data gates before the web
-workspace. Every recovery state remains reference-only, every trigger remains
-unobserved and every recovery cell remains blocked. The product cannot record
-an exception or challenge, assign an investigator, link evidence, freeze,
-rollback, revoke a decision, select a provider, open a review packet, test an
-endpoint, ingest or release observations, publish, train, route an order, move
-money, hold assets or settle a trade.
+Deploy and verify migration 062 with the Phase 8S data gates before the web
+workspace. Every activation state remains reference-only, every gate remains
+unmet and every readiness cell remains blocked. The product cannot record an
+activation request or authorization, schedule a change window, select a
+provider, access credentials, connect an endpoint, activate a provider, ingest
+or release observations, publish, train, route an order, move money, hold assets
+or settle a trade.

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "8R",
-  "status": "global_provider_decision_recovery_controls_candidate",
+  "phase": "8S",
+  "status": "global_provider_activation_readiness_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -56,7 +56,8 @@
       "globalProviderCandidateReviews",
       "globalProviderReviewGovernance",
       "globalProviderReviewDecisions",
-      "globalProviderDecisionRecovery"
+      "globalProviderDecisionRecovery",
+      "globalProviderActivationReadiness"
     ]
   },
   "trustLayer": {
@@ -115,6 +116,7 @@
     "check:global-provider-review-governance",
     "check:global-provider-review-decisions",
     "check:global-provider-decision-recovery",
+    "check:global-provider-activation-readiness",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -148,7 +150,8 @@
     "global-provider-candidate-evidence-review-and-signed-activation-approval",
     "global-provider-review-authority-custody-separation-and-expiry-approval",
     "global-provider-decision-audit-reason-quorum-expiry-and-revocation-approval",
-    "global-provider-recovery-exception-freeze-rollback-and-revocation-approval"
+    "global-provider-recovery-exception-freeze-rollback-and-revocation-approval",
+    "global-provider-activation-authorization-change-window-abort-restoration-and-verification-approval"
   ],
   "betaHardening": {
     "workspaceEnabled": true,
@@ -797,6 +800,39 @@
     "externalPayloadIntakeEnabled": false,
     "fixtureExecutionEnabled": false,
     "conformanceApprovalEnabled": false,
+    "candidateWriteEnabled": false,
+    "observationReleaseEnabled": false,
+    "modelTrainingEnabled": false,
+    "autonomousPublicationEnabled": false,
+    "autonomousTradeExecutionEnabled": false
+  },
+  "globalProviderActivationReadiness": {
+    "workspaceEnabled": true,
+    "sourceFamilyCount": 8,
+    "activationGateCount": 8,
+    "activationStateCount": 7,
+    "readinessCellCount": 64,
+    "blockedReadinessCellCount": 64,
+    "authorizedReadinessCellCount": 0,
+    "independentActivationAuthorizationRequired": true,
+    "dualControlActivationRequired": true,
+    "boundedMaintenanceWindowRequired": true,
+    "preActivationSnapshotRequired": true,
+    "testedAbortAndRestorationRequired": true,
+    "postActivationVerificationRequired": true,
+    "immutableChangeAuditRequired": true,
+    "expiryAndRevocationEnforced": true,
+    "appendOnlyReferenceContracts": true,
+    "activationRequestRecordingEnabled": false,
+    "activationAuthorizationRecordingEnabled": false,
+    "maintenanceWindowSchedulingEnabled": false,
+    "providerCandidateSelectionEnabled": false,
+    "endpointConnectivityEnabled": false,
+    "credentialStorageEnabled": false,
+    "externalPayloadIntakeEnabled": false,
+    "fixtureExecutionEnabled": false,
+    "conformanceApprovalEnabled": false,
+    "providerActivationEnabled": false,
     "candidateWriteEnabled": false,
     "observationReleaseEnabled": false,
     "modelTrainingEnabled": false,

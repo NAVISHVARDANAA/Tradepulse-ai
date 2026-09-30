@@ -755,6 +755,16 @@ provider, endpoint, credential, freeze, rollback, revocation, release, model or
 trading path is enabled. See
 [`docs/GLOBAL_PROVIDER_DECISION_RECOVERY_CONTROLS.md`](docs/GLOBAL_PROVIDER_DECISION_RECOVERY_CONTROLS.md).
 
+Phase 8S adds migration `062_global_provider_activation_readiness_controls.sql`
+and a lazy-loaded provider activation authorization and change-control
+workspace. Seven manual change states, eight fail-closed activation gates and
+sixty-four blocked readiness cells require independent authorization, dual
+control, bounded maintenance windows, pre-activation snapshots, tested abort
+and restoration, immutable audit and post-change verification while no provider
+or activation exists. No change packet, authorizer, credential, endpoint,
+payload, activation, write, release, model or trading path is enabled. See
+[`docs/GLOBAL_PROVIDER_ACTIVATION_READINESS_CONTROLS.md`](docs/GLOBAL_PROVIDER_ACTIVATION_READINESS_CONTROLS.md).
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction
