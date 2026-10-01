@@ -79,7 +79,7 @@ assert(production.includes("'#provider-review-governance'"), 'Production test om
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.globalProviderReviewGovernance
-assert(manifest.phase === '8T' && manifest.status === 'global_provider_activation_rehearsal_candidate',
+assert(manifest.phase === '8U' && manifest.status === 'external_audience_launch_readiness_candidate',
   'Manifest is not Phase 8P')
 assert(packageJson.scripts?.['check:global-provider-review-governance'], 'Package omits Phase 8P check')
 assert(manifest.requiredChecks.includes('check:global-provider-review-governance'), 'Manifest omits Phase 8P check')
@@ -107,9 +107,9 @@ assert(release?.responsibilityCount === 64 && release?.unassignedResponsibilityC
   && release?.authorizedResponsibilityCount === 0,
   'Review responsibility counts changed')
 
-for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8T'],
-  [verifyData, 'VERIFY_DATA_PHASE_8T'], [buildWeb, 'BUILD_PHASE_8T'],
-  [deployWeb, 'DEPLOY_PHASE_8T'], [verifyWeb, 'VERIFY_WEB_PHASE_8T']]) {
+for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8U'],
+  [verifyData, 'VERIFY_DATA_PHASE_8U'], [buildWeb, 'BUILD_PHASE_8U'],
+  [deployWeb, 'DEPLOY_PHASE_8U'], [verifyWeb, 'VERIFY_WEB_PHASE_8U']]) {
   assert(workflow.includes(token), `Workflow omits ${token}`)
 }
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
@@ -119,8 +119,8 @@ assert(ci.includes('global_provider_review_governance.test.sql'), 'CI omits Phas
 assert(deployData.includes('global_provider_review_governance_smoke.sql')
   && verifyData.includes('global_provider_review_governance_smoke.sql'),
   'Data workflows omit Phase 8P smoke')
-assert(deployData.includes("grep -Eq '(^|[^0-9])063([^0-9]|$)'"), 'Data deployment does not verify migration 063')
-assert(verifyData.includes("grep -Eq '(^|[^0-9])063([^0-9]|$)'"), 'Data verification does not verify migration 063')
+assert(deployData.includes("grep -Eq '(^|[^0-9])064([^0-9]|$)'"), 'Data deployment does not verify migration 064')
+assert(verifyData.includes("grep -Eq '(^|[^0-9])064([^0-9]|$)'"), 'Data verification does not verify migration 064')
 assert(publicRead.includes('global_provider_review_governance_status'), 'Public verifier omits Phase 8P')
 assert(deployed.includes('manifest.globalProviderReviewGovernance'), 'Web verifier omits Phase 8P')
 assert(roadmap.includes('Phase 8P — provider review authority and evidence custody (implemented foundation)'),

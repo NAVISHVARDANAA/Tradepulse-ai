@@ -1,6 +1,6 @@
-# Phase 8T production web release foundation
+# Phase 8U external audience production launch foundation
 
-Phase 8T extends the host-neutral controlled-beta candidate for the TradePulse AI web
+Phase 8U extends the host-neutral controlled-beta candidate for the TradePulse AI web
 application. The artifact includes SPA routing, a static-only service worker,
 PWA metadata, cache controls and browser security headers. Source maps, server
 secret names and local environment files are rejected before upload.
@@ -17,12 +17,12 @@ the project's public Supabase anon key. `SUPABASE_PROJECT_REF` remains the sourc
 for the approved HTTPS origin.
 
 After merging, open **Actions → Build production web release**, select `main`
-and enter `BUILD_PHASE_8T`. The workflow validates the public configuration,
+and enter `BUILD_PHASE_8U`. The workflow validates the public configuration,
 builds the application and retains the immutable commit-addressed artifact for
 14 days as `tradepulse-beta-rc-<commit>`. It does not publish to a hosting
-provider; provider selection and the first production URL remain manual launch
-prerequisites. The Phase 8T workspace exposes only sanitized rehearsal states,
-unmet gates and blocked rehearsal contracts. It records no provider, runbook,
-environment, endpoint, secret, payload, rehearsal window, drill or activation
-and performs no egress test, secret binding, payload execution, candidate
-write, observation release, model training, publication or trading action.
+provider; the final domain and external audience authorization remain manual
+launch prerequisites. The Phase 8U workspace exposes only unavailable audience
+surfaces, manual states, unmet production gates and blocked readiness cells. It
+records no cohort, reviewer, evidence, authorization or launch window and
+performs no signup, automated provisioning, provider connection, customer-data
+intake, publication, model training, trading, payment, custody or settlement.

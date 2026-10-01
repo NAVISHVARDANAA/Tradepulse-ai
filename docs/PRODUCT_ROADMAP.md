@@ -1364,6 +1364,33 @@ with a non-production environment, synthetic-only inputs, allowlisted egress,
 ephemeral secrets, bounded scope, observed abort/restoration and reconciliation,
 immutable audit, independent verification and accountable closeout.
 
+### Phase 8U — external audience production launch readiness (implemented foundation)
+
+- Eight product-surface templates cover the public dashboard, research,
+  agentic analysis, global intelligence, paper education, account protection,
+  support and beta operations without exposing a real audience.
+- Eight independent gates require production hosting, exact authentication,
+  published legal and support ownership, monitoring and incident response,
+  bounded cohort approval, accessibility and capacity, data rights and labels,
+  and tested rollback with accountable closeout.
+- Sixty-four deterministic readiness cells remain blocked with zero evidence,
+  reviewer identity, authorization, cohort, access, provider, data, publication,
+  financial, release or production effect.
+- Seven manual states define evidence, remediation, independent verification,
+  bounded cohort authorization, monitored launch and revocation without an
+  automatic transition or browser write path.
+- Public signup, unrestricted discovery, automated provisioning, live providers,
+  production credentials and payloads, publication, model training, trading,
+  payments, money movement, custody and settlement remain locked off.
+
+**Phase 8U exit gate:** green external-audience-launch-readiness, provider
+activation-rehearsal, database, browser, security, bundle and release contracts;
+reviewed `DEPLOY_DATA_PHASE_8U`; read-only `VERIFY_DATA_PHASE_8U`; successful
+`BUILD_PHASE_8U`; reviewed `DEPLOY_PHASE_8U`; and read-only
+`VERIFY_WEB_PHASE_8U` evidence. Inviting one real external cohort still requires
+verified operational evidence and a separate accountable human authorization;
+Phase 8U cannot activate users or declare a public launch.
+
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "8T",
-  "status": "global_provider_activation_rehearsal_candidate",
+  "phase": "8U",
+  "status": "external_audience_launch_readiness_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -58,7 +58,8 @@
       "globalProviderReviewDecisions",
       "globalProviderDecisionRecovery",
       "globalProviderActivationReadiness",
-      "globalProviderActivationRehearsal"
+      "globalProviderActivationRehearsal",
+      "externalAudienceLaunchReadiness"
     ]
   },
   "trustLayer": {
@@ -119,6 +120,7 @@
     "check:global-provider-decision-recovery",
     "check:global-provider-activation-readiness",
     "check:global-provider-activation-rehearsal",
+    "check:external-audience-launch-readiness",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -154,7 +156,8 @@
     "global-provider-decision-audit-reason-quorum-expiry-and-revocation-approval",
     "global-provider-recovery-exception-freeze-rollback-and-revocation-approval",
     "global-provider-activation-authorization-change-window-abort-restoration-and-verification-approval",
-    "global-provider-activation-rehearsal-isolation-egress-synthetic-secrets-observability-recovery-and-closeout-approval"
+    "global-provider-activation-rehearsal-isolation-egress-synthetic-secrets-observability-recovery-and-closeout-approval",
+    "external-audience-domain-identity-legal-support-monitoring-data-rights-capacity-rollback-and-cohort-approval"
   ],
   "betaHardening": {
     "workspaceEnabled": true,
@@ -881,6 +884,41 @@
     "modelTrainingEnabled": false,
     "autonomousPublicationEnabled": false,
     "autonomousTradeExecutionEnabled": false
+  },
+  "externalAudienceLaunchReadiness": {
+    "workspaceEnabled": true,
+    "audienceSurfaceCount": 8,
+    "launchGateCount": 8,
+    "launchStateCount": 7,
+    "readinessCellCount": 64,
+    "blockedReadinessCellCount": 64,
+    "authorizedReadinessCellCount": 0,
+    "protectedProductionDomainRequired": true,
+    "exactAuthOriginAndRedirectsRequired": true,
+    "customAuthDeliveryAndAbuseControlsRequired": true,
+    "publishedLegalPrivacyRiskSupportRequired": true,
+    "productionMonitoringOnCallIncidentRequired": true,
+    "approvedExternalCohortAndFeedbackRequired": true,
+    "accessibilityPerformanceCapacityEvidenceRequired": true,
+    "dataRightsFreshnessAndLabelsRequired": true,
+    "releaseRollbackExpiryRequired": true,
+    "independentHumanLaunchAuthorizationRequired": true,
+    "appendOnlyReferenceContracts": true,
+    "publicSignupEnabled": false,
+    "unrestrictedDiscoveryEnabled": false,
+    "automatedTesterProvisioningEnabled": false,
+    "externalAudienceActivationEnabled": false,
+    "liveProviderConnectivityEnabled": false,
+    "productionCredentialStorageEnabled": false,
+    "productionPayloadIntakeEnabled": false,
+    "unrestrictedCustomerDataCollectionEnabled": false,
+    "autonomousPublicationEnabled": false,
+    "modelTrainingEnabled": false,
+    "liveOrderRoutingEnabled": false,
+    "paymentExecutionEnabled": false,
+    "moneyMovementEnabled": false,
+    "custodyEnabled": false,
+    "settlementEnabled": false
   },
   "globalVenueInstrumentIntelligence": {
     "workspaceEnabled": true,
