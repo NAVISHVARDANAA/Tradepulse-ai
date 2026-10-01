@@ -608,6 +608,55 @@ async function mockGuestBackend(page: Page) {
         candidate_write_effect: false, release_effect: false, production_effect: false,
       }]) }); return
     }
+    if (path === '/rest/v1/external_audience_launch_status') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+        control_key: 'external-audience-launch-controls',
+        policy_version: 'external-audience-launch-controls-v1',
+        audience_surface_count: 8, launch_gate_count: 8, launch_state_count: 7,
+        readiness_cell_count: 64, blocked_readiness_cell_count: 64,
+        authorized_readiness_cell_count: 0,
+      }) }); return
+    }
+    if (path === '/rest/v1/external_audience_launch_state_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, state_key: 'launch_not_requested',
+        display_name: 'Launch not requested',
+        state_definition: 'No external-audience launch request or approved cohort exists; public signup, production access and every financial action remain unavailable.',
+        real_audience_present: false, automatic_transition_enabled: false,
+        human_launch_authorization_required: true, public_access_effect: false,
+        customer_data_effect: false, financial_execution_effect: false, production_effect: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/external_audience_launch_surface_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, surface_key: 'public_market_dashboard',
+        display_name: 'Public market dashboard',
+        surface_definition: 'Market summaries and freshness labels must be safe, licensed or synthetic, accessible and explicit about unavailable or delayed information.',
+        audience_access_status: 'unavailable', real_audience_present: false,
+        customer_data_enabled: false, financial_execution_enabled: false, production_effect: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/external_audience_launch_gate_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, gate_key: 'production_domain_tls_and_routing_verified',
+        launch_domain: 'hosting', display_name: 'Domain, TLS and routing verified',
+        gate_definition: 'Require an approved production domain, HTTPS, SPA routing, security headers, caching, asset integrity and tested hosting rollback.',
+        gate_status: 'unmet', real_evidence_present: false,
+        reviewer_assigned: false, human_authorized: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/external_audience_launch_readiness_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, surface_key: 'public_market_dashboard', surface_sequence_number: 1,
+        surface_name: 'Public market dashboard',
+        gate_key: 'production_domain_tls_and_routing_verified', gate_sequence_number: 1,
+        gate_name: 'Domain, TLS and routing verified', launch_domain: 'hosting',
+        readiness_status: 'blocked', human_authorized: false, public_access_effect: false,
+        account_provisioning_effect: false, customer_data_effect: false,
+        live_provider_effect: false, publication_effect: false,
+        financial_execution_effect: false, release_effect: false, production_effect: false,
+      }]) }); return
+    }
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -843,6 +892,14 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByText('Seven manual rehearsal states')).toBeVisible()
   await expect(page.getByText(/Phase 8T is rehearsal-readiness scaffolding, not provider testing or activation/)).toBeVisible()
   await expect(page.getByRole('button', { name: /request|schedule|connect|bind|run|rehearse|abort|restore|activate|write|release|publish|train|execute|trade/i })).toHaveCount(0)
+
+  await page.goto('/#audience-launch-readiness')
+  await expect(page.getByRole('heading', { level: 1, name: 'External audience launch readiness' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'External audience launch readiness' })).toBeVisible()
+  await expect(page.getByText('No external audience is activated in Phase 8U')).toBeVisible()
+  await expect(page.getByText('Seven manual launch states')).toBeVisible()
+  await expect(page.getByText(/Phase 8U is production launch-readiness scaffolding, not public launch authorization/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /launch|activate|approve|provision|signup|connect|publish|train|trade|pay|move|settle/i })).toHaveCount(0)
 
   await page.goto('/#live-rollout')
   await expect(page.getByRole('heading', { level: 1, name: 'Controlled live rollout' })).toBeVisible()

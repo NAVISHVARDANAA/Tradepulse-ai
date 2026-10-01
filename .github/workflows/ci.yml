@@ -144,6 +144,9 @@ jobs:
       - name: Verify global provider activation rehearsal controls
         run: npm run check:global-provider-activation-rehearsal
 
+      - name: Verify external audience launch readiness
+        run: npm run check:external-audience-launch-readiness
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 
@@ -396,6 +399,9 @@ jobs:
 
       - name: Test global provider activation-rehearsal database contracts
         run: npx --no-install supabase test db supabase/tests/database/global_provider_activation_rehearsal_controls.test.sql
+
+      - name: Test external audience launch-readiness database contracts
+        run: npx --no-install supabase test db supabase/tests/database/external_audience_launch_readiness.test.sql
 
       - name: Test broker-sandbox certification contracts
         run: npx --no-install supabase test db supabase/tests/database/broker_sandbox_certification.test.sql

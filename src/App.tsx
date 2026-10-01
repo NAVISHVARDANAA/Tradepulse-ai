@@ -83,6 +83,9 @@ const GlobalProviderActivationReadinessPanel = lazy(() => import('./components/G
 const GlobalProviderActivationRehearsalPanel = lazy(() => import('./components/GlobalProviderActivationRehearsalPanel').then((module) => ({
   default: module.GlobalProviderActivationRehearsalPanel,
 })))
+const ExternalAudienceLaunchReadinessPanel = lazy(() => import('./components/ExternalAudienceLaunchReadinessPanel').then((module) => ({
+  default: module.ExternalAudienceLaunchReadinessPanel,
+})))
 const AccountSecurityPanel = lazy(() => import('./components/AccountSecurityPanel').then((module) => ({
   default: module.AccountSecurityPanel,
 })))
@@ -628,6 +631,14 @@ function App() {
           <ProductErrorBoundary title="Provider activation rehearsal is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Provider activation rehearsal and rollback verification" />}>
               <GlobalProviderActivationRehearsalPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#audience-launch-readiness' ? <section id="audience-launch-readiness" className="product-workspace">
+          <ProductErrorBoundary title="External audience launch readiness is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="External audience launch readiness" />}>
+              <ExternalAudienceLaunchReadinessPanel />
             </Suspense>
           </ProductErrorBoundary>
         </section> : null}

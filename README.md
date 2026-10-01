@@ -775,6 +775,16 @@ provider rehearsal exists. No runbook, environment, endpoint, credential,
 payload, drill, activation, write, release, model or trading path is enabled.
 See [`docs/GLOBAL_PROVIDER_ACTIVATION_REHEARSAL_CONTROLS.md`](docs/GLOBAL_PROVIDER_ACTIVATION_REHEARSAL_CONTROLS.md).
 
+Phase 8U adds migration `064_external_audience_launch_readiness.sql` and a
+lazy-loaded external audience launch-readiness workspace. Eight product
+surfaces, eight production gates, seven manual states and sixty-four blocked
+readiness cells make domain, authentication, legal, support, monitoring,
+data-rights, capacity, cohort and rollback evidence explicit while no real
+audience is activated. Public signup, automated provisioning, live providers,
+customer payloads, publication, training, trading, payments, custody and
+settlement remain locked off. See
+[`docs/EXTERNAL_AUDIENCE_LAUNCH_READINESS.md`](docs/EXTERNAL_AUDIENCE_LAUNCH_READINESS.md).
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction

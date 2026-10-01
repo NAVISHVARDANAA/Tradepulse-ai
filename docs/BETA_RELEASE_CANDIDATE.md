@@ -132,6 +132,12 @@ and sixty-four blocked rehearsal cells. No provider, runbook, environment,
 endpoint, secret, payload, rehearsal window, drill or activation is recorded,
 and no egress, write, release, model or execution path is enabled.
 
+Phase 8U adds eight unavailable audience surfaces, eight unmet production
+launch gates, seven manual launch states and sixty-four blocked readiness cells.
+No external cohort, evidence, reviewer, authorization, public signup, live
+provider, customer payload, publication, financial action or production effect
+is recorded or enabled.
+
 The artifact contains `beta-release.json`, a machine-readable statement of its
 scope. Live brokerage, payment execution, charge collection, custody and
 personalized advice remain false. Search indexing also remains disabled.
@@ -221,8 +227,14 @@ personalized advice remain false. Search indexing also remains disabled.
     synthetic-only inputs, denied-by-default allowlisted egress, ephemeral
     secrets, bounded scope, observed abort/restoration and reconciliation,
     immutable audit, independent verification and accountable closeout.
+25. Invite a real external audience only through a separately authorized launch
+    with an approved production domain, exact authentication origins, custom
+    email and abuse controls, published legal/privacy/risk/support ownership,
+    monitoring and incident response, licensed or synthetic data labels,
+    accessibility and capacity evidence, a bounded consented cohort, tested
+    rollback, expiry, independent verification and accountable closeout.
 
-These are operational, legal and business launch decisions. Passing Phase 8T
+These are operational, legal and business launch decisions. Passing Phase 8U
 means the engineering candidate is ready for that review; it does not certify
 regulatory approval or declare a public production launch.
 
@@ -244,19 +256,20 @@ evidence in a public issue or artifact.
 
 ## Hosting deployment procedure
 
-After the Phase 8T PR is merged and all `main` checks pass:
+After the Phase 8U PR is merged and all `main` checks pass:
 
-1. Deploy and verify migration 063 with `DEPLOY_DATA_PHASE_8T` and `VERIFY_DATA_PHASE_8T`.
+1. Deploy and verify migration 064 with `DEPLOY_DATA_PHASE_8U` and `VERIFY_DATA_PHASE_8U`.
 2. Open **Actions → Build production web release**.
-3. Select `main`, enter `BUILD_PHASE_8T` and run the workflow.
+3. Select `main`, enter `BUILD_PHASE_8U` and run the workflow.
 4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 5. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-6. Run **Verify web production** with `VERIFY_WEB_PHASE_8T` after deployment
+6. Run **Verify web production** with `VERIFY_WEB_PHASE_8U` after deployment
    or any customer-facing operational incident.
 7. Do not invite external testers until every manual prerequisite above is approved.
 
-Phase 8T adds migration 063 and the provider activation rehearsal and
-rollback-verification workspace. It exposes only empty rehearsal states, unmet
-gates and blocked cells. It records no provider, runbook, environment, endpoint,
-secret, payload, rehearsal window, drill or activation and cannot change any
-egress, write, release, training, publication or trading boundary.
+Phase 8U adds migration 064 and the external audience production
+launch-readiness workspace. It exposes only unavailable product surfaces,
+manual launch states, unmet gates and blocked cells. It records no audience,
+cohort, reviewer, evidence, authorization or launch window and cannot enable
+signup, providers, customer data intake, publication, training, trading,
+payments, custody, settlement or a production launch.

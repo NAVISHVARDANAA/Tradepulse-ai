@@ -29,6 +29,7 @@ const publicWorkspaces = [
   ['#provider-decision-recovery', 'Provider decision recovery and revocation controls'],
   ['#provider-activation-readiness', 'Provider activation authorization and change controls'],
   ['#provider-activation-rehearsal', 'Provider activation rehearsal and rollback verification'],
+  ['#audience-launch-readiness', 'External audience launch readiness'],
   ['#risk-command-center', 'Risk command center'],
   ['#regulated-preflight', 'Preflight evidence review'],
   ['#sandbox-orders', 'Sandbox order lifecycle'],
@@ -233,6 +234,12 @@ test('production execution boundaries remain closed to guests', async ({ page })
   await expect(page.getByText('Seven manual rehearsal states')).toBeVisible()
   await expect(page.getByText(/Phase 8T is rehearsal-readiness scaffolding, not provider testing or activation/)).toBeVisible()
   await expect(page.getByRole('button', { name: /request|schedule|connect|bind|run|rehearse|abort|restore|activate|write|release|publish|train|execute|trade/i })).toHaveCount(0)
+
+  await page.goto('/#audience-launch-readiness', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByText('No external audience is activated in Phase 8U')).toBeVisible()
+  await expect(page.getByText('Seven manual launch states')).toBeVisible()
+  await expect(page.getByText(/Phase 8U is production launch-readiness scaffolding, not public launch authorization/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /launch|activate|approve|provision|signup|connect|publish|train|trade|pay|move|settle/i })).toHaveCount(0)
 
   await page.goto('/#account-security', { waitUntil: 'domcontentloaded' })
   await expect(page.getByText(/Controlled-beta access is limited to approved email addresses/)).toBeVisible()

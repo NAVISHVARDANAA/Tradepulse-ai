@@ -81,8 +81,8 @@ assert(productionBrowserTest.includes("['#payments', 'Money movement readiness']
 
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
-assert(manifest.phase === '8T', 'Release manifest is not Phase 8D')
-assert(manifest.status === 'global_provider_activation_rehearsal_candidate', 'Release status is not the global venue and instrument intelligence candidate')
+assert(manifest.phase === '8U', 'Release manifest is not Phase 8D')
+assert(manifest.status === 'external_audience_launch_readiness_candidate', 'Release status is not the global venue and instrument intelligence candidate')
 for (const [key, expected] of Object.entries({
   workspaceEnabled: true,
   routeModelCount: 8,
@@ -108,11 +108,11 @@ assert(manifest.requiredChecks.includes('check:corridor-intelligence'), 'Manifes
 assert(packageJson.scripts?.['check:corridor-intelligence'], 'Package corridor intelligence check is missing')
 
 for (const [workflow, contract] of [
-  [deployData, 'DEPLOY_DATA_PHASE_8T'],
-  [verifyData, 'VERIFY_DATA_PHASE_8T'],
-  [buildWeb, 'BUILD_PHASE_8T'],
-  [deployWeb, 'DEPLOY_PHASE_8T'],
-  [verifyWeb, 'VERIFY_WEB_PHASE_8T'],
+  [deployData, 'DEPLOY_DATA_PHASE_8U'],
+  [verifyData, 'VERIFY_DATA_PHASE_8U'],
+  [buildWeb, 'BUILD_PHASE_8U'],
+  [deployWeb, 'DEPLOY_PHASE_8U'],
+  [verifyWeb, 'VERIFY_WEB_PHASE_8U'],
 ]) assert(workflow.includes(contract), `Release workflow omits ${contract}`)
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
   assert(workflow.includes('check:corridor-intelligence'), 'A web gate omits corridor intelligence')

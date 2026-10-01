@@ -124,6 +124,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Inspect the isolation, synthetic-input, observability, abort, restoration and closeout controls required before a provider-specific rehearsal could be authorized.',
     boundary: 'No egress · no credentials · no rehearsal',
   },
+  '#audience-launch-readiness': {
+    eyebrow: 'Production launch foundation',
+    title: 'External audience launch readiness',
+    description: 'Inspect the domain, identity, legal, support, monitoring, data-rights, capacity and rollback evidence required before a bounded real-user beta.',
+    boundary: 'No public signup · no audience activation · no financial execution',
+  },
   '#global-access': {
     eyebrow: 'Global market intelligence',
     title: 'Venue and instrument access map',
