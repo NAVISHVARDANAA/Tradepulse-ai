@@ -80,7 +80,7 @@ assert(production.includes("'#provider-decision-recovery'"), 'Production test om
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.globalProviderDecisionRecovery
-assert(manifest.phase === '8S' && manifest.status === 'global_provider_activation_readiness_candidate',
+assert(manifest.phase === '8T' && manifest.status === 'global_provider_activation_rehearsal_candidate',
   'Manifest is not Phase 8R')
 assert(packageJson.scripts?.['check:global-provider-decision-recovery'], 'Package omits Phase 8R check')
 assert(manifest.requiredChecks.includes('check:global-provider-decision-recovery'), 'Manifest omits Phase 8R check')
@@ -107,9 +107,9 @@ assert(release?.sourceFamilyCount === 8 && release?.recoveryTriggerCount === 8
 assert(release?.blockedRecoveryCellCount === 64 && release?.authorizedRecoveryCellCount === 0,
   'Provider decision recovery counts changed')
 
-for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8S'],
-  [verifyData, 'VERIFY_DATA_PHASE_8S'], [buildWeb, 'BUILD_PHASE_8S'],
-  [deployWeb, 'DEPLOY_PHASE_8S'], [verifyWeb, 'VERIFY_WEB_PHASE_8S']]) {
+for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8T'],
+  [verifyData, 'VERIFY_DATA_PHASE_8T'], [buildWeb, 'BUILD_PHASE_8T'],
+  [deployWeb, 'DEPLOY_PHASE_8T'], [verifyWeb, 'VERIFY_WEB_PHASE_8T']]) {
   assert(workflow.includes(token), `Workflow omits ${token}`)
 }
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
@@ -119,8 +119,8 @@ assert(ci.includes('global_provider_decision_recovery_controls.test.sql'), 'CI o
 assert(deployData.includes('global_provider_decision_recovery_controls_smoke.sql')
   && verifyData.includes('global_provider_decision_recovery_controls_smoke.sql'),
   'Data workflows omit Phase 8R smoke')
-assert(deployData.includes("grep -Eq '(^|[^0-9])062([^0-9]|$)'"), 'Data deployment does not verify migration 062')
-assert(verifyData.includes("grep -Eq '(^|[^0-9])062([^0-9]|$)'"), 'Data verification does not verify migration 062')
+assert(deployData.includes("grep -Eq '(^|[^0-9])063([^0-9]|$)'"), 'Data deployment does not verify migration 063')
+assert(verifyData.includes("grep -Eq '(^|[^0-9])063([^0-9]|$)'"), 'Data verification does not verify migration 063')
 assert(publicRead.includes('global_provider_decision_recovery_status'), 'Public verifier omits Phase 8R')
 assert(deployed.includes('manifest.globalProviderDecisionRecovery'), 'Web verifier omits Phase 8R')
 assert(roadmap.includes('Phase 8R — provider decision recovery and revocation controls (implemented foundation)'),

@@ -765,6 +765,16 @@ or activation exists. No change packet, authorizer, credential, endpoint,
 payload, activation, write, release, model or trading path is enabled. See
 [`docs/GLOBAL_PROVIDER_ACTIVATION_READINESS_CONTROLS.md`](docs/GLOBAL_PROVIDER_ACTIVATION_READINESS_CONTROLS.md).
 
+Phase 8T adds migration `063_global_provider_activation_rehearsal_controls.sql`
+and a lazy-loaded provider activation rehearsal and rollback-verification
+workspace. Seven manual rehearsal states, eight fail-closed rehearsal gates and
+sixty-four blocked cells require non-production isolation, synthetic-only
+inputs, allowlisted egress, ephemeral secret custody, observability, tested
+abort/restoration, independent verification and accountable closeout while no
+provider rehearsal exists. No runbook, environment, endpoint, credential,
+payload, drill, activation, write, release, model or trading path is enabled.
+See [`docs/GLOBAL_PROVIDER_ACTIVATION_REHEARSAL_CONTROLS.md`](docs/GLOBAL_PROVIDER_ACTIVATION_REHEARSAL_CONTROLS.md).
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction

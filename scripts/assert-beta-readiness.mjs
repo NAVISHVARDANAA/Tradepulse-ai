@@ -13,9 +13,9 @@ const artifactManifest = JSON.parse(artifactManifestText)
 
 assert(manifest.schemaVersion === 1, 'Unexpected beta manifest schema')
 assert(manifest.release === 'controlled-beta-rc2', 'Unexpected beta release identifier')
-assert(manifest.phase === '8S', 'Beta manifest is not on Phase 8S')
+assert(manifest.phase === '8T', 'Beta manifest is not on Phase 8T')
 assert(
-  manifest.status === 'global_provider_activation_readiness_candidate',
+  manifest.status === 'global_provider_activation_rehearsal_candidate',
   'Beta manifest overstates the release status',
 )
 assert(manifest.audience === 'internal_release_review', 'Beta audience boundary changed')
@@ -36,7 +36,7 @@ for (const gate of ['publicUrlConfigured', 'externalInvitationsApproved']) {
   assert(manifest.distribution?.[gate] === false, `Unapproved beta distribution state: ${gate}`)
 }
 assert(
-  Array.isArray(manifest.manualPrerequisites) && manifest.manualPrerequisites.length === 23,
+  Array.isArray(manifest.manualPrerequisites) && manifest.manualPrerequisites.length === 24,
   'Manual beta prerequisite inventory changed',
 )
 
@@ -78,6 +78,7 @@ const expectedChecks = [
   'check:global-provider-review-decisions',
   'check:global-provider-decision-recovery',
   'check:global-provider-activation-readiness',
+  'check:global-provider-activation-rehearsal',
   'check:production-experience',
   'check:bundle',
   'check:release',
@@ -111,17 +112,17 @@ const [buildWorkflow, deployWorkflow, verifyWebWorkflow, ciWorkflow, securityWor
   ])
 
 for (const contract of [
-  'BUILD_PHASE_8S',
+  'BUILD_PHASE_8T',
   'npm run check:beta',
   'tradepulse-beta-rc2-${{ github.sha }}',
   'environment: production',
 ]) {
   assert(buildWorkflow.includes(contract), `Beta build workflow contract missing: ${contract}`)
 }
-for (const contract of ['DEPLOY_PHASE_8S', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['DEPLOY_PHASE_8T', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
   assert(deployWorkflow.includes(contract), `Beta deploy workflow contract missing: ${contract}`)
 }
-for (const contract of ['VERIFY_WEB_PHASE_8S', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['VERIFY_WEB_PHASE_8T', 'verify:web-deployment', 'test:e2e:production']) {
   assert(verifyWebWorkflow.includes(contract), `Beta web verification workflow contract missing: ${contract}`)
 }
 for (const contract of [
@@ -159,6 +160,7 @@ for (const contract of [
   'npm run check:global-provider-review-decisions',
   'npm run check:global-provider-decision-recovery',
   'npm run check:global-provider-activation-readiness',
+  'npm run check:global-provider-activation-rehearsal',
   'npm run check:security',
   'npm run check:hosting',
 ]) {
@@ -203,6 +205,7 @@ assert(roadmap.includes('Phase 8P — provider review authority and evidence cus
 assert(roadmap.includes('Phase 8Q — provider review decisions and audit controls'), 'Roadmap omits provider review decision controls')
 assert(roadmap.includes('Phase 8R — provider decision recovery and revocation controls'), 'Roadmap omits provider decision recovery controls')
 assert(roadmap.includes('Phase 8S — provider activation authorization and change controls'), 'Roadmap omits provider activation readiness')
+assert(roadmap.includes('Phase 8T — provider activation rehearsal and rollback verification'), 'Roadmap omits provider activation rehearsal')
 assert(roadmap.includes('Phase 5E — controlled-beta onboarding and operations'), 'Roadmap omits Phase 5E')
 assert(roadmap.includes('Phase 5F — route-aware data loading'), 'Roadmap omits Phase 5F')
 assert(candidateDoc.includes('Artifact-only status'), 'Candidate documentation omits artifact status')
@@ -234,5 +237,5 @@ for (const lock of ['checkout_enabled', 'charge_collection_enabled', 'customer_p
 }
 
 console.log(
-  'Controlled-beta readiness passed: Cloudflare RC2 candidate, 7 execution locks, 23 manual prerequisites.',
+  'Controlled-beta readiness passed: Cloudflare RC2 candidate, 7 execution locks, 24 manual prerequisites.',
 )

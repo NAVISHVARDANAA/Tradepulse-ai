@@ -1332,6 +1332,38 @@ specific authorized change with verified identity, current rights, controlled
 evidence, isolated secrets, bounded scope, independent dual control, observed
 abort and restoration drills, immutable audit and accountable verification.
 
+### Phase 8T — provider activation rehearsal and rollback verification (implemented foundation)
+
+- Seven manual rehearsal states define no request, runbook, isolated synthetic
+  setup, pre-rehearsal snapshot, bounded window, abort/restoration/verification,
+  and accountable closeout semantics without recording a real rehearsal.
+- Eight fail-closed rehearsal gates cover current activation readiness,
+  non-production isolation and egress, synthetic identity/secrets/payloads,
+  endpoint contracts, observability and stop controls, abort/restoration and
+  reconciliation, independent verification, and accountable closeout.
+- Sixty-four deterministic rehearsal cells map eight gates across eight source
+  families; every cell remains blocked, empty and unauthorized.
+- Denied-by-default egress, ephemeral non-production secrets, synthetic-only
+  inputs, bounded expiring windows, pre-rehearsal snapshots, tested abort and
+  restoration, immutable audit and independent closeout are mandatory future
+  requirements.
+- Sanitized public views expose only rehearsal gaps, while append-only database
+  controls prevent browser or service-role mutation.
+- Rehearsal recording and scheduling, egress tests, secret binding, payload and
+  fixture execution, abort/restoration drills, reconciliation, provider
+  selection, endpoint access, activation, writes, release, model training,
+  publication and trading remain locked off.
+
+**Phase 8T exit gate:** green global-provider-activation-rehearsal,
+global-provider-activation-readiness, database, browser, security, bundle and
+release contracts; reviewed `DEPLOY_DATA_PHASE_8T`; read-only
+`VERIFY_DATA_PHASE_8T`; successful `BUILD_PHASE_8T`; reviewed
+`DEPLOY_PHASE_8T`; and read-only `VERIFY_WEB_PHASE_8T` evidence. Executing one
+real rehearsal still requires a separate provider-specific authorized change
+with a non-production environment, synthetic-only inputs, allowlisted egress,
+ephemeral secrets, bounded scope, observed abort/restoration and reconciliation,
+immutable audit, independent verification and accountable closeout.
+
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.
