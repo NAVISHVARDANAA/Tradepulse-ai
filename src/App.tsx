@@ -80,6 +80,9 @@ const GlobalProviderDecisionRecoveryPanel = lazy(() => import('./components/Glob
 const GlobalProviderActivationReadinessPanel = lazy(() => import('./components/GlobalProviderActivationReadinessPanel').then((module) => ({
   default: module.GlobalProviderActivationReadinessPanel,
 })))
+const GlobalProviderActivationRehearsalPanel = lazy(() => import('./components/GlobalProviderActivationRehearsalPanel').then((module) => ({
+  default: module.GlobalProviderActivationRehearsalPanel,
+})))
 const AccountSecurityPanel = lazy(() => import('./components/AccountSecurityPanel').then((module) => ({
   default: module.AccountSecurityPanel,
 })))
@@ -617,6 +620,14 @@ function App() {
           <ProductErrorBoundary title="Provider activation readiness is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Provider activation authorization and change controls" />}>
               <GlobalProviderActivationReadinessPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#provider-activation-rehearsal' ? <section id="provider-activation-rehearsal" className="product-workspace">
+          <ProductErrorBoundary title="Provider activation rehearsal is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Provider activation rehearsal and rollback verification" />}>
+              <GlobalProviderActivationRehearsalPanel />
             </Suspense>
           </ProductErrorBoundary>
         </section> : null}

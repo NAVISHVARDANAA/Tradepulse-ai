@@ -715,6 +715,46 @@ if (
   manifest.globalProviderActivationReadiness?.autonomousTradeExecutionEnabled !== false
 ) throw new Error('Deployed global provider activation-readiness boundary is incomplete or unsafe.')
 if (
+  manifest.globalProviderActivationRehearsal?.workspaceEnabled !== true ||
+  manifest.globalProviderActivationRehearsal?.sourceFamilyCount !== 8 ||
+  manifest.globalProviderActivationRehearsal?.rehearsalGateCount !== 8 ||
+  manifest.globalProviderActivationRehearsal?.rehearsalStateCount !== 7 ||
+  manifest.globalProviderActivationRehearsal?.rehearsalCellCount !== 64 ||
+  manifest.globalProviderActivationRehearsal?.blockedRehearsalCellCount !== 64 ||
+  manifest.globalProviderActivationRehearsal?.authorizedRehearsalCellCount !== 0 ||
+  manifest.globalProviderActivationRehearsal?.isolatedNonproductionEnvironmentRequired !== true ||
+  manifest.globalProviderActivationRehearsal?.syntheticOnlyInputsRequired !== true ||
+  manifest.globalProviderActivationRehearsal?.outboundEgressAllowlistRequired !== true ||
+  manifest.globalProviderActivationRehearsal?.ephemeralSecretCustodyRequired !== true ||
+  manifest.globalProviderActivationRehearsal?.preRehearsalSnapshotRequired !== true ||
+  manifest.globalProviderActivationRehearsal?.testedAbortAndRestorationRequired !== true ||
+  manifest.globalProviderActivationRehearsal?.postRehearsalVerificationRequired !== true ||
+  manifest.globalProviderActivationRehearsal?.independentCloseoutRequired !== true ||
+  manifest.globalProviderActivationRehearsal?.immutableRehearsalAuditRequired !== true ||
+  manifest.globalProviderActivationRehearsal?.expiryAndRevocationEnforced !== true ||
+  manifest.globalProviderActivationRehearsal?.appendOnlyReferenceContracts !== true ||
+  manifest.globalProviderActivationRehearsal?.rehearsalRequestRecordingEnabled !== false ||
+  manifest.globalProviderActivationRehearsal?.rehearsalWindowSchedulingEnabled !== false ||
+  manifest.globalProviderActivationRehearsal?.isolatedEgressTestEnabled !== false ||
+  manifest.globalProviderActivationRehearsal?.syntheticCredentialBindingEnabled !== false ||
+  manifest.globalProviderActivationRehearsal?.syntheticPayloadExecutionEnabled !== false ||
+  manifest.globalProviderActivationRehearsal?.abortDrillExecutionEnabled !== false ||
+  manifest.globalProviderActivationRehearsal?.restorationDrillExecutionEnabled !== false ||
+  manifest.globalProviderActivationRehearsal?.reconciliationExecutionEnabled !== false ||
+  manifest.globalProviderActivationRehearsal?.providerCandidateSelectionEnabled !== false ||
+  manifest.globalProviderActivationRehearsal?.endpointConnectivityEnabled !== false ||
+  manifest.globalProviderActivationRehearsal?.credentialStorageEnabled !== false ||
+  manifest.globalProviderActivationRehearsal?.externalPayloadIntakeEnabled !== false ||
+  manifest.globalProviderActivationRehearsal?.fixtureExecutionEnabled !== false ||
+  manifest.globalProviderActivationRehearsal?.conformanceApprovalEnabled !== false ||
+  manifest.globalProviderActivationRehearsal?.providerActivationEnabled !== false ||
+  manifest.globalProviderActivationRehearsal?.candidateWriteEnabled !== false ||
+  manifest.globalProviderActivationRehearsal?.observationReleaseEnabled !== false ||
+  manifest.globalProviderActivationRehearsal?.modelTrainingEnabled !== false ||
+  manifest.globalProviderActivationRehearsal?.autonomousPublicationEnabled !== false ||
+  manifest.globalProviderActivationRehearsal?.autonomousTradeExecutionEnabled !== false
+) throw new Error('Deployed global provider activation-rehearsal boundary is incomplete or unsafe.')
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||

@@ -118,6 +118,12 @@ const pageCopy: Record<string, PageCopy> = {
     description: 'Inspect the human authorization, bounded change window, restoration and verification requirements needed before a future provider could be activated.',
     boundary: 'No provider · no endpoint · no activation',
   },
+  '#provider-activation-rehearsal': {
+    eyebrow: 'Provider rehearsal governance',
+    title: 'Provider activation rehearsal and rollback verification',
+    description: 'Inspect the isolation, synthetic-input, observability, abort, restoration and closeout controls required before a provider-specific rehearsal could be authorized.',
+    boundary: 'No egress · no credentials · no rehearsal',
+  },
   '#global-access': {
     eyebrow: 'Global market intelligence',
     title: 'Venue and instrument access map',

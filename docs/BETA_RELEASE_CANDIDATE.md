@@ -127,6 +127,11 @@ lifecycle stages and sixty-four unassigned responsibility cells. No reviewer,
 custodian, evidence location, provider candidate or endpoint is assigned, and
 no receipt, test, approval, release, model or execution path is enabled.
 
+Phase 8T adds seven manual rehearsal states, eight fail-closed rehearsal gates
+and sixty-four blocked rehearsal cells. No provider, runbook, environment,
+endpoint, secret, payload, rehearsal window, drill or activation is recorded,
+and no egress, write, release, model or execution path is enabled.
+
 The artifact contains `beta-release.json`, a machine-readable statement of its
 scope. Live brokerage, payment execution, charge collection, custody and
 personalized advice remain false. Search indexing also remains disabled.
@@ -211,8 +216,13 @@ personalized advice remain false. Search indexing also remains disabled.
     evidence, isolated secrets, bounded scope, independent dual control, an
     expiring change window, observed abort and restoration drills, immutable
     audit and accountable post-change verification.
+24. Record or execute a provider activation rehearsal only through a separately
+    authorized provider-specific change with a non-production environment,
+    synthetic-only inputs, denied-by-default allowlisted egress, ephemeral
+    secrets, bounded scope, observed abort/restoration and reconciliation,
+    immutable audit, independent verification and accountable closeout.
 
-These are operational, legal and business launch decisions. Passing Phase 8S
+These are operational, legal and business launch decisions. Passing Phase 8T
 means the engineering candidate is ready for that review; it does not certify
 regulatory approval or declare a public production launch.
 
@@ -234,19 +244,19 @@ evidence in a public issue or artifact.
 
 ## Hosting deployment procedure
 
-After the Phase 8S PR is merged and all `main` checks pass:
+After the Phase 8T PR is merged and all `main` checks pass:
 
-1. Deploy and verify migration 062 with `DEPLOY_DATA_PHASE_8S` and `VERIFY_DATA_PHASE_8S`.
+1. Deploy and verify migration 063 with `DEPLOY_DATA_PHASE_8T` and `VERIFY_DATA_PHASE_8T`.
 2. Open **Actions → Build production web release**.
-3. Select `main`, enter `BUILD_PHASE_8S` and run the workflow.
+3. Select `main`, enter `BUILD_PHASE_8T` and run the workflow.
 4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 5. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-6. Run **Verify web production** with `VERIFY_WEB_PHASE_8S` after deployment
+6. Run **Verify web production** with `VERIFY_WEB_PHASE_8T` after deployment
    or any customer-facing operational incident.
 7. Do not invite external testers until every manual prerequisite above is approved.
 
-Phase 8S adds migration 062 and the provider activation authorization and
-change-control workspace. It exposes only empty activation states, unmet gates
-and blocked readiness cells. It records no provider, change packet, authorizer,
-decision, recovery plan, credential, endpoint, maintenance window or activation
-and cannot change any write, release, training, publication or trading boundary.
+Phase 8T adds migration 063 and the provider activation rehearsal and
+rollback-verification workspace. It exposes only empty rehearsal states, unmet
+gates and blocked cells. It records no provider, runbook, environment, endpoint,
+secret, payload, rehearsal window, drill or activation and cannot change any
+egress, write, release, training, publication or trading boundary.
