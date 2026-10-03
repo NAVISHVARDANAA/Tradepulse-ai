@@ -90,7 +90,7 @@ assert(production.includes("'#licensed-live-data'"), 'Production test omits lice
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.licensedLiveDataIntegration
-assert(manifest.phase === '8V' && manifest.status === 'licensed_live_data_integration_candidate',
+assert(manifest.phase === '8W' && manifest.status === 'licensed_provider_commercial_readiness_candidate',
   'Manifest is not Phase 8V')
 assert(packageJson.scripts?.['check:licensed-live-data-integration'], 'Package omits Phase 8V check')
 assert(manifest.requiredChecks.includes('check:licensed-live-data-integration'), 'Manifest omits Phase 8V check')
@@ -117,9 +117,9 @@ assert(release?.feedClassCount === 8 && release?.integrationGateCount === 8
 assert(release?.blockedReadinessCellCount === 64 && release?.authorizedReadinessCellCount === 0,
   'Licensed live-data integration counts changed')
 
-for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8V'],
-  [verifyData, 'VERIFY_DATA_PHASE_8V'], [buildWeb, 'BUILD_PHASE_8V'],
-  [deployWeb, 'DEPLOY_PHASE_8V'], [verifyWeb, 'VERIFY_WEB_PHASE_8V']]) {
+for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8W'],
+  [verifyData, 'VERIFY_DATA_PHASE_8W'], [buildWeb, 'BUILD_PHASE_8W'],
+  [deployWeb, 'DEPLOY_PHASE_8W'], [verifyWeb, 'VERIFY_WEB_PHASE_8W']]) {
   assert(workflow.includes(token), `Workflow omits ${token}`)
 }
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
@@ -129,8 +129,8 @@ assert(ci.includes('licensed_live_data_integration.test.sql'), 'CI omits Phase 8
 assert(deployData.includes('licensed_live_data_integration_smoke.sql')
   && verifyData.includes('licensed_live_data_integration_smoke.sql'),
   'Data workflows omit Phase 8V smoke')
-assert(deployData.includes("grep -Eq '(^|[^0-9])065([^0-9]|$)'"), 'Data deployment does not verify migration 065')
-assert(verifyData.includes("grep -Eq '(^|[^0-9])065([^0-9]|$)'"), 'Data verification does not verify migration 065')
+assert(deployData.includes("grep -Eq '(^|[^0-9])066([^0-9]|$)'"), 'Data deployment does not verify migration 066')
+assert(verifyData.includes("grep -Eq '(^|[^0-9])066([^0-9]|$)'"), 'Data verification does not verify migration 066')
 assert(publicRead.includes('licensed_live_data_integration_status'), 'Public verifier omits Phase 8V')
 assert(deployed.includes('manifest.licensedLiveDataIntegration'), 'Web verifier omits Phase 8V')
 assert(roadmap.includes('Phase 8V — licensed live-data integration (implemented foundation)'),

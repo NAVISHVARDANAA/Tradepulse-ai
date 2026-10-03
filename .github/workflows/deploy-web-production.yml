@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type DEPLOY_PHASE_8V for the licensed live-data integration candidate
+        description: Type DEPLOY_PHASE_8W for the licensed provider commercial-readiness candidate
         required: true
         type: string
 
@@ -36,7 +36,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "DEPLOY_PHASE_8V"
+          test "$RELEASE_CONFIRMATION" = "DEPLOY_PHASE_8W"
           test -n "$CLOUDFLARE_API_TOKEN"
           test -n "$CLOUDFLARE_ACCOUNT_ID"
           test -n "$CLOUDFLARE_PAGES_PROJECT"
@@ -90,6 +90,7 @@ jobs:
       - run: npm run check:global-provider-activation-rehearsal
       - run: npm run check:external-audience-launch-readiness
       - run: npm run check:licensed-live-data-integration
+      - run: npm run check:licensed-provider-commercial-readiness
       - run: npm run check:production-experience
       - run: npm run check:bundle
       - run: npm run check:release

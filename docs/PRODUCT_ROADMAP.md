@@ -1419,6 +1419,35 @@ licensed provider still requires executed rights, explicit entitlements,
 provider-specific certification, independent authorization and an isolated
 zero-customer canary; Phase 8V cannot connect a provider or activate users.
 
+### Phase 8W — licensed-provider commercial readiness (implemented foundation)
+
+- Eight review-domain templates cover corporate ownership and stability,
+  product and geography coverage, display and redistribution rights,
+  entitlement scope, pricing and total cost, security and privacy, service and
+  change terms, and termination, portability and transition protections.
+- Eight independent gates require verified corporate diligence, reconciled
+  coverage and rights schedules, explicit entitlement terms, approved cost
+  ceilings, security and privacy assurance, measurable service remedies,
+  implementation acceptance and independently reviewed exit protection.
+- Sixty-four deterministic readiness cells remain blocked with zero provider
+  shortlist, evidence, quote, contract, price, reviewer, authorization,
+  credential, payload, display, audience, release or production effect.
+- Seven manual states define diligence, rights scheduling, security and
+  operations review, commercial-model approval, signature readiness and
+  withdrawal without an automatic transition or browser write path.
+- Provider shortlisting, quote acceptance, contract signature, purchase orders,
+  credentials, connectivity, payload intake, live display, external audience,
+  trading, payments, custody and settlement remain locked off.
+
+**Phase 8W exit gate:** green licensed-provider-commercial-readiness,
+licensed-live-data-integration, database, browser, security, bundle and release
+contracts; reviewed `DEPLOY_DATA_PHASE_8W`; read-only `VERIFY_DATA_PHASE_8W`;
+successful `BUILD_PHASE_8W`; reviewed `DEPLOY_PHASE_8W`; and read-only
+`VERIFY_WEB_PHASE_8W` evidence. Shortlisting or contracting one real provider
+still requires provider-specific legal, commercial, security, operational and
+exit evidence plus accountable independent authorization; Phase 8W cannot
+select, contract, connect or activate a provider.
+
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.

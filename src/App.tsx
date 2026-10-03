@@ -87,6 +87,7 @@ const ExternalAudienceLaunchReadinessPanel = lazy(() => import('./components/Ext
   default: module.ExternalAudienceLaunchReadinessPanel,
 })))
 const LicensedLiveDataIntegrationPanel = lazy(() => import('./components/LicensedLiveDataIntegrationPanel'))
+const LicensedProviderCommercialReadinessPanel = lazy(() => import('./components/LicensedProviderCommercialReadinessPanel'))
 const AccountSecurityPanel = lazy(() => import('./components/AccountSecurityPanel').then((module) => ({
   default: module.AccountSecurityPanel,
 })))
@@ -648,6 +649,14 @@ function App() {
           <ProductErrorBoundary title="Live-data readiness is unavailable">
             <Suspense fallback={<SectionLoader label="Live data" />}>
               <LicensedLiveDataIntegrationPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#provider-commercial-readiness' ? <section id="provider-commercial-readiness" className="product-workspace">
+          <ProductErrorBoundary title="Licensed-provider commercial readiness is unavailable">
+            <Suspense fallback={<SectionLoader label="Provider commercial readiness" />}>
+              <LicensedProviderCommercialReadinessPanel />
             </Suspense>
           </ProductErrorBoundary>
         </section> : null}

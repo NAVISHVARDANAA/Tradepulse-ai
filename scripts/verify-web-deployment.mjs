@@ -823,6 +823,43 @@ if (
   manifest.licensedLiveDataIntegration?.settlementEnabled !== false
 ) throw new Error('Deployed licensed live-data integration boundary is incomplete or unsafe.')
 if (
+  manifest.licensedProviderCommercialReadiness?.workspaceEnabled !== true ||
+  manifest.licensedProviderCommercialReadiness?.commercialDomainCount !== 8 ||
+  manifest.licensedProviderCommercialReadiness?.commercialGateCount !== 8 ||
+  manifest.licensedProviderCommercialReadiness?.commercialStateCount !== 7 ||
+  manifest.licensedProviderCommercialReadiness?.readinessCellCount !== 64 ||
+  manifest.licensedProviderCommercialReadiness?.blockedReadinessCellCount !== 64 ||
+  manifest.licensedProviderCommercialReadiness?.authorizedReadinessCellCount !== 0 ||
+  manifest.licensedProviderCommercialReadiness?.corporateIdentityAndBeneficialOwnershipRequired !== true ||
+  manifest.licensedProviderCommercialReadiness?.productCoverageAndRightsScheduleRequired !== true ||
+  manifest.licensedProviderCommercialReadiness?.entitlementAndRedistributionTermsRequired !== true ||
+  manifest.licensedProviderCommercialReadiness?.commercialPricingAndCostCeilingRequired !== true ||
+  manifest.licensedProviderCommercialReadiness?.securityPrivacyAndSubprocessorReviewRequired !== true ||
+  manifest.licensedProviderCommercialReadiness?.serviceLevelSupportAndIncidentTermsRequired !== true ||
+  manifest.licensedProviderCommercialReadiness?.implementationAcceptanceAndChangeControlRequired !== true ||
+  manifest.licensedProviderCommercialReadiness?.exitPortabilityDeletionAndTerminationRequired !== true ||
+  manifest.licensedProviderCommercialReadiness?.independentHumanCommercialAuthorizationRequired !== true ||
+  manifest.licensedProviderCommercialReadiness?.appendOnlyReferenceContracts !== true ||
+  manifest.licensedProviderCommercialReadiness?.providerShortlisted !== false ||
+  manifest.licensedProviderCommercialReadiness?.pricingQuoteAccepted !== false ||
+  manifest.licensedProviderCommercialReadiness?.contractSigned !== false ||
+  manifest.licensedProviderCommercialReadiness?.purchaseOrderIssued !== false ||
+  manifest.licensedProviderCommercialReadiness?.providerSelected !== false ||
+  manifest.licensedProviderCommercialReadiness?.liveProviderConnectivityEnabled !== false ||
+  manifest.licensedProviderCommercialReadiness?.productionCredentialStorageEnabled !== false ||
+  manifest.licensedProviderCommercialReadiness?.productionPayloadIntakeEnabled !== false ||
+  manifest.licensedProviderCommercialReadiness?.liveDataDisplayEnabled !== false ||
+  manifest.licensedProviderCommercialReadiness?.derivedDataPublicationEnabled !== false ||
+  manifest.licensedProviderCommercialReadiness?.modelTrainingEnabled !== false ||
+  manifest.licensedProviderCommercialReadiness?.externalAudienceActivationEnabled !== false ||
+  manifest.licensedProviderCommercialReadiness?.publicSignupEnabled !== false ||
+  manifest.licensedProviderCommercialReadiness?.liveOrderRoutingEnabled !== false ||
+  manifest.licensedProviderCommercialReadiness?.paymentExecutionEnabled !== false ||
+  manifest.licensedProviderCommercialReadiness?.moneyMovementEnabled !== false ||
+  manifest.licensedProviderCommercialReadiness?.custodyEnabled !== false ||
+  manifest.licensedProviderCommercialReadiness?.settlementEnabled !== false
+) throw new Error('Deployed licensed-provider commercial-readiness boundary is incomplete or unsafe.')
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||

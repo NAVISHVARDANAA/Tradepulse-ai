@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type DEPLOY_DATA_PHASE_8V for the licensed live-data integration candidate
+        description: Type DEPLOY_DATA_PHASE_8W for the licensed provider commercial-readiness candidate
         required: true
         type: string
 
@@ -39,8 +39,8 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_8V" || {
-            echo "Release confirmation did not match DEPLOY_DATA_PHASE_8V."
+          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_8W" || {
+            echo "Release confirmation did not match DEPLOY_DATA_PHASE_8W."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -212,7 +212,7 @@ jobs:
           npx --no-install supabase migration list \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --password "$SUPABASE_DB_PASSWORD" | tee migration-list.txt
-          grep -Eq '(^|[^0-9])065([^0-9]|$)' migration-list.txt
+          grep -Eq '(^|[^0-9])066([^0-9]|$)' migration-list.txt
 
       - name: Verify approved-tester pilot production boundary
         run: |
@@ -453,6 +453,14 @@ jobs:
             --linked \
             --project-ref "$SUPABASE_PROJECT_REF" \
             --file supabase/tests/production/licensed_live_data_integration_smoke.sql
+
+      - name: Verify licensed-provider commercial-readiness production boundary
+        run: |
+          bash scripts/assert-read-only-sql.sh supabase/tests/production/licensed_provider_commercial_readiness_smoke.sql
+          npx --no-install supabase db query \
+            --linked \
+            --project-ref "$SUPABASE_PROJECT_REF" \
+            --file supabase/tests/production/licensed_provider_commercial_readiness_smoke.sql
 
       - name: Verify production public web reads
         run: bash scripts/verify-public-runtime-read.sh
