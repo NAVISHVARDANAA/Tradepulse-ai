@@ -790,6 +790,39 @@ if (
   manifest.externalAudienceLaunchReadiness?.settlementEnabled !== false
 ) throw new Error('Deployed external audience launch-readiness boundary is incomplete or unsafe.')
 if (
+  manifest.licensedLiveDataIntegration?.workspaceEnabled !== true ||
+  manifest.licensedLiveDataIntegration?.feedClassCount !== 8 ||
+  manifest.licensedLiveDataIntegration?.integrationGateCount !== 8 ||
+  manifest.licensedLiveDataIntegration?.integrationStateCount !== 7 ||
+  manifest.licensedLiveDataIntegration?.readinessCellCount !== 64 ||
+  manifest.licensedLiveDataIntegration?.blockedReadinessCellCount !== 64 ||
+  manifest.licensedLiveDataIntegration?.authorizedReadinessCellCount !== 0 ||
+  manifest.licensedLiveDataIntegration?.executedDataLicenseRequired !== true ||
+  manifest.licensedLiveDataIntegration?.permittedDisplayAndDerivedUseRequired !== true ||
+  manifest.licensedLiveDataIntegration?.jurisdictionAndAudienceEntitlementsRequired !== true ||
+  manifest.licensedLiveDataIntegration?.credentialVaultAndEgressControlsRequired !== true ||
+  manifest.licensedLiveDataIntegration?.schemaIdentityAndCorporateActionMappingRequired !== true ||
+  manifest.licensedLiveDataIntegration?.freshnessClockQualityAndGapControlsRequired !== true ||
+  manifest.licensedLiveDataIntegration?.quotaBackpressureReplayAndFailoverRequired !== true ||
+  manifest.licensedLiveDataIntegration?.observabilityCostIncidentAndRollbackRequired !== true ||
+  manifest.licensedLiveDataIntegration?.independentHumanIntegrationAuthorizationRequired !== true ||
+  manifest.licensedLiveDataIntegration?.appendOnlyReferenceContracts !== true ||
+  manifest.licensedLiveDataIntegration?.providerSelected !== false ||
+  manifest.licensedLiveDataIntegration?.liveProviderConnectivityEnabled !== false ||
+  manifest.licensedLiveDataIntegration?.productionCredentialStorageEnabled !== false ||
+  manifest.licensedLiveDataIntegration?.productionPayloadIntakeEnabled !== false ||
+  manifest.licensedLiveDataIntegration?.liveDataDisplayEnabled !== false ||
+  manifest.licensedLiveDataIntegration?.derivedDataPublicationEnabled !== false ||
+  manifest.licensedLiveDataIntegration?.modelTrainingEnabled !== false ||
+  manifest.licensedLiveDataIntegration?.externalAudienceActivationEnabled !== false ||
+  manifest.licensedLiveDataIntegration?.publicSignupEnabled !== false ||
+  manifest.licensedLiveDataIntegration?.liveOrderRoutingEnabled !== false ||
+  manifest.licensedLiveDataIntegration?.paymentExecutionEnabled !== false ||
+  manifest.licensedLiveDataIntegration?.moneyMovementEnabled !== false ||
+  manifest.licensedLiveDataIntegration?.custodyEnabled !== false ||
+  manifest.licensedLiveDataIntegration?.settlementEnabled !== false
+) throw new Error('Deployed licensed live-data integration boundary is incomplete or unsafe.')
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||

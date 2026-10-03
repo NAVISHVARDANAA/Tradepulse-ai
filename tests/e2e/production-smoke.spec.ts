@@ -30,6 +30,7 @@ const publicWorkspaces = [
   ['#provider-activation-readiness', 'Provider activation authorization and change controls'],
   ['#provider-activation-rehearsal', 'Provider activation rehearsal and rollback verification'],
   ['#audience-launch-readiness', 'External audience launch readiness'],
+  ['#licensed-live-data', 'Licensed live-data integration'],
   ['#risk-command-center', 'Risk command center'],
   ['#regulated-preflight', 'Preflight evidence review'],
   ['#sandbox-orders', 'Sandbox order lifecycle'],
@@ -240,6 +241,12 @@ test('production execution boundaries remain closed to guests', async ({ page })
   await expect(page.getByText('Seven manual launch states')).toBeVisible()
   await expect(page.getByText(/Phase 8U is production launch-readiness scaffolding, not public launch authorization/)).toBeVisible()
   await expect(page.getByRole('button', { name: /launch|activate|approve|provision|signup|connect|publish|train|trade|pay|move|settle/i })).toHaveCount(0)
+
+  await page.goto('/#licensed-live-data', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByText('No licensed live-data provider is connected in Phase 8V')).toBeVisible()
+  await expect(page.getByText('Seven manual integration states')).toBeVisible()
+  await expect(page.getByText(/Phase 8V is licensed live-data integration scaffolding, not a provider connection or real-user beta/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /connect|credential|intake|display|publish|activate|approve|trade|pay|move|settle/i })).toHaveCount(0)
 
   await page.goto('/#account-security', { waitUntil: 'domcontentloaded' })
   await expect(page.getByText(/Controlled-beta access is limited to approved email addresses/)).toBeVisible()

@@ -1391,6 +1391,34 @@ reviewed `DEPLOY_DATA_PHASE_8U`; read-only `VERIFY_DATA_PHASE_8U`; successful
 verified operational evidence and a separate accountable human authorization;
 Phase 8U cannot activate users or declare a public launch.
 
+### Phase 8V — licensed live-data integration (implemented foundation)
+
+- Eight licensed feed-class templates cover instrument identity, venue
+  sessions, quotes, trades and bars, corporate actions, fundamentals, FX and
+  cross-asset reference, and news/event metadata without selecting a provider.
+- Eight independent gates require executed rights, explicit entitlements,
+  vaulted credentials and restricted egress, deterministic schema and identity
+  mapping, freshness and quality controls, replay-safe resilience, operational
+  ownership, and a bounded zero-customer canary with rollback.
+- Sixty-four deterministic readiness cells remain blocked with zero provider,
+  evidence, entitlement, credential, adapter, reviewer, authorization, payload,
+  display, audience, publication, financial, release or production effect.
+- Seven manual states define license review, entitlement mapping, isolated
+  certification, canary authorization, monitored integration and revocation
+  without an automatic transition or browser write path.
+- Live provider connectivity, production credentials and payload intake, live
+  display, derived publication, model training, external audience activation,
+  public signup, trading, payments, custody and settlement remain locked off.
+
+**Phase 8V exit gate:** green licensed-live-data-integration,
+external-audience-launch-readiness, database, browser, security, bundle and
+release contracts; reviewed `DEPLOY_DATA_PHASE_8V`; read-only
+`VERIFY_DATA_PHASE_8V`; successful `BUILD_PHASE_8V`; reviewed
+`DEPLOY_PHASE_8V`; and read-only `VERIFY_WEB_PHASE_8V` evidence. Connecting one
+licensed provider still requires executed rights, explicit entitlements,
+provider-specific certification, independent authorization and an isolated
+zero-customer canary; Phase 8V cannot connect a provider or activate users.
+
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.

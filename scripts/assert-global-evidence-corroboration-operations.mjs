@@ -50,14 +50,14 @@ for (const copy of ['Global evidence control room', 'No external source is conne
 assert(app.includes("activeHref === '#evidence-operations'"), 'App omits evidence route')
 assert(app.includes("import('./components/EvidenceCorroborationPanel')"), 'Evidence route is not lazy')
 assert(navigation.includes("href: '#evidence-operations'"), 'Navigation omits evidence route')
-assert(header.includes("title: 'Evidence operations'"), 'Header omits evidence route')
+assert(header.includes(", 'Evidence operations',"), 'Header omits evidence route')
 assert(browser.includes("page.goto('/#evidence-operations')"), 'E2E omits evidence route')
 assert(production.includes("'#evidence-operations'"), 'Production test omits evidence route')
 
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.globalEvidenceOperations
-assert(manifest.phase === '8U' && manifest.status === 'external_audience_launch_readiness_candidate', 'Manifest is not Phase 8H')
+assert(manifest.phase === '8V' && manifest.status === 'licensed_live_data_integration_candidate', 'Manifest is not Phase 8H')
 assert(packageJson.scripts?.['check:global-evidence-operations'], 'Package omits Phase 8H check')
 assert(manifest.requiredChecks.includes('check:global-evidence-operations'), 'Manifest omits Phase 8H check')
 for (const key of ['workspaceEnabled', 'immutableProvenanceRequired', 'sourceRightsReviewRequired',
@@ -76,9 +76,9 @@ assert(release.countryCoverageTarget === 195 && release.connectedSourceCount ===
 assert(release.sourceLaneCount === 5 && release.corroborationPolicyCount === 6, 'Evidence policy counts changed')
 assert(release.rehearsalCaseCount === 5 && release.reviewStagesPerCase === 8, 'Review counts changed')
 
-for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8U'],
-  [verifyData, 'VERIFY_DATA_PHASE_8U'], [buildWeb, 'BUILD_PHASE_8U'],
-  [deployWeb, 'DEPLOY_PHASE_8U'], [verifyWeb, 'VERIFY_WEB_PHASE_8U']]) {
+for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8V'],
+  [verifyData, 'VERIFY_DATA_PHASE_8V'], [buildWeb, 'BUILD_PHASE_8V'],
+  [deployWeb, 'DEPLOY_PHASE_8V'], [verifyWeb, 'VERIFY_WEB_PHASE_8V']]) {
   assert(workflow.includes(token), `Workflow omits ${token}`)
 }
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {

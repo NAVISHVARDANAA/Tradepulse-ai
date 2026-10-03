@@ -40,18 +40,18 @@ The dashboard will show `not run`; an authorized probe without credentials fails
 closed and stores only `CONFIGURATION_INVALID`. Never use Alpaca live credentials
 for this adapter.
 
-## Release Phase 8U
+## Release Phase 8V
 
 1. Confirm the CI workflow on `main` is green.
 2. Open **Actions → Deploy Supabase production → Run workflow**.
 3. Select the `main` branch.
-4. Enter `DEPLOY_DATA_PHASE_8U` as the confirmation value.
+4. Enter `DEPLOY_DATA_PHASE_8V` as the confirmation value.
 5. Approve the `production` environment deployment when prompted.
 
 The workflow performs a database dry run, applies every pending migration in
 filename order and redeploys every customer and internal Edge Function affected
 by the shared security, observability and account-protection boundary. It verifies
-migration `064`, checks active functions, verifies external-audience-launch-readiness, global-provider-activation-rehearsal, global-provider-activation-readiness, global-provider-decision-recovery, global-provider-review-decisions, global-provider-review-governance, global-provider-candidate-review, global-provider-contract-tests, global-provider-certification, global-observation-provenance, global-dependency-transmission, global-country-coverage, global-evidence, controlled-live-rollout, global-event-intelligence, private agentic-investing, regulated-preflight,
+migration `065`, checks active functions, verifies licensed-live-data-integration, external-audience-launch-readiness, global-provider-activation-rehearsal, global-provider-activation-readiness, global-provider-decision-recovery, global-provider-review-decisions, global-provider-review-governance, global-provider-candidate-review, global-provider-contract-tests, global-provider-certification, global-observation-provenance, global-dependency-transmission, global-country-coverage, global-evidence, controlled-live-rollout, global-event-intelligence, private agentic-investing, regulated-preflight,
 internal-only sandbox-order, corridor-intelligence, beneficiary-protection and payment-compliance boundaries, and confirms approved public
 runtime reads return HTTP 2xx. It also runs query-only production lock smoke
 checks and proves that unauthenticated brokerage, paper-simulation,
@@ -60,7 +60,7 @@ platform-evaluation and account-security requests receive HTTP 401.
 ## Read-only production verification
 
 Run **Actions → Verify Supabase production → Run workflow** after a release or
-operational incident. Select `main` and enter `VERIFY_DATA_PHASE_8U`.
+operational incident. Select `main` and enter `VERIFY_DATA_PHASE_8V`.
 
 The verification workflow performs no production writes. It confirms local and
 remote migration parity, executes the audited, query-only
@@ -88,7 +88,8 @@ remote migration parity, executes the audited, query-only
 `global_provider_decision_recovery_controls_smoke.sql` blocks,
 `global_provider_activation_readiness_controls_smoke.sql` blocks,
 `global_provider_activation_rehearsal_controls_smoke.sql` blocks and
-`external_audience_launch_readiness_smoke.sql` blocks,
+`external_audience_launch_readiness_smoke.sql` and
+`licensed_live_data_integration_smoke.sql` blocks,
 checks that protected Edge Functions are active,
 proves that approved anonymous browser reads work, confirms that protected
 unauthenticated requests remain blocked and confirms that internal broker jobs
@@ -107,7 +108,9 @@ write-capable SQL statement.
 - Never use `--include-all` until remote migration history has been reconciled
   and reviewed.
 
-Live brokerage and payment execution remain database-locked after this
+Licensed provider connectivity, production credential storage, production
+payload intake and live display remain database-locked after this phase. Live
+brokerage and payment execution also remain database-locked after this
 deployment. Phase 8F adds the source-authenticity registry, causal event graph,
 explicit country coverage and private in-app alert foundation described in
 `docs/GLOBAL_EVENT_INTELLIGENCE_ENGINE.md`; it cannot scrape or store unlicensed

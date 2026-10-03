@@ -84,15 +84,15 @@ assert(panel.includes('<PayoffDiagram'), 'Phase 8C UI omits the payoff diagram')
 assert(app.includes("activeHref === '#options-paper'"), 'Application omits the options paper route')
 assert(app.includes("import('./components/OptionsPaperTradingPanel')"), 'Options paper route is not deferred')
 assert(navigation.includes("href: '#options-paper'"), 'Product navigation omits the options paper route')
-assert(header.includes("title: 'Defined-risk options paper lab'"), 'Page header omits Phase 8C copy')
+assert(header.includes(", 'Defined-risk options paper lab',"), 'Page header omits Phase 8C copy')
 assert(browserTest.includes("page.goto('/#options-paper')"), 'Controlled-beta browser test omits Phase 8C')
 assert(productionTest.includes("'#options-paper'"), 'Production browser test omits Phase 8C')
 
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.optionsEducationPaperTrading
-assert(manifest.phase === '8U', 'Release manifest is not Phase 8D')
-assert(manifest.status === 'external_audience_launch_readiness_candidate', 'Release status is not the Phase 8D candidate')
+assert(manifest.phase === '8V', 'Release manifest is not Phase 8D')
+assert(manifest.status === 'licensed_live_data_integration_candidate', 'Release status is not the Phase 8D candidate')
 assert(manifest.requiredChecks.includes('check:options-paper-trading'), 'Manifest omits the Phase 8C check')
 assert(packageJson.scripts?.['check:options-paper-trading'], 'Package scripts omit the Phase 8C check')
 assert(release?.chainContractCount === 8 && release?.underlyingCount === 2 && release?.supportedStrategyCount === 4, 'Manifest options scenario counts are incomplete')
@@ -104,8 +104,8 @@ for (const lock of ['liveMarketDataConnectivityEnabled', 'liveOptionsRoutingEnab
 }
 
 for (const [workflow, confirmation] of [
-  [deployData, 'DEPLOY_DATA_PHASE_8U'], [verifyData, 'VERIFY_DATA_PHASE_8U'],
-  [buildWeb, 'BUILD_PHASE_8U'], [deployWeb, 'DEPLOY_PHASE_8U'], [verifyWeb, 'VERIFY_WEB_PHASE_8U'],
+  [deployData, 'DEPLOY_DATA_PHASE_8V'], [verifyData, 'VERIFY_DATA_PHASE_8V'],
+  [buildWeb, 'BUILD_PHASE_8V'], [deployWeb, 'DEPLOY_PHASE_8V'], [verifyWeb, 'VERIFY_WEB_PHASE_8V'],
 ]) assert(workflow.includes(confirmation), `Workflow omits ${confirmation}`)
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
   assert(workflow.includes('check:options-paper-trading'), 'A web gate omits the Phase 8C check')
