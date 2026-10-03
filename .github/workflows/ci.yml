@@ -147,6 +147,9 @@ jobs:
       - name: Verify external audience launch readiness
         run: npm run check:external-audience-launch-readiness
 
+      - name: Verify licensed live-data integration
+        run: npm run check:licensed-live-data-integration
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 
@@ -402,6 +405,9 @@ jobs:
 
       - name: Test external audience launch-readiness database contracts
         run: npx --no-install supabase test db supabase/tests/database/external_audience_launch_readiness.test.sql
+
+      - name: Test licensed live-data integration database contracts
+        run: npx --no-install supabase test db supabase/tests/database/licensed_live_data_integration.test.sql
 
       - name: Test broker-sandbox certification contracts
         run: npx --no-install supabase test db supabase/tests/database/broker_sandbox_certification.test.sql

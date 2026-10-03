@@ -90,8 +90,8 @@ assert(production.includes("'#audience-launch-readiness'"), 'Production test omi
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.externalAudienceLaunchReadiness
-assert(manifest.phase === '8U' && manifest.status === 'external_audience_launch_readiness_candidate',
-  'Manifest is not Phase 8U')
+assert(manifest.phase === '8V' && manifest.status === 'licensed_live_data_integration_candidate',
+  'Manifest is not Phase 8V')
 assert(packageJson.scripts?.['check:external-audience-launch-readiness'], 'Package omits Phase 8U check')
 assert(manifest.requiredChecks.includes('check:external-audience-launch-readiness'), 'Manifest omits Phase 8U check')
 for (const key of ['workspaceEnabled', 'protectedProductionDomainRequired',
@@ -117,9 +117,9 @@ assert(release?.audienceSurfaceCount === 8 && release?.launchGateCount === 8
 assert(release?.blockedReadinessCellCount === 64 && release?.authorizedReadinessCellCount === 0,
   'External audience launch-readiness counts changed')
 
-for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8U'],
-  [verifyData, 'VERIFY_DATA_PHASE_8U'], [buildWeb, 'BUILD_PHASE_8U'],
-  [deployWeb, 'DEPLOY_PHASE_8U'], [verifyWeb, 'VERIFY_WEB_PHASE_8U']]) {
+for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8V'],
+  [verifyData, 'VERIFY_DATA_PHASE_8V'], [buildWeb, 'BUILD_PHASE_8V'],
+  [deployWeb, 'DEPLOY_PHASE_8V'], [verifyWeb, 'VERIFY_WEB_PHASE_8V']]) {
   assert(workflow.includes(token), `Workflow omits ${token}`)
 }
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
@@ -129,8 +129,8 @@ assert(ci.includes('external_audience_launch_readiness.test.sql'), 'CI omits Pha
 assert(deployData.includes('external_audience_launch_readiness_smoke.sql')
   && verifyData.includes('external_audience_launch_readiness_smoke.sql'),
   'Data workflows omit Phase 8U smoke')
-assert(deployData.includes("grep -Eq '(^|[^0-9])064([^0-9]|$)'"), 'Data deployment does not verify migration 064')
-assert(verifyData.includes("grep -Eq '(^|[^0-9])064([^0-9]|$)'"), 'Data verification does not verify migration 064')
+assert(deployData.includes("grep -Eq '(^|[^0-9])065([^0-9]|$)'"), 'Data deployment does not verify migration 065')
+assert(verifyData.includes("grep -Eq '(^|[^0-9])065([^0-9]|$)'"), 'Data verification does not verify migration 065')
 assert(publicRead.includes('external_audience_launch_status'), 'Public verifier omits Phase 8U')
 assert(deployed.includes('manifest.externalAudienceLaunchReadiness'), 'Web verifier omits Phase 8U')
 assert(roadmap.includes('Phase 8U — external audience production launch readiness (implemented foundation)'),

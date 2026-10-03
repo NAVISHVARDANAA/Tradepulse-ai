@@ -785,6 +785,16 @@ customer payloads, publication, training, trading, payments, custody and
 settlement remain locked off. See
 [`docs/EXTERNAL_AUDIENCE_LAUNCH_READINESS.md`](docs/EXTERNAL_AUDIENCE_LAUNCH_READINESS.md).
 
+Phase 8V adds migration `065_licensed_live_data_integration.sql` and a
+lazy-loaded licensed live-data integration workspace. Eight feed classes,
+eight independent gates, seven manual states and sixty-four blocked readiness
+cells make rights, entitlements, credential security, schema identity,
+freshness, resilience, operations and rollback evidence explicit while no
+provider is connected. Credentials, real payloads, live display, publication,
+external users, public signup, trading, payments, custody and settlement remain
+locked off. See
+[`docs/LICENSED_LIVE_DATA_INTEGRATION.md`](docs/LICENSED_LIVE_DATA_INTEGRATION.md).
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction

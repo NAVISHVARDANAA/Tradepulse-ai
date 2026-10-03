@@ -31,28 +31,29 @@ is intentionally public and is still constrained by RLS and server-side auth.
 After this PR is merged and all `main` checks pass:
 
 1. Open **Actions → Deploy Supabase production**, choose `main`, enter
-   `DEPLOY_DATA_PHASE_8U` and wait for it to pass.
+   `DEPLOY_DATA_PHASE_8V` and wait for it to pass.
 2. Run **Verify Supabase production** on `main` with
-   `VERIFY_DATA_PHASE_8U` and retain the read-only evidence.
+   `VERIFY_DATA_PHASE_8V` and retain the read-only evidence.
 3. Open **Actions → Build production web release**, choose `main`, enter
-   `BUILD_PHASE_8U` and record the green external audience launch-readiness web artifact.
+   `BUILD_PHASE_8V` and record the green licensed live-data integration web artifact.
 4. Open **Actions → Deploy controlled beta web**, choose `main`, enter
-   `DEPLOY_PHASE_8U` and approve the protected production environment.
+   `DEPLOY_PHASE_8V` and approve the protected production environment.
 5. Record the immutable commit, workflow run and Cloudflare deployment URL from
    the job summary. The workflow verifies HTTPS, browser security headers, the
    release manifest and every hard lock after upload. It then runs desktop and
    mobile production browser checks across the public workspaces, Analytics
    interactions, console/network failures and guest execution locks.
 6. After a release or operational incident, open **Actions → Verify web
-   production**, choose `main`, enter `VERIFY_WEB_PHASE_8U` and retain the green
+   production**, choose `main`, enter `VERIFY_WEB_PHASE_8V` and retain the green
    production-browser report.
 7. Do not invite testers yet. Choose and validate the final domain, configure
    its exact Supabase Auth site URL and redirect allow-list, then complete the
    remaining launch prerequisites in `docs/BETA_RELEASE_CANDIDATE.md`.
 
-Deploy and verify migration 064 with the Phase 8U data gates before the web
-workspace. Every audience surface remains unavailable, every launch gate
-remains unmet and every readiness cell remains blocked. The product cannot
+Deploy and verify migration 065 with the Phase 8V data gates before the web
+workspace. Every licensed feed class remains unavailable, every integration
+gate remains unmet and every readiness cell remains blocked. The product cannot
 activate an audience, open public signup, provision users automatically,
-connect a provider, ingest customer payloads, publish autonomously, train a
-model, route an order, move money, hold assets or settle a trade.
+connect a provider, store production credentials, ingest real payloads, display
+live data, publish derived data, train a model, route an order, move money, hold
+assets or settle a trade.

@@ -89,7 +89,7 @@ for (const copy of [
 assert(app.includes("activeHref === '#agentic-ai'"), 'Application omits the Phase 8E route')
 assert(app.includes("import('./components/AgenticInvestingPanel')"), 'Agent workspace is not deferred')
 assert(navigation.includes("href: '#agentic-ai'"), 'Product navigation omits the agent workspace')
-assert(header.includes("title: 'TradePulse Agent workspace'"), 'Page header omits agent workspace copy')
+assert(header.includes(", 'TradePulse Agent workspace',"), 'Page header omits agent workspace copy')
 assert(browserTest.includes("page.goto('/#agentic-ai')"), 'Controlled-beta browser test omits Phase 8E')
 assert(productionTest.includes("'#agentic-ai'"), 'Production browser test omits Phase 8E')
 

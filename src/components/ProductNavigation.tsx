@@ -36,6 +36,7 @@ export const productNavigation: NavGroup[] = [
       { label: 'Activation readiness', href: '#provider-activation-readiness' },
       { label: 'Activation rehearsal', href: '#provider-activation-rehearsal' },
       { label: 'Audience launch readiness', href: '#audience-launch-readiness' },
+      { label: 'Live data', href: '#licensed-live-data' },
       { label: 'TradePulse Agent', href: '#agentic-ai' },
       { label: 'AI Copilot', href: '#research-copilot' },
       { label: 'Team research', href: '#business-research' },

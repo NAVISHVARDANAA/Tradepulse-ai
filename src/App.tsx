@@ -86,6 +86,7 @@ const GlobalProviderActivationRehearsalPanel = lazy(() => import('./components/G
 const ExternalAudienceLaunchReadinessPanel = lazy(() => import('./components/ExternalAudienceLaunchReadinessPanel').then((module) => ({
   default: module.ExternalAudienceLaunchReadinessPanel,
 })))
+const LicensedLiveDataIntegrationPanel = lazy(() => import('./components/LicensedLiveDataIntegrationPanel'))
 const AccountSecurityPanel = lazy(() => import('./components/AccountSecurityPanel').then((module) => ({
   default: module.AccountSecurityPanel,
 })))
@@ -639,6 +640,14 @@ function App() {
           <ProductErrorBoundary title="External audience launch readiness is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="External audience launch readiness" />}>
               <ExternalAudienceLaunchReadinessPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#licensed-live-data' ? <section id="licensed-live-data" className="product-workspace">
+          <ProductErrorBoundary title="Live-data readiness is unavailable">
+            <Suspense fallback={<SectionLoader label="Live data" />}>
+              <LicensedLiveDataIntegrationPanel />
             </Suspense>
           </ProductErrorBoundary>
         </section> : null}
