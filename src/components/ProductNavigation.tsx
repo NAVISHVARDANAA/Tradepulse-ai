@@ -1,5 +1,6 @@
 import { ChevronDown, Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import type { KeyboardEvent as ReactKeyboardEvent } from 'react'
 import type { MouseEvent as ReactMouseEvent } from 'react'
 
 export type ProductHref = `#${string}`
@@ -128,6 +129,13 @@ export function ProductNavigation({ activeHref }: { activeHref: ProductHref }) {
     event.currentTarget.closest('details')?.removeAttribute('open')
   }
 
+  const toggleGroup = (event: ReactKeyboardEvent<HTMLElement>) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return
+    event.preventDefault()
+    const details = event.currentTarget.closest('details')
+    if (details) details.open = !details.open
+  }
+
   return (
     <>
       <nav className="product-nav-desktop" aria-label="Product navigation">
@@ -136,7 +144,7 @@ export function ProductNavigation({ activeHref }: { activeHref: ProductHref }) {
             className={group.label === activeGroup ? 'nav-group active' : 'nav-group'}
             key={group.label}
           >
-            <summary>
+            <summary onKeyDown={toggleGroup}>
               {group.label}
               <ChevronDown size={14} />
             </summary>
