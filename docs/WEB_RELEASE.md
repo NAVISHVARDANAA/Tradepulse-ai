@@ -1,6 +1,6 @@
-# Phase 8V licensed live-data integration foundation
+# Phase 8W licensed-provider commercial-readiness foundation
 
-Phase 8V extends the host-neutral controlled-beta candidate for the TradePulse AI web
+Phase 8W extends the host-neutral controlled-beta candidate for the TradePulse AI web
 application. The artifact includes SPA routing, a static-only service worker,
 PWA metadata, cache controls and browser security headers. Source maps, server
 secret names and local environment files are rejected before upload.
@@ -17,12 +17,13 @@ the project's public Supabase anon key. `SUPABASE_PROJECT_REF` remains the sourc
 for the approved HTTPS origin.
 
 After merging, open **Actions → Build production web release**, select `main`
-and enter `BUILD_PHASE_8V`. The workflow validates the public configuration,
+and enter `BUILD_PHASE_8W`. The workflow validates the public configuration,
 builds the application and retains the immutable commit-addressed artifact for
 14 days as `tradepulse-beta-rc-<commit>`. It does not publish to a hosting
 provider; the final domain and external audience authorization remain manual
-launch prerequisites. The Phase 8V workspace exposes only licensed feed classes,
-manual states, unmet integration gates and blocked readiness cells. It records
-no provider, credential, payload, authorization or canary window and performs no
-signup, automated provisioning, provider connection, customer-data intake, live
-display, publication, model training, trading, payment, custody or settlement.
+launch prerequisites. The Phase 8W workspace exposes only commercial review
+domains, manual states, unmet gates and blocked readiness cells. It records no
+provider shortlist, quote, contract, price, authorization or purchasing decision
+and performs no signature, credential storage, provider connection, payload
+intake, live display, publication, model training, trading, payment, custody or
+settlement.

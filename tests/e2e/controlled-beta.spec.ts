@@ -709,6 +709,61 @@ async function mockGuestBackend(page: Page) {
         release_effect: false, production_effect: false,
       }]) }); return
     }
+    if (path === '/rest/v1/licensed_provider_commercial_readiness_status') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+        control_key: 'licensed-provider-commercial-readiness-controls',
+        policy_version: 'licensed-provider-commercial-readiness-controls-v1',
+        commercial_domain_count: 8, commercial_gate_count: 8, commercial_state_count: 7,
+        readiness_cell_count: 64, blocked_readiness_cell_count: 64,
+        authorized_readiness_cell_count: 0,
+      }) }); return
+    }
+    if (path === '/rest/v1/licensed_provider_commercial_state_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, state_key: 'commercial_review_not_requested',
+        display_name: 'Commercial review not requested',
+        state_definition: 'No provider shortlist, quote, commercial review, signature request or purchase commitment exists; every downstream capability remains unavailable.',
+        provider_present: false, real_evidence_present: false,
+        automatic_transition_enabled: false, human_commercial_authorization_required: true,
+        provider_selection_effect: false, commercial_commitment_effect: false,
+        contract_signature_effect: false, credential_access_effect: false,
+        payload_intake_effect: false, live_display_effect: false, production_effect: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/licensed_provider_commercial_domain_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, domain_key: 'corporate_ownership_and_financial_stability',
+        display_name: 'Corporate ownership and financial stability',
+        domain_definition: 'Verify the contracting entity, beneficial ownership, sanctions position, audited financial resilience, insurance and authority to provide the proposed service.',
+        availability_status: 'unavailable', provider_shortlisted: false,
+        real_evidence_present: false, quote_present: false, contract_present: false,
+        commercial_commitment_enabled: false, production_effect: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/licensed_provider_commercial_gate_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1,
+        gate_key: 'corporate_identity_ownership_sanctions_and_stability_verified',
+        review_domain: 'corporate', display_name: 'Corporate diligence verified',
+        gate_definition: 'Require verified contracting identity, beneficial ownership, sanctions checks, financial stability, insurance and accountable signature authority.',
+        gate_status: 'unmet', real_evidence_present: false,
+        reviewer_assigned: false, human_authorized: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/licensed_provider_commercial_readiness_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, domain_key: 'corporate_ownership_and_financial_stability',
+        domain_sequence_number: 1, domain_name: 'Corporate ownership and financial stability',
+        gate_key: 'corporate_identity_ownership_sanctions_and_stability_verified',
+        gate_sequence_number: 1, gate_name: 'Corporate diligence verified',
+        review_domain: 'corporate', readiness_status: 'blocked', human_authorized: false,
+        provider_selection_effect: false, commercial_commitment_effect: false,
+        contract_signature_effect: false, credential_access_effect: false,
+        provider_egress_effect: false, payload_intake_effect: false,
+        live_display_effect: false, audience_effect: false, publication_effect: false,
+        financial_execution_effect: false, release_effect: false, production_effect: false,
+      }]) }); return
+    }
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -790,7 +845,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(49)
+  await expect(navigation.getByRole('link')).toHaveCount(50)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -960,6 +1015,14 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByText('Seven manual integration states')).toBeVisible()
   await expect(page.getByText(/Phase 8V is licensed live-data integration scaffolding, not a provider connection or real-user beta/)).toBeVisible()
   await expect(page.getByRole('button', { name: /connect|credential|intake|display|publish|activate|approve|trade|pay|move|settle/i })).toHaveCount(0)
+
+  await page.goto('/#provider-commercial-readiness')
+  await expect(page.getByRole('heading', { level: 1, name: 'Licensed-provider commercial readiness' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Licensed-provider commercial readiness' })).toBeVisible()
+  await expect(page.getByText('No provider is shortlisted or contracted in Phase 8W')).toBeVisible()
+  await expect(page.getByText('Seven manual commercial states')).toBeVisible()
+  await expect(page.getByText(/Phase 8W is commercial-review scaffolding, not vendor selection, contract execution, procurement approval or provider activation/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /shortlist|quote|accept|sign|purchase|contract|connect|activate|deploy|pay|trade/i })).toHaveCount(0)
 
   await page.goto('/#live-rollout')
   await expect(page.getByRole('heading', { level: 1, name: 'Controlled live rollout' })).toBeVisible()

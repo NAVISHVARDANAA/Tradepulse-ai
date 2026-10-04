@@ -795,6 +795,16 @@ external users, public signup, trading, payments, custody and settlement remain
 locked off. See
 [`docs/LICENSED_LIVE_DATA_INTEGRATION.md`](docs/LICENSED_LIVE_DATA_INTEGRATION.md).
 
+Phase 8W adds migration `066_licensed_provider_commercial_readiness.sql` and a
+lazy-loaded licensed-provider commercial-readiness workspace. Eight review
+domains, eight independent gates, seven manual states and sixty-four blocked
+readiness cells make corporate diligence, coverage, rights, entitlements,
+pricing, security, service, implementation and exit protections explicit while
+no provider is shortlisted or contracted. Quotes, signatures, purchase orders,
+credentials, payloads, live display and production commitments remain locked
+off. See
+[`docs/LICENSED_PROVIDER_COMMERCIAL_READINESS.md`](docs/LICENSED_PROVIDER_COMMERCIAL_READINESS.md).
+
 ## Production gates
 
 Forecasting must pass walk-forward validation, backtesting with transaction

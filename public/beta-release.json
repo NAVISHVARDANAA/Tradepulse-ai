@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "8V",
-  "status": "licensed_live_data_integration_candidate",
+  "phase": "8W",
+  "status": "licensed_provider_commercial_readiness_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -60,7 +60,8 @@
       "globalProviderActivationReadiness",
       "globalProviderActivationRehearsal",
       "externalAudienceLaunchReadiness",
-      "licensedLiveDataIntegration"
+      "licensedLiveDataIntegration",
+      "licensedProviderCommercialReadiness"
     ]
   },
   "trustLayer": {
@@ -123,6 +124,7 @@
     "check:global-provider-activation-rehearsal",
     "check:external-audience-launch-readiness",
     "check:licensed-live-data-integration",
+    "check:licensed-provider-commercial-readiness",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -160,7 +162,8 @@
     "global-provider-activation-authorization-change-window-abort-restoration-and-verification-approval",
     "global-provider-activation-rehearsal-isolation-egress-synthetic-secrets-observability-recovery-and-closeout-approval",
     "external-audience-domain-identity-legal-support-monitoring-data-rights-capacity-rollback-and-cohort-approval",
-    "licensed-live-data-rights-entitlements-security-mapping-quality-resilience-operations-canary-rollback-and-independent-approval"
+    "licensed-live-data-rights-entitlements-security-mapping-quality-resilience-operations-canary-rollback-and-independent-approval",
+    "licensed-provider-corporate-rights-entitlement-pricing-security-service-implementation-exit-and-independent-commercial-approval"
   ],
   "betaHardening": {
     "workspaceEnabled": true,
@@ -941,6 +944,43 @@
     "observabilityCostIncidentAndRollbackRequired": true,
     "independentHumanIntegrationAuthorizationRequired": true,
     "appendOnlyReferenceContracts": true,
+    "providerSelected": false,
+    "liveProviderConnectivityEnabled": false,
+    "productionCredentialStorageEnabled": false,
+    "productionPayloadIntakeEnabled": false,
+    "liveDataDisplayEnabled": false,
+    "derivedDataPublicationEnabled": false,
+    "modelTrainingEnabled": false,
+    "externalAudienceActivationEnabled": false,
+    "publicSignupEnabled": false,
+    "liveOrderRoutingEnabled": false,
+    "paymentExecutionEnabled": false,
+    "moneyMovementEnabled": false,
+    "custodyEnabled": false,
+    "settlementEnabled": false
+  },
+  "licensedProviderCommercialReadiness": {
+    "workspaceEnabled": true,
+    "commercialDomainCount": 8,
+    "commercialGateCount": 8,
+    "commercialStateCount": 7,
+    "readinessCellCount": 64,
+    "blockedReadinessCellCount": 64,
+    "authorizedReadinessCellCount": 0,
+    "corporateIdentityAndBeneficialOwnershipRequired": true,
+    "productCoverageAndRightsScheduleRequired": true,
+    "entitlementAndRedistributionTermsRequired": true,
+    "commercialPricingAndCostCeilingRequired": true,
+    "securityPrivacyAndSubprocessorReviewRequired": true,
+    "serviceLevelSupportAndIncidentTermsRequired": true,
+    "implementationAcceptanceAndChangeControlRequired": true,
+    "exitPortabilityDeletionAndTerminationRequired": true,
+    "independentHumanCommercialAuthorizationRequired": true,
+    "appendOnlyReferenceContracts": true,
+    "providerShortlisted": false,
+    "pricingQuoteAccepted": false,
+    "contractSigned": false,
+    "purchaseOrderIssued": false,
     "providerSelected": false,
     "liveProviderConnectivityEnabled": false,
     "productionCredentialStorageEnabled": false,

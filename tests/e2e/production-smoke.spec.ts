@@ -31,6 +31,7 @@ const publicWorkspaces = [
   ['#provider-activation-rehearsal', 'Provider activation rehearsal and rollback verification'],
   ['#audience-launch-readiness', 'External audience launch readiness'],
   ['#licensed-live-data', 'Licensed live-data integration'],
+  ['#provider-commercial-readiness', 'Licensed-provider commercial readiness'],
   ['#risk-command-center', 'Risk command center'],
   ['#regulated-preflight', 'Preflight evidence review'],
   ['#sandbox-orders', 'Sandbox order lifecycle'],
@@ -247,6 +248,12 @@ test('production execution boundaries remain closed to guests', async ({ page })
   await expect(page.getByText('Seven manual integration states')).toBeVisible()
   await expect(page.getByText(/Phase 8V is licensed live-data integration scaffolding, not a provider connection or real-user beta/)).toBeVisible()
   await expect(page.getByRole('button', { name: /connect|credential|intake|display|publish|activate|approve|trade|pay|move|settle/i })).toHaveCount(0)
+
+  await page.goto('/#provider-commercial-readiness', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByText('No provider is shortlisted or contracted in Phase 8W')).toBeVisible()
+  await expect(page.getByText('Seven manual commercial states')).toBeVisible()
+  await expect(page.getByText(/Phase 8W is commercial-review scaffolding, not vendor selection, contract execution, procurement approval or provider activation/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /shortlist|quote|accept|sign|purchase|contract|connect|activate|deploy|pay|trade/i })).toHaveCount(0)
 
   await page.goto('/#account-security', { waitUntil: 'domcontentloaded' })
   await expect(page.getByText(/Controlled-beta access is limited to approved email addresses/)).toBeVisible()

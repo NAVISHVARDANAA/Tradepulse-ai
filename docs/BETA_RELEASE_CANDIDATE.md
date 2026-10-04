@@ -233,8 +233,14 @@ personalized advice remain false. Search indexing also remains disabled.
     monitoring and incident response, licensed or synthetic data labels,
     accessibility and capacity evidence, a bounded consented cohort, tested
     rollback, expiry, independent verification and accountable closeout.
+26. Shortlist or contract a licensed provider only through a separately
+    authorized commercial process with verified corporate identity and
+    ownership, reconciled products and rights schedules, explicit entitlement
+    terms, approved pricing and cost ceilings, security and privacy assurance,
+    measurable service remedies, implementation acceptance, protected exit
+    terms, accountable signature authority and independent review.
 
-These are operational, legal and business launch decisions. Passing Phase 8U
+These are operational, legal and business launch decisions. Passing Phase 8W
 means the engineering candidate is ready for that review; it does not certify
 regulatory approval or declare a public production launch.
 
@@ -254,16 +260,16 @@ Record the merge commit, GitHub workflow run ID and artifact name in the
 restricted release record. Never place secrets, customer data or raw operational
 evidence in a public issue or artifact.
 
-## Current Phase 8V hosting deployment procedure
+## Current Phase 8W hosting deployment procedure
 
-After the Phase 8V PR is merged and all `main` checks pass:
+After the Phase 8W PR is merged and all `main` checks pass:
 
-1. Deploy and verify migration 065 with `DEPLOY_DATA_PHASE_8V` and `VERIFY_DATA_PHASE_8V`.
+1. Deploy and verify migration 066 with `DEPLOY_DATA_PHASE_8W` and `VERIFY_DATA_PHASE_8W`.
 2. Open **Actions → Build production web release**.
-3. Select `main`, enter `BUILD_PHASE_8V` and run the workflow.
+3. Select `main`, enter `BUILD_PHASE_8W` and run the workflow.
 4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 5. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-6. Run **Verify web production** with `VERIFY_WEB_PHASE_8V` after deployment
+6. Run **Verify web production** with `VERIFY_WEB_PHASE_8W` after deployment
    or any customer-facing operational incident.
 7. Do not invite external testers until every manual prerequisite above is approved.
 
@@ -279,3 +285,10 @@ All eight feed classes and all 64 readiness cells remain blocked. It stores no
 provider, credential or real payload and cannot enable live connectivity, live
 display, derived publication, model training, external audience activation,
 signup, trading, payments, money movement, custody or settlement.
+
+Phase 8W adds migration 066 and the licensed-provider commercial-readiness
+workspace. All eight review domains and all 64 readiness cells remain blocked.
+It stores no provider shortlist, quote, contract, price, reviewer or
+authorization and cannot accept commercial terms, sign an agreement, issue a
+purchase order, store credentials, connect a provider, receive a payload,
+display live data or create any production effect.
