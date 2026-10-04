@@ -860,6 +860,35 @@ if (
   manifest.licensedProviderCommercialReadiness?.settlementEnabled !== false
 ) throw new Error('Deployed licensed-provider commercial-readiness boundary is incomplete or unsafe.')
 if (
+  manifest.controlledAudiencePilotOperatingModel?.workspaceEnabled !== true ||
+  manifest.controlledAudiencePilotOperatingModel?.researchPaperPilotTrackDefined !== true ||
+  manifest.controlledAudiencePilotOperatingModel?.realTimeDataTrackSeparated !== true ||
+  manifest.controlledAudiencePilotOperatingModel?.maxPilotParticipants !== 30 ||
+  manifest.controlledAudiencePilotOperatingModel?.pilotDurationWeeks !== 4 ||
+  manifest.controlledAudiencePilotOperatingModel?.pilotFreeOfCharge !== true ||
+  manifest.controlledAudiencePilotOperatingModel?.liveDataRequiredForPilot !== false ||
+  manifest.controlledAudiencePilotOperatingModel?.cohortSegmentCount !== 5 ||
+  manifest.controlledAudiencePilotOperatingModel?.workstreamCount !== 8 ||
+  manifest.controlledAudiencePilotOperatingModel?.decisionMetricCount !== 7 ||
+  manifest.controlledAudiencePilotOperatingModel?.prerequisiteFoundationCount !== 3 ||
+  manifest.controlledAudiencePilotOperatingModel?.readyFoundationCount !== 0 ||
+  manifest.controlledAudiencePilotOperatingModel?.costCeilingApproved !== false ||
+  manifest.controlledAudiencePilotOperatingModel?.participantInvitationsEnabled !== false ||
+  manifest.controlledAudiencePilotOperatingModel?.automatedProvisioningEnabled !== false ||
+  manifest.controlledAudiencePilotOperatingModel?.publicSignupEnabled !== false ||
+  manifest.controlledAudiencePilotOperatingModel?.paymentCollectionEnabled !== false ||
+  manifest.controlledAudiencePilotOperatingModel?.realTimeDataTrackEnabled !== false ||
+  manifest.controlledAudiencePilotOperatingModel?.liveProviderConnectivityEnabled !== false ||
+  manifest.controlledAudiencePilotOperatingModel?.productionCredentialStorageEnabled !== false ||
+  manifest.controlledAudiencePilotOperatingModel?.productionPayloadIntakeEnabled !== false ||
+  manifest.controlledAudiencePilotOperatingModel?.liveDataDisplayEnabled !== false ||
+  manifest.controlledAudiencePilotOperatingModel?.orderRoutingEnabled !== false ||
+  manifest.controlledAudiencePilotOperatingModel?.moneyMovementEnabled !== false ||
+  manifest.controlledAudiencePilotOperatingModel?.custodyEnabled !== false ||
+  manifest.controlledAudiencePilotOperatingModel?.settlementEnabled !== false ||
+  manifest.controlledAudiencePilotOperatingModel?.goNoGoAuthorized !== false
+) throw new Error('Deployed controlled-audience pilot operating-model boundary is incomplete or unsafe.')
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||

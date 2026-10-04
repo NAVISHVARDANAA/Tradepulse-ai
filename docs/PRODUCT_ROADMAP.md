@@ -1448,6 +1448,33 @@ still requires provider-specific legal, commercial, security, operational and
 exit evidence plus accountable independent authorization; Phase 8W cannot
 select, contract, connect or activate a provider.
 
+### Phase 8X — controlled-audience pilot operating model (implemented foundation)
+
+- A two-track plan separates a free, controlled research and paper-simulation
+  pilot from the independently gated real-time-data path.
+- Five learning cohorts define a maximum 30-participant, four-week discovery
+  program without storing names, contact details or screening responses.
+- Eight human-owned workstreams cover segment definition, value proposition,
+  pilot offer, recruitment and consent, onboarding and support, telemetry,
+  unit economics and the final go/no-go review.
+- Seven explicit measures test activation, time to first value, weekly
+  retention, research-flow completion, trust clarity, safety and support.
+- The read-only cockpit composes Phase 8U, 8V and 8W status views; it adds no
+  database migration and preserves migration 066 as the data contract.
+- Invitations, provisioning, public signup, payment collection, live provider
+  connectivity, production payloads, live display, trading, money movement,
+  custody, settlement and go/no-go authorization remain locked off.
+
+**Phase 8X exit gate:** green controlled-audience-pilot-operating-model,
+licensed-provider-commercial-readiness, browser, security, bundle and release
+contracts; reviewed `DEPLOY_DATA_PHASE_8X` and read-only
+`VERIFY_DATA_PHASE_8X` evidence at migration 066; successful
+`BUILD_PHASE_8X`; reviewed `DEPLOY_PHASE_8X`; and read-only
+`VERIFY_WEB_PHASE_8X` evidence. Activating any real cohort still requires an
+approved participant roster, consent, staffed support, privacy-safe telemetry,
+an explicit cost ceiling, rollback ownership and an accountable human go/no-go
+decision; Phase 8X cannot invite, provision or activate participants.
+
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.

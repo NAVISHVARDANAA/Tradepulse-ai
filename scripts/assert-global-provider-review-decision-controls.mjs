@@ -77,7 +77,7 @@ assert(production.includes("'#provider-review-decisions'"), 'Production test omi
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.globalProviderReviewDecisions
-assert(manifest.phase === '8W' && manifest.status === 'licensed_provider_commercial_readiness_candidate',
+assert(manifest.phase === '8X' && manifest.status === 'controlled_audience_pilot_operating_model_candidate',
   'Manifest is not Phase 8Q')
 assert(packageJson.scripts?.['check:global-provider-review-decisions'], 'Package omits Phase 8Q check')
 assert(manifest.requiredChecks.includes('check:global-provider-review-decisions'), 'Manifest omits Phase 8Q check')
@@ -103,9 +103,9 @@ assert(release?.sourceFamilyCount === 8 && release?.decisionGateCount === 8
 assert(release?.unmetReadinessCellCount === 64 && release?.authorizedReadinessCellCount === 0,
   'Provider review decision readiness counts changed')
 
-for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8W'],
-  [verifyData, 'VERIFY_DATA_PHASE_8W'], [buildWeb, 'BUILD_PHASE_8W'],
-  [deployWeb, 'DEPLOY_PHASE_8W'], [verifyWeb, 'VERIFY_WEB_PHASE_8W']]) {
+for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8X'],
+  [verifyData, 'VERIFY_DATA_PHASE_8X'], [buildWeb, 'BUILD_PHASE_8X'],
+  [deployWeb, 'DEPLOY_PHASE_8X'], [verifyWeb, 'VERIFY_WEB_PHASE_8X']]) {
   assert(workflow.includes(token), `Workflow omits ${token}`)
 }
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
