@@ -40,12 +40,12 @@ The dashboard will show `not run`; an authorized probe without credentials fails
 closed and stores only `CONFIGURATION_INVALID`. Never use Alpaca live credentials
 for this adapter.
 
-## Release Phase 8X
+## Release Phase 8Y
 
 1. Confirm the CI workflow on `main` is green.
 2. Open **Actions → Deploy Supabase production → Run workflow**.
 3. Select the `main` branch.
-4. Enter `DEPLOY_DATA_PHASE_8X` as the confirmation value.
+4. Enter `DEPLOY_DATA_PHASE_8Y` as the confirmation value.
 5. Approve the `production` environment deployment when prompted.
 
 The workflow performs a database dry run, applies every pending migration in
@@ -57,14 +57,15 @@ runtime reads return HTTP 2xx. It also runs query-only production lock smoke
 checks and proves that unauthenticated brokerage, paper-simulation,
 platform-evaluation and account-security requests receive HTTP 401.
 
-Phase 8X introduces no database migration. The data release remains at
-migration 066; the new pilot cockpit only composes existing sanitized status
-views and has no write or activation path.
+Phase 8Y introduces no database migration. The data release remains at
+migration 066; the activation cockpit only composes existing sanitized status
+views and local reference contracts. It stores no participant identity,
+evidence or authorization and has no write or activation path.
 
 ## Read-only production verification
 
 Run **Actions → Verify Supabase production → Run workflow** after a release or
-operational incident. Select `main` and enter `VERIFY_DATA_PHASE_8X`.
+operational incident. Select `main` and enter `VERIFY_DATA_PHASE_8Y`.
 
 The verification workflow performs no production writes. It confirms local and
 remote migration parity, executes the audited, query-only

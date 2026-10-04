@@ -89,6 +89,7 @@ const ExternalAudienceLaunchReadinessPanel = lazy(() => import('./components/Ext
 const LicensedLiveDataIntegrationPanel = lazy(() => import('./components/LicensedLiveDataIntegrationPanel'))
 const LicensedProviderCommercialReadinessPanel = lazy(() => import('./components/LicensedProviderCommercialReadinessPanel'))
 const ControlledAudiencePilotOperatingModelPanel = lazy(() => import('./components/ControlledAudiencePilotOperatingModelPanel'))
+const ControlledPilotActivationPanel = lazy(() => import('./components/ControlledPilotActivationPanel'))
 const AccountSecurityPanel = lazy(() => import('./components/AccountSecurityPanel').then((module) => ({
   default: module.AccountSecurityPanel,
 })))
@@ -666,6 +667,14 @@ function App() {
           <ProductErrorBoundary title="Controlled-audience pilot operating model is unavailable">
             <Suspense fallback={<SectionLoader label="Controlled-audience pilot operating model" />}>
               <ControlledAudiencePilotOperatingModelPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#pilot-activation' ? <section id="pilot-activation" className="product-workspace">
+          <ProductErrorBoundary title="Controlled pilot activation readiness is unavailable">
+            <Suspense fallback={<SectionLoader label="Controlled pilot activation readiness" />}>
+              <ControlledPilotActivationPanel />
             </Suspense>
           </ProductErrorBoundary>
         </section> : null}

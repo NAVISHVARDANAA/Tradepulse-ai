@@ -33,6 +33,7 @@ const publicWorkspaces = [
   ['#licensed-live-data', 'Licensed live-data integration'],
   ['#provider-commercial-readiness', 'Licensed-provider commercial readiness'],
   ['#audience-pilot-plan', 'Controlled-audience pilot operating model'],
+  ['#pilot-activation', 'Controlled pilot activation cockpit'],
   ['#risk-command-center', 'Risk command center'],
   ['#regulated-preflight', 'Preflight evidence review'],
   ['#sandbox-orders', 'Sandbox order lifecycle'],
@@ -262,6 +263,14 @@ test('production execution boundaries remain closed to guests', async ({ page })
   await expect(page.getByText('Eight operating workstreams')).toBeVisible()
   await expect(page.getByText(/Phase 8X separates a controlled research\/paper pilot from the real-time-data path/)).toBeVisible()
   await expect(page.getByRole('button', { name: /invite|provision|signup|pay|connect|display|route|trade|move|settle|authorize/i })).toHaveCount(0)
+
+  await page.goto('/#pilot-activation', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByText('No participant invitation or pilot access is authorized in Phase 8Y')).toBeVisible()
+  await expect(page.getByText('Real-time market data is not active')).toBeVisible()
+  await expect(page.getByText('Eight activation gates')).toBeVisible()
+  await expect(page.getByText('Three progressive pilot waves')).toBeVisible()
+  await expect(page.getByText('Eight immediate stop conditions')).toBeVisible()
+  await expect(page.getByRole('button', { name: /invite|provision|signup|connect|activate|display|route|trade|pay|move|settle|authorize/i })).toHaveCount(0)
 
   await page.goto('/#account-security', { waitUntil: 'domcontentloaded' })
   await expect(page.getByText(/Controlled-beta access is limited to approved email addresses/)).toBeVisible()
