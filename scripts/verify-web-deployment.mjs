@@ -755,6 +755,41 @@ if (
   manifest.globalProviderActivationRehearsal?.autonomousTradeExecutionEnabled !== false
 ) throw new Error('Deployed global provider activation-rehearsal boundary is incomplete or unsafe.')
 if (
+  manifest.externalAudienceLaunchReadiness?.workspaceEnabled !== true ||
+  manifest.externalAudienceLaunchReadiness?.audienceSurfaceCount !== 8 ||
+  manifest.externalAudienceLaunchReadiness?.launchGateCount !== 8 ||
+  manifest.externalAudienceLaunchReadiness?.launchStateCount !== 7 ||
+  manifest.externalAudienceLaunchReadiness?.readinessCellCount !== 64 ||
+  manifest.externalAudienceLaunchReadiness?.blockedReadinessCellCount !== 64 ||
+  manifest.externalAudienceLaunchReadiness?.authorizedReadinessCellCount !== 0 ||
+  manifest.externalAudienceLaunchReadiness?.protectedProductionDomainRequired !== true ||
+  manifest.externalAudienceLaunchReadiness?.exactAuthOriginAndRedirectsRequired !== true ||
+  manifest.externalAudienceLaunchReadiness?.customAuthDeliveryAndAbuseControlsRequired !== true ||
+  manifest.externalAudienceLaunchReadiness?.publishedLegalPrivacyRiskSupportRequired !== true ||
+  manifest.externalAudienceLaunchReadiness?.productionMonitoringOnCallIncidentRequired !== true ||
+  manifest.externalAudienceLaunchReadiness?.approvedExternalCohortAndFeedbackRequired !== true ||
+  manifest.externalAudienceLaunchReadiness?.accessibilityPerformanceCapacityEvidenceRequired !== true ||
+  manifest.externalAudienceLaunchReadiness?.dataRightsFreshnessAndLabelsRequired !== true ||
+  manifest.externalAudienceLaunchReadiness?.releaseRollbackExpiryRequired !== true ||
+  manifest.externalAudienceLaunchReadiness?.independentHumanLaunchAuthorizationRequired !== true ||
+  manifest.externalAudienceLaunchReadiness?.appendOnlyReferenceContracts !== true ||
+  manifest.externalAudienceLaunchReadiness?.publicSignupEnabled !== false ||
+  manifest.externalAudienceLaunchReadiness?.unrestrictedDiscoveryEnabled !== false ||
+  manifest.externalAudienceLaunchReadiness?.automatedTesterProvisioningEnabled !== false ||
+  manifest.externalAudienceLaunchReadiness?.externalAudienceActivationEnabled !== false ||
+  manifest.externalAudienceLaunchReadiness?.liveProviderConnectivityEnabled !== false ||
+  manifest.externalAudienceLaunchReadiness?.productionCredentialStorageEnabled !== false ||
+  manifest.externalAudienceLaunchReadiness?.productionPayloadIntakeEnabled !== false ||
+  manifest.externalAudienceLaunchReadiness?.unrestrictedCustomerDataCollectionEnabled !== false ||
+  manifest.externalAudienceLaunchReadiness?.autonomousPublicationEnabled !== false ||
+  manifest.externalAudienceLaunchReadiness?.modelTrainingEnabled !== false ||
+  manifest.externalAudienceLaunchReadiness?.liveOrderRoutingEnabled !== false ||
+  manifest.externalAudienceLaunchReadiness?.paymentExecutionEnabled !== false ||
+  manifest.externalAudienceLaunchReadiness?.moneyMovementEnabled !== false ||
+  manifest.externalAudienceLaunchReadiness?.custodyEnabled !== false ||
+  manifest.externalAudienceLaunchReadiness?.settlementEnabled !== false
+) throw new Error('Deployed external audience launch-readiness boundary is incomplete or unsafe.')
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||
