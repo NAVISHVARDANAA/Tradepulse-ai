@@ -84,7 +84,7 @@ for (const copy of [
 assert(app.includes("activeHref === '#global-events'"), 'Application omits the Phase 8F route')
 assert(app.includes("import('./components/GlobalEventIntelligencePanel')"), 'Global event workspace is not deferred')
 assert(navigation.includes("href: '#global-events'"), 'Product navigation omits global events')
-assert(header.includes("title: 'Global event impact engine'"), 'Page header omits global event copy')
+assert(header.includes(", 'Global event impact engine',"), 'Page header omits global event copy')
 assert(browserTest.includes("page.goto('/#global-events')"), 'Controlled-beta browser test omits Phase 8F')
 assert(productionTest.includes("'#global-events'"), 'Production browser test omits Phase 8F')
 
@@ -99,8 +99,8 @@ for (const integration of [
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.globalEventIntelligence
-assert(manifest.phase === '8U', 'Release manifest is not Phase 8F')
-assert(manifest.status === 'external_audience_launch_readiness_candidate', 'Release status is not the Phase 8F candidate')
+assert(manifest.phase === '8V', 'Release manifest is not Phase 8F')
+assert(manifest.status === 'licensed_live_data_integration_candidate', 'Release status is not the Phase 8F candidate')
 assert(packageJson.scripts?.['check:global-event-intelligence'], 'Package scripts omit the Phase 8F check')
 assert(manifest.requiredChecks.includes('check:global-event-intelligence'), 'Manifest omits the Phase 8F check')
 for (const capability of [
@@ -124,9 +124,9 @@ assert(release?.causalImpactEdgeCount === 9, 'Phase 8F causal edge count changed
 assert(release?.terminalScenarioCount === 6, 'Phase 8F terminal scenario count changed')
 
 for (const [workflow, confirmation] of [
-  [deployData, 'DEPLOY_DATA_PHASE_8U'], [verifyData, 'VERIFY_DATA_PHASE_8U'],
-  [buildWeb, 'BUILD_PHASE_8U'], [deployWeb, 'DEPLOY_PHASE_8U'],
-  [verifyWeb, 'VERIFY_WEB_PHASE_8U'],
+  [deployData, 'DEPLOY_DATA_PHASE_8V'], [verifyData, 'VERIFY_DATA_PHASE_8V'],
+  [buildWeb, 'BUILD_PHASE_8V'], [deployWeb, 'DEPLOY_PHASE_8V'],
+  [verifyWeb, 'VERIFY_WEB_PHASE_8V'],
 ]) assert(workflow.includes(confirmation), `Workflow omits ${confirmation}`)
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
   assert(workflow.includes('check:global-event-intelligence'), 'A web gate omits the Phase 8F check')

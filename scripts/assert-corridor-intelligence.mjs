@@ -72,7 +72,7 @@ for (const contract of [
 
 assert(app.includes('getPaymentCorridorIntelligence'), 'Application omits corridor intelligence loading')
 assert(navigation.includes("label: 'Payment readiness'"), 'Current payments navigation is missing')
-assert(header.includes("title: 'Money movement readiness'"), 'Current payments page header is missing')
+assert(header.includes(", 'Money movement readiness',"), 'Current payments page header is missing')
 assert(styles.includes('.corridor-route-grid'), 'Corridor intelligence styles are missing')
 assert(databaseTest.includes('select plan(53)'), 'Corridor database contract count changed')
 assert(productionSmoke.includes('A payment execution or money-movement path unexpectedly exists'), 'Production payment lock guard is missing')
@@ -81,8 +81,8 @@ assert(productionBrowserTest.includes("['#payments', 'Money movement readiness']
 
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
-assert(manifest.phase === '8U', 'Release manifest is not Phase 8D')
-assert(manifest.status === 'external_audience_launch_readiness_candidate', 'Release status is not the global venue and instrument intelligence candidate')
+assert(manifest.phase === '8V', 'Release manifest is not Phase 8D')
+assert(manifest.status === 'licensed_live_data_integration_candidate', 'Release status is not the global venue and instrument intelligence candidate')
 for (const [key, expected] of Object.entries({
   workspaceEnabled: true,
   routeModelCount: 8,
@@ -108,11 +108,11 @@ assert(manifest.requiredChecks.includes('check:corridor-intelligence'), 'Manifes
 assert(packageJson.scripts?.['check:corridor-intelligence'], 'Package corridor intelligence check is missing')
 
 for (const [workflow, contract] of [
-  [deployData, 'DEPLOY_DATA_PHASE_8U'],
-  [verifyData, 'VERIFY_DATA_PHASE_8U'],
-  [buildWeb, 'BUILD_PHASE_8U'],
-  [deployWeb, 'DEPLOY_PHASE_8U'],
-  [verifyWeb, 'VERIFY_WEB_PHASE_8U'],
+  [deployData, 'DEPLOY_DATA_PHASE_8V'],
+  [verifyData, 'VERIFY_DATA_PHASE_8V'],
+  [buildWeb, 'BUILD_PHASE_8V'],
+  [deployWeb, 'DEPLOY_PHASE_8V'],
+  [verifyWeb, 'VERIFY_WEB_PHASE_8V'],
 ]) assert(workflow.includes(contract), `Release workflow omits ${contract}`)
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
   assert(workflow.includes('check:corridor-intelligence'), 'A web gate omits corridor intelligence')

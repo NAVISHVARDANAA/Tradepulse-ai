@@ -80,7 +80,7 @@ for (const contract of [
 
 assert(app.includes('getPaymentComplianceRequirements'), 'Application omits compliance orchestration loading')
 assert(navigation.includes("label: 'Payment readiness'"), 'Navigation omits payment compliance')
-assert(header.includes("title: 'Money movement readiness'"), 'Page header omits payment compliance orchestration')
+assert(header.includes(", 'Money movement readiness',"), 'Page header omits payment compliance orchestration')
 assert(styles.includes('.compliance-stage-grid'), 'Compliance orchestration styles are missing')
 assert(databaseTest.includes('select plan(67)'), 'Compliance orchestration database contract count changed')
 assert(productionSmoke.includes('A real compliance clearance, identity collection or payment execution path unexpectedly exists'), 'Production compliance lock guard is missing')
@@ -90,8 +90,8 @@ assert(productionBrowserTest.includes("['#payments', 'Money movement readiness']
 
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
-assert(manifest.phase === '8U', 'Release manifest is not Phase 8D')
-assert(manifest.status === 'external_audience_launch_readiness_candidate', 'Release status is not the global venue and instrument intelligence candidate')
+assert(manifest.phase === '8V', 'Release manifest is not Phase 8D')
+assert(manifest.status === 'licensed_live_data_integration_candidate', 'Release status is not the global venue and instrument intelligence candidate')
 for (const [key, expected] of Object.entries({
   workspaceEnabled: true,
   syntheticCaseRehearsalOnly: true,
@@ -125,11 +125,11 @@ assert(manifest.requiredChecks.includes('check:compliance-orchestration'), 'Mani
 assert(packageJson.scripts?.['check:compliance-orchestration'], 'Package compliance orchestration check is missing')
 
 for (const [workflow, contract] of [
-  [deployData, 'DEPLOY_DATA_PHASE_8U'],
-  [verifyData, 'VERIFY_DATA_PHASE_8U'],
-  [buildWeb, 'BUILD_PHASE_8U'],
-  [deployWeb, 'DEPLOY_PHASE_8U'],
-  [verifyWeb, 'VERIFY_WEB_PHASE_8U'],
+  [deployData, 'DEPLOY_DATA_PHASE_8V'],
+  [verifyData, 'VERIFY_DATA_PHASE_8V'],
+  [buildWeb, 'BUILD_PHASE_8V'],
+  [deployWeb, 'DEPLOY_PHASE_8V'],
+  [verifyWeb, 'VERIFY_WEB_PHASE_8V'],
 ]) assert(workflow.includes(contract), `Release workflow omits ${contract}`)
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
   assert(workflow.includes('check:compliance-orchestration'), 'A web gate omits compliance orchestration')

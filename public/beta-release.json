@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "8U",
-  "status": "external_audience_launch_readiness_candidate",
+  "phase": "8V",
+  "status": "licensed_live_data_integration_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -59,7 +59,8 @@
       "globalProviderDecisionRecovery",
       "globalProviderActivationReadiness",
       "globalProviderActivationRehearsal",
-      "externalAudienceLaunchReadiness"
+      "externalAudienceLaunchReadiness",
+      "licensedLiveDataIntegration"
     ]
   },
   "trustLayer": {
@@ -121,6 +122,7 @@
     "check:global-provider-activation-readiness",
     "check:global-provider-activation-rehearsal",
     "check:external-audience-launch-readiness",
+    "check:licensed-live-data-integration",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -157,7 +159,8 @@
     "global-provider-recovery-exception-freeze-rollback-and-revocation-approval",
     "global-provider-activation-authorization-change-window-abort-restoration-and-verification-approval",
     "global-provider-activation-rehearsal-isolation-egress-synthetic-secrets-observability-recovery-and-closeout-approval",
-    "external-audience-domain-identity-legal-support-monitoring-data-rights-capacity-rollback-and-cohort-approval"
+    "external-audience-domain-identity-legal-support-monitoring-data-rights-capacity-rollback-and-cohort-approval",
+    "licensed-live-data-rights-entitlements-security-mapping-quality-resilience-operations-canary-rollback-and-independent-approval"
   ],
   "betaHardening": {
     "workspaceEnabled": true,
@@ -914,6 +917,39 @@
     "unrestrictedCustomerDataCollectionEnabled": false,
     "autonomousPublicationEnabled": false,
     "modelTrainingEnabled": false,
+    "liveOrderRoutingEnabled": false,
+    "paymentExecutionEnabled": false,
+    "moneyMovementEnabled": false,
+    "custodyEnabled": false,
+    "settlementEnabled": false
+  },
+  "licensedLiveDataIntegration": {
+    "workspaceEnabled": true,
+    "feedClassCount": 8,
+    "integrationGateCount": 8,
+    "integrationStateCount": 7,
+    "readinessCellCount": 64,
+    "blockedReadinessCellCount": 64,
+    "authorizedReadinessCellCount": 0,
+    "executedDataLicenseRequired": true,
+    "permittedDisplayAndDerivedUseRequired": true,
+    "jurisdictionAndAudienceEntitlementsRequired": true,
+    "credentialVaultAndEgressControlsRequired": true,
+    "schemaIdentityAndCorporateActionMappingRequired": true,
+    "freshnessClockQualityAndGapControlsRequired": true,
+    "quotaBackpressureReplayAndFailoverRequired": true,
+    "observabilityCostIncidentAndRollbackRequired": true,
+    "independentHumanIntegrationAuthorizationRequired": true,
+    "appendOnlyReferenceContracts": true,
+    "providerSelected": false,
+    "liveProviderConnectivityEnabled": false,
+    "productionCredentialStorageEnabled": false,
+    "productionPayloadIntakeEnabled": false,
+    "liveDataDisplayEnabled": false,
+    "derivedDataPublicationEnabled": false,
+    "modelTrainingEnabled": false,
+    "externalAudienceActivationEnabled": false,
+    "publicSignupEnabled": false,
     "liveOrderRoutingEnabled": false,
     "paymentExecutionEnabled": false,
     "moneyMovementEnabled": false,

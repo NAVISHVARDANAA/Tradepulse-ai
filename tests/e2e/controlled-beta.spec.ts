@@ -657,6 +657,58 @@ async function mockGuestBackend(page: Page) {
         financial_execution_effect: false, release_effect: false, production_effect: false,
       }]) }); return
     }
+    if (path === '/rest/v1/licensed_live_data_integration_status') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+        control_key: 'licensed-live-data-integration-controls',
+        policy_version: 'licensed-live-data-integration-controls-v1',
+        feed_class_count: 8, integration_gate_count: 8, integration_state_count: 7,
+        readiness_cell_count: 64, blocked_readiness_cell_count: 64,
+        authorized_readiness_cell_count: 0,
+      }) }); return
+    }
+    if (path === '/rest/v1/licensed_live_data_state_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, state_key: 'integration_not_requested',
+        display_name: 'Integration not requested',
+        state_definition: 'No licensed live-data integration request or provider selection exists; credentials, payloads, display and every production effect remain unavailable.',
+        provider_present: false, real_evidence_present: false,
+        automatic_transition_enabled: false, human_integration_authorization_required: true,
+        credential_access_effect: false, payload_intake_effect: false,
+        live_display_effect: false, production_effect: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/licensed_live_data_feed_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, feed_key: 'instrument_reference_master',
+        display_name: 'Instrument reference master',
+        feed_definition: 'Canonical instrument, listing, identifier, currency and lifecycle records require licensed source rights and deterministic identity reconciliation.',
+        availability_status: 'unavailable', provider_selected: false,
+        rights_evidence_present: false, credential_present: false,
+        real_payload_present: false, live_display_enabled: false, production_effect: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/licensed_live_data_gate_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, sequence_number: 1, gate_key: 'executed_license_and_permitted_use_verified',
+        integration_domain: 'legal', display_name: 'License and permitted use verified',
+        gate_definition: 'Require executed terms for the exact product, venue, field, display, derivation, redistribution, retention, audit, model-use and termination rights.',
+        gate_status: 'unmet', real_evidence_present: false,
+        reviewer_assigned: false, human_authorized: false,
+      }]) }); return
+    }
+    if (path === '/rest/v1/licensed_live_data_readiness_catalog') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([{
+        id: 1, feed_key: 'instrument_reference_master', feed_sequence_number: 1,
+        feed_name: 'Instrument reference master',
+        gate_key: 'executed_license_and_permitted_use_verified', gate_sequence_number: 1,
+        gate_name: 'License and permitted use verified', integration_domain: 'legal',
+        readiness_status: 'blocked', human_authorized: false,
+        credential_access_effect: false, provider_egress_effect: false,
+        payload_intake_effect: false, live_display_effect: false, audience_effect: false,
+        publication_effect: false, financial_execution_effect: false,
+        release_effect: false, production_effect: false,
+      }]) }); return
+    }
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -738,7 +790,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(48)
+  await expect(navigation.getByRole('link')).toHaveCount(49)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -900,6 +952,14 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByText('Seven manual launch states')).toBeVisible()
   await expect(page.getByText(/Phase 8U is production launch-readiness scaffolding, not public launch authorization/)).toBeVisible()
   await expect(page.getByRole('button', { name: /launch|activate|approve|provision|signup|connect|publish|train|trade|pay|move|settle/i })).toHaveCount(0)
+
+  await page.goto('/#licensed-live-data')
+  await expect(page.getByRole('heading', { level: 1, name: 'Licensed live-data integration' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Licensed live-data integration' })).toBeVisible()
+  await expect(page.getByText('No licensed live-data provider is connected in Phase 8V')).toBeVisible()
+  await expect(page.getByText('Seven manual integration states')).toBeVisible()
+  await expect(page.getByText(/Phase 8V is licensed live-data integration scaffolding, not a provider connection or real-user beta/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /connect|credential|intake|display|publish|activate|approve|trade|pay|move|settle/i })).toHaveCount(0)
 
   await page.goto('/#live-rollout')
   await expect(page.getByRole('heading', { level: 1, name: 'Controlled live rollout' })).toBeVisible()

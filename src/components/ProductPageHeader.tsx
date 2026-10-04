@@ -2,302 +2,58 @@ import { Layers3, ShieldCheck } from 'lucide-react'
 
 import type { ProductHref } from './ProductNavigation'
 
-type PageCopy = {
-  eyebrow: string
-  title: string
-  description: string
-  boundary: string
-}
+type PageCopy = [eyebrow: string, title: string, description: string, boundary: string]
 
 const pageCopy: Record<string, PageCopy> = {
-  '#dashboard': {
-    eyebrow: 'Executive dashboard',
-    title: 'One platform. Focused workspaces.',
-    description: 'Start with a concise operating view, then open the dedicated research, forecasting, simulation, risk or account workspace you need.',
-    boundary: 'Evidence-led decisions',
-  },
-  '#system-status': {
-    eyebrow: 'Platform operations',
-    title: 'Production reliability',
-    description: 'Inspect customer-facing service health, reliability evidence and the current operational state without mixing it into research reports.',
-    boundary: 'Safeguards remain active',
-  },
-  '#data-trust': {
-    eyebrow: 'Data governance',
-    title: 'Data trust and notifications',
-    description: 'Review freshness, completeness and duplicate checks, then manage private notification preferences.',
-    boundary: 'Evidence before alerts',
-  },
-  '#trust-center': {
-    eyebrow: 'Customer trust layer',
-    title: 'Trust and activity center',
-    description: 'Verify decision evidence, review reliability alerts and inspect a private local activity trail before taking the next step.',
-    boundary: 'Verify before acting',
-  },
-  '#analytics-studio': {
-    eyebrow: 'Enterprise decision intelligence',
-    title: 'Governed Analytics Studio',
-    description: 'Explore reusable semantic KPIs with slicers, cross-filtering, drill-through, saved views, export and visible source lineage.',
-    boundary: 'Certified metrics',
-  },
-  '#agentic-ai': {
-    eyebrow: 'Personal agentic intelligence',
-    title: 'TradePulse Agent workspace',
-    description: 'Coordinate grounded market, news, forecast and risk agents, then save account-level analysis and reusable report designs.',
-    boundary: 'Human-governed · no execution',
-  },
-  '#global-events': {
-    eyebrow: 'Global event intelligence',
-    title: 'Global event impact engine',
-    description: 'Trace authenticated country, commodity, currency and logistics events through probabilistic causal paths with explicit evidence gaps.',
-    boundary: 'Scenarios—not predictions of certainty',
-  },
-  '#evidence-operations': {
-    eyebrow: 'Global evidence governance',
-    title: 'Evidence operations',
-    description: 'Inspect how candidate source lanes, claim-specific corroboration and human review would protect the event engine before any external feed is connected.',
-    boundary: 'No connected sources · no publication',
-  },
-  '#country-coverage': {
-    eyebrow: 'World intelligence coverage',
-    title: 'Global country coverage fabric',
-    description: 'Inspect one consistent evidence checklist across 195 sovereign-state references and eight intelligence domains without hiding missing facts.',
-    boundary: 'Reference identity · evidence gaps visible',
-  },
-  '#dependency-intelligence': {
-    eyebrow: 'Global dependency intelligence',
-    title: 'Global dependency and transmission fabric',
-    description: 'Inspect the evidence contracts and mechanism templates required before country, commodity, logistics, currency or policy relationships can support an impact scenario.',
-    boundary: 'No inferred links · no impact score',
-  },
-  '#observation-intake': {
-    eyebrow: 'Global observation provenance',
-    title: 'Observation intake and quarantine',
-    description: 'Inspect the source, normalization, temporal, rights and human-review contracts required before a future observation may leave quarantine.',
-    boundary: 'No connected providers · no released data',
-  },
-  '#provider-certification': {
-    eyebrow: 'Provider certification readiness',
-    title: 'Provider certification and isolation',
-    description: 'Inspect the legal, rights, privacy, security, schema and failure-drill evidence required before a future provider may enter a bounded test environment.',
-    boundary: 'No selected provider · no endpoint test',
-  },
-  '#provider-contract-tests': {
-    eyebrow: 'Provider contract readiness',
-    title: 'Provider contract test laboratory',
-    description: 'Inspect provider-neutral conformance assertions and deterministic synthetic fixture specifications before any provider-specific adapter may be tested.',
-    boundary: 'Specifications only · no provider payload',
-  },
-  '#provider-candidate-review': {
-    eyebrow: 'Provider evidence governance',
-    title: 'Provider candidate evidence review',
-    description: 'Inspect the legal, rights, privacy, security, schema, test and operational evidence required before a provider-specific conformance review may be opened.',
-    boundary: 'No selected candidate · no evidence submission',
-  },
-  '#provider-review-governance': {
-    eyebrow: 'Provider review governance',
-    title: 'Provider review authority and evidence custody',
-    description: 'Inspect the independent roles, separation of duties and sealed-evidence lifecycle required before a real provider candidate can be evaluated.',
-    boundary: 'No assigned reviewer · no evidence custody',
-  },
-  '#provider-review-decisions': {
-    eyebrow: 'Provider decision governance',
-    title: 'Provider review decisions and audit controls',
-    description: 'Inspect the human-only decision states, mandatory gates and immutable audit requirements needed before a bounded provider review could be authorized.',
-    boundary: 'No decision · no approval · no activation',
-  },
-  '#provider-decision-recovery': {
-    eyebrow: 'Provider recovery governance',
-    title: 'Provider decision recovery and revocation controls',
-    description: 'Inspect the fail-closed triggers, manual recovery states and rollback requirements needed before a future provider decision could be challenged or withdrawn.',
-    boundary: 'No event · no freeze · no rollback',
-  },
-  '#provider-activation-readiness': {
-    eyebrow: 'Provider activation governance',
-    title: 'Provider activation authorization and change controls',
-    description: 'Inspect the human authorization, bounded change window, restoration and verification requirements needed before a future provider could be activated.',
-    boundary: 'No provider · no endpoint · no activation',
-  },
-  '#provider-activation-rehearsal': {
-    eyebrow: 'Provider rehearsal governance',
-    title: 'Provider activation rehearsal and rollback verification',
-    description: 'Inspect the isolation, synthetic-input, observability, abort, restoration and closeout controls required before a provider-specific rehearsal could be authorized.',
-    boundary: 'No egress · no credentials · no rehearsal',
-  },
-  '#audience-launch-readiness': {
-    eyebrow: 'Production launch foundation',
-    title: 'External audience launch readiness',
-    description: 'Inspect the domain, identity, legal, support, monitoring, data-rights, capacity and rollback evidence required before a bounded real-user beta.',
-    boundary: 'No public signup · no audience activation · no financial execution',
-  },
-  '#global-access': {
-    eyebrow: 'Global market intelligence',
-    title: 'Venue and instrument access map',
-    description: 'Compare canonical venue identities, reference listings, market-data rights, calendar evidence and hypothetical residency outcomes.',
-    boundary: 'Research only · no routing',
-  },
-  '#stock-research': {
-    eyebrow: 'Global equity research',
-    title: 'Interactive stock intelligence',
-    description: 'Filter licensed coverage, compare research scores, inspect price history and drill into the evidence behind each classification.',
-    boundary: 'Research—not advice',
-  },
-  '#research-copilot': {
-    eyebrow: 'AI research workflow',
-    title: 'Private research copilot',
-    description: 'Build evidence-linked watchlists, research alerts and daily briefs in a dedicated customer workspace.',
-    boundary: 'Private and evidence linked',
-  },
-  '#business-research': {
-    eyebrow: 'Team intelligence',
-    title: 'Shared research library',
-    description: 'Organize team research, evidence and reviewable viewpoints without creating an execution instruction.',
-    boundary: 'Role protected',
-  },
-  '#academy': {
-    eyebrow: 'TradePulse Academy',
-    title: 'Learn the product and its risks',
-    description: 'Follow guided lessons, knowledge checks and contextual learning without leaving the education workspace.',
-    boundary: 'Education—not advice',
-  },
-  '#markets': {
-    eyebrow: 'Market intelligence',
-    title: 'Synchronized markets dashboard',
-    description: 'Explore current market snapshots and interactive global trade trends on one reporting canvas.',
-    boundary: 'Source timestamps visible',
-  },
-  '#forecasts': {
-    eyebrow: 'Machine-learning intelligence',
-    title: 'Forecast governance dashboard',
-    description: 'Filter qualified probabilistic forecasts, compare model reliability and inspect uncertainty separately from the main dashboard.',
-    boundary: 'Decision support only',
-  },
-  '#trade-data': {
-    eyebrow: 'Country intelligence',
-    title: 'Cross-border trade report',
-    description: 'Compare exports, imports, trade balance and growth across synchronized country observations.',
-    boundary: 'Verified periods only',
-  },
-  '#paper-investing': {
-    eyebrow: 'Simulation workspace',
-    title: 'Paper investing lab',
-    description: 'Create private virtual portfolios, record theses and test risk-controlled decisions without reaching a broker.',
-    boundary: 'No real funds',
-  },
-  '#international-paper': {
-    eyebrow: 'International simulation',
-    title: 'International paper trading lab',
-    description: 'Rehearse multi-currency, venue-aware equity and ETF orders with deterministic prices, explicit costs, settlement dates and balanced journals.',
-    boundary: 'Simulation only · no broker',
-  },
-  '#options-paper': {
-    eyebrow: 'Options education',
-    title: 'Defined-risk options paper lab',
-    description: 'Learn long options and protected debit spreads through deterministic chains, payoff diagrams, Greeks and lifecycle simulations.',
-    boundary: 'Education only · no options permission',
-  },
-  '#brokerage-custody': {
-    eyebrow: 'Global regulated orchestration',
-    title: 'Brokerage and custody control plane',
-    description: 'Review exact launch matrices, identity-bound onboarding requirements, transparent cost rehearsals and independent reconciliation gaps.',
-    boundary: 'Activation blocked · no partners',
-  },
-  '#risk-command-center': {
-    eyebrow: 'Portfolio controls',
-    title: 'Risk command center',
-    description: 'Analyze exposure, concentration, drawdown, scenarios and reconciliation in a dedicated risk workspace.',
-    boundary: 'Monitoring—not permission',
-  },
-  '#brokerage-readiness': {
-    eyebrow: 'Regulated execution runway',
-    title: 'Brokerage readiness',
-    description: 'Review provider health, certification evidence and non-executable readiness previews while routing remains locked.',
-    boundary: 'Live orders hard locked',
-  },
-  '#regulated-preflight': {
-    eyebrow: 'Regulated trading preflight',
-    title: 'Preflight evidence review',
-    description: 'Review eligibility, disclosures, suitability, market/reference state, cost availability and bounded risk evidence before any future regulated order flow.',
-    boundary: 'No order submission',
-  },
-  '#sandbox-orders': {
-    eyebrow: 'Partner sandbox operations',
-    title: 'Sandbox order lifecycle',
-    description: 'Inspect customer-scoped, append-only evidence for protected partner-sandbox submit, cancel, replace and reconciliation activity.',
-    boundary: 'No browser or live route',
-  },
-  '#live-readiness': {
-    eyebrow: 'Regulated activation governance',
-    title: 'Live trading readiness',
-    description: 'Track sanitized written-approval evidence across jurisdiction, broker, compliance, money, risk, operations and customer-protection gates.',
-    boundary: 'Activation remains blocked',
-  },
-  '#live-rollout': {
-    eyebrow: 'Controlled international rollout',
-    title: 'Controlled live rollout',
-    description: 'Inspect exact cash-equity candidates, conservative limits, independent approval gaps and rollback evidence.',
-    boundary: 'Zero live cohorts · approval required',
-  },
-  '#payments': {
-    eyebrow: 'Cross-border payment operations',
-    title: 'Money movement readiness',
-    description: 'Inspect corridor-specific legal, partner, safeguarding, compliance, security and operating requirements before reviewing synthetic transfer controls.',
-    boundary: 'Activation blocked · no transfers',
-  },
-  '#business-workspace': {
-    eyebrow: 'Business administration',
-    title: 'Team workspace',
-    description: 'Manage bounded organization access, roles and invitations inside TradePulse AI.',
-    boundary: 'Exact-email invitations',
-  },
-  '#plans': {
-    eyebrow: 'Plans and capacity',
-    title: 'Product entitlements',
-    description: 'Compare transparent product limits and capacity without activating checkout or charging a customer.',
-    boundary: 'Checkout locked',
-  },
-  '#customer-support': {
-    eyebrow: 'Customer success',
-    title: 'Support and feedback',
-    description: 'Submit private product feedback and support requests, then track their references and status.',
-    boundary: 'Private customer record',
-  },
-  '#account-security': {
-    eyebrow: 'Account protection',
-    title: 'Security center',
-    description: 'Manage passwordless access, authenticator verification, protected sessions and private security history.',
-    boundary: 'Identity required',
-  },
-  '#beta-operations': {
-    eyebrow: 'Controlled-beta operations',
-    title: 'Beta launch center',
-    description: 'Follow approved onboarding, private account checks, customer-controlled notifications and evidence-linked support from one focused workspace.',
-    boundary: 'Invite-only access',
-  },
-  '#approved-pilot': {
-    eyebrow: 'Approved tester pilot',
-    title: 'Private pilot workspace',
-    description: 'Accept the current pilot agreement, follow bounded evaluation missions and use staffed feedback or incident escalation.',
-    boundary: 'Manual approval required',
-  },
-  '#beta-hardening': {
-    eyebrow: 'Controlled-beta closure',
-    title: 'Beta hardening center',
-    description: 'Exercise customer-safe recovery, accessibility and performance checks before recording release-readiness evidence.',
-    boundary: 'Review only · no activation',
-  },
-  '#customer-privacy': {
-    eyebrow: 'Privacy controls',
-    title: 'Data control center',
-    description: 'Choose optional data uses and exercise account rights through an auditable, identity-bound workflow.',
-    boundary: 'Private by default',
-  },
-  '#customer-experience': {
-    eyebrow: 'Personal settings',
-    title: 'Experience preferences',
-    description: 'Configure theme, density, accessibility and installation preferences for this device and account.',
-    boundary: 'Customer controlled',
-  },
+  '#dashboard': ['Executive dashboard', 'One platform. Focused workspaces.', 'Start with a concise operating view, then open the dedicated research, forecasting, simulation, risk or account workspace you need.', 'Evidence-led decisions'],
+  '#system-status': ['Platform operations', 'Production reliability', 'Inspect customer-facing service health, reliability evidence and the current operational state without mixing it into research reports.', 'Safeguards remain active'],
+  '#data-trust': ['Data governance', 'Data trust and notifications', 'Review freshness, completeness and duplicate checks, then manage private notification preferences.', 'Evidence before alerts'],
+  '#trust-center': ['Customer trust layer', 'Trust and activity center', 'Verify decision evidence, review reliability alerts and inspect a private local activity trail before taking the next step.', 'Verify before acting'],
+  '#analytics-studio': ['Enterprise decision intelligence', 'Governed Analytics Studio', 'Explore reusable semantic KPIs with slicers, cross-filtering, drill-through, saved views, export and visible source lineage.', 'Certified metrics'],
+  '#agentic-ai': ['Personal agentic intelligence', 'TradePulse Agent workspace', 'Coordinate grounded market, news, forecast and risk agents, then save account-level analysis and reusable report designs.', 'Human-governed · no execution'],
+  '#global-events': ['Global event intelligence', 'Global event impact engine', 'Trace authenticated country, commodity, currency and logistics events through probabilistic causal paths with explicit evidence gaps.', 'Scenarios—not predictions of certainty'],
+  '#evidence-operations': ['Global evidence governance', 'Evidence operations', 'Inspect how candidate source lanes, claim-specific corroboration and human review would protect the event engine before any external feed is connected.', 'No connected sources · no publication'],
+  '#country-coverage': ['World intelligence coverage', 'Global country coverage fabric', 'Inspect one consistent evidence checklist across 195 sovereign-state references and eight intelligence domains without hiding missing facts.', 'Reference identity · evidence gaps visible'],
+  '#dependency-intelligence': ['Global dependency intelligence', 'Global dependency and transmission fabric', 'Inspect the evidence contracts and mechanism templates required before country, commodity, logistics, currency or policy relationships can support an impact scenario.', 'No inferred links · no impact score'],
+  '#observation-intake': ['Global observation provenance', 'Observation intake and quarantine', 'Inspect the source, normalization, temporal, rights and human-review contracts required before a future observation may leave quarantine.', 'No connected providers · no released data'],
+  '#provider-certification': ['Provider certification readiness', 'Provider certification and isolation', 'Inspect the legal, rights, privacy, security, schema and failure-drill evidence required before a future provider may enter a bounded test environment.', 'No selected provider · no endpoint test'],
+  '#provider-contract-tests': ['Provider contract readiness', 'Provider contract test laboratory', 'Inspect provider-neutral conformance assertions and deterministic synthetic fixture specifications before any provider-specific adapter may be tested.', 'Specifications only · no provider payload'],
+  '#provider-candidate-review': ['Provider evidence governance', 'Provider candidate evidence review', 'Inspect the legal, rights, privacy, security, schema, test and operational evidence required before a provider-specific conformance review may be opened.', 'No selected candidate · no evidence submission'],
+  '#provider-review-governance': ['Provider review governance', 'Provider review authority and evidence custody', 'Inspect the independent roles, separation of duties and sealed-evidence lifecycle required before a real provider candidate can be evaluated.', 'No assigned reviewer · no evidence custody'],
+  '#provider-review-decisions': ['Provider decision governance', 'Provider review decisions and audit controls', 'Inspect the human-only decision states, mandatory gates and immutable audit requirements needed before a bounded provider review could be authorized.', 'No decision · no approval · no activation'],
+  '#provider-decision-recovery': ['Provider recovery governance', 'Provider decision recovery and revocation controls', 'Inspect the fail-closed triggers, manual recovery states and rollback requirements needed before a future provider decision could be challenged or withdrawn.', 'No event · no freeze · no rollback'],
+  '#provider-activation-readiness': ['Provider activation governance', 'Provider activation authorization and change controls', 'Inspect the human authorization, bounded change window, restoration and verification requirements needed before a future provider could be activated.', 'No provider · no endpoint · no activation'],
+  '#provider-activation-rehearsal': ['Provider rehearsal governance', 'Provider activation rehearsal and rollback verification', 'Inspect the isolation, synthetic-input, observability, abort, restoration and closeout controls required before a provider-specific rehearsal could be authorized.', 'No egress · no credentials · no rehearsal'],
+  '#audience-launch-readiness': ['Production launch foundation', 'External audience launch readiness', 'Inspect the domain, identity, legal, support, monitoring, data-rights, capacity and rollback evidence required before a bounded real-user beta.', 'No public signup · no audience activation · no financial execution'],
+  '#licensed-live-data': ['Live data', 'Licensed live-data integration', 'Review integration evidence before connecting market data.', 'No provider or payload'],
+  '#global-access': ['Global market intelligence', 'Venue and instrument access map', 'Compare canonical venue identities, reference listings, market-data rights, calendar evidence and hypothetical residency outcomes.', 'Research only · no routing'],
+  '#stock-research': ['Global equity research', 'Interactive stock intelligence', 'Filter licensed coverage, compare research scores, inspect price history and drill into the evidence behind each classification.', 'Research—not advice'],
+  '#research-copilot': ['AI research workflow', 'Private research copilot', 'Build evidence-linked watchlists, research alerts and daily briefs in a dedicated customer workspace.', 'Private and evidence linked'],
+  '#business-research': ['Team intelligence', 'Shared research library', 'Organize team research, evidence and reviewable viewpoints without creating an execution instruction.', 'Role protected'],
+  '#academy': ['TradePulse Academy', 'Learn the product and its risks', 'Follow guided lessons, knowledge checks and contextual learning without leaving the education workspace.', 'Education—not advice'],
+  '#markets': ['Market intelligence', 'Synchronized markets dashboard', 'Explore current market snapshots and interactive global trade trends on one reporting canvas.', 'Source timestamps visible'],
+  '#forecasts': ['Machine-learning intelligence', 'Forecast governance dashboard', 'Filter qualified probabilistic forecasts, compare model reliability and inspect uncertainty separately from the main dashboard.', 'Decision support only'],
+  '#trade-data': ['Country intelligence', 'Cross-border trade report', 'Compare exports, imports, trade balance and growth across synchronized country observations.', 'Verified periods only'],
+  '#paper-investing': ['Simulation workspace', 'Paper investing lab', 'Create private virtual portfolios, record theses and test risk-controlled decisions without reaching a broker.', 'No real funds'],
+  '#international-paper': ['International simulation', 'International paper trading lab', 'Rehearse multi-currency, venue-aware equity and ETF orders with deterministic prices, explicit costs, settlement dates and balanced journals.', 'Simulation only · no broker'],
+  '#options-paper': ['Options education', 'Defined-risk options paper lab', 'Learn long options and protected debit spreads through deterministic chains, payoff diagrams, Greeks and lifecycle simulations.', 'Education only · no options permission'],
+  '#brokerage-custody': ['Global regulated orchestration', 'Brokerage and custody control plane', 'Review exact launch matrices, identity-bound onboarding requirements, transparent cost rehearsals and independent reconciliation gaps.', 'Activation blocked · no partners'],
+  '#risk-command-center': ['Portfolio controls', 'Risk command center', 'Analyze exposure, concentration, drawdown, scenarios and reconciliation in a dedicated risk workspace.', 'Monitoring—not permission'],
+  '#brokerage-readiness': ['Regulated execution runway', 'Brokerage readiness', 'Review provider health, certification evidence and non-executable readiness previews while routing remains locked.', 'Live orders hard locked'],
+  '#regulated-preflight': ['Regulated trading preflight', 'Preflight evidence review', 'Review eligibility, disclosures, suitability, market/reference state, cost availability and bounded risk evidence before any future regulated order flow.', 'No order submission'],
+  '#sandbox-orders': ['Partner sandbox operations', 'Sandbox order lifecycle', 'Inspect customer-scoped, append-only evidence for protected partner-sandbox submit, cancel, replace and reconciliation activity.', 'No browser or live route'],
+  '#live-readiness': ['Regulated activation governance', 'Live trading readiness', 'Track sanitized written-approval evidence across jurisdiction, broker, compliance, money, risk, operations and customer-protection gates.', 'Activation remains blocked'],
+  '#live-rollout': ['Controlled international rollout', 'Controlled live rollout', 'Inspect exact cash-equity candidates, conservative limits, independent approval gaps and rollback evidence.', 'Zero live cohorts · approval required'],
+  '#payments': ['Cross-border payment operations', 'Money movement readiness', 'Inspect corridor-specific legal, partner, safeguarding, compliance, security and operating requirements before reviewing synthetic transfer controls.', 'Activation blocked · no transfers'],
+  '#business-workspace': ['Business administration', 'Team workspace', 'Manage bounded organization access, roles and invitations inside TradePulse AI.', 'Exact-email invitations'],
+  '#plans': ['Plans and capacity', 'Product entitlements', 'Compare transparent product limits and capacity without activating checkout or charging a customer.', 'Checkout locked'],
+  '#customer-support': ['Customer success', 'Support and feedback', 'Submit private product feedback and support requests, then track their references and status.', 'Private customer record'],
+  '#account-security': ['Account protection', 'Security center', 'Manage passwordless access, authenticator verification, protected sessions and private security history.', 'Identity required'],
+  '#beta-operations': ['Controlled-beta operations', 'Beta launch center', 'Follow approved onboarding, private account checks, customer-controlled notifications and evidence-linked support from one focused workspace.', 'Invite-only access'],
+  '#approved-pilot': ['Approved tester pilot', 'Private pilot workspace', 'Accept the current pilot agreement, follow bounded evaluation missions and use staffed feedback or incident escalation.', 'Manual approval required'],
+  '#beta-hardening': ['Controlled-beta closure', 'Beta hardening center', 'Exercise customer-safe recovery, accessibility and performance checks before recording release-readiness evidence.', 'Review only · no activation'],
+  '#customer-privacy': ['Privacy controls', 'Data control center', 'Choose optional data uses and exercise account rights through an auditable, identity-bound workflow.', 'Private by default'],
+  '#customer-experience': ['Personal settings', 'Experience preferences', 'Configure theme, density, accessibility and installation preferences for this device and account.', 'Customer controlled'],
 }
 
 export function ProductPageHeader({ activeHref }: { activeHref: ProductHref }) {
@@ -306,14 +62,14 @@ export function ProductPageHeader({ activeHref }: { activeHref: ProductHref }) {
   return (
     <section className="product-page-header" aria-labelledby="product-page-title">
       <div>
-        <p className="eyebrow"><Layers3 size={14} /> {copy.eyebrow}</p>
-        <h1 id="product-page-title">{copy.title}</h1>
-        <p className="subtitle">{copy.description}</p>
+        <p className="eyebrow"><Layers3 size={14} /> {copy[0]}</p>
+        <h1 id="product-page-title">{copy[1]}</h1>
+        <p className="subtitle">{copy[2]}</p>
       </div>
       <div className="product-page-boundary">
         <ShieldCheck size={18} />
         <div>
-          <strong>{copy.boundary}</strong>
+          <strong>{copy[3]}</strong>
           <span>Truth before prediction</span>
         </div>
       </div>
