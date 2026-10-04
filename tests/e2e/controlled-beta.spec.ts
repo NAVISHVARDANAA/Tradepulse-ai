@@ -1038,9 +1038,9 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByRole('heading', { level: 2, name: 'Controlled pilot activation cockpit' })).toBeVisible()
   await expect(page.getByText('No participant invitation or pilot access is authorized in Phase 8Y')).toBeVisible()
   await expect(page.getByText('Real-time market data is not active')).toBeVisible()
-  await expect(page.getByText('Eight activation gates')).toBeVisible()
-  await expect(page.getByText('Three progressive pilot waves')).toBeVisible()
-  await expect(page.getByText('Eight immediate stop conditions')).toBeVisible()
+  await expect(page.getByRole('heading', { level: 3, name: 'Eight activation gates' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 3, name: 'Three progressive pilot waves' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 3, name: 'Eight immediate stop conditions' })).toBeVisible()
   await expect(page.getByRole('button', { name: /invite|provision|signup|connect|activate|display|route|trade|pay|move|settle|authorize/i })).toHaveCount(0)
 
   await page.goto('/#live-rollout')
