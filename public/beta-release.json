@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "8W",
-  "status": "licensed_provider_commercial_readiness_candidate",
+  "phase": "8X",
+  "status": "controlled_audience_pilot_operating_model_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -61,7 +61,8 @@
       "globalProviderActivationRehearsal",
       "externalAudienceLaunchReadiness",
       "licensedLiveDataIntegration",
-      "licensedProviderCommercialReadiness"
+      "licensedProviderCommercialReadiness",
+      "controlledAudiencePilotOperatingModel"
     ]
   },
   "trustLayer": {
@@ -125,6 +126,7 @@
     "check:external-audience-launch-readiness",
     "check:licensed-live-data-integration",
     "check:licensed-provider-commercial-readiness",
+    "check:controlled-audience-pilot-operating-model",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -163,7 +165,8 @@
     "global-provider-activation-rehearsal-isolation-egress-synthetic-secrets-observability-recovery-and-closeout-approval",
     "external-audience-domain-identity-legal-support-monitoring-data-rights-capacity-rollback-and-cohort-approval",
     "licensed-live-data-rights-entitlements-security-mapping-quality-resilience-operations-canary-rollback-and-independent-approval",
-    "licensed-provider-corporate-rights-entitlement-pricing-security-service-implementation-exit-and-independent-commercial-approval"
+    "licensed-provider-corporate-rights-entitlement-pricing-security-service-implementation-exit-and-independent-commercial-approval",
+    "controlled-audience-pilot-segment-consent-support-metrics-cost-and-go-no-go-approval"
   ],
   "betaHardening": {
     "workspaceEnabled": true,
@@ -995,6 +998,35 @@
     "moneyMovementEnabled": false,
     "custodyEnabled": false,
     "settlementEnabled": false
+  },
+  "controlledAudiencePilotOperatingModel": {
+    "workspaceEnabled": true,
+    "researchPaperPilotTrackDefined": true,
+    "realTimeDataTrackSeparated": true,
+    "maxPilotParticipants": 30,
+    "pilotDurationWeeks": 4,
+    "pilotFreeOfCharge": true,
+    "liveDataRequiredForPilot": false,
+    "cohortSegmentCount": 5,
+    "workstreamCount": 8,
+    "decisionMetricCount": 7,
+    "prerequisiteFoundationCount": 3,
+    "readyFoundationCount": 0,
+    "costCeilingApproved": false,
+    "participantInvitationsEnabled": false,
+    "automatedProvisioningEnabled": false,
+    "publicSignupEnabled": false,
+    "paymentCollectionEnabled": false,
+    "realTimeDataTrackEnabled": false,
+    "liveProviderConnectivityEnabled": false,
+    "productionCredentialStorageEnabled": false,
+    "productionPayloadIntakeEnabled": false,
+    "liveDataDisplayEnabled": false,
+    "orderRoutingEnabled": false,
+    "moneyMovementEnabled": false,
+    "custodyEnabled": false,
+    "settlementEnabled": false,
+    "goNoGoAuthorized": false
   },
   "globalVenueInstrumentIntelligence": {
     "workspaceEnabled": true,

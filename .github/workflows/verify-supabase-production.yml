@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type VERIFY_DATA_PHASE_8W for the licensed provider commercial-readiness candidate
+        description: Type VERIFY_DATA_PHASE_8X for the controlled-audience pilot operating-model candidate
         required: true
         type: string
 
@@ -39,8 +39,8 @@ jobs:
           VERIFICATION_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$VERIFICATION_CONFIRMATION" = "VERIFY_DATA_PHASE_8W" || {
-            echo "Verification confirmation did not match VERIFY_DATA_PHASE_8W."
+          test "$VERIFICATION_CONFIRMATION" = "VERIFY_DATA_PHASE_8X" || {
+            echo "Verification confirmation did not match VERIFY_DATA_PHASE_8X."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {

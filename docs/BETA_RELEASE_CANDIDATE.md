@@ -260,16 +260,16 @@ Record the merge commit, GitHub workflow run ID and artifact name in the
 restricted release record. Never place secrets, customer data or raw operational
 evidence in a public issue or artifact.
 
-## Current Phase 8W hosting deployment procedure
+## Current Phase 8X hosting deployment procedure
 
-After the Phase 8W PR is merged and all `main` checks pass:
+After the Phase 8X PR is merged and all `main` checks pass:
 
-1. Deploy and verify migration 066 with `DEPLOY_DATA_PHASE_8W` and `VERIFY_DATA_PHASE_8W`.
+1. Deploy and verify migration 066 with `DEPLOY_DATA_PHASE_8X` and `VERIFY_DATA_PHASE_8X`.
 2. Open **Actions → Build production web release**.
-3. Select `main`, enter `BUILD_PHASE_8W` and run the workflow.
+3. Select `main`, enter `BUILD_PHASE_8X` and run the workflow.
 4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 5. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-6. Run **Verify web production** with `VERIFY_WEB_PHASE_8W` after deployment
+6. Run **Verify web production** with `VERIFY_WEB_PHASE_8X` after deployment
    or any customer-facing operational incident.
 7. Do not invite external testers until every manual prerequisite above is approved.
 
@@ -292,3 +292,8 @@ It stores no provider shortlist, quote, contract, price, reviewer or
 authorization and cannot accept commercial terms, sign an agreement, issue a
 purchase order, store credentials, connect a provider, receive a payload,
 display live data or create any production effect.
+
+Phase 8X adds no migration. It composes the Phase 8U, 8V and 8W readiness
+signals into a controlled-audience pilot plan. It cannot invite participants,
+provision accounts, enable signup, collect payment, connect a provider, receive
+production payloads, display live data, route orders or move money.

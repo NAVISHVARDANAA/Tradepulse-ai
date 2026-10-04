@@ -845,7 +845,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(50)
+  await expect(navigation.getByRole('link')).toHaveCount(51)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -1023,6 +1023,15 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByText('Seven manual commercial states')).toBeVisible()
   await expect(page.getByText(/Phase 8W is commercial-review scaffolding, not vendor selection, contract execution, procurement approval or provider activation/)).toBeVisible()
   await expect(page.getByRole('button', { name: /shortlist|quote|accept|sign|purchase|contract|connect|activate|deploy|pay|trade/i })).toHaveCount(0)
+
+  await page.goto('/#audience-pilot-plan')
+  await expect(page.getByRole('heading', { level: 1, name: 'Controlled-audience pilot operating model' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Controlled-audience pilot operating model' })).toBeVisible()
+  await expect(page.getByText('No participant invitations or public signup are enabled in Phase 8X')).toBeVisible()
+  await expect(page.getByText('Five learning cohorts')).toBeVisible()
+  await expect(page.getByText('Eight operating workstreams')).toBeVisible()
+  await expect(page.getByText(/Phase 8X separates a controlled research\/paper pilot from the real-time-data path/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /invite|provision|signup|pay|connect|display|route|trade|move|settle|authorize/i })).toHaveCount(0)
 
   await page.goto('/#live-rollout')
   await expect(page.getByRole('heading', { level: 1, name: 'Controlled live rollout' })).toBeVisible()

@@ -153,6 +153,9 @@ jobs:
       - name: Verify licensed-provider commercial readiness
         run: npm run check:licensed-provider-commercial-readiness
 
+      - name: Verify controlled-audience pilot operating model
+        run: npm run check:controlled-audience-pilot-operating-model
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 

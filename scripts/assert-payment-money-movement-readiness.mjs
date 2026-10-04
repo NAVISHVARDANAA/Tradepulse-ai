@@ -161,8 +161,8 @@ assert(browserTest.includes('payment_money_movement_readiness_reference'), 'Brow
 assert(browserTest.includes('Production money movement remains blocked'), 'Browser contract omits the Phase 7E heading')
 assert(productionBrowserTest.includes("['#payments', 'Money movement readiness']"), 'Production smoke omits the Phase 7E workspace')
 
-assert(manifest.phase === '8W', 'Release manifest is not Phase 8D')
-assert(manifest.status === 'licensed_provider_commercial_readiness_candidate', 'Release status is not the Phase 8A candidate')
+assert(manifest.phase === '8X', 'Release manifest is not Phase 8D')
+assert(manifest.status === 'controlled_audience_pilot_operating_model_candidate', 'Release status is not the Phase 8A candidate')
 assert(manifest.requiredChecks.includes('check:money-movement-readiness'), 'Release manifest omits the Phase 7E gate')
 assert(packageJson.scripts?.['check:money-movement-readiness'], 'Package scripts omit the Phase 7E gate')
 const release = manifest.controlledMoneyMovement
@@ -201,11 +201,11 @@ for (const lock of [
 ]) assert(release?.[lock] === false, `Controlled money-movement lock is not false: ${lock}`)
 
 for (const [workflow, contract] of [
-  [deployData, 'DEPLOY_DATA_PHASE_8W'],
-  [verifyData, 'VERIFY_DATA_PHASE_8W'],
-  [buildWeb, 'BUILD_PHASE_8W'],
-  [deployWeb, 'DEPLOY_PHASE_8W'],
-  [verifyWeb, 'VERIFY_WEB_PHASE_8W'],
+  [deployData, 'DEPLOY_DATA_PHASE_8X'],
+  [verifyData, 'VERIFY_DATA_PHASE_8X'],
+  [buildWeb, 'BUILD_PHASE_8X'],
+  [deployWeb, 'DEPLOY_PHASE_8X'],
+  [verifyWeb, 'VERIFY_WEB_PHASE_8X'],
 ]) assert(workflow.includes(contract), `Release workflow omits ${contract}`)
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
   assert(workflow.includes('check:money-movement-readiness'), 'A web gate omits controlled money-movement readiness')
@@ -220,7 +220,7 @@ assert(deployedVerification.includes('manifest.controlledMoneyMovement'), 'Deplo
 assert(roadmap.includes('Phase 7E — controlled money-movement readiness (implemented foundation)'), 'Roadmap omits the Phase 7E foundation')
 assert(guide.includes('Every corridor remains `blocked` even if all displayed approval evidence is'), 'Operating guide omits the no-activation boundary')
 for (const guideText of [releaseGuide, hostingGuide, supabaseGuide]) {
-  assert(guideText.includes('PHASE_8W'), 'A current release guide omits Phase 8D confirmations')
+  assert(guideText.includes('PHASE_8X'), 'A current release guide omits Phase 8X confirmations')
 }
 
 for (const lock of ['liveBrokerageExecution', 'paymentExecution', 'moneyMovement', 'customerFunding', 'chargeCollection', 'custody', 'personalizedAdvice']) {

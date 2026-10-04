@@ -46,6 +46,7 @@
     "check:external-audience-launch-readiness": "node scripts/assert-external-audience-launch-readiness.mjs",
     "check:licensed-live-data-integration": "node scripts/assert-licensed-live-data-integration.mjs",
     "check:licensed-provider-commercial-readiness": "node scripts/assert-licensed-provider-commercial-readiness.mjs",
+    "check:controlled-audience-pilot-operating-model": "node scripts/assert-controlled-audience-pilot-operating-model.mjs",
     "check:bundle": "node scripts/assert-frontend-budgets.mjs",
     "check:beta": "node scripts/assert-beta-readiness.mjs",
     "check:hosting": "node scripts/assert-cloudflare-hosting.mjs",
