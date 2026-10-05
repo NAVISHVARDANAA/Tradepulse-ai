@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type DEPLOY_DATA_PHASE_8X for the controlled-audience pilot operating-model candidate
+        description: Type DEPLOY_DATA_PHASE_8Y for the controlled pilot activation candidate
         required: true
         type: string
 
@@ -39,8 +39,8 @@ jobs:
           RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_8X" || {
-            echo "Release confirmation did not match DEPLOY_DATA_PHASE_8X."
+          test "$RELEASE_CONFIRMATION" = "DEPLOY_DATA_PHASE_8Y" || {
+            echo "Release confirmation did not match DEPLOY_DATA_PHASE_8Y."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {

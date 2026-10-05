@@ -13,9 +13,9 @@ const artifactManifest = JSON.parse(artifactManifestText)
 
 assert(manifest.schemaVersion === 1, 'Unexpected beta manifest schema')
 assert(manifest.release === 'controlled-beta-rc2', 'Unexpected beta release identifier')
-assert(manifest.phase === '8X', 'Beta manifest is not on Phase 8X')
+assert(manifest.phase === '8Y', 'Beta manifest is not on Phase 8Y')
 assert(
-  manifest.status === 'controlled_audience_pilot_operating_model_candidate',
+  manifest.status === 'controlled_pilot_activation_candidate',
   'Beta manifest overstates the release status',
 )
 assert(manifest.audience === 'internal_release_review', 'Beta audience boundary changed')
@@ -83,6 +83,7 @@ const expectedChecks = [
   'check:licensed-live-data-integration',
   'check:licensed-provider-commercial-readiness',
   'check:controlled-audience-pilot-operating-model',
+  'check:controlled-pilot-activation',
   'check:production-experience',
   'check:bundle',
   'check:release',
@@ -116,17 +117,17 @@ const [buildWorkflow, deployWorkflow, verifyWebWorkflow, ciWorkflow, securityWor
   ])
 
 for (const contract of [
-  'BUILD_PHASE_8X',
+  'BUILD_PHASE_8Y',
   'npm run check:beta',
   'tradepulse-beta-rc2-${{ github.sha }}',
   'environment: production',
 ]) {
   assert(buildWorkflow.includes(contract), `Beta build workflow contract missing: ${contract}`)
 }
-for (const contract of ['DEPLOY_PHASE_8X', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['DEPLOY_PHASE_8Y', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
   assert(deployWorkflow.includes(contract), `Beta deploy workflow contract missing: ${contract}`)
 }
-for (const contract of ['VERIFY_WEB_PHASE_8X', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['VERIFY_WEB_PHASE_8Y', 'verify:web-deployment', 'test:e2e:production']) {
   assert(verifyWebWorkflow.includes(contract), `Beta web verification workflow contract missing: ${contract}`)
 }
 for (const contract of [
@@ -166,6 +167,7 @@ for (const contract of [
   'npm run check:global-provider-activation-readiness',
   'npm run check:global-provider-activation-rehearsal',
   'npm run check:controlled-audience-pilot-operating-model',
+  'npm run check:controlled-pilot-activation',
   'npm run check:security',
   'npm run check:hosting',
 ]) {
@@ -215,6 +217,7 @@ assert(roadmap.includes('Phase 8U — external audience production launch readin
 assert(roadmap.includes('Phase 8V — licensed live-data integration (implemented foundation)'), 'Roadmap omits licensed live-data integration')
 assert(roadmap.includes('Phase 8W — licensed-provider commercial readiness (implemented foundation)'), 'Roadmap omits licensed-provider commercial readiness')
 assert(roadmap.includes('Phase 8X — controlled-audience pilot operating model (implemented foundation)'), 'Roadmap omits controlled-audience pilot operating model')
+assert(roadmap.includes('Phase 8Y — controlled pilot activation (implemented foundation)'), 'Roadmap omits controlled pilot activation')
 assert(roadmap.includes('Phase 5E — controlled-beta onboarding and operations'), 'Roadmap omits Phase 5E')
 assert(roadmap.includes('Phase 5F — route-aware data loading'), 'Roadmap omits Phase 5F')
 assert(candidateDoc.includes('Artifact-only status'), 'Candidate documentation omits artifact status')

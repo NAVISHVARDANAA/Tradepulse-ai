@@ -845,7 +845,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(51)
+  await expect(navigation.getByRole('link')).toHaveCount(52)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -1032,6 +1032,16 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByText('Eight operating workstreams')).toBeVisible()
   await expect(page.getByText(/Phase 8X separates a controlled research\/paper pilot from the real-time-data path/)).toBeVisible()
   await expect(page.getByRole('button', { name: /invite|provision|signup|pay|connect|display|route|trade|move|settle|authorize/i })).toHaveCount(0)
+
+  await page.goto('/#pilot-activation')
+  await expect(page.getByRole('heading', { level: 1, name: 'Controlled pilot activation cockpit' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Controlled pilot activation cockpit' })).toBeVisible()
+  await expect(page.getByText('No participant invitation or pilot access is authorized in Phase 8Y')).toBeVisible()
+  await expect(page.getByText('Real-time market data is not active')).toBeVisible()
+  await expect(page.getByRole('heading', { level: 3, name: 'Eight activation gates' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 3, name: 'Three progressive pilot waves' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 3, name: 'Eight immediate stop conditions' })).toBeVisible()
+  await expect(page.getByRole('button', { name: /invite|provision|signup|connect|activate|display|route|trade|pay|move|settle|authorize/i })).toHaveCount(0)
 
   await page.goto('/#live-rollout')
   await expect(page.getByRole('heading', { level: 1, name: 'Controlled live rollout' })).toBeVisible()

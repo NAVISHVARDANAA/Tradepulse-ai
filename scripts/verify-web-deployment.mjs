@@ -889,6 +889,36 @@ if (
   manifest.controlledAudiencePilotOperatingModel?.goNoGoAuthorized !== false
 ) throw new Error('Deployed controlled-audience pilot operating-model boundary is incomplete or unsafe.')
 if (
+  manifest.controlledPilotActivation?.workspaceEnabled !== true ||
+  manifest.controlledPilotActivation?.activationGateCount !== 8 ||
+  manifest.controlledPilotActivation?.pilotWaveCount !== 3 ||
+  manifest.controlledPilotActivation?.stopConditionCount !== 8 ||
+  manifest.controlledPilotActivation?.maxPilotParticipants !== 30 ||
+  manifest.controlledPilotActivation?.pilotDurationWeeks !== 4 ||
+  manifest.controlledPilotActivation?.authorizedReferenceOrDelayedDataOnly !== true ||
+  manifest.controlledPilotActivation?.realTimeDataOptionalForPilot !== true ||
+  manifest.controlledPilotActivation?.readyActivationGateCount !== 0 ||
+  manifest.controlledPilotActivation?.participantRosterApproved !== false ||
+  manifest.controlledPilotActivation?.consentPackApproved !== false ||
+  manifest.controlledPilotActivation?.supportOwnerAssigned !== false ||
+  manifest.controlledPilotActivation?.privacySafeTelemetryApproved !== false ||
+  manifest.controlledPilotActivation?.costCeilingApproved !== false ||
+  manifest.controlledPilotActivation?.rollbackOwnerAssigned !== false ||
+  manifest.controlledPilotActivation?.goNoGoAuthorized !== false ||
+  manifest.controlledPilotActivation?.participantInvitationsEnabled !== false ||
+  manifest.controlledPilotActivation?.automatedProvisioningEnabled !== false ||
+  manifest.controlledPilotActivation?.publicSignupEnabled !== false ||
+  manifest.controlledPilotActivation?.liveProviderConnectivityEnabled !== false ||
+  manifest.controlledPilotActivation?.productionCredentialStorageEnabled !== false ||
+  manifest.controlledPilotActivation?.productionPayloadIntakeEnabled !== false ||
+  manifest.controlledPilotActivation?.liveDataDisplayEnabled !== false ||
+  manifest.controlledPilotActivation?.orderRoutingEnabled !== false ||
+  manifest.controlledPilotActivation?.paymentCollectionEnabled !== false ||
+  manifest.controlledPilotActivation?.moneyMovementEnabled !== false ||
+  manifest.controlledPilotActivation?.custodyEnabled !== false ||
+  manifest.controlledPilotActivation?.settlementEnabled !== false
+) throw new Error('Deployed controlled pilot activation boundary is incomplete or unsafe.')
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||

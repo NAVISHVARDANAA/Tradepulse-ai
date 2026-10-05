@@ -155,6 +155,8 @@ jobs:
 
       - name: Verify controlled-audience pilot operating model
         run: npm run check:controlled-audience-pilot-operating-model
+      - name: Verify controlled pilot activation
+        run: npm run check:controlled-pilot-activation
 
       - name: Verify production experience contract
         run: npm run check:production-experience

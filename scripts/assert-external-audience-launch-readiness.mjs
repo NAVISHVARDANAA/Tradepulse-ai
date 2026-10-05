@@ -90,7 +90,7 @@ assert(production.includes("'#audience-launch-readiness'"), 'Production test omi
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.externalAudienceLaunchReadiness
-assert(manifest.phase === '8X' && manifest.status === 'controlled_audience_pilot_operating_model_candidate',
+assert(manifest.phase === '8Y' && manifest.status === 'controlled_pilot_activation_candidate',
   'Manifest is not Phase 8X')
 assert(packageJson.scripts?.['check:external-audience-launch-readiness'], 'Package omits Phase 8U check')
 assert(manifest.requiredChecks.includes('check:external-audience-launch-readiness'), 'Manifest omits Phase 8U check')
@@ -117,9 +117,9 @@ assert(release?.audienceSurfaceCount === 8 && release?.launchGateCount === 8
 assert(release?.blockedReadinessCellCount === 64 && release?.authorizedReadinessCellCount === 0,
   'External audience launch-readiness counts changed')
 
-for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8X'],
-  [verifyData, 'VERIFY_DATA_PHASE_8X'], [buildWeb, 'BUILD_PHASE_8X'],
-  [deployWeb, 'DEPLOY_PHASE_8X'], [verifyWeb, 'VERIFY_WEB_PHASE_8X']]) {
+for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8Y'],
+  [verifyData, 'VERIFY_DATA_PHASE_8Y'], [buildWeb, 'BUILD_PHASE_8Y'],
+  [deployWeb, 'DEPLOY_PHASE_8Y'], [verifyWeb, 'VERIFY_WEB_PHASE_8Y']]) {
   assert(workflow.includes(token), `Workflow omits ${token}`)
 }
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {

@@ -39,13 +39,13 @@ const largestAsset = assetFiles.reduce((largest, asset) => (
 
 const budgets = {
   initialGzipBytes: 165 * 1024,
-  // Phases 8L-8X add route-deferred provider certification, contract-test,
+  // Phases 8L-8Y add route-deferred provider certification, contract-test,
   // candidate-evidence, review-governance, decision-control, recovery and
   // activation-readiness, rehearsal, launch-readiness and licensed-data
-  // integration, commercial-readiness and pilot operating-model workspaces. The shell and
-  // largest-chunk limits stay unchanged; the bounded total will be calibrated
-  // from the reviewed Phase 8X build output.
-  totalJavaScriptGzipBytes: 399 * 1024,
+  // integration, commercial-readiness, pilot operating-model and pilot
+  // activation workspaces. The shell and largest-chunk limits stay unchanged;
+  // the bounded total is calibrated from the reviewed Phase 8Y build output.
+  totalJavaScriptGzipBytes: 404 * 1024,
   largestAssetGzipBytes: 90 * 1024,
 }
 

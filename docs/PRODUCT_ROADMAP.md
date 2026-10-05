@@ -1475,6 +1475,38 @@ approved participant roster, consent, staffed support, privacy-safe telemetry,
 an explicit cost ceiling, rollback ownership and an accountable human go/no-go
 decision; Phase 8X cannot invite, provision or activate participants.
 
+### Phase 8Y — controlled pilot activation (implemented foundation)
+
+- Eight human-owned activation gates convert the pilot plan into an explicit
+  evidence sequence across production identity, legal and consent, roster,
+  support and incidents, privacy-safe telemetry, data labels, cost and capacity,
+  and rollback with accountable go / no-go authorization.
+- Three progressive waves define five trusted testers, ten pre-screened external
+  participants and fifteen bounded expansion participants without storing a
+  participant name, contact detail, screening response or consent record.
+- Eight immediate stop conditions cover security and privacy, execution-path
+  exposure, incorrect real-time labels, advice behavior, data rights, staffing,
+  accessibility and performance, and approved cost or cohort ceilings.
+- The data-mode boundary allows only clearly labelled authorized reference or
+  delayed data for the pilot. Real-time display remains independently blocked
+  until a licensed provider is contracted, entitled, certified, integrated and
+  proven through a zero-customer canary.
+- The read-only activation cockpit composes the Phase 8X operating model, adds no
+  database migration, preserves migration 066 and exposes no operational write
+  or approval path.
+- Invitation delivery, provisioning, public signup, live-provider connectivity,
+  production credentials and payloads, live display, trading, payments, money
+  movement, custody, settlement and automatic authorization remain locked off.
+
+**Phase 8Y exit gate:** green controlled-pilot-activation,
+controlled-audience-pilot-operating-model, browser, security, bundle and release
+contracts; reviewed `DEPLOY_DATA_PHASE_8Y` and read-only
+`VERIFY_DATA_PHASE_8Y` evidence at migration 066; successful
+`BUILD_PHASE_8Y`; reviewed `DEPLOY_PHASE_8Y`; and read-only
+`VERIFY_WEB_PHASE_8Y` evidence. Sending the first invitation still requires
+verified external evidence for every gate and a separate accountable human
+go / no-go decision; Phase 8Y cannot authorize or activate a participant.
+
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.

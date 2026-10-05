@@ -80,7 +80,7 @@ assert(production.includes("'#provider-decision-recovery'"), 'Production test om
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.globalProviderDecisionRecovery
-assert(manifest.phase === '8X' && manifest.status === 'controlled_audience_pilot_operating_model_candidate',
+assert(manifest.phase === '8Y' && manifest.status === 'controlled_pilot_activation_candidate',
   'Manifest is not Phase 8R')
 assert(packageJson.scripts?.['check:global-provider-decision-recovery'], 'Package omits Phase 8R check')
 assert(manifest.requiredChecks.includes('check:global-provider-decision-recovery'), 'Manifest omits Phase 8R check')
@@ -107,9 +107,9 @@ assert(release?.sourceFamilyCount === 8 && release?.recoveryTriggerCount === 8
 assert(release?.blockedRecoveryCellCount === 64 && release?.authorizedRecoveryCellCount === 0,
   'Provider decision recovery counts changed')
 
-for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8X'],
-  [verifyData, 'VERIFY_DATA_PHASE_8X'], [buildWeb, 'BUILD_PHASE_8X'],
-  [deployWeb, 'DEPLOY_PHASE_8X'], [verifyWeb, 'VERIFY_WEB_PHASE_8X']]) {
+for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8Y'],
+  [verifyData, 'VERIFY_DATA_PHASE_8Y'], [buildWeb, 'BUILD_PHASE_8Y'],
+  [deployWeb, 'DEPLOY_PHASE_8Y'], [verifyWeb, 'VERIFY_WEB_PHASE_8Y']]) {
   assert(workflow.includes(token), `Workflow omits ${token}`)
 }
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {

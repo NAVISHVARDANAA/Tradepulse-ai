@@ -7,6 +7,18 @@ compliance boundaries are designed in before execution features are enabled.
 
 ## Current product scope
 
+### Current release — Phase 8Y controlled pilot activation
+
+- The product now includes a read-only activation cockpit for a bounded,
+  four-week research and paper-simulation pilot of at most 30 approved people.
+- Eight human evidence gates, three progressive waves and eight immediate stop
+  conditions must be reviewed before any invitation is sent.
+- The pilot can use clearly labelled authorized reference or delayed data.
+  Real-time display remains disabled until a licensed provider is contracted,
+  entitled, certified, integrated and proven through a zero-customer canary.
+- Public signup, automatic provisioning, live trading, payments, money
+  movement, custody and settlement remain disabled.
+
 ### Phase 1 — trusted intelligence foundation
 
 - Market cards read the latest stored observation for each configured asset.
