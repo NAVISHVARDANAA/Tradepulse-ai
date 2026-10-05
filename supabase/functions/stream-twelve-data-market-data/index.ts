@@ -48,8 +48,8 @@ async function receiveWindow(
   return await new Promise((resolve, reject) => {
     const socket = new WebSocket(endpoint)
     let settled = false
-    let heartbeat: number | undefined
-    let timeout: number | undefined
+    let heartbeat: ReturnType<typeof setInterval> | undefined
+    let timeout: ReturnType<typeof setTimeout> | undefined
 
     const finish = (error?: Error) => {
       if (settled) return
