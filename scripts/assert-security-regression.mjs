@@ -120,6 +120,7 @@ const internalFunctions = [
   'sync-equity-market-data',
   'sync-fx-market-data',
   'sync-sec-equity-fundamentals',
+  'stream-twelve-data-market-data',
 ]
 for (const functionName of internalFunctions) {
   const source = await read(`supabase/functions/${functionName}/index.ts`)

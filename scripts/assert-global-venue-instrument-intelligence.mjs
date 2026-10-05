@@ -94,8 +94,8 @@ assert(browserTest.includes('global_venue_instrument_reference'), 'Browser contr
 assert(browserTest.includes('Global execution remains unavailable'), 'Browser contract omits the execution lock')
 assert(productionBrowserTest.includes("['#global-access', 'Venue and instrument access map']"), 'Production smoke omits global access')
 
-assert(manifest.phase === '8Y', 'Release manifest is not Phase 8D')
-assert(manifest.status === 'controlled_pilot_activation_candidate', 'Release status is not the Phase 8A candidate')
+assert(manifest.phase === '8Z', 'Release manifest is not Phase 8D')
+assert(manifest.status === 'licensed_realtime_data_activation_candidate', 'Release status is not the Phase 8A candidate')
 assert(manifest.requiredChecks.includes('check:global-market-intelligence'), 'Manifest omits the Phase 8A check')
 assert(packageJson.scripts?.['check:global-market-intelligence'], 'Package scripts omit the Phase 8A check')
 const release = manifest.globalVenueInstrumentIntelligence
@@ -111,9 +111,9 @@ for (const lock of [
 ]) assert(release?.[lock] === false, `Phase 8A lock is not false: ${lock}`)
 
 for (const [workflow, confirmation] of [
-  [deployData, 'DEPLOY_DATA_PHASE_8Y'], [verifyData, 'VERIFY_DATA_PHASE_8Y'],
-  [buildWeb, 'BUILD_PHASE_8Y'], [deployWeb, 'DEPLOY_PHASE_8Y'],
-  [verifyWeb, 'VERIFY_WEB_PHASE_8Y'],
+  [deployData, 'DEPLOY_DATA_PHASE_8Z'], [verifyData, 'VERIFY_DATA_PHASE_8Z'],
+  [buildWeb, 'BUILD_PHASE_8Z'], [deployWeb, 'DEPLOY_PHASE_8Z'],
+  [verifyWeb, 'VERIFY_WEB_PHASE_8Z'],
 ]) assert(workflow.includes(confirmation), `Release workflow omits ${confirmation}`)
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
   assert(workflow.includes('check:global-market-intelligence'), 'A web gate omits Phase 8A')
@@ -126,7 +126,7 @@ assert(publicRead.includes('global_venue_instrument_reference'), 'Public runtime
 assert(deployedVerification.includes('manifest.globalVenueInstrumentIntelligence'), 'Deployed verification omits Phase 8A')
 assert(roadmap.includes('Phase 8A — global venue and instrument intelligence (implemented foundation)'), 'Roadmap omits the Phase 8A foundation')
 assert(guide.includes('No order routing, broker'), 'Phase 8A guide omits the execution boundary')
-for (const guideText of [releaseGuide, hostingGuide, supabaseGuide]) assert(guideText.includes('PHASE_8Y'), 'A current release guide omits Phase 8X')
+for (const guideText of [releaseGuide, hostingGuide, supabaseGuide]) assert(guideText.includes('PHASE_8Z'), 'A current release guide omits Phase 8X')
 
 for (const lock of ['liveBrokerageExecution', 'paymentExecution', 'moneyMovement', 'customerFunding', 'chargeCollection', 'custody', 'personalizedAdvice']) {
   assert(manifest.hardLocks?.[lock] === false, `${lock} must remain hard locked`)

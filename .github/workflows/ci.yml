@@ -158,6 +158,9 @@ jobs:
       - name: Verify controlled pilot activation
         run: npm run check:controlled-pilot-activation
 
+      - name: Verify licensed real-time data activation
+        run: npm run check:licensed-realtime-data-activation
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 
@@ -250,6 +253,7 @@ jobs:
           deno check supabase/functions/refresh-paper-risk/index.ts
           deno check supabase/functions/set-paper-trading-control/index.ts
           deno check supabase/functions/sync-equity-market-data/index.ts
+          deno check supabase/functions/stream-twelve-data-market-data/index.ts
           deno check supabase/functions/generate-equity-research/index.ts
           deno check supabase/functions/sync-sec-equity-fundamentals/index.ts
           deno check supabase/functions/generate-daily-research-brief/index.ts
@@ -278,6 +282,7 @@ jobs:
           supabase/functions/_shared/alpacaBrokerSandbox.test.ts
           supabase/functions/_shared/alpacaSandboxOrders.test.ts
           supabase/functions/_shared/regulatedPreflight.test.ts
+          supabase/functions/_shared/twelveDataRealtime.test.ts
 
   database-migrations:
     runs-on: ubuntu-latest

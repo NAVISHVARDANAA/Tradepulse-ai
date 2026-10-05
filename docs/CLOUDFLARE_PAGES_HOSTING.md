@@ -31,31 +31,32 @@ is intentionally public and is still constrained by RLS and server-side auth.
 After this PR is merged and all `main` checks pass:
 
 1. Open **Actions → Deploy Supabase production**, choose `main`, enter
-   `DEPLOY_DATA_PHASE_8Y` and wait for it to pass.
+   `DEPLOY_DATA_PHASE_8Z` and wait for it to pass.
 2. Run **Verify Supabase production** on `main` with
-   `VERIFY_DATA_PHASE_8Y` and retain the read-only evidence.
+   `VERIFY_DATA_PHASE_8Z` and retain the read-only evidence.
 3. Open **Actions → Build production web release**, choose `main`, enter
-   `BUILD_PHASE_8Y` and record the green controlled-pilot activation
+   `BUILD_PHASE_8Z` and record the green licensed real-time data activation
    web artifact.
 4. Open **Actions → Deploy controlled beta web**, choose `main`, enter
-   `DEPLOY_PHASE_8Y` and approve the protected production environment.
+   `DEPLOY_PHASE_8Z` and approve the protected production environment.
 5. Record the immutable commit, workflow run and Cloudflare deployment URL from
    the job summary. The workflow verifies HTTPS, browser security headers, the
    release manifest and every hard lock after upload. It then runs desktop and
    mobile production browser checks across the public workspaces, Analytics
    interactions, console/network failures and guest execution locks.
 6. After a release or operational incident, open **Actions → Verify web
-   production**, choose `main`, enter `VERIFY_WEB_PHASE_8Y` and retain the green
+   production**, choose `main`, enter `VERIFY_WEB_PHASE_8Z` and retain the green
    production-browser report.
 7. Do not invite testers yet. Choose and validate the final domain, configure
    its exact Supabase Auth site URL and redirect allow-list, then complete the
    remaining launch prerequisites in `docs/BETA_RELEASE_CANDIDATE.md`.
 
-Deploy and verify migration 066 with the Phase 8Y data gates before the web
+Deploy and verify migration 066 with the Phase 8Z data gates before the web
 workspace. Every pilot activation gate remains unverified, every provider
 commercial-review domain remains unavailable and every readiness cell remains blocked. The
-product cannot shortlist or select a provider, accept a quote, sign a contract,
-issue a purchase order, activate an audience, open public signup, provision
-users automatically, connect a provider, store production credentials, ingest
-real payloads, display live data, publish derived data, train a model, route an
-order, move money, hold assets or settle a trade.
+Phase 8Z web artifact shows that the server adapter and database delivery path
+are implemented, but the product cannot accept a quote, sign a contract, grant
+display or redistribution rights, issue a purchase order, activate an audience,
+open public signup, provision users automatically, supply production
+credentials, run the zero-customer canary, operate a continuous stream, display
+live data, route an order, move money, hold assets or settle a trade.

@@ -7,15 +7,18 @@ compliance boundaries are designed in before execution features are enabled.
 
 ## Current product scope
 
-### Current release — Phase 8Y controlled pilot activation
+### Current release — Phase 8Z licensed real-time data activation
 
-- The product now includes a read-only activation cockpit for a bounded,
-  four-week research and paper-simulation pilot of at most 30 approved people.
-- Eight human evidence gates, three progressive waves and eight immediate stop
-  conditions must be reviewed before any invitation is sent.
-- The pilot can use clearly labelled authorized reference or delayed data.
-  Real-time display remains disabled until a licensed provider is contracted,
-  entitled, certified, integrated and proven through a zero-customer canary.
+- A server-only Twelve Data WebSocket candidate can accept up to 30 explicitly
+  mapped price symbols in a bounded zero-customer canary.
+- Strict validation rejects malformed, stale, future, unknown and non-positive
+  events before the latest accepted observations are written to Supabase.
+- Existing route-scoped Supabase Realtime subscriptions provide the database-
+  to-browser delivery path; no provider key or direct provider socket enters
+  the web application.
+- Real-time display remains disabled until a commercial contract, explicit
+  external-display and redistribution rights, production credentials,
+  continuous-stream operations and a successful canary are approved.
 - Public signup, automatic provisioning, live trading, payments, money
   movement, custody and settlement remain disabled.
 

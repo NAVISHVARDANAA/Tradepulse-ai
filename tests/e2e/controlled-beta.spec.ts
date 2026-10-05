@@ -845,7 +845,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(52)
+  await expect(navigation.getByRole('link')).toHaveCount(53)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
@@ -1042,6 +1042,14 @@ test('guest brokerage, paper and payment execution boundaries stay closed', asyn
   await expect(page.getByRole('heading', { level: 3, name: 'Three progressive pilot waves' })).toBeVisible()
   await expect(page.getByRole('heading', { level: 3, name: 'Eight immediate stop conditions' })).toBeVisible()
   await expect(page.getByRole('button', { name: /invite|provision|signup|connect|activate|display|route|trade|pay|move|settle|authorize/i })).toHaveCount(0)
+
+  await page.goto('/#realtime-data-activation')
+  await expect(page.getByRole('heading', { level: 1, name: 'Real-time data activation' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Real-time data activation cockpit' })).toBeVisible()
+  await expect(page.getByText('The real-time adapter is implemented; customer display is not active')).toBeVisible()
+  await expect(page.getByRole('heading', { level: 3, name: 'Six activation controls' })).toBeVisible()
+  await expect(page.getByText('No direct browser feed')).toBeVisible()
+  await expect(page.getByRole('button', { name: /connect|credential|stream|canary|activate|display|deploy|approve|trade|pay|move|settle/i })).toHaveCount(0)
 
   await page.goto('/#live-rollout')
   await expect(page.getByRole('heading', { level: 1, name: 'Controlled live rollout' })).toBeVisible()

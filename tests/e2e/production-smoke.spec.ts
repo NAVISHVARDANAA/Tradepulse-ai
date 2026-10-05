@@ -34,6 +34,7 @@ const publicWorkspaces = [
   ['#provider-commercial-readiness', 'Licensed-provider commercial readiness'],
   ['#audience-pilot-plan', 'Controlled-audience pilot operating model'],
   ['#pilot-activation', 'Controlled pilot activation cockpit'],
+  ['#realtime-data-activation', 'Real-time data activation'],
   ['#risk-command-center', 'Risk command center'],
   ['#regulated-preflight', 'Preflight evidence review'],
   ['#sandbox-orders', 'Sandbox order lifecycle'],
@@ -271,6 +272,12 @@ test('production execution boundaries remain closed to guests', async ({ page })
   await expect(page.getByRole('heading', { level: 3, name: 'Three progressive pilot waves' })).toBeVisible()
   await expect(page.getByRole('heading', { level: 3, name: 'Eight immediate stop conditions' })).toBeVisible()
   await expect(page.getByRole('button', { name: /invite|provision|signup|connect|activate|display|route|trade|pay|move|settle|authorize/i })).toHaveCount(0)
+
+  await page.goto('/#realtime-data-activation', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByText('The real-time adapter is implemented; customer display is not active')).toBeVisible()
+  await expect(page.getByRole('heading', { level: 3, name: 'Six activation controls' })).toBeVisible()
+  await expect(page.getByText('No direct browser feed')).toBeVisible()
+  await expect(page.getByRole('button', { name: /connect|credential|stream|canary|activate|display|deploy|approve|trade|pay|move|settle/i })).toHaveCount(0)
 
   await page.goto('/#account-security', { waitUntil: 'domcontentloaded' })
   await expect(page.getByText(/Controlled-beta access is limited to approved email addresses/)).toBeVisible()

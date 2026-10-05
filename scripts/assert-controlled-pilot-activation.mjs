@@ -41,7 +41,7 @@ assert(production.includes("'#pilot-activation'"), 'Production test omits pilot-
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.controlledPilotActivation
-assert(manifest.phase === '8Y' && manifest.status === 'controlled_pilot_activation_candidate',
+assert(manifest.phase === '8Z' && manifest.status === 'licensed_realtime_data_activation_candidate',
   'Manifest is not Phase 8Y')
 assert(packageJson.scripts?.['check:controlled-pilot-activation'], 'Package omits Phase 8Y check')
 assert(manifest.requiredChecks.includes('check:controlled-pilot-activation'), 'Manifest omits Phase 8Y check')
@@ -64,9 +64,9 @@ assert(release?.activationGateCount === 8 && release?.pilotWaveCount === 3
 assert(release?.maxPilotParticipants === 30 && release?.pilotDurationWeeks === 4,
   'Pilot activation size or duration changed')
 
-for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8Y'],
-  [verifyData, 'VERIFY_DATA_PHASE_8Y'], [buildWeb, 'BUILD_PHASE_8Y'],
-  [deployWeb, 'DEPLOY_PHASE_8Y'], [verifyWeb, 'VERIFY_WEB_PHASE_8Y']]) {
+for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8Z'],
+  [verifyData, 'VERIFY_DATA_PHASE_8Z'], [buildWeb, 'BUILD_PHASE_8Z'],
+  [deployWeb, 'DEPLOY_PHASE_8Z'], [verifyWeb, 'VERIFY_WEB_PHASE_8Z']]) {
   assert(workflow.includes(token), `Workflow omits ${token}`)
 }
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {

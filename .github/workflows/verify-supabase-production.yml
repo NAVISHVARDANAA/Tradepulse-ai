@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type VERIFY_DATA_PHASE_8Y for the controlled pilot activation candidate
+        description: Type VERIFY_DATA_PHASE_8Z for the licensed real-time data activation candidate
         required: true
         type: string
 
@@ -39,8 +39,8 @@ jobs:
           VERIFICATION_CONFIRMATION: ${{ inputs.confirmation }}
         run: |
           set -eu
-          test "$VERIFICATION_CONFIRMATION" = "VERIFY_DATA_PHASE_8Y" || {
-            echo "Verification confirmation did not match VERIFY_DATA_PHASE_8Y."
+          test "$VERIFICATION_CONFIRMATION" = "VERIFY_DATA_PHASE_8Z" || {
+            echo "Verification confirmation did not match VERIFY_DATA_PHASE_8Z."
             exit 1
           }
           test -n "$SUPABASE_ACCESS_TOKEN" || {
@@ -423,6 +423,7 @@ jobs:
             sync-fx-market-data \
             generate-market-forecasts \
             sync-equity-market-data \
+            stream-twelve-data-market-data \
             sync-sec-equity-fundamentals
           do
             jq -e --arg name "$function_name" \
@@ -634,6 +635,26 @@ jobs:
             exit 1
           fi
 
+      - name: Verify real-time streaming remains internal and fail closed
+        run: |
+          set -eu
+          status_code="$(curl \
+            --silent --show-error \
+            --dump-header realtime-stream-headers.txt \
+            --output realtime-stream-response.json \
+            --write-out '%{http_code}' \
+            --request POST --header 'Content-Type: application/json' \
+            --data '{"confirmation":"STREAM_PHASE_8Z"}' \
+            "https://${SUPABASE_PROJECT_REF}.supabase.co/functions/v1/stream-twelve-data-market-data")"
+          test "$status_code" = "401" || {
+            echo "Expected unauthenticated real-time streaming to return 401; received $status_code."
+            exit 1
+          }
+          if grep -qi '^access-control-allow-origin:' realtime-stream-headers.txt; then
+            echo "Internal real-time streaming unexpectedly enabled browser CORS."
+            exit 1
+          fi
+
       - name: Verify unauthenticated account inventory syncs remain blocked
         run: |
           set -eu
@@ -768,6 +789,7 @@ jobs:
             echo "- Alpaca Broker API sandbox route lock: verified"
             echo "- preview-brokerage-order: ACTIVE"
             echo "- probe-alpaca-broker-sandbox: ACTIVE"
+            echo "- stream-twelve-data-market-data: ACTIVE and license-gated"
             echo "- sync-alpaca-sandbox-account-inventory: ACTIVE"
             echo "- evaluate-broker-operations: ACTIVE"
             echo "- submit-paper-order: ACTIVE"

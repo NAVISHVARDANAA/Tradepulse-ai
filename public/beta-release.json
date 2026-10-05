@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "release": "controlled-beta-rc2",
-  "phase": "8Y",
-  "status": "controlled_pilot_activation_candidate",
+  "phase": "8Z",
+  "status": "licensed_realtime_data_activation_candidate",
   "audience": "internal_release_review",
   "hardLocks": {
     "liveBrokerageExecution": false,
@@ -63,7 +63,8 @@
       "licensedLiveDataIntegration",
       "licensedProviderCommercialReadiness",
       "controlledAudiencePilotOperatingModel",
-      "controlledPilotActivation"
+      "controlledPilotActivation",
+      "licensedRealtimeDataActivation"
     ]
   },
   "trustLayer": {
@@ -129,6 +130,7 @@
     "check:licensed-provider-commercial-readiness",
     "check:controlled-audience-pilot-operating-model",
     "check:controlled-pilot-activation",
+    "check:licensed-realtime-data-activation",
     "check:production-experience",
     "check:bundle",
     "check:release",
@@ -168,7 +170,8 @@
     "external-audience-domain-identity-legal-support-monitoring-data-rights-capacity-rollback-and-cohort-approval",
     "licensed-live-data-rights-entitlements-security-mapping-quality-resilience-operations-canary-rollback-and-independent-approval",
     "licensed-provider-corporate-rights-entitlement-pricing-security-service-implementation-exit-and-independent-commercial-approval",
-    "controlled-audience-pilot-segment-consent-support-metrics-cost-and-go-no-go-approval"
+    "controlled-audience-pilot-segment-consent-support-metrics-cost-and-go-no-go-approval",
+    "twelve-data-external-display-redistribution-entitlement-credentials-canary-and-release-approval"
   ],
   "betaHardening": {
     "workspaceEnabled": true,
@@ -1054,6 +1057,32 @@
     "productionCredentialStorageEnabled": false,
     "productionPayloadIntakeEnabled": false,
     "liveDataDisplayEnabled": false,
+    "orderRoutingEnabled": false,
+    "paymentCollectionEnabled": false,
+    "moneyMovementEnabled": false,
+    "custodyEnabled": false,
+    "settlementEnabled": false
+  },
+  "licensedRealtimeDataActivation": {
+    "workspaceEnabled": true,
+    "implementationCandidate": "twelve-data",
+    "serverSideWebSocketAdapterImplemented": true,
+    "databaseRealtimeDeliveryImplemented": true,
+    "strictPayloadValidationImplemented": true,
+    "boundedCanaryWindowSeconds": 100,
+    "canarySymbolCeiling": 30,
+    "browserProviderCredentialExposure": false,
+    "providerCommerciallySelected": false,
+    "providerContractSigned": false,
+    "externalDisplayRightsApproved": false,
+    "redistributionRightsApproved": false,
+    "productionCredentialsProvisioned": false,
+    "productionCanaryPassed": false,
+    "continuousStreamOrchestrationEnabled": false,
+    "productionFeedActivated": false,
+    "liveDataDisplayEnabled": false,
+    "externalAudienceActivationEnabled": false,
+    "publicSignupEnabled": false,
     "orderRoutingEnabled": false,
     "paymentCollectionEnabled": false,
     "moneyMovementEnabled": false,

@@ -919,6 +919,32 @@ if (
   manifest.controlledPilotActivation?.settlementEnabled !== false
 ) throw new Error('Deployed controlled pilot activation boundary is incomplete or unsafe.')
 if (
+  manifest.licensedRealtimeDataActivation?.workspaceEnabled !== true ||
+  manifest.licensedRealtimeDataActivation?.implementationCandidate !== 'twelve-data' ||
+  manifest.licensedRealtimeDataActivation?.serverSideWebSocketAdapterImplemented !== true ||
+  manifest.licensedRealtimeDataActivation?.databaseRealtimeDeliveryImplemented !== true ||
+  manifest.licensedRealtimeDataActivation?.strictPayloadValidationImplemented !== true ||
+  manifest.licensedRealtimeDataActivation?.boundedCanaryWindowSeconds !== 100 ||
+  manifest.licensedRealtimeDataActivation?.canarySymbolCeiling !== 30 ||
+  manifest.licensedRealtimeDataActivation?.browserProviderCredentialExposure !== false ||
+  manifest.licensedRealtimeDataActivation?.providerCommerciallySelected !== false ||
+  manifest.licensedRealtimeDataActivation?.providerContractSigned !== false ||
+  manifest.licensedRealtimeDataActivation?.externalDisplayRightsApproved !== false ||
+  manifest.licensedRealtimeDataActivation?.redistributionRightsApproved !== false ||
+  manifest.licensedRealtimeDataActivation?.productionCredentialsProvisioned !== false ||
+  manifest.licensedRealtimeDataActivation?.productionCanaryPassed !== false ||
+  manifest.licensedRealtimeDataActivation?.continuousStreamOrchestrationEnabled !== false ||
+  manifest.licensedRealtimeDataActivation?.productionFeedActivated !== false ||
+  manifest.licensedRealtimeDataActivation?.liveDataDisplayEnabled !== false ||
+  manifest.licensedRealtimeDataActivation?.externalAudienceActivationEnabled !== false ||
+  manifest.licensedRealtimeDataActivation?.publicSignupEnabled !== false ||
+  manifest.licensedRealtimeDataActivation?.orderRoutingEnabled !== false ||
+  manifest.licensedRealtimeDataActivation?.paymentCollectionEnabled !== false ||
+  manifest.licensedRealtimeDataActivation?.moneyMovementEnabled !== false ||
+  manifest.licensedRealtimeDataActivation?.custodyEnabled !== false ||
+  manifest.licensedRealtimeDataActivation?.settlementEnabled !== false
+) throw new Error('Deployed licensed real-time activation boundary is incomplete or unsafe.')
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||
