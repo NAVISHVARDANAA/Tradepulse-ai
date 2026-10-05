@@ -1507,6 +1507,37 @@ contracts; reviewed `DEPLOY_DATA_PHASE_8Y` and read-only
 verified external evidence for every gate and a separate accountable human
 go / no-go decision; Phase 8Y cannot authorize or activate a participant.
 
+### Phase 8Z — licensed real-time data activation (implemented candidate)
+
+- A server-only Twelve Data WebSocket adapter subscribes to a maximum of 30
+  explicitly mapped symbols and keeps the provider credential outside the web
+  application.
+- Strict validation accepts only allow-listed, positive, current price events;
+  malformed, stale, future and unknown observations are dropped before storage.
+- A bounded 15–100 second stream window, ten-second heartbeat and explicit
+  connection close fit a zero-customer canary inside the Edge runtime rather
+  than pretending to provide an unmanaged continuous connection.
+- Validated events are written to `market_observations`; the existing Supabase
+  Realtime publication and route-scoped subscription provide the database-to-
+  browser delivery path without a direct provider connection in the browser.
+- Four independent server flags, the internal scheduler secret and the exact
+  `STREAM_PHASE_8Z` confirmation keep the adapter fail closed.
+- The cockpit separates implemented controls from external commercial evidence.
+  Provider selection, contract signature, external-display rights,
+  redistribution rights, credentials, canary approval, continuous stream
+  orchestration and customer real-time labels remain disabled.
+- Phase 8Z adds no database migration and preserves migration 066.
+
+**Phase 8Z exit gate:** green licensed-realtime-data-activation, licensed-live-
+data-integration, browser, Edge, security, bundle and release contracts; reviewed
+`DEPLOY_DATA_PHASE_8Z` and read-only `VERIFY_DATA_PHASE_8Z` evidence at migration
+066; successful `BUILD_PHASE_8Z`; reviewed `DEPLOY_PHASE_8Z`; and read-only
+`VERIFY_WEB_PHASE_8Z` evidence. Activating a production feed still requires a
+signed business agreement, explicit display and redistribution rights, approved
+credentials and mapping, a successful zero-customer canary, owned continuous
+orchestration and an independent release decision; Phase 8Z cannot supply those
+external facts or enable customer display by itself.
+
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.

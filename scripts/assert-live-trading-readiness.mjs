@@ -77,8 +77,8 @@ assert(productionBrowserTest.includes("['#live-readiness', 'Live trading readine
 
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
-assert(manifest.phase === '8Y', 'Release manifest is not Phase 8D')
-assert(manifest.status === 'controlled_pilot_activation_candidate', 'Release status is not the global venue and instrument intelligence candidate')
+assert(manifest.phase === '8Z', 'Release manifest is not Phase 8D')
+assert(manifest.status === 'licensed_realtime_data_activation_candidate', 'Release status is not the global venue and instrument intelligence candidate')
 for (const [key, expected] of Object.entries({
   workspaceEnabled: true,
   requirementCount: 18,
@@ -98,11 +98,11 @@ assert(manifest.requiredChecks.includes('check:live-readiness'), 'Manifest omits
 assert(packageJson.scripts?.['check:live-readiness'], 'Package live readiness check is missing')
 
 for (const [workflow, contract] of [
-  [deployData, 'DEPLOY_DATA_PHASE_8Y'],
-  [verifyData, 'VERIFY_DATA_PHASE_8Y'],
-  [buildWeb, 'BUILD_PHASE_8Y'],
-  [deployWeb, 'DEPLOY_PHASE_8Y'],
-  [verifyWeb, 'VERIFY_WEB_PHASE_8Y'],
+  [deployData, 'DEPLOY_DATA_PHASE_8Z'],
+  [verifyData, 'VERIFY_DATA_PHASE_8Z'],
+  [buildWeb, 'BUILD_PHASE_8Z'],
+  [deployWeb, 'DEPLOY_PHASE_8Z'],
+  [verifyWeb, 'VERIFY_WEB_PHASE_8Z'],
 ]) assert(workflow.includes(contract), `Release workflow omits ${contract}`)
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
   assert(workflow.includes('check:live-readiness'), 'A web gate omits live readiness')

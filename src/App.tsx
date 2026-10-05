@@ -90,6 +90,7 @@ const LicensedLiveDataIntegrationPanel = lazy(() => import('./components/License
 const LicensedProviderCommercialReadinessPanel = lazy(() => import('./components/LicensedProviderCommercialReadinessPanel'))
 const ControlledAudiencePilotOperatingModelPanel = lazy(() => import('./components/ControlledAudiencePilotOperatingModelPanel'))
 const ControlledPilotActivationPanel = lazy(() => import('./components/ControlledPilotActivationPanel'))
+const LicensedRealtimeDataActivationPanel = lazy(() => import('./components/LicensedRealtimeDataActivationPanel'))
 const AccountSecurityPanel = lazy(() => import('./components/AccountSecurityPanel').then((module) => ({
   default: module.AccountSecurityPanel,
 })))
@@ -675,6 +676,14 @@ function App() {
           <ProductErrorBoundary title="Controlled pilot activation readiness is unavailable">
             <Suspense fallback={<SectionLoader label="Controlled pilot activation readiness" />}>
               <ControlledPilotActivationPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        </section> : null}
+
+        {activeHref === '#realtime-data-activation' ? <section id="realtime-data-activation" className="product-workspace">
+          <ProductErrorBoundary title="Licensed real-time data activation readiness is unavailable">
+            <Suspense fallback={<SectionLoader label="Licensed real-time data activation readiness" />}>
+              <LicensedRealtimeDataActivationPanel />
             </Suspense>
           </ProductErrorBoundary>
         </section> : null}

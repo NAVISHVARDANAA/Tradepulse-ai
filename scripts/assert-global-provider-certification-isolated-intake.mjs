@@ -70,7 +70,7 @@ assert(production.includes("'#provider-certification'"), 'Production test omits 
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.globalProviderCertification
-assert(manifest.phase === '8Y' && manifest.status === 'controlled_pilot_activation_candidate',
+assert(manifest.phase === '8Z' && manifest.status === 'licensed_realtime_data_activation_candidate',
   'Manifest is not Phase 8L')
 assert(packageJson.scripts?.['check:global-provider-certification'], 'Package omits Phase 8L check')
 assert(manifest.requiredChecks.includes('check:global-provider-certification'), 'Manifest omits Phase 8L check')
@@ -93,9 +93,9 @@ assert(release?.certificationGateCount === 10 && release?.isolationProfileCount 
 assert(release?.failureDrillCount === 6 && release?.observedDrillCount === 0,
   'Failure-drill counts changed')
 
-for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8Y'],
-  [verifyData, 'VERIFY_DATA_PHASE_8Y'], [buildWeb, 'BUILD_PHASE_8Y'],
-  [deployWeb, 'DEPLOY_PHASE_8Y'], [verifyWeb, 'VERIFY_WEB_PHASE_8Y']]) {
+for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8Z'],
+  [verifyData, 'VERIFY_DATA_PHASE_8Z'], [buildWeb, 'BUILD_PHASE_8Z'],
+  [deployWeb, 'DEPLOY_PHASE_8Z'], [verifyWeb, 'VERIFY_WEB_PHASE_8Z']]) {
   assert(workflow.includes(token), `Workflow omits ${token}`)
 }
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {

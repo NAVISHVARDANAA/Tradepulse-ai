@@ -14,6 +14,9 @@ sql_paths = []
 [functions.probe-alpaca-broker-sandbox]
 verify_jwt = false
 
+[functions.stream-twelve-data-market-data]
+verify_jwt = false
+
 [functions.sync-alpaca-sandbox-account-inventory]
 verify_jwt = false
 

@@ -260,16 +260,16 @@ Record the merge commit, GitHub workflow run ID and artifact name in the
 restricted release record. Never place secrets, customer data or raw operational
 evidence in a public issue or artifact.
 
-## Current Phase 8Y hosting deployment procedure
+## Current Phase 8Z hosting deployment procedure
 
-After the Phase 8Y PR is merged and all `main` checks pass:
+After the Phase 8Z PR is merged and all `main` checks pass:
 
-1. Deploy and verify migration 066 with `DEPLOY_DATA_PHASE_8Y` and `VERIFY_DATA_PHASE_8Y`.
+1. Deploy and verify migration 066 with `DEPLOY_DATA_PHASE_8Z` and `VERIFY_DATA_PHASE_8Z`.
 2. Open **Actions → Build production web release**.
-3. Select `main`, enter `BUILD_PHASE_8Y` and run the workflow.
+3. Select `main`, enter `BUILD_PHASE_8Z` and run the workflow.
 4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 5. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-6. Run **Verify web production** with `VERIFY_WEB_PHASE_8Y` after deployment
+6. Run **Verify web production** with `VERIFY_WEB_PHASE_8Z` after deployment
    or any customer-facing operational incident.
 7. Do not invite external testers until every manual prerequisite above is approved.
 
@@ -298,9 +298,10 @@ signals into a controlled-audience pilot plan. It cannot invite participants,
 provision accounts, enable signup, collect payment, connect a provider, receive
 production payloads, display live data, route orders or move money.
 
-Phase 8Y adds no migration. It turns that plan into an activation cockpit with
-eight human evidence gates, three bounded waves and eight immediate stop
-conditions. It records no roster or consent data, authorizes no go / no-go
-decision and cannot invite, provision or activate participants. The pilot may
-use clearly labelled authorized reference or delayed data; real-time display
-remains blocked until a licensed provider is contracted and integrated.
+Phase 8Z adds no migration. It adds a server-only Twelve Data WebSocket adapter,
+strict allow-list, price and timestamp validation, a bounded canary window and
+the real-time activation cockpit. Existing Supabase database-change delivery is
+reused instead of connecting the browser to the provider. Provider contracting,
+external-display and redistribution rights, production credentials, continuous
+stream orchestration, canary execution and customer real-time labels remain
+blocked pending external evidence and independent approval.

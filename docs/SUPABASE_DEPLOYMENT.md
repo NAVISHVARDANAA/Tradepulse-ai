@@ -40,12 +40,29 @@ The dashboard will show `not run`; an authorized probe without credentials fails
 closed and stores only `CONFIGURATION_INVALID`. Never use Alpaca live credentials
 for this adapter.
 
-## Release Phase 8Y
+## Release Phase 8Z
+
+Before any licensed-data canary, add the following only to the Supabase project
+secret store after the commercial and rights reviews are approved:
+
+| Secret | Purpose |
+| --- | --- |
+| `SYNC_SECRET` | Existing internal scheduler authentication secret |
+| `TWELVE_DATA_API_KEY` | Contracted business-plan API credential |
+| `TWELVE_DATA_MARKET_ASSET_MAP` | JSON allow-list from provider symbols to existing `market_assets.symbol` values |
+| `TWELVE_DATA_EXTERNAL_DISPLAY_LICENSED` | Exact string `true` only after display rights approval |
+| `TWELVE_DATA_REALTIME_LICENSED` | Exact string `true` only for the contracted real-time instruments |
+| `TWELVE_DATA_REDISTRIBUTION_APPROVED` | Exact string `true` only after customer redistribution approval |
+| `TWELVE_DATA_STREAM_ENABLED` | Final operational enable flag, default absent/false |
+
+Do not add these values until the corresponding evidence exists, and never use
+a `VITE_` name. Deploying the function with absent secrets is safe: it remains
+internal and fails closed before opening a provider connection.
 
 1. Confirm the CI workflow on `main` is green.
 2. Open **Actions → Deploy Supabase production → Run workflow**.
 3. Select the `main` branch.
-4. Enter `DEPLOY_DATA_PHASE_8Y` as the confirmation value.
+4. Enter `DEPLOY_DATA_PHASE_8Z` as the confirmation value.
 5. Approve the `production` environment deployment when prompted.
 
 The workflow performs a database dry run, applies every pending migration in
@@ -57,15 +74,17 @@ runtime reads return HTTP 2xx. It also runs query-only production lock smoke
 checks and proves that unauthenticated brokerage, paper-simulation,
 platform-evaluation and account-security requests receive HTTP 401.
 
-Phase 8Y introduces no database migration. The data release remains at
-migration 066; the activation cockpit only composes existing sanitized status
-views and local reference contracts. It stores no participant identity,
-evidence or authorization and has no write or activation path.
+Phase 8Z introduces no database migration. The data release remains at
+migration 066. The protected workflow deploys the new internal streaming
+function, verifies it is active and proves an unauthenticated request returns
+HTTP 401; it does not invoke the function or connect the provider. A separately
+approved bounded canary must include `STREAM_PHASE_8Z` in its internal JSON
+request after every license flag and secret is present.
 
 ## Read-only production verification
 
 Run **Actions → Verify Supabase production → Run workflow** after a release or
-operational incident. Select `main` and enter `VERIFY_DATA_PHASE_8Y`.
+operational incident. Select `main` and enter `VERIFY_DATA_PHASE_8Z`.
 
 The verification workflow performs no production writes. It confirms local and
 remote migration parity, executes the audited, query-only
