@@ -805,7 +805,8 @@ test('core landmarks pass automated WCAG A and AA checks', async ({ page }, test
 
 test('first-run guide traps focus and restores it when closed', async ({ page }) => {
   await page.evaluate(() => localStorage.removeItem('tradepulse-product-tour-v3'))
-  await page.goto('/#dashboard')
+  await page.goto('/#dashboard', { waitUntil: 'domcontentloaded' })
+  await page.reload()
 
   const dialog = page.getByRole('dialog', { name: 'Learn before you invest' })
   await expect(dialog).toBeVisible()
@@ -828,8 +829,8 @@ test('desktop grouped navigation is keyboard operable', async ({ page }, testInf
   test.skip(testInfo.project.name !== 'desktop-chromium', 'Desktop-only navigation contract')
 
   const navigation = page.getByRole('navigation', { name: 'Product navigation' })
-  const research = navigation.locator('details').filter({ hasText: 'Research' })
-  const summary = research.locator('summary')
+  const summary = navigation.getByText('Research', { exact: true })
+  const research = summary.locator('..')
   await summary.press('Enter')
   await expect(research).toHaveJSProperty('open', true)
   await expect(navigation.getByRole('link', { name: 'Global access' })).toBeVisible()
