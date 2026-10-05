@@ -23,7 +23,7 @@ const [navigation, applicationSource] = await Promise.all([
   readSourceTree(srcPath),
 ])
 
-const expectedGroups = ['Overview', 'Research', 'Investing', 'Business', 'Account']
+const expectedGroups = ['Demo', 'Research', 'Learn & practise', 'Business', 'Trust & account', 'Readiness controls']
 for (const group of expectedGroups) {
   if (!navigation.includes(`label: '${group}'`)) {
     throw new Error(`Missing required product-navigation group: ${group}`)
@@ -33,8 +33,8 @@ for (const group of expectedGroups) {
 const hrefs = [...navigation.matchAll(/href: '(#[a-z0-9-]+)'/g)].map(
   (match) => match[1],
 )
-if (hrefs.length !== 53) {
-  throw new Error(`Expected 53 product destinations, found ${hrefs.length}`)
+if (hrefs.length !== 54) {
+  throw new Error(`Expected 54 product destinations, found ${hrefs.length}`)
 }
 if (new Set(hrefs).size !== hrefs.length) {
   throw new Error('Product navigation contains a duplicate destination')
@@ -63,4 +63,4 @@ if (!applicationSource.includes("addEventListener('hashchange'")) {
   throw new Error('Application does not react to hash-route changes')
 }
 
-console.log('Product navigation contract passed: 5 groups, 53 valid destinations.')
+console.log('Product navigation contract passed: 6 groups, 54 valid destinations.')

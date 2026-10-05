@@ -43,7 +43,7 @@ for (const [route, domains] of Object.entries(routeContracts)) {
 
 for (const contract of [
   'productDataRequirements(activeHref)',
-  'dataRequirements.forEach',
+  'queryRequirements.forEach',
   'tradepulse-product-data-',
   'forecast_reliability_snapshots',
   'equity_research_scores',
@@ -80,9 +80,9 @@ assert(vite.includes("target: 'es2022'"), 'Production build is not pinned to the
 assert(vite.includes('modulePreload: { polyfill: false }'), 'Native module preloading is not pinned')
 
 for (const [name, workflow, confirmation] of [
-  ['build', build, 'BUILD_PHASE_8Z'],
-  ['deploy', deploy, 'DEPLOY_PHASE_8Z'],
-  ['verify', verify, 'VERIFY_WEB_PHASE_8Z'],
+  ['build', build, 'BUILD_PHASE_9A'],
+  ['deploy', deploy, 'DEPLOY_PHASE_9A'],
+  ['verify', verify, 'VERIFY_WEB_PHASE_9A'],
   ['CI', ci, 'check:data-loading'],
 ]) {
   assert(workflow.includes(confirmation), `Phase 5I ${name} contract is missing`)

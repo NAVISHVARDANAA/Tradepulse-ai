@@ -63,8 +63,11 @@ export function GuidedOnboarding() {
     const authenticationReturn =
       window.location.hash === '#paper-investing' ||
       window.location.hash === '#account-security'
+    const showcaseEntry =
+      window.location.hash === '' ||
+      window.location.hash === '#live-demo'
 
-    if (!authenticationReturn && !localStorage.getItem(TOUR_KEY)) {
+    if (!authenticationReturn && !showcaseEntry && !localStorage.getItem(TOUR_KEY)) {
       setMode('welcome')
     }
   }, [])
@@ -118,7 +121,7 @@ export function GuidedOnboarding() {
     localStorage.setItem(TOUR_KEY, 'completed')
     setMode(null)
     void saveCustomerOnboarding(steps.length, 'completed')
-    window.location.hash = '#dashboard'
+    window.location.hash = '#live-demo'
     window.setTimeout(() => {
       window.scrollTo({ top: 0, behavior: 'smooth' })
       document.getElementById('main-content')?.focus()

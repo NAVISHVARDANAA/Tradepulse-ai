@@ -18,6 +18,7 @@ const [test, config, localConfig, verifyWorkflow, deployWorkflow, packageJsonTex
 const packageJson = JSON.parse(packageJsonText)
 
 for (const route of [
+  '#live-demo',
   '#dashboard',
   '#analytics-studio',
   '#global-access',
@@ -71,10 +72,10 @@ assert(
   localConfig.includes("testIgnore: 'production-smoke.spec.ts'"),
   'Local browser suite must not run the live production smoke contract',
 )
-for (const contract of ['VERIFY_WEB_PHASE_8Z', 'npm run test:e2e:production', 'environment: production']) {
+for (const contract of ['VERIFY_WEB_PHASE_9A', 'npm run test:e2e:production', 'environment: production']) {
   assert(verifyWorkflow.includes(contract), `Manual production verification workflow missing: ${contract}`)
 }
-for (const contract of ['DEPLOY_PHASE_8Z', 'npm run test:e2e:production', 'steps.cloudflare.outputs.deployment-url']) {
+for (const contract of ['DEPLOY_PHASE_9A', 'npm run test:e2e:production', 'steps.cloudflare.outputs.deployment-url']) {
   assert(deployWorkflow.includes(contract), `Post-deployment experience gate missing: ${contract}`)
 }
 for (const script of ['check:production-experience', 'test:e2e:production']) {
@@ -82,4 +83,4 @@ for (const script of ['check:production-experience', 'test:e2e:production']) {
 }
 assert(roadmap.includes('Phase 5C — production experience assurance'), 'Roadmap omits Phase 5C')
 
-console.log('Production experience contract passed: 44 routes, runtime failures, Analytics interactions and execution locks guarded.')
+console.log('Production experience contract passed: 45 routes, runtime failures, Analytics interactions and execution locks guarded.')

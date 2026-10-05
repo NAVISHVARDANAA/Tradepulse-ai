@@ -18,6 +18,11 @@ import {
 } from './components/ProductNavigation'
 import { SystemStatusPanel } from './components/SystemStatusPanel'
 import { productDataRequirements } from './lib/productDataRequirements'
+import {
+  DEMO_MODE_EVENT,
+  isDemoModeEnabled,
+  setDemoModeEnabled,
+} from './lib/demoMode'
 import { recordLocalWorkspaceVisit } from './lib/trustLayer'
 import { supabase } from './lib/supabase/client'
 import type {
@@ -175,6 +180,12 @@ const TradeTrendChart = lazy(() => import('./components/TradeTrendChart').then((
 const TrustCenterPanel = lazy(() => import('./components/TrustCenterPanel').then((module) => ({
   default: module.TrustCenterPanel,
 })))
+const LiveDemoPanel = lazy(() => import('./components/LiveDemoPanel').then((module) => ({
+  default: module.LiveDemoPanel,
+})))
+const DemoModeBanner = lazy(() => import('./components/DemoModeBanner').then((module) => ({
+  default: module.DemoModeBanner,
+})))
 
 function SectionLoader({ label }: { label: string }) {
   return (
@@ -302,6 +313,16 @@ function App() {
   const [equityResearchError, setEquityResearchError] = useState<string | null>(null)
   const [globalMarketAccessError, setGlobalMarketAccessError] = useState<string | null>(null)
   const [paymentError, setPaymentError] = useState<string | null>(null)
+  const [demoMode, setDemoMode] = useState(() => isDemoModeEnabled())
+
+  useEffect(() => {
+    const followDemoMode = (event: Event) => {
+      const enabled = (event as CustomEvent<{ enabled: boolean }>).detail.enabled
+      setDemoMode(enabled)
+    }
+    window.addEventListener(DEMO_MODE_EVENT, followDemoMode)
+    return () => window.removeEventListener(DEMO_MODE_EVENT, followDemoMode)
+  }, [])
 
   useEffect(() => {
     const followRoute = () => setActiveHref(productHrefFromHash(window.location.hash))
@@ -324,6 +345,29 @@ function App() {
   useEffect(() => {
     const dataRequirements = productDataRequirements(activeHref)
     if (dataRequirements.length === 0) return
+    const queryRequirements = dataRequirements
+
+    const demoDomains = dataRequirements.filter((domain) => domain !== 'globalAccess')
+    if (demoMode && demoDomains.length > 0) {
+      let active = true
+      void import('./lib/demoExperience').then((demo) => {
+        if (!active) return
+        setMarketAssets(demo.demoMarketAssets)
+        setTradeDashboard(demo.demoTradeDashboard)
+        setForecasts(demo.demoForecasts)
+        setEquityResearch(demo.demoEquityResearch)
+        setMarketLoading(false)
+        setTradeLoading(false)
+        setForecastLoading(false)
+        setEquityResearchLoading(false)
+        setMarketError(null)
+        setTradeError(null)
+        setForecastError(null)
+        setEquityResearchError(null)
+      })
+
+      return () => { active = false }
+    }
 
     const referenceData = () => import('./lib/queries/referenceData')
     const loadMarkets = () => loadProductData(
@@ -371,7 +415,7 @@ function App() {
       equity: loadEquityResearch,
       globalAccess: loadGlobalMarketAccess,
     }
-    dataRequirements.forEach((domain) => void loaders[domain]())
+    queryRequirements.forEach((domain) => void loaders[domain]())
 
     const refreshTimers = new Map<string, number>()
     const scheduleRefresh = (key: string, refresh: () => void) => {
@@ -383,7 +427,7 @@ function App() {
       }, 300))
     }
 
-    const has = (domain: keyof typeof loaders) => dataRequirements.includes(domain)
+    const has = (domain: keyof typeof loaders) => queryRequirements.includes(domain)
     const scheduleDomain = (domain: keyof typeof loaders) => {
       scheduleRefresh(domain, () => void loaders[domain]())
     }
@@ -423,7 +467,7 @@ function App() {
       refreshTimers.forEach((timer) => window.clearTimeout(timer))
       void supabase.removeChannel(channel)
     }
-  }, [activeHref])
+  }, [activeHref, demoMode])
 
   useEffect(() => {
     if (activeHref !== '#payments') return
@@ -471,19 +515,28 @@ function App() {
     }
   })
 
+  const startDemo = () => {
+    setDemoModeEnabled(true)
+    window.location.hash = '#analytics-studio'
+  }
+
+  const exitDemo = () => {
+    setDemoModeEnabled(false)
+  }
+
   return (
     <div className="app-shell" id="dashboard">
       <a className="skip-link" href="#main-content">Skip to main content</a>
       <GuidedOnboarding />
       <header className="topbar">
-        <a className="brand-wrap" href="#dashboard" aria-label="TradePulse AI home">
+        <a className="brand-wrap" href="#live-demo" aria-label="TradePulse AI home">
           <div className="brand-mark">
             <TrendingUp size={18} />
           </div>
 
           <div className="brand-copy">
             <span className="brand-name">TradePulse AI</span>
-            <span className="brand-stage">Controlled beta</span>
+            <span className="brand-stage">Audience demo</span>
           </div>
         </a>
 
@@ -497,6 +550,20 @@ function App() {
 
       <main className="dashboard" id="main-content" tabIndex={-1}>
         <ProductPageHeader activeHref={activeHref} />
+
+        {demoMode ? (
+          <Suspense fallback={null}>
+            <DemoModeBanner onExit={exitDemo} />
+          </Suspense>
+        ) : null}
+
+        {activeHref === '#live-demo' ? (
+          <LiveDemoPanel
+            demoMode={demoMode}
+            onStartDemo={startDemo}
+            onExitDemo={exitDemo}
+          />
+        ) : null}
 
         {activeHref === '#dashboard' ? (
           <div className="overview-workspace" aria-label="TradePulse workspaces">

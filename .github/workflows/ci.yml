@@ -161,6 +161,9 @@ jobs:
       - name: Verify licensed real-time data activation
         run: npm run check:licensed-realtime-data-activation
 
+      - name: Verify live-demo readiness
+        run: npm run check:live-demo-readiness
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 

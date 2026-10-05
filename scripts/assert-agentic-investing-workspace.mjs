@@ -106,7 +106,7 @@ assert(modelTest.includes('test_news_features_never_use_future_signals'), 'Forec
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.agenticInvesting
-assert(/^8[A-Z]$/.test(manifest.phase), 'Release manifest is outside the Phase 8 sequence')
+assert(manifest.phase === '9A', 'Release manifest is not the Phase 9A candidate')
 assert(packageJson.scripts?.['check:agentic-investing'], 'Package scripts omit the Phase 8E check')
 assert(manifest.requiredChecks.includes('check:agentic-investing'), 'Manifest omits the Phase 8E check')
 for (const capability of [
@@ -124,7 +124,7 @@ for (const lock of [
 
 const releasePhase = `PHASE_${manifest.phase}`
 for (const [workflow, confirmation] of [
-  [deployData, `DEPLOY_DATA_${releasePhase}`], [verifyData, `VERIFY_DATA_${releasePhase}`],
+  [deployData, 'DEPLOY_DATA_PHASE_8Z'], [verifyData, 'VERIFY_DATA_PHASE_8Z'],
   [buildWeb, `BUILD_${releasePhase}`], [deployWeb, `DEPLOY_${releasePhase}`],
   [verifyWeb, `VERIFY_WEB_${releasePhase}`],
 ]) assert(workflow.includes(confirmation), `Workflow omits ${confirmation}`)

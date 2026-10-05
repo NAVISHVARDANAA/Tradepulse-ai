@@ -7,7 +7,21 @@ compliance boundaries are designed in before execution features are enabled.
 
 ## Current product scope
 
-### Current release — Phase 8Z licensed real-time data activation
+### Current release — Phase 9A live-demo readiness
+
+- A public `#live-demo` workspace gives presenters a focused ten-minute path
+  through market context, governed analytics, equity research and forecast
+  reliability.
+- Optional demo mode uses deterministic, session-scoped sample data that is
+  labelled on every page as non-live and non-transactional.
+- Primary navigation separates audience value from provider, brokerage,
+  payment and compliance readiness controls, so deliberate safety locks no
+  longer read like broken customer features.
+- Research, analytics and forecasting can be demonstrated without a login;
+  private workspaces still require an account and all regulated actions remain
+  disabled.
+- Phase 8Z's server-side real-time adapter remains a guarded implementation
+  candidate; Phase 9A does not activate a licensed feed or customer display.
 
 - A server-only Twelve Data WebSocket candidate can accept up to 30 explicitly
   mapped price symbols in a bounded zero-customer canary.
@@ -419,6 +433,8 @@ The host-neutral production web artifact and required public-client secret are
 documented in [`docs/WEB_RELEASE.md`](docs/WEB_RELEASE.md).
 The grouped desktop and mobile product-navigation contract is documented in
 [`docs/NAVIGATION_MOBILE_UX.md`](docs/NAVIGATION_MOBILE_UX.md).
+The audience walkthrough and sample-data boundary are documented in
+[`docs/LIVE_DEMO_READINESS.md`](docs/LIVE_DEMO_READINESS.md).
 The controlled-beta accessibility, browser and security regression gate is
 documented in
 [`docs/ACCESSIBILITY_SECURITY_REGRESSION.md`](docs/ACCESSIBILITY_SECURITY_REGRESSION.md).

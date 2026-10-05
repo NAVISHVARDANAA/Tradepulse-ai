@@ -161,8 +161,8 @@ assert(browserTest.includes('payment_money_movement_readiness_reference'), 'Brow
 assert(browserTest.includes('Production money movement remains blocked'), 'Browser contract omits the Phase 7E heading')
 assert(productionBrowserTest.includes("['#payments', 'Money movement readiness']"), 'Production smoke omits the Phase 7E workspace')
 
-assert(manifest.phase === '8Z', 'Release manifest is not Phase 8D')
-assert(manifest.status === 'licensed_realtime_data_activation_candidate', 'Release status is not the Phase 8A candidate')
+assert(manifest.phase === '9A', 'Release manifest is not Phase 8D')
+assert(manifest.status === 'live_demo_readiness_candidate', 'Release status is not the Phase 8A candidate')
 assert(manifest.requiredChecks.includes('check:money-movement-readiness'), 'Release manifest omits the Phase 7E gate')
 assert(packageJson.scripts?.['check:money-movement-readiness'], 'Package scripts omit the Phase 7E gate')
 const release = manifest.controlledMoneyMovement
@@ -203,9 +203,9 @@ for (const lock of [
 for (const [workflow, contract] of [
   [deployData, 'DEPLOY_DATA_PHASE_8Z'],
   [verifyData, 'VERIFY_DATA_PHASE_8Z'],
-  [buildWeb, 'BUILD_PHASE_8Z'],
-  [deployWeb, 'DEPLOY_PHASE_8Z'],
-  [verifyWeb, 'VERIFY_WEB_PHASE_8Z'],
+  [buildWeb, 'BUILD_PHASE_9A'],
+  [deployWeb, 'DEPLOY_PHASE_9A'],
+  [verifyWeb, 'VERIFY_WEB_PHASE_9A'],
 ]) assert(workflow.includes(contract), `Release workflow omits ${contract}`)
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
   assert(workflow.includes('check:money-movement-readiness'), 'A web gate omits controlled money-movement readiness')
