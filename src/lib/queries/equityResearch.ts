@@ -4,6 +4,8 @@ import type {
   EquityResearchSnapshot,
   MarketForecast,
 } from '../../types/domain'
+import { getDemoEquityHistory } from '../demoExperience'
+import { isDemoModeEnabled } from '../demoMode'
 import { supabase } from '../supabase/client'
 
 type NumericValue = number | string | null
@@ -128,6 +130,10 @@ export async function getGlobalEquityResearch(): Promise<
 export async function getEquityPriceHistory(
   marketAssetId: number,
 ): Promise<EquityPricePoint[]> {
+  if (isDemoModeEnabled()) {
+    return getDemoEquityHistory(marketAssetId)
+  }
+
   const { data, error } = await supabase
     .from('market_observations')
     .select('observed_at, price')

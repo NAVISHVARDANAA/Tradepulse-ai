@@ -945,6 +945,25 @@ if (
   manifest.licensedRealtimeDataActivation?.settlementEnabled !== false
 ) throw new Error('Deployed licensed real-time activation boundary is incomplete or unsafe.')
 if (
+  manifest.liveDemoReadiness?.workspaceEnabled !== true ||
+  manifest.liveDemoReadiness?.defaultRoute !== '#live-demo' ||
+  manifest.liveDemoReadiness?.curatedDemoDataEnabled !== true ||
+  manifest.liveDemoReadiness?.demoDataClearlyLabelled !== true ||
+  manifest.liveDemoReadiness?.demoDataSessionScoped !== true ||
+  manifest.liveDemoReadiness?.audienceJourneyStepCount !== 4 ||
+  manifest.liveDemoReadiness?.regulatedControlsSeparatedFromPrimaryJourney !== true ||
+  manifest.liveDemoReadiness?.publicDemoRequiresAuthentication !== false ||
+  manifest.liveDemoReadiness?.licensedRealtimeFeedEnabled !== false ||
+  manifest.liveDemoReadiness?.publicSignupEnabled !== false ||
+  manifest.liveDemoReadiness?.checkoutEnabled !== false ||
+  manifest.liveDemoReadiness?.orderRoutingEnabled !== false ||
+  manifest.liveDemoReadiness?.paymentExecutionEnabled !== false ||
+  manifest.liveDemoReadiness?.moneyMovementEnabled !== false ||
+  manifest.liveDemoReadiness?.customerFundingEnabled !== false ||
+  manifest.liveDemoReadiness?.custodyEnabled !== false ||
+  manifest.liveDemoReadiness?.settlementEnabled !== false
+) throw new Error('Deployed live-demo readiness boundary is incomplete or unsafe.')
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||

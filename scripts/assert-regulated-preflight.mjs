@@ -118,7 +118,7 @@ assert(productionBrowserTest.includes("['#regulated-preflight', 'Preflight evide
 
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
-assert(manifest.phase === '8Z', 'Release manifest is not on the current Phase 8D candidate')
+assert(manifest.phase === '9A', 'Release manifest is not on the current Phase 8D candidate')
 assert(manifest.regulatedPreflight?.workspaceEnabled === true, 'Manifest omits preflight workspace')
 assert(manifest.regulatedPreflight?.orderSubmissionEnabled === false, 'Manifest enabled order submission')
 assert(manifest.regulatedPreflight?.marketSessionVerificationEnabled === false, 'Manifest inferred market sessions')
@@ -130,9 +130,9 @@ assert(packageJson.scripts?.['check:regulated-preflight'], 'Package preflight ch
 for (const [workflow, contract] of [
   [deployData, 'DEPLOY_DATA_PHASE_8Z'],
   [verifyData, 'VERIFY_DATA_PHASE_8Z'],
-  [buildWeb, 'BUILD_PHASE_8Z'],
-  [deployWeb, 'DEPLOY_PHASE_8Z'],
-  [verifyWeb, 'VERIFY_WEB_PHASE_8Z'],
+  [buildWeb, 'BUILD_PHASE_9A'],
+  [deployWeb, 'DEPLOY_PHASE_9A'],
+  [verifyWeb, 'VERIFY_WEB_PHASE_9A'],
 ]) assert(workflow.includes(contract), `Release workflow omits ${contract}`)
 
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {

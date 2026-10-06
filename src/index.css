@@ -41,6 +41,10 @@ html[data-theme='light'] .nav-menu,html[data-theme='light'] .mobile-product-nav.
   .topbar { flex-wrap:nowrap;justify-content:space-between;padding:12px; }.brand-wrap { width:auto;justify-content:flex-start;min-width:0; }.brand-stage { display:none; }.mobile-product-nav.open { grid-template-columns:1fr; }.dashboard > [id] { scroll-margin-top:88px; }
 }
 
+/* Phase 9A — audience-ready live demo */
+.nav-menu { max-height:min(72vh,680px);overflow-y:auto; }
+.nav-group:last-child .nav-menu { right:0;left:auto;transform:none; }
+
 .skip-link {
   position: fixed; left: 1rem; top: -4rem; z-index: 1000; padding: .7rem 1rem;
   color: #06111f; background: #7dd3fc; border-radius: .55rem; font-weight: 700;

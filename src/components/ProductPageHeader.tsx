@@ -5,6 +5,7 @@ import type { ProductHref } from './ProductNavigation'
 type PageCopy = [eyebrow: string, title: string, description: string, boundary: string]
 
 const pageCopy: Record<string, PageCopy> = {
+  '#live-demo': ['Audience showcase', 'A clear, safe TradePulse live demo', 'Walk a real audience through market context, governed analytics, transparent stock research and forecast reliability using an explicitly labelled, deterministic demo dataset.', 'Demo ready · no execution'],
   '#dashboard': ['Executive dashboard', 'One platform. Focused workspaces.', 'Start with a concise operating view, then open the dedicated research, forecasting, simulation, risk or account workspace you need.', 'Evidence-led decisions'],
   '#system-status': ['Platform operations', 'Production reliability', 'Inspect customer-facing service health, reliability evidence and the current operational state without mixing it into research reports.', 'Safeguards remain active'],
   '#data-trust': ['Data governance', 'Data trust and notifications', 'Review freshness, completeness and duplicate checks, then manage private notification preferences.', 'Evidence before alerts'],
@@ -61,7 +62,7 @@ const pageCopy: Record<string, PageCopy> = {
 }
 
 export function ProductPageHeader({ activeHref }: { activeHref: ProductHref }) {
-  const copy = pageCopy[activeHref] ?? pageCopy['#dashboard']
+  const copy = pageCopy[activeHref] ?? pageCopy['#live-demo']
 
   return (
     <section className="product-page-header" aria-labelledby="product-page-title">

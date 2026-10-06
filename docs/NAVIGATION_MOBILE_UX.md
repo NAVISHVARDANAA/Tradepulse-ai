@@ -1,9 +1,10 @@
 # Product navigation and mobile UX
 
-Phase 4U replaces the flat product link list with five stable groups: Overview,
-Research, Investing, Business and Account. Every previously available product
-destination remains reachable; this phase changes navigation presentation, not
-authorization, data access or execution boundaries.
+Phase 9A evolves the flat product link list into six audience-oriented groups:
+Demo, Research, Learn & practise, Business, Trust & account, and Readiness
+controls. Every previously available product destination remains reachable;
+the presentation change does not alter authorization, data access or execution
+boundaries.
 
 Desktop users receive keyboard-operable grouped menus. At widths of 1040 pixels
 or less, the header uses one expandable mobile menu with 44-pixel minimum touch
@@ -11,7 +12,7 @@ targets. The current section and group are derived from viewport position,
 exposed through `aria-current`, and updated immediately when a destination is
 selected. Escape closes any open navigation surface.
 
-`npm run check:navigation` enforces the five groups, all 20 unique destinations,
+`npm run check:navigation` enforces the six groups, all 54 unique destinations,
 their matching application section IDs, and the required accessible-menu state.
 CI and the protected production web-artifact workflow both run this contract.
 

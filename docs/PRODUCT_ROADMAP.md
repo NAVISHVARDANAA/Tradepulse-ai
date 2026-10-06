@@ -1538,6 +1538,30 @@ credentials and mapping, a successful zero-customer canary, owned continuous
 orchestration and an independent release decision; Phase 8Z cannot supply those
 external facts or enable customer display by itself.
 
+### Phase 9A — live-demo readiness (implemented candidate)
+
+- A dedicated public live-demo workspace gives a presenter one coherent,
+  ten-minute journey through market context, governed analytics, transparent
+  equity research and forecast reliability.
+- Deterministic market, trade, forecast and equity fixtures are session scoped
+  and visibly labelled as curated demo data, never as live prices or financial
+  advice.
+- Demo mode remains browser-only and cannot create an account, order, payment,
+  transfer, funding event, custody record or settlement instruction.
+- Product navigation separates visitor-facing research and learning from the
+  provider, brokerage, payment and compliance controls that correctly remain
+  unavailable pending external evidence.
+- The Phase 8Z real-time adapter remains fail closed. Phase 9A does not sign a
+  provider contract, provision credentials, run a canary or enable real-time
+  customer display.
+
+**Phase 9A exit gate:** green type, build, browser, accessibility, demo-readiness,
+security, bundle and release contracts; successful `BUILD_PHASE_9A`; reviewed
+`DEPLOY_PHASE_9A`; and read-only `VERIFY_WEB_PHASE_9A` evidence. Migration 066
+and the existing Phase 8Z data gates are preserved. External invitations still
+require the controlled-pilot approvals, named owners, support coverage and an
+independent go / no-go decision.
+
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.

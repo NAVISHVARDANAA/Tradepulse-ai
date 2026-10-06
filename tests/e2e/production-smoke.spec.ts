@@ -3,6 +3,7 @@ import { expect, test, type Page } from '@playwright/test'
 const baseURL = new URL(process.env.WEB_PRODUCTION_URL ?? 'https://invalid.example')
 
 const publicWorkspaces = [
+  ['#live-demo', 'A clear, safe TradePulse live demo'],
   ['#dashboard', 'One platform. Focused workspaces.'],
   ['#analytics-studio', 'Governed Analytics Studio'],
   ['#global-access', 'Venue and instrument access map'],
@@ -85,6 +86,23 @@ test('every public workspace loads without customer-facing or runtime failures',
     await expect(page.getByRole('heading', { level: 1, name: heading })).toBeVisible()
     await expect(page.getByText(failureCopy)).toHaveCount(0)
   }
+
+  expect(failures, failures.join('\n')).toEqual([])
+})
+
+test('live demo is explicit, useful and cannot be mistaken for live execution', async ({ page }) => {
+  const failures = observeRuntimeFailures(page)
+  await page.goto('/#live-demo', { waitUntil: 'domcontentloaded' })
+
+  await expect(page.getByRole('heading', { name: 'Show the product value in ten minutes.' })).toBeVisible()
+  await expect(page.getByText('Curated demo data—not a live feed')).toBeVisible()
+  await expect(page.getByText('No orders, payments or real funds')).toBeVisible()
+
+  await page.getByRole('button', { name: /Start guided demo/i }).click()
+  await expect(page).toHaveURL(/#analytics-studio$/)
+  await expect(page.getByLabel('Demo data is active')).toContainText('no live prices')
+  await expect(page.locator('.analytics-table-panel tbody tr').first()).toBeVisible()
+  await expect(page.getByRole('button', { name: /buy|sell|trade|pay|transfer|deposit/i })).toHaveCount(0)
 
   expect(failures, failures.join('\n')).toEqual([])
 })

@@ -9,60 +9,38 @@ type NavGroup = { label: string; items: NavItem[] }
 
 export const productNavigation: NavGroup[] = [
   {
-    label: 'Overview',
+    label: 'Demo',
     items: [
-      { label: 'Dashboard', href: '#dashboard' },
-      { label: 'System status', href: '#system-status' },
-      { label: 'Data trust', href: '#data-trust' },
-      { label: 'Trust center', href: '#trust-center' },
-    ],
-  },
-  {
-    label: 'Research',
-    items: [
+      { label: 'Live demo', href: '#live-demo' },
       { label: 'Analytics Studio', href: '#analytics-studio' },
-      { label: 'Global access', href: '#global-access' },
       { label: 'Stock research', href: '#stock-research' },
-      { label: 'Global events', href: '#global-events' },
-      { label: 'Evidence operations', href: '#evidence-operations' },
-      { label: 'Country coverage', href: '#country-coverage' },
-      { label: 'Dependency intelligence', href: '#dependency-intelligence' },
-      { label: 'Observation intake', href: '#observation-intake' },
-      { label: 'Provider certification', href: '#provider-certification' },
-      { label: 'Contract test lab', href: '#provider-contract-tests' },
-      { label: 'Candidate evidence', href: '#provider-candidate-review' },
-      { label: 'Review governance', href: '#provider-review-governance' },
-      { label: 'Review decisions', href: '#provider-review-decisions' },
-      { label: 'Decision recovery', href: '#provider-decision-recovery' },
-      { label: 'Activation readiness', href: '#provider-activation-readiness' },
-      { label: 'Activation rehearsal', href: '#provider-activation-rehearsal' },
-      { label: 'Audience launch readiness', href: '#audience-launch-readiness' },
-      { label: 'Live data', href: '#licensed-live-data' },
-      { label: 'Real-time activation', href: '#realtime-data-activation' },
-      { label: 'Provider commercial readiness', href: '#provider-commercial-readiness' },
-      { label: 'TradePulse Agent', href: '#agentic-ai' },
-      { label: 'AI Copilot', href: '#research-copilot' },
-      { label: 'Team research', href: '#business-research' },
-      { label: 'Academy', href: '#academy' },
       { label: 'Markets', href: '#markets' },
       { label: 'Forecasts', href: '#forecasts' },
       { label: 'Trade data', href: '#trade-data' },
     ],
   },
   {
-    label: 'Investing',
+    label: 'Research',
     items: [
+      { label: 'Global access', href: '#global-access' },
+      { label: 'Global events', href: '#global-events' },
+      { label: 'Evidence operations', href: '#evidence-operations' },
+      { label: 'Country coverage', href: '#country-coverage' },
+      { label: 'Dependency intelligence', href: '#dependency-intelligence' },
+      { label: 'Observation intake', href: '#observation-intake' },
+      { label: 'TradePulse Agent', href: '#agentic-ai' },
+      { label: 'AI Copilot', href: '#research-copilot' },
+      { label: 'Team research', href: '#business-research' },
+    ],
+  },
+  {
+    label: 'Learn & practise',
+    items: [
+      { label: 'Academy', href: '#academy' },
       { label: 'Paper investing', href: '#paper-investing' },
       { label: 'Global paper lab', href: '#international-paper' },
       { label: 'Options paper lab', href: '#options-paper' },
-      { label: 'Brokerage & custody', href: '#brokerage-custody' },
       { label: 'Risk center', href: '#risk-command-center' },
-      { label: 'Brokerage readiness', href: '#brokerage-readiness' },
-      { label: 'Regulated preflight', href: '#regulated-preflight' },
-      { label: 'Sandbox orders', href: '#sandbox-orders' },
-      { label: 'Live readiness', href: '#live-readiness' },
-      { label: 'Controlled rollout', href: '#live-rollout' },
-      { label: 'Payment readiness', href: '#payments' },
     ],
   },
   {
@@ -76,14 +54,42 @@ export const productNavigation: NavGroup[] = [
     ],
   },
   {
-    label: 'Account',
+    label: 'Trust & account',
     items: [
+      { label: 'Dashboard', href: '#dashboard' },
+      { label: 'System status', href: '#system-status' },
+      { label: 'Data trust', href: '#data-trust' },
+      { label: 'Trust center', href: '#trust-center' },
       { label: 'Beta operations', href: '#beta-operations' },
       { label: 'Approved pilot', href: '#approved-pilot' },
       { label: 'Beta hardening', href: '#beta-hardening' },
       { label: 'Security', href: '#account-security' },
       { label: 'Privacy', href: '#customer-privacy' },
       { label: 'Experience', href: '#customer-experience' },
+    ],
+  },
+  {
+    label: 'Readiness controls',
+    items: [
+      { label: 'Provider certification', href: '#provider-certification' },
+      { label: 'Contract test lab', href: '#provider-contract-tests' },
+      { label: 'Candidate evidence', href: '#provider-candidate-review' },
+      { label: 'Review governance', href: '#provider-review-governance' },
+      { label: 'Review decisions', href: '#provider-review-decisions' },
+      { label: 'Decision recovery', href: '#provider-decision-recovery' },
+      { label: 'Activation readiness', href: '#provider-activation-readiness' },
+      { label: 'Activation rehearsal', href: '#provider-activation-rehearsal' },
+      { label: 'Audience launch readiness', href: '#audience-launch-readiness' },
+      { label: 'Live data', href: '#licensed-live-data' },
+      { label: 'Real-time activation', href: '#realtime-data-activation' },
+      { label: 'Provider commercial readiness', href: '#provider-commercial-readiness' },
+      { label: 'Brokerage & custody', href: '#brokerage-custody' },
+      { label: 'Brokerage readiness', href: '#brokerage-readiness' },
+      { label: 'Regulated preflight', href: '#regulated-preflight' },
+      { label: 'Sandbox orders', href: '#sandbox-orders' },
+      { label: 'Live readiness', href: '#live-readiness' },
+      { label: 'Controlled rollout', href: '#live-rollout' },
+      { label: 'Payment readiness', href: '#payments' },
     ],
   },
 ]
@@ -95,13 +101,13 @@ const productHrefs = new Set(
 export function productHrefFromHash(hash: string): ProductHref {
   return productHrefs.has(hash as ProductHref)
     ? hash as ProductHref
-    : '#dashboard'
+    : '#live-demo'
 }
 
 export function productLabelFromHref(href: ProductHref) {
   return productNavigation
     .flatMap((group) => group.items)
-    .find((item) => item.href === href)?.label ?? 'Dashboard'
+    .find((item) => item.href === href)?.label ?? 'Live demo'
 }
 
 export function ProductNavigation({ activeHref }: { activeHref: ProductHref }) {
@@ -125,7 +131,7 @@ export function ProductNavigation({ activeHref }: { activeHref: ProductHref }) {
   const activeGroup =
     productNavigation.find((group) =>
       group.items.some((item) => item.href === activeHref),
-    )?.label ?? 'Overview'
+    )?.label ?? 'Demo'
 
   const follow = (event: ReactMouseEvent<HTMLAnchorElement>) => {
     setMobileOpen(false)

@@ -57,6 +57,7 @@ const reviewedBrowserStorage = new Map([
   ['src/components/AcademyPanel.tsx', ['tradepulse-academy-progress-v1']],
   ['src/components/AnalyticsStudioPanel.tsx', ['tradepulse-analytics-views-v1']],
   ['src/components/GuidedOnboarding.tsx', ['tradepulse-product-tour-v3']],
+  ['src/lib/demoMode.ts', ['tradepulse-demo-mode-v1']],
   ['src/lib/trustLayer.ts', ['tradepulse-trust-activity-v1', 'tradepulse-trust-mode-v1']],
 ])
 for (const { path, content } of applicationFiles) {

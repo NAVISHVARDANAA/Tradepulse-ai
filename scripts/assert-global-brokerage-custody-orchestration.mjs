@@ -123,8 +123,8 @@ assert(productionTest.includes("'#brokerage-custody'"), 'Production browser test
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.globalBrokerageCustody
-assert(manifest.phase === '8Z', 'Release manifest is not Phase 8D')
-assert(manifest.status === 'licensed_realtime_data_activation_candidate', 'Release status is not the Phase 8D candidate')
+assert(manifest.phase === '9A', 'Release manifest is not Phase 8D')
+assert(manifest.status === 'live_demo_readiness_candidate', 'Release status is not the Phase 8D candidate')
 assert(manifest.requiredChecks.includes('check:global-brokerage-custody'), 'Manifest omits the Phase 8D check')
 assert(packageJson.scripts?.['check:global-brokerage-custody'], 'Package scripts omit the Phase 8D check')
 assert(release?.launchMatrixCount === 4 && release?.partnerRoleCount === 5 && release?.onboardingRequirementCount === 10, 'Manifest Phase 8D scenario counts are incomplete')
@@ -140,8 +140,8 @@ for (const lock of [
 
 for (const [workflow, confirmation] of [
   [deployData, 'DEPLOY_DATA_PHASE_8Z'], [verifyData, 'VERIFY_DATA_PHASE_8Z'],
-  [buildWeb, 'BUILD_PHASE_8Z'], [deployWeb, 'DEPLOY_PHASE_8Z'],
-  [verifyWeb, 'VERIFY_WEB_PHASE_8Z'],
+  [buildWeb, 'BUILD_PHASE_9A'], [deployWeb, 'DEPLOY_PHASE_9A'],
+  [verifyWeb, 'VERIFY_WEB_PHASE_9A'],
 ]) assert(workflow.includes(confirmation), `Workflow omits ${confirmation}`)
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
   assert(workflow.includes('check:global-brokerage-custody'), 'A web gate omits the Phase 8D check')

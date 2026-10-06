@@ -66,7 +66,7 @@ assert(production.includes("'#realtime-data-activation'"), 'Production test omit
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.licensedRealtimeDataActivation
-assert(manifest.phase === '8Z' && manifest.status === 'licensed_realtime_data_activation_candidate',
+assert(manifest.phase === '9A' && manifest.status === 'live_demo_readiness_candidate',
   'Manifest is not Phase 8Z')
 assert(packageJson.scripts?.['check:licensed-realtime-data-activation'], 'Package omits Phase 8Z check')
 assert(manifest.requiredChecks.includes('check:licensed-realtime-data-activation'), 'Manifest omits Phase 8Z check')
@@ -93,8 +93,8 @@ assert(ci.includes('deno check supabase/functions/stream-twelve-data-market-data
   && ci.includes('supabase/functions/_shared/twelveDataRealtime.test.ts'), 'CI omits streaming contracts')
 assert(deployData.includes('stream-twelve-data-market-data'), 'Protected data workflow omits streaming function')
 for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8Z'],
-  [verifyData, 'VERIFY_DATA_PHASE_8Z'], [buildWeb, 'BUILD_PHASE_8Z'],
-  [deployWeb, 'DEPLOY_PHASE_8Z'], [verifyWeb, 'VERIFY_WEB_PHASE_8Z']]) {
+  [verifyData, 'VERIFY_DATA_PHASE_8Z'], [buildWeb, 'BUILD_PHASE_9A'],
+  [deployWeb, 'DEPLOY_PHASE_9A'], [verifyWeb, 'VERIFY_WEB_PHASE_9A']]) {
   assert(workflow.includes(token), `Workflow omits ${token}`)
 }
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {

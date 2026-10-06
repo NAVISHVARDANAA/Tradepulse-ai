@@ -781,7 +781,7 @@ test.beforeEach(async ({ page }) => {
     await welcome.getByRole('button', { name: 'Explore on my own' }).click()
   }
   await expect(
-    page.getByRole('heading', { level: 1, name: 'One platform. Focused workspaces.' }),
+    page.getByRole('heading', { level: 1, name: 'A clear, safe TradePulse live demo' }),
   ).toBeVisible()
 })
 
@@ -805,6 +805,7 @@ test('core landmarks pass automated WCAG A and AA checks', async ({ page }, test
 
 test('first-run guide traps focus and restores it when closed', async ({ page }) => {
   await page.evaluate(() => localStorage.removeItem('tradepulse-product-tour-v3'))
+  await page.goto('/#dashboard', { waitUntil: 'domcontentloaded' })
   await page.reload()
 
   const dialog = page.getByRole('dialog', { name: 'Learn before you invest' })
@@ -828,11 +829,11 @@ test('desktop grouped navigation is keyboard operable', async ({ page }, testInf
   test.skip(testInfo.project.name !== 'desktop-chromium', 'Desktop-only navigation contract')
 
   const navigation = page.getByRole('navigation', { name: 'Product navigation' })
-  const research = navigation.locator('details').filter({ hasText: 'Research' })
-  const summary = research.locator('summary')
+  const summary = navigation.getByText('Research', { exact: true })
+  const research = summary.locator('..')
   await summary.press('Enter')
   await expect(research).toHaveJSProperty('open', true)
-  await expect(navigation.getByRole('link', { name: 'Stock research' })).toBeVisible()
+  await expect(navigation.getByRole('link', { name: 'Global access' })).toBeVisible()
 
   await page.keyboard.press('Escape')
   await expect(research).toHaveJSProperty('open', false)
@@ -845,7 +846,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(53)
+  await expect(navigation.getByRole('link')).toHaveCount(54)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)
