@@ -1562,6 +1562,30 @@ and the existing Phase 8Z data gates are preserved. External invitations still
 require the controlled-pilot approvals, named owners, support coverage and an
 independent go / no-go decision.
 
+### Phase 9B — audience-feedback readiness (implemented candidate)
+
+- A public debrief workspace tracks the four Phase 9A guided stops and captures
+  structured clarity, trust, perceived-value, confusion and next-action signals.
+- No name, email, phone, account, brokerage or financial field is requested.
+- Journey and debrief evidence remain in browser session storage; no API,
+  Supabase write or external analytics event is created.
+- Copy and JSON export are explicit facilitator actions with review-before-share
+  guidance, and the entire local session can be cleared from the workspace.
+- The product-discovery loop cannot create an account, send an invitation,
+  approve a pilot, connect a provider, display licensed live data, route an
+  order, collect payment, move money, fund an account, hold assets or settle a
+  transaction.
+- Phase 9B adds no migration and preserves migration 066 plus every Phase 8Z
+  real-time activation gate.
+
+**Phase 9B exit gate:** green type, build, browser, accessibility,
+audience-feedback, demo-readiness, security, bundle and release contracts;
+successful `BUILD_PHASE_9B`; reviewed `DEPLOY_PHASE_9B`; and read-only
+`VERIFY_WEB_PHASE_9B` evidence. Publishing the code cannot deploy it. Real
+audience outreach still requires an approved participant process, privacy and
+support ownership, reviewed evidence handling and an accountable go / no-go
+decision.
+
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.

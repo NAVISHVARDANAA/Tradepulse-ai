@@ -35,17 +35,17 @@ After this PR is merged and all `main` checks pass:
 2. Run **Verify Supabase production** on `main` with
    `VERIFY_DATA_PHASE_8Z` and retain the read-only evidence.
 3. Open **Actions → Build production web release**, choose `main`, enter
-   `BUILD_PHASE_9A` and record the green live-demo readiness
+   `BUILD_PHASE_9B` and record the green audience-feedback readiness
    web artifact.
 4. Open **Actions → Deploy controlled beta web**, choose `main`, enter
-   `DEPLOY_PHASE_9A` and approve the protected production environment.
+   `DEPLOY_PHASE_9B` and approve the protected production environment.
 5. Record the immutable commit, workflow run and Cloudflare deployment URL from
    the job summary. The workflow verifies HTTPS, browser security headers, the
    release manifest and every hard lock after upload. It then runs desktop and
    mobile production browser checks across the public workspaces, Analytics
    interactions, console/network failures and guest execution locks.
 6. After a release or operational incident, open **Actions → Verify web
-   production**, choose `main`, enter `VERIFY_WEB_PHASE_9A` and retain the green
+   production**, choose `main`, enter `VERIFY_WEB_PHASE_9B` and retain the green
    production-browser report.
 7. Do not invite testers yet. Choose and validate the final domain, configure
    its exact Supabase Auth site URL and redirect allow-list, then complete the
@@ -54,8 +54,9 @@ After this PR is merged and all `main` checks pass:
 Deploy and verify migration 066 with the Phase 8Z data gates before the web
 workspace. Every pilot activation gate remains unverified, every provider
 commercial-review domain remains unavailable and every readiness cell remains blocked. The
-Phase 9A web artifact adds a clearly labelled, deterministic audience demo while
-preserving the Phase 8Z server adapter and database delivery path. The product
+The Phase 9B web artifact adds a local-only structured debrief and guided-demo
+progress while preserving the clearly labelled Phase 9A demo, Phase 8Z server
+adapter and database delivery path. The product
 cannot accept a quote, sign a contract, grant
 display or redistribution rights, issue a purchase order, activate an audience,
 open public signup, provision users automatically, supply production

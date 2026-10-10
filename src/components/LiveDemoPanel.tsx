@@ -62,7 +62,7 @@ export function LiveDemoPanel({
     <section id="live-demo" className="live-demo product-workspace" aria-labelledby="live-demo-title">
       <div className="live-demo-hero">
         <div className="live-demo-copy">
-          <span className="live-demo-status"><CheckCircle2 size={15} /> Phase 9A demo-ready workspace</span>
+          <span className="live-demo-status"><CheckCircle2 size={15} /> Phase 9B audience-learning workspace</span>
           <h2 id="live-demo-title">Show the product value in ten minutes.</h2>
           <p>
             Use a deterministic demonstration dataset to tell one clear story:
@@ -74,9 +74,12 @@ export function LiveDemoPanel({
               {demoMode ? 'Restart guided demo' : 'Start guided demo'} <ArrowRight size={15} />
             </button>
             {demoMode ? (
-              <button className="secondary-button" type="button" onClick={onExitDemo}>
-                Exit demo mode
-              </button>
+              <>
+                <a className="secondary-button" href="#demo-feedback">Capture audience debrief</a>
+                <button className="secondary-button" type="button" onClick={onExitDemo}>
+                  Exit demo mode
+                </button>
+              </>
             ) : null}
           </div>
           <div className="live-demo-trust-row" aria-label="Demo safeguards">

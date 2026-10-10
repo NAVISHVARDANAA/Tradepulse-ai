@@ -964,6 +964,28 @@ if (
   manifest.liveDemoReadiness?.settlementEnabled !== false
 ) throw new Error('Deployed live-demo readiness boundary is incomplete or unsafe.')
 if (
+  manifest.audienceFeedbackReadiness?.workspaceEnabled !== true ||
+  manifest.audienceFeedbackReadiness?.structuredDebriefEnabled !== true ||
+  manifest.audienceFeedbackReadiness?.guidedJourneyProgressEnabled !== true ||
+  manifest.audienceFeedbackReadiness?.audienceJourneyStepCount !== 4 ||
+  manifest.audienceFeedbackReadiness?.browserSessionStorageOnly !== true ||
+  manifest.audienceFeedbackReadiness?.userControlledCopyEnabled !== true ||
+  manifest.audienceFeedbackReadiness?.userControlledExportEnabled !== true ||
+  manifest.audienceFeedbackReadiness?.identityFieldsRequested !== false ||
+  manifest.audienceFeedbackReadiness?.contactFieldsRequested !== false ||
+  manifest.audienceFeedbackReadiness?.automaticSubmissionEnabled !== false ||
+  manifest.audienceFeedbackReadiness?.externalAnalyticsEnabled !== false ||
+  manifest.audienceFeedbackReadiness?.publicSignupEnabled !== false ||
+  manifest.audienceFeedbackReadiness?.invitationDeliveryEnabled !== false ||
+  manifest.audienceFeedbackReadiness?.checkoutEnabled !== false ||
+  manifest.audienceFeedbackReadiness?.orderRoutingEnabled !== false ||
+  manifest.audienceFeedbackReadiness?.paymentExecutionEnabled !== false ||
+  manifest.audienceFeedbackReadiness?.moneyMovementEnabled !== false ||
+  manifest.audienceFeedbackReadiness?.customerFundingEnabled !== false ||
+  manifest.audienceFeedbackReadiness?.custodyEnabled !== false ||
+  manifest.audienceFeedbackReadiness?.settlementEnabled !== false
+) throw new Error('Deployed audience-feedback readiness boundary is incomplete or unsafe.')
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||

@@ -12,6 +12,7 @@ export const productNavigation: NavGroup[] = [
     label: 'Demo',
     items: [
       { label: 'Live demo', href: '#live-demo' },
+      { label: 'Audience debrief', href: '#demo-feedback' },
       { label: 'Analytics Studio', href: '#analytics-studio' },
       { label: 'Stock research', href: '#stock-research' },
       { label: 'Markets', href: '#markets' },

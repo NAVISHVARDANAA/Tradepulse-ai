@@ -186,6 +186,9 @@ const LiveDemoPanel = lazy(() => import('./components/LiveDemoPanel').then((modu
 const DemoModeBanner = lazy(() => import('./components/DemoModeBanner').then((module) => ({
   default: module.DemoModeBanner,
 })))
+const DemoFeedbackPanel = lazy(() => import('./components/DemoFeedbackPanel').then((module) => ({
+  default: module.DemoFeedbackPanel,
+})))
 
 function SectionLoader({ label }: { label: string }) {
   return (
@@ -341,6 +344,13 @@ function App() {
   useEffect(() => {
     recordLocalWorkspaceVisit(activeHref, productLabelFromHref(activeHref))
   }, [activeHref])
+
+  useEffect(() => {
+    if (!demoMode) return
+    void import('./lib/demoFeedback').then(({ recordDemoRouteVisit }) => {
+      recordDemoRouteVisit(activeHref)
+    })
+  }, [activeHref, demoMode])
 
   useEffect(() => {
     const dataRequirements = productDataRequirements(activeHref)
@@ -516,8 +526,11 @@ function App() {
   })
 
   const startDemo = () => {
-    setDemoModeEnabled(true)
-    window.location.hash = '#analytics-studio'
+    void import('./lib/demoFeedback').then(({ resetDemoJourney }) => {
+      resetDemoJourney()
+      setDemoModeEnabled(true)
+      window.location.hash = '#analytics-studio'
+    })
   }
 
   const exitDemo = () => {
@@ -563,6 +576,14 @@ function App() {
             onStartDemo={startDemo}
             onExitDemo={exitDemo}
           />
+        ) : null}
+
+        {activeHref === '#demo-feedback' ? (
+          <ProductErrorBoundary title="The audience debrief is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Audience debrief" />}>
+              <DemoFeedbackPanel />
+            </Suspense>
+          </ProductErrorBoundary>
         ) : null}
 
         {activeHref === '#dashboard' ? (

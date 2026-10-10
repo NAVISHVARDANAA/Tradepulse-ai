@@ -4,6 +4,7 @@ const baseURL = new URL(process.env.WEB_PRODUCTION_URL ?? 'https://invalid.examp
 
 const publicWorkspaces = [
   ['#live-demo', 'A clear, safe TradePulse live demo'],
+  ['#demo-feedback', 'Live-demo audience debrief'],
   ['#dashboard', 'One platform. Focused workspaces.'],
   ['#analytics-studio', 'Governed Analytics Studio'],
   ['#global-access', 'Venue and instrument access map'],
@@ -104,6 +105,38 @@ test('live demo is explicit, useful and cannot be mistaken for live execution', 
   await expect(page.locator('.analytics-table-panel tbody tr').first()).toBeVisible()
   await expect(page.getByRole('button', { name: /buy|sell|trade|pay|transfer|deposit/i })).toHaveCount(0)
 
+  expect(failures, failures.join('\n')).toEqual([])
+})
+
+test('audience debrief records structured local evidence without identity or submission', async ({ page }) => {
+  const failures = observeRuntimeFailures(page)
+  await page.goto('/#live-demo', { waitUntil: 'domcontentloaded' })
+  await page.getByRole('button', { name: /Start guided demo/i }).click()
+  await expect(page.locator('.demo-mode-progress')).toHaveText('1/4 guided stops')
+  for (const [route, progress] of [['#markets', '2/4 guided stops'], ['#stock-research', '3/4 guided stops'], ['#forecasts', '4/4 guided stops']] as const) {
+    await page.goto(`/${route}`, { waitUntil: 'domcontentloaded' })
+    await expect(page.locator('.demo-mode-progress')).toHaveText(progress)
+  }
+  await page.goto('/#demo-feedback', { waitUntil: 'domcontentloaded' })
+
+  await expect(page.getByRole('heading', { name: 'Turn a live demo into evidence.' })).toBeVisible()
+  await expect(page.getByLabel('4 of 4 demo stops completed')).toBeVisible()
+  await page.getByLabel('Audience perspective').selectOption('analyst')
+  await page.getByRole('group', { name: 'Clarity rating' }).getByLabel('5').check()
+  await page.getByRole('group', { name: 'Trust rating' }).getByLabel('4').check()
+  await page.getByRole('group', { name: 'Value rating' }).getByLabel('5').check()
+  await page.getByLabel('Most useful part').selectOption({ label: 'Evidence lineage' })
+  await page.getByLabel('Expected next action').selectOption({ label: 'Join a controlled pilot' })
+  await page.getByRole('button', { name: 'Save local debrief' }).click()
+
+  await expect(page.getByRole('status')).toContainText('Nothing was submitted')
+  await expect(page.getByRole('button', { name: 'Copy summary' })).toBeEnabled()
+  await expect(page.getByRole('button', { name: 'Download JSON' })).toBeEnabled()
+  await expect(page.locator('input[type="email"], input[type="tel"]')).toHaveCount(0)
+  await expect(page.getByRole('button', { name: /buy|sell|trade|pay|transfer|deposit|invite|sign up/i })).toHaveCount(0)
+
+  const localEvidence = await page.evaluate(() => sessionStorage.getItem('tradepulse-demo-journey-v1'))
+  expect(localEvidence).toContain('"audienceRole":"analyst"')
   expect(failures, failures.join('\n')).toEqual([])
 })
 
