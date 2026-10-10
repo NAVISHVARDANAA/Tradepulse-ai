@@ -61,7 +61,7 @@ assert(production.includes("'#country-coverage'"), 'Production test omits countr
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.globalCountryCoverage
-assert(manifest.phase === '9A' && manifest.status === 'live_demo_readiness_candidate', 'Manifest is not Phase 8I')
+assert(manifest.phase === '9B' && manifest.status === 'audience_feedback_readiness_candidate', 'Manifest is not Phase 8I')
 assert(packageJson.scripts?.['check:global-country-coverage'], 'Package omits Phase 8I check')
 assert(manifest.requiredChecks.includes('check:global-country-coverage'), 'Manifest omits Phase 8I check')
 for (const key of ['workspaceEnabled', 'sovereignReferenceCatalogEnabled',
@@ -84,8 +84,8 @@ assert(release?.evidencedCountryCount === 0 && release?.reviewGateCount === 7,
   'Evidence or gate counts changed')
 
 for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8Z'],
-  [verifyData, 'VERIFY_DATA_PHASE_8Z'], [buildWeb, 'BUILD_PHASE_9A'],
-  [deployWeb, 'DEPLOY_PHASE_9A'], [verifyWeb, 'VERIFY_WEB_PHASE_9A']]) {
+  [verifyData, 'VERIFY_DATA_PHASE_8Z'], [buildWeb, 'BUILD_PHASE_9B'],
+  [deployWeb, 'DEPLOY_PHASE_9B'], [verifyWeb, 'VERIFY_WEB_PHASE_9B']]) {
   assert(workflow.includes(token), `Workflow omits ${token}`)
 }
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {

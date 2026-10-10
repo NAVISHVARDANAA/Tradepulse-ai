@@ -94,8 +94,8 @@ assert(browserTest.includes('global_venue_instrument_reference'), 'Browser contr
 assert(browserTest.includes('Global execution remains unavailable'), 'Browser contract omits the execution lock')
 assert(productionBrowserTest.includes("['#global-access', 'Venue and instrument access map']"), 'Production smoke omits global access')
 
-assert(manifest.phase === '9A', 'Release manifest is not Phase 8D')
-assert(manifest.status === 'live_demo_readiness_candidate', 'Release status is not the Phase 8A candidate')
+assert(manifest.phase === '9B', 'Release manifest is not Phase 8D')
+assert(manifest.status === 'audience_feedback_readiness_candidate', 'Release status is not the Phase 8A candidate')
 assert(manifest.requiredChecks.includes('check:global-market-intelligence'), 'Manifest omits the Phase 8A check')
 assert(packageJson.scripts?.['check:global-market-intelligence'], 'Package scripts omit the Phase 8A check')
 const release = manifest.globalVenueInstrumentIntelligence
@@ -112,8 +112,8 @@ for (const lock of [
 
 for (const [workflow, confirmation] of [
   [deployData, 'DEPLOY_DATA_PHASE_8Z'], [verifyData, 'VERIFY_DATA_PHASE_8Z'],
-  [buildWeb, 'BUILD_PHASE_9A'], [deployWeb, 'DEPLOY_PHASE_9A'],
-  [verifyWeb, 'VERIFY_WEB_PHASE_9A'],
+  [buildWeb, 'BUILD_PHASE_9B'], [deployWeb, 'DEPLOY_PHASE_9B'],
+  [verifyWeb, 'VERIFY_WEB_PHASE_9B'],
 ]) assert(workflow.includes(confirmation), `Release workflow omits ${confirmation}`)
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
   assert(workflow.includes('check:global-market-intelligence'), 'A web gate omits Phase 8A')

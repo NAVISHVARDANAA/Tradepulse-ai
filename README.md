@@ -7,11 +7,17 @@ compliance boundaries are designed in before execution features are enabled.
 
 ## Current product scope
 
-### Current release — Phase 9A live-demo readiness
+### Current release — Phase 9B audience-feedback readiness
 
 - A public `#live-demo` workspace gives presenters a focused ten-minute path
   through market context, governed analytics, equity research and forecast
   reliability.
+- A public `#demo-feedback` debrief records journey completion, clarity, trust,
+  perceived value, confusion and the expected next action without requesting
+  a participant's name, email, phone number or financial details.
+- Debrief evidence stays in browser session storage unless a facilitator
+  explicitly copies or downloads it for review; nothing is submitted or sent
+  to an analytics service automatically.
 - Optional demo mode uses deterministic, session-scoped sample data that is
   labelled on every page as non-live and non-transactional.
 - Primary navigation separates audience value from provider, brokerage,
@@ -21,7 +27,7 @@ compliance boundaries are designed in before execution features are enabled.
   private workspaces still require an account and all regulated actions remain
   disabled.
 - Phase 8Z's server-side real-time adapter remains a guarded implementation
-  candidate; Phase 9A does not activate a licensed feed or customer display.
+  candidate; Phase 9B does not activate a licensed feed or customer display.
 
 - A server-only Twelve Data WebSocket candidate can accept up to 30 explicitly
   mapped price symbols in a bounded zero-customer canary.

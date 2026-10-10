@@ -79,7 +79,7 @@ assert(production.includes("'#provider-review-governance'"), 'Production test om
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.globalProviderReviewGovernance
-assert(manifest.phase === '9A' && manifest.status === 'live_demo_readiness_candidate',
+assert(manifest.phase === '9B' && manifest.status === 'audience_feedback_readiness_candidate',
   'Manifest is not Phase 8P')
 assert(packageJson.scripts?.['check:global-provider-review-governance'], 'Package omits Phase 8P check')
 assert(manifest.requiredChecks.includes('check:global-provider-review-governance'), 'Manifest omits Phase 8P check')
@@ -108,8 +108,8 @@ assert(release?.responsibilityCount === 64 && release?.unassignedResponsibilityC
   'Review responsibility counts changed')
 
 for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8Z'],
-  [verifyData, 'VERIFY_DATA_PHASE_8Z'], [buildWeb, 'BUILD_PHASE_9A'],
-  [deployWeb, 'DEPLOY_PHASE_9A'], [verifyWeb, 'VERIFY_WEB_PHASE_9A']]) {
+  [verifyData, 'VERIFY_DATA_PHASE_8Z'], [buildWeb, 'BUILD_PHASE_9B'],
+  [deployWeb, 'DEPLOY_PHASE_9B'], [verifyWeb, 'VERIFY_WEB_PHASE_9B']]) {
   assert(workflow.includes(token), `Workflow omits ${token}`)
 }
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {

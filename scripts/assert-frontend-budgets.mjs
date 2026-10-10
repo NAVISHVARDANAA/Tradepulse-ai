@@ -38,19 +38,18 @@ const largestAsset = assetFiles.reduce((largest, asset) => (
 ))
 
 const budgets = {
-  // Phase 9A adds the audience-route selector and session-scoped demo-mode
-  // coordinator to the shell. The showcase, fixtures and their CSS remain
-  // route-deferred; the shell allowance increases by only 1 KiB.
+  // Phase 9B keeps the audience debrief, feedback coordinator and CSS
+  // route-deferred. Only the existing demo coordinator remains in the shell.
   initialGzipBytes: 166 * 1024,
   // Phases 8L-8Y add route-deferred provider certification, contract-test,
   // candidate-evidence, review-governance, decision-control, recovery and
   // activation-readiness, rehearsal, launch-readiness and licensed-data
   // integration, commercial-readiness, pilot operating-model and pilot
   // activation workspaces. The shell and largest-chunk limits stay unchanged;
-  // Phase 9A adds one route-deferred presenter workspace and its deterministic
-  // fixtures. The bounded total is calibrated from the reviewed Phase 9A build
-  // while the shell and largest-asset limits remain independently enforced.
-  totalJavaScriptGzipBytes: 410 * 1024,
+  // Phase 9B adds one small route-deferred debrief workspace. The bounded total
+  // is recalibrated only after reviewing the production build while the shell
+  // and largest-asset limits remain independently enforced.
+  totalJavaScriptGzipBytes: 414 * 1024,
   largestAssetGzipBytes: 90 * 1024,
 }
 

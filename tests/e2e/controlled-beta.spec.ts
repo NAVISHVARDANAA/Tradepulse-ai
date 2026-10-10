@@ -785,6 +785,29 @@ test.beforeEach(async ({ page }) => {
   ).toBeVisible()
 })
 
+test('guided demo captures a privacy-safe local audience debrief', async ({ page }) => {
+  await page.getByRole('button', { name: /Start guided demo/i }).click()
+  for (const route of ['#markets', '#stock-research', '#forecasts']) {
+    await page.goto(`/${route}`)
+  }
+  await page.goto('/#demo-feedback')
+
+  await expect(page.getByRole('heading', { name: 'Turn a live demo into evidence.' })).toBeVisible()
+  await expect(page.getByLabel('4 of 4 demo stops completed')).toBeVisible()
+  await page.getByLabel('Audience perspective').selectOption('analyst')
+  await page.getByRole('group', { name: 'Clarity rating' }).getByLabel('5').check()
+  await page.getByRole('group', { name: 'Trust rating' }).getByLabel('4').check()
+  await page.getByRole('group', { name: 'Value rating' }).getByLabel('5').check()
+  await page.getByLabel('Most useful part').selectOption({ label: 'Evidence lineage' })
+  await page.getByLabel('Expected next action').selectOption({ label: 'Join a controlled pilot' })
+  await page.getByRole('button', { name: 'Save local debrief' }).click()
+
+  await expect(page.getByRole('status')).toContainText('Nothing was submitted')
+  await expect(page.locator('input[type="email"], input[type="tel"]')).toHaveCount(0)
+  const evidence = await page.evaluate(() => sessionStorage.getItem('tradepulse-demo-journey-v1'))
+  expect(evidence).toContain('"audienceRole":"analyst"')
+})
+
 test('core landmarks pass automated WCAG A and AA checks', async ({ page }, testInfo) => {
   if (testInfo.project.name === 'mobile-chromium') {
     const toggle = page.getByRole('button', { name: 'Open product navigation' })
@@ -846,7 +869,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(54)
+  await expect(navigation.getByRole('link')).toHaveCount(55)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)

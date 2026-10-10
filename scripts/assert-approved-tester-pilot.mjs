@@ -117,7 +117,7 @@ assert(productionTest.includes("['#approved-pilot', 'Private pilot workspace']")
 const packageJson = JSON.parse(packageJsonText)
 const manifest = JSON.parse(manifestText)
 assert(packageJson.scripts?.['check:approved-pilot'], 'Approved pilot package check is missing')
-assert(manifest.phase === '9A', 'Release manifest is not on the current Phase 8D candidate')
+assert(manifest.phase === '9B', 'Release manifest is not on the current Phase 8D candidate')
 assert(manifest.approvedTesterPilot?.workspaceEnabled === true, 'Manifest omits the pilot workspace')
 assert(manifest.approvedTesterPilot?.manualApprovalRequired === true, 'Manual pilot approval is not explicit')
 assert(manifest.approvedTesterPilot?.browserEnrollmentEnabled === false, 'Browser pilot enrollment became enabled')
@@ -125,9 +125,9 @@ assert(manifest.approvedTesterPilot?.boundedCohorts === true, 'Bounded pilot coh
 assert(manifest.requiredChecks.includes('check:approved-pilot'), 'Manifest omits approved pilot verification')
 
 for (const [name, workflow, confirmation] of [
-  ['build', build, 'BUILD_PHASE_9A'],
-  ['web deploy', deployWeb, 'DEPLOY_PHASE_9A'],
-  ['web verify', verifyWeb, 'VERIFY_WEB_PHASE_9A'],
+  ['build', build, 'BUILD_PHASE_9B'],
+  ['web deploy', deployWeb, 'DEPLOY_PHASE_9B'],
+  ['web verify', verifyWeb, 'VERIFY_WEB_PHASE_9B'],
 ]) {
   assert(workflow.includes(confirmation), `Phase 5I ${name} confirmation is missing`)
   assert(workflow.includes('check:approved-pilot'), `Phase 5I ${name} omits the pilot check`)

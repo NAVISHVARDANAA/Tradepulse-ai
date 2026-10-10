@@ -90,7 +90,7 @@ assert(production.includes("'#licensed-live-data'"), 'Production test omits lice
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.licensedLiveDataIntegration
-assert(manifest.phase === '9A' && manifest.status === 'live_demo_readiness_candidate',
+assert(manifest.phase === '9B' && manifest.status === 'audience_feedback_readiness_candidate',
   'Manifest is not Phase 8V')
 assert(packageJson.scripts?.['check:licensed-live-data-integration'], 'Package omits Phase 8V check')
 assert(manifest.requiredChecks.includes('check:licensed-live-data-integration'), 'Manifest omits Phase 8V check')
@@ -118,8 +118,8 @@ assert(release?.blockedReadinessCellCount === 64 && release?.authorizedReadiness
   'Licensed live-data integration counts changed')
 
 for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8Z'],
-  [verifyData, 'VERIFY_DATA_PHASE_8Z'], [buildWeb, 'BUILD_PHASE_9A'],
-  [deployWeb, 'DEPLOY_PHASE_9A'], [verifyWeb, 'VERIFY_WEB_PHASE_9A']]) {
+  [verifyData, 'VERIFY_DATA_PHASE_8Z'], [buildWeb, 'BUILD_PHASE_9B'],
+  [deployWeb, 'DEPLOY_PHASE_9B'], [verifyWeb, 'VERIFY_WEB_PHASE_9B']]) {
   assert(workflow.includes(token), `Workflow omits ${token}`)
 }
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {

@@ -2,8 +2,10 @@
 .demo-mode-banner > div { display:flex;align-items:center;gap:.65rem;flex-wrap:wrap; }
 .demo-mode-banner strong { color:#e0f2fe; }
 .demo-mode-banner span { color:var(--muted);font-size:.82rem; }
+.demo-mode-banner .demo-mode-progress { padding:.25rem .45rem;color:#bae6fd;font-size:.72rem;font-weight:800;border:1px solid rgba(56,189,248,.25);border-radius:999px; }
 .demo-mode-banner a,.demo-mode-banner button { min-height:38px;padding:.45rem .7rem;color:#bae6fd;font:inherit;font-size:.8rem;font-weight:700;text-decoration:none;border:1px solid rgba(56,189,248,.25);border-radius:.55rem;background:rgba(15,23,42,.35);cursor:pointer; }
 .demo-mode-banner a:hover,.demo-mode-banner button:hover,.demo-mode-banner a:focus-visible,.demo-mode-banner button:focus-visible { color:#fff;border-color:#38bdf8;outline:none; }
 html[data-theme='light'] .demo-mode-banner { background:#fff;border-color:#b9cadb; }
+html[data-theme='light'] .demo-mode-banner .demo-mode-progress { color:#075985; }
 html[data-theme='light'] .demo-mode-banner a,html[data-theme='light'] .demo-mode-banner button { color:#075985;background:#f0f9ff;border-color:#7dd3fc; }
 @media (max-width:760px) { .demo-mode-banner { align-items:flex-start;flex-direction:column; } }
