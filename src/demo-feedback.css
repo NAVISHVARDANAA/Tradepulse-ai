@@ -20,7 +20,7 @@
 .demo-feedback-rating legend { padding:0 .3rem;font-size:.8rem;font-weight:800; }
 .demo-feedback-rating > div { display:grid;grid-template-columns:repeat(5,minmax(36px,1fr));gap:.35rem; }
 .demo-feedback-rating label { position:relative;display:block; }
-.demo-feedback-rating input { position:absolute;opacity:0;pointer-events:none; }
+.demo-feedback-rating input { position:absolute;inset:0;z-index:1;width:100%;height:100%;margin:0;opacity:0;cursor:pointer; }
 .demo-feedback-rating span { display:grid;place-items:center;min-height:40px;color:var(--muted);border:1px solid var(--border);border-radius:.55rem;cursor:pointer; }
 .demo-feedback-rating input:checked + span { color:#e0f2fe;border-color:#38bdf8;background:rgba(56,189,248,.15); }
 .demo-feedback-rating input:focus-visible + span { outline:2px solid #38bdf8;outline-offset:2px; }

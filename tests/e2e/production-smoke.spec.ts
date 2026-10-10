@@ -112,9 +112,10 @@ test('audience debrief records structured local evidence without identity or sub
   const failures = observeRuntimeFailures(page)
   await page.goto('/#live-demo', { waitUntil: 'domcontentloaded' })
   await page.getByRole('button', { name: /Start guided demo/i }).click()
-
-  for (const route of ['#markets', '#stock-research', '#forecasts']) {
+  await expect(page.locator('.demo-mode-progress')).toHaveText('1/4 guided stops')
+  for (const [route, progress] of [['#markets', '2/4 guided stops'], ['#stock-research', '3/4 guided stops'], ['#forecasts', '4/4 guided stops']] as const) {
     await page.goto(`/${route}`, { waitUntil: 'domcontentloaded' })
+    await expect(page.locator('.demo-mode-progress')).toHaveText(progress)
   }
   await page.goto('/#demo-feedback', { waitUntil: 'domcontentloaded' })
 
