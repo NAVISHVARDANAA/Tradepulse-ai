@@ -1,7 +1,7 @@
-# Phase 9B audience-feedback readiness candidate
+# Phase 9C audience-insight synthesis candidate
 
-Phase 9B extends the host-neutral controlled-beta candidate for the TradePulse AI web
-application with a local-only, structured audience debrief. The artifact includes
+Phase 9C extends the host-neutral controlled-beta candidate for the TradePulse AI web
+application with local-only, aggregate audience research synthesis. The artifact includes
 SPA routing, a static-only service worker,
 PWA metadata, cache controls and browser security headers. Source maps, server
 secret names and local environment files are rejected before upload.
@@ -18,13 +18,13 @@ the project's public Supabase anon key. `SUPABASE_PROJECT_REF` remains the sourc
 for the approved HTTPS origin.
 
 After merging, open **Actions → Build production web release**, select `main`
-and enter `BUILD_PHASE_9B`. The workflow validates the public configuration,
+and enter `BUILD_PHASE_9C`. The workflow validates the public configuration,
 builds the application and retains the immutable commit-addressed artifact for
 14 days as `tradepulse-beta-rc-<commit>`. It does not publish to a hosting
 provider; the final domain and external audience authorization remain manual
-launch prerequisites. The release adds a public feedback route, guided-stop
-progress and a user-controlled export alongside the explicitly labelled,
-session-scoped sample data. It requests no identity or contact field and makes
+launch prerequisites. The release adds a public insight route that validates
+Phase 9B exports, keeps them only in page memory and produces aggregate-only
+research gates. It rejects identity/contact input, excludes raw notes and makes
 no automatic submission. The Phase 8Z
 workspace still exposes a read-only real-time-data activation cockpit and a
 server-only, license-gated streaming adapter. The adapter is not called by the

@@ -167,6 +167,9 @@ jobs:
       - name: Verify audience-feedback readiness
         run: npm run check:audience-feedback-readiness
 
+      - name: Verify audience-insight synthesis
+        run: npm run check:audience-insight-synthesis
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 

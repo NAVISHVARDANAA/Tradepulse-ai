@@ -810,6 +810,41 @@ test('guided demo captures a privacy-safe local audience debrief', async ({ page
   expect(evidence).toContain('"audienceRole":"analyst"')
 })
 
+test('audience insight synthesis accepts only local privacy-safe debrief evidence', async ({ page }) => {
+  await page.goto('/#audience-insights')
+  const validFile = {
+    name: 'privacy-safe-debrief.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify({
+      schemaVersion: 1,
+      phase: '9B',
+      containsRequestedIdentityFields: false,
+      transmittedToTradePulse: false,
+      journey: { completedStops: 4, totalStops: 4, visitedRoutes: ['#markets', '#analytics-studio', '#stock-research', '#forecasts'] },
+      feedback: {
+        audienceRole: 'operator', clarityScore: 4, trustScore: 4, valueScore: 4,
+        mostUseful: 'Forecast reliability', confusionArea: 'Data freshness labels',
+        expectedNextAction: 'Review more research', weeklyUse: 'maybe', facilitatorObservation: '',
+      },
+      feedbackSavedAt: '2026-10-16T12:00:00.000Z',
+      exportedAt: '2026-10-16T12:01:00.000Z',
+    })),
+  }
+  await page.getByLabel('Import Phase 9B JSON').setInputFiles(validFile)
+  await expect(page.getByLabel('1 audience sessions loaded')).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Collect more evidence' })).toBeVisible()
+  await expect(page.getByText('Files were not uploaded or retained')).toBeVisible()
+
+  await page.getByLabel('Import Phase 9B JSON').setInputFiles({
+    name: 'unsafe-debrief.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify({ ...JSON.parse(validFile.buffer.toString()), email: 'person@example.com' })),
+  })
+  await expect(page.getByRole('alert')).toContainText('identity or contact field')
+  await expect(page.getByLabel('1 audience sessions loaded')).toBeVisible()
+  await expect(page.locator('input[type="email"], input[type="tel"]')).toHaveCount(0)
+})
+
 test('core landmarks pass automated WCAG A and AA checks', async ({ page }, testInfo) => {
   if (testInfo.project.name === 'mobile-chromium') {
     const toggle = page.getByRole('button', { name: 'Open product navigation' })

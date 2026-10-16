@@ -1586,6 +1586,31 @@ audience outreach still requires an approved participant process, privacy and
 support ownership, reviewed evidence handling and an accountable go / no-go
 decision.
 
+### Phase 9C — audience-insight synthesis (implemented candidate)
+
+- A public research workspace imports up to 24 privacy-safe Phase 9B JSON
+  debriefs and validates the schema, size and privacy flags before use.
+- Imported evidence remains in page memory only. Source files and free-text
+  facilitator observations are never retained, persisted or included in the
+  aggregate export.
+- The scorecard summarizes clarity, trust, perceived value, guided-journey
+  completion, weekly-use intent and structured segment distributions.
+- Explicit minimum-sample and quality thresholds yield collect, iterate,
+  reframe or pilot-review signals instead of an unsupported launch claim.
+- A positive research signal cannot invite participants, authorize a cohort,
+  enable signup, connect a provider, display licensed real-time data, route an
+  order, collect payment, move money, fund an account, hold assets or settle a
+  transaction.
+- Phase 9C adds no migration, server endpoint or analytics tracker and preserves
+  migration 066 plus every Phase 8Z real-time activation gate.
+
+**Phase 9C exit gate:** green type, build, browser, accessibility,
+audience-insight, audience-feedback, demo-readiness, security, bundle and
+release contracts; successful `BUILD_PHASE_9C`; reviewed `DEPLOY_PHASE_9C`;
+and read-only `VERIFY_WEB_PHASE_9C` evidence. Publishing the candidate cannot
+deploy it or authorize outreach. A named owner must still review the aggregate
+evidence and make the bounded pilot go / no-go decision.
+
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.
