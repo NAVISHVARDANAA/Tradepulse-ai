@@ -986,6 +986,34 @@ if (
   manifest.audienceFeedbackReadiness?.settlementEnabled !== false
 ) throw new Error('Deployed audience-feedback readiness boundary is incomplete or unsafe.')
 if (
+  manifest.audienceInsightSynthesis?.workspaceEnabled !== true ||
+  manifest.audienceInsightSynthesis?.phase9BImportEnabled !== true ||
+  manifest.audienceInsightSynthesis?.aggregateScorecardEnabled !== true ||
+  manifest.audienceInsightSynthesis?.segmentDistributionsEnabled !== true ||
+  manifest.audienceInsightSynthesis?.explicitResearchThresholdsEnabled !== true ||
+  manifest.audienceInsightSynthesis?.aggregateExportEnabled !== true ||
+  manifest.audienceInsightSynthesis?.maximumLocalEvidenceFiles !== 24 ||
+  manifest.audienceInsightSynthesis?.minimumResearchSample !== 5 ||
+  manifest.audienceInsightSynthesis?.browserMemoryOnly !== true ||
+  manifest.audienceInsightSynthesis?.sourceFilesRetained !== false ||
+  manifest.audienceInsightSynthesis?.rawFacilitatorNotesIncluded !== false ||
+  manifest.audienceInsightSynthesis?.identityFieldsAccepted !== false ||
+  manifest.audienceInsightSynthesis?.contactFieldsAccepted !== false ||
+  manifest.audienceInsightSynthesis?.automaticSubmissionEnabled !== false ||
+  manifest.audienceInsightSynthesis?.externalAnalyticsEnabled !== false ||
+  manifest.audienceInsightSynthesis?.pilotAuthorizationEnabled !== false ||
+  manifest.audienceInsightSynthesis?.publicSignupEnabled !== false ||
+  manifest.audienceInsightSynthesis?.invitationDeliveryEnabled !== false ||
+  manifest.audienceInsightSynthesis?.licensedRealtimeFeedEnabled !== false ||
+  manifest.audienceInsightSynthesis?.checkoutEnabled !== false ||
+  manifest.audienceInsightSynthesis?.orderRoutingEnabled !== false ||
+  manifest.audienceInsightSynthesis?.paymentExecutionEnabled !== false ||
+  manifest.audienceInsightSynthesis?.moneyMovementEnabled !== false ||
+  manifest.audienceInsightSynthesis?.customerFundingEnabled !== false ||
+  manifest.audienceInsightSynthesis?.custodyEnabled !== false ||
+  manifest.audienceInsightSynthesis?.settlementEnabled !== false
+) throw new Error('Deployed audience-insight synthesis boundary is incomplete or unsafe.')
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||

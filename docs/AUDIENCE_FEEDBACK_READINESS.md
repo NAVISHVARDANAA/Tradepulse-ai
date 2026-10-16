@@ -42,5 +42,6 @@ money movement, funding, custody or settlement capability. The Phase 8Z
 licensed real-time adapter remains fail closed. Publishing this code does not
 run a deployment or activate a data provider.
 
-The guarded web confirmations are `BUILD_PHASE_9B`, `DEPLOY_PHASE_9B` and
-`VERIFY_WEB_PHASE_9B`. The Phase 8Z data confirmations remain unchanged.
+The Phase 9B candidate used `BUILD_PHASE_9B`, `DEPLOY_PHASE_9B` and
+`VERIFY_WEB_PHASE_9B`; the current release procedure is documented in
+`docs/WEB_RELEASE.md`. The Phase 8Z data confirmations remain unchanged.

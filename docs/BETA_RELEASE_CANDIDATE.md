@@ -260,16 +260,16 @@ Record the merge commit, GitHub workflow run ID and artifact name in the
 restricted release record. Never place secrets, customer data or raw operational
 evidence in a public issue or artifact.
 
-## Current Phase 9B hosting deployment procedure
+## Current Phase 9C hosting deployment procedure
 
-After the Phase 9B PR is merged and all `main` checks pass:
+After the Phase 9C PR is merged and all `main` checks pass:
 
 1. Deploy and verify migration 066 with `DEPLOY_DATA_PHASE_8Z` and `VERIFY_DATA_PHASE_8Z`.
 2. Open **Actions → Build production web release**.
-3. Select `main`, enter `BUILD_PHASE_9B` and run the workflow.
+3. Select `main`, enter `BUILD_PHASE_9C` and run the workflow.
 4. Confirm the workflow is green and record the `tradepulse-beta-rc2-<commit>` artifact.
 5. Follow `docs/CLOUDFLARE_PAGES_HOSTING.md` for the guarded deployment.
-6. Run **Verify web production** with `VERIFY_WEB_PHASE_9B` after deployment
+6. Run **Verify web production** with `VERIFY_WEB_PHASE_9C` after deployment
    or any customer-facing operational incident.
 7. Do not invite external testers until every manual prerequisite above is approved.
 
@@ -317,3 +317,8 @@ Phase 9B adds no migration, provider connection or analytics tracker. It adds a
 local-only audience debrief, four-stop journey progress and facilitator-controlled
 copy and JSON export. It requests no participant identity or contact field and
 cannot create accounts, invitations, orders, payments or operational approvals.
+
+Phase 9C adds no migration, provider connection or analytics tracker. It adds
+local validation and aggregate synthesis for up to 24 Phase 9B exports. Source
+files and raw notes are not retained, and its research signal cannot approve a
+pilot, invite participants, activate live data or create a financial action.

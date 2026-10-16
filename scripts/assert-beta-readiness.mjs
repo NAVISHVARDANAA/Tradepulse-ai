@@ -13,9 +13,9 @@ const artifactManifest = JSON.parse(artifactManifestText)
 
 assert(manifest.schemaVersion === 1, 'Unexpected beta manifest schema')
 assert(manifest.release === 'controlled-beta-rc2', 'Unexpected beta release identifier')
-assert(manifest.phase === '9B', 'Beta manifest is not on Phase 8Z')
+assert(manifest.phase === '9C', 'Beta manifest is not on Phase 8Z')
 assert(
-  manifest.status === 'audience_feedback_readiness_candidate',
+  manifest.status === 'audience_insight_synthesis_candidate',
   'Beta manifest overstates the release status',
 )
 assert(manifest.audience === 'internal_release_review', 'Beta audience boundary changed')
@@ -119,17 +119,17 @@ const [buildWorkflow, deployWorkflow, verifyWebWorkflow, ciWorkflow, securityWor
   ])
 
 for (const contract of [
-  'BUILD_PHASE_9B',
+  'BUILD_PHASE_9C',
   'npm run check:beta',
   'tradepulse-beta-rc2-${{ github.sha }}',
   'environment: production',
 ]) {
   assert(buildWorkflow.includes(contract), `Beta build workflow contract missing: ${contract}`)
 }
-for (const contract of ['DEPLOY_PHASE_9B', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['DEPLOY_PHASE_9C', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
   assert(deployWorkflow.includes(contract), `Beta deploy workflow contract missing: ${contract}`)
 }
-for (const contract of ['VERIFY_WEB_PHASE_9B', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['VERIFY_WEB_PHASE_9C', 'verify:web-deployment', 'test:e2e:production']) {
   assert(verifyWebWorkflow.includes(contract), `Beta web verification workflow contract missing: ${contract}`)
 }
 for (const contract of [

@@ -189,6 +189,9 @@ const DemoModeBanner = lazy(() => import('./components/DemoModeBanner').then((mo
 const DemoFeedbackPanel = lazy(() => import('./components/DemoFeedbackPanel').then((module) => ({
   default: module.DemoFeedbackPanel,
 })))
+const AudienceInsightsPanel = lazy(() => import('./components/AudienceInsightsPanel').then((module) => ({
+  default: module.AudienceInsightsPanel,
+})))
 
 function SectionLoader({ label }: { label: string }) {
   return (
@@ -582,6 +585,14 @@ function App() {
           <ProductErrorBoundary title="The audience debrief is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Audience debrief" />}>
               <DemoFeedbackPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        ) : null}
+
+        {activeHref === '#audience-insights' ? (
+          <ProductErrorBoundary title="Audience insight synthesis is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Audience insight synthesis" />}>
+              <AudienceInsightsPanel />
             </Suspense>
           </ProductErrorBoundary>
         ) : null}

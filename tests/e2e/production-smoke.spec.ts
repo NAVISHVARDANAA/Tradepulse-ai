@@ -5,6 +5,7 @@ const baseURL = new URL(process.env.WEB_PRODUCTION_URL ?? 'https://invalid.examp
 const publicWorkspaces = [
   ['#live-demo', 'A clear, safe TradePulse live demo'],
   ['#demo-feedback', 'Live-demo audience debrief'],
+  ['#audience-insights', 'Audience insight synthesis'],
   ['#dashboard', 'One platform. Focused workspaces.'],
   ['#analytics-studio', 'Governed Analytics Studio'],
   ['#global-access', 'Venue and instrument access map'],
@@ -137,6 +138,47 @@ test('audience debrief records structured local evidence without identity or sub
 
   const localEvidence = await page.evaluate(() => sessionStorage.getItem('tradepulse-demo-journey-v1'))
   expect(localEvidence).toContain('"audienceRole":"analyst"')
+  expect(failures, failures.join('\n')).toEqual([])
+})
+
+test('audience insight synthesis imports debriefs locally and keeps activation blocked', async ({ page }) => {
+  const failures = observeRuntimeFailures(page)
+  await page.goto('/#audience-insights', { waitUntil: 'domcontentloaded' })
+  await dismissWelcome(page)
+
+  const files = Array.from({ length: 5 }, (_, index) => ({
+    name: `debrief-${index + 1}.json`,
+    mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify({
+      schemaVersion: 1,
+      phase: '9B',
+      dataClassification: 'user-controlled local demo evidence',
+      containsRequestedIdentityFields: false,
+      transmittedToTradePulse: false,
+      journey: { startedAt: null, completedStops: 4, totalStops: 4, visitedRoutes: ['#markets', '#analytics-studio', '#stock-research', '#forecasts'] },
+      feedback: {
+        audienceRole: index % 2 ? 'investor' : 'analyst',
+        clarityScore: 5,
+        trustScore: 4,
+        valueScore: 5,
+        mostUseful: 'Evidence lineage',
+        confusionArea: 'Nothing was unclear',
+        expectedNextAction: 'Join a controlled pilot',
+        weeklyUse: 'yes',
+        facilitatorObservation: '',
+      },
+      feedbackSavedAt: `2026-10-16T10:0${index}:00.000Z`,
+      exportedAt: `2026-10-16T10:1${index}:00.000Z`,
+    })),
+  }))
+
+  await page.getByLabel('Import Phase 9B JSON').setInputFiles(files)
+  await expect(page.getByLabel('5 audience sessions loaded')).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Evidence supports pilot review' })).toBeVisible()
+  await expect(page.getByText('does not authorize invitations or activation')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Download aggregate JSON' })).toBeEnabled()
+  await expect(page.locator('input[type="email"], input[type="tel"]')).toHaveCount(0)
+  await expect(page.getByRole('button', { name: /buy|sell|trade|pay|transfer|deposit|invite|sign up/i })).toHaveCount(0)
   expect(failures, failures.join('\n')).toEqual([])
 })
 
