@@ -1014,6 +1014,39 @@ if (
   manifest.audienceInsightSynthesis?.settlementEnabled !== false
 ) throw new Error('Deployed audience-insight synthesis boundary is incomplete or unsafe.')
 if (
+  manifest.audiencePilotDecisionBrief?.workspaceEnabled !== true ||
+  manifest.audiencePilotDecisionBrief?.phase9CAggregateImportEnabled !== true ||
+  manifest.audiencePilotDecisionBrief?.decisionReconciliationEnabled !== true ||
+  manifest.audiencePilotDecisionBrief?.experimentBacklogEnabled !== true ||
+  manifest.audiencePilotDecisionBrief?.boundedPilotEnvelopeEnabled !== true ||
+  manifest.audiencePilotDecisionBrief?.aggregateDraftExportEnabled !== true ||
+  manifest.audiencePilotDecisionBrief?.browserMemoryOnly !== true ||
+  manifest.audiencePilotDecisionBrief?.externalHumanReviewRequired !== true ||
+  manifest.audiencePilotDecisionBrief?.maximumAggregateFileBytes !== 98304 ||
+  manifest.audiencePilotDecisionBrief?.maximumPilotParticipants !== 30 ||
+  manifest.audiencePilotDecisionBrief?.maximumPilotDurationWeeks !== 4 ||
+  manifest.audiencePilotDecisionBrief?.pilotFreeOfCharge !== true ||
+  manifest.audiencePilotDecisionBrief?.realtimeDataRequiredForPilot !== false ||
+  manifest.audiencePilotDecisionBrief?.sourceEvidenceRetained !== false ||
+  manifest.audiencePilotDecisionBrief?.rawTextAccepted !== false ||
+  manifest.audiencePilotDecisionBrief?.identityFieldsAccepted !== false ||
+  manifest.audiencePilotDecisionBrief?.contactFieldsAccepted !== false ||
+  manifest.audiencePilotDecisionBrief?.automaticSubmissionEnabled !== false ||
+  manifest.audiencePilotDecisionBrief?.externalAnalyticsEnabled !== false ||
+  manifest.audiencePilotDecisionBrief?.decisionRecordingEnabled !== false ||
+  manifest.audiencePilotDecisionBrief?.pilotAuthorizationEnabled !== false ||
+  manifest.audiencePilotDecisionBrief?.publicSignupEnabled !== false ||
+  manifest.audiencePilotDecisionBrief?.invitationDeliveryEnabled !== false ||
+  manifest.audiencePilotDecisionBrief?.licensedRealtimeFeedEnabled !== false ||
+  manifest.audiencePilotDecisionBrief?.checkoutEnabled !== false ||
+  manifest.audiencePilotDecisionBrief?.orderRoutingEnabled !== false ||
+  manifest.audiencePilotDecisionBrief?.paymentExecutionEnabled !== false ||
+  manifest.audiencePilotDecisionBrief?.moneyMovementEnabled !== false ||
+  manifest.audiencePilotDecisionBrief?.customerFundingEnabled !== false ||
+  manifest.audiencePilotDecisionBrief?.custodyEnabled !== false ||
+  manifest.audiencePilotDecisionBrief?.settlementEnabled !== false
+) throw new Error('Deployed audience pilot decision-brief boundary is incomplete or unsafe.')
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||

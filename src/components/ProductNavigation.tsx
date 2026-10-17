@@ -48,6 +48,7 @@ export const productNavigation: NavGroup[] = [
   {
     label: 'Business',
     items: [
+      { label: 'Pilot decision brief', href: '#audience-pilot-decision' },
       { label: 'Audience pilot plan', href: '#audience-pilot-plan' },
       { label: 'Pilot activation', href: '#pilot-activation' },
       { label: 'Workspace', href: '#business-workspace' },

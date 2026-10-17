@@ -48,7 +48,7 @@ broken product features.
 ## Release boundary
 
 Phase 9A is a web-only change and introduces no database migration or Edge
-Function change. The current Phase 9C release confirmations are
-`BUILD_PHASE_9C`, `DEPLOY_PHASE_9C` and `VERIFY_WEB_PHASE_9C`. Migration 066 and
+Function change. The current Phase 9D release confirmations are
+`BUILD_PHASE_9D`, `DEPLOY_PHASE_9D` and `VERIFY_WEB_PHASE_9D`. Migration 066 and
 the guarded Phase 8Z data confirmations remain unchanged. Publishing the code
 does not run a deployment or activate a data provider.

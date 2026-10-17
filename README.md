@@ -7,7 +7,7 @@ compliance boundaries are designed in before execution features are enabled.
 
 ## Current product scope
 
-### Current release — Phase 9C audience-insight synthesis
+### Current release — Phase 9D audience pilot decision brief
 
 - A public `#live-demo` workspace gives presenters a focused ten-minute path
   through market context, governed analytics, equity research and forecast
@@ -25,6 +25,15 @@ compliance boundaries are designed in before execution features are enabled.
   raw facilitator notes are excluded from the aggregate export.
 - Explicit research thresholds distinguish collect-more, iterate, reframe and
   pilot-review signals. No signal authorizes outreach or audience activation.
+- A public `#audience-pilot-decision` workspace accepts one privacy-safe Phase
+  9C aggregate, reconciles its gates and produces an unsigned decision brief
+  with a prioritized experiment backlog.
+- The decision brief fixes the research-pilot envelope at no more than 30
+  participants for four weeks, free of charge, with reference, delayed or
+  curated demo data; real-time data is not required.
+- Product, privacy, support, measurement, cost and rollback owners still need
+  external evidence and an accountable human go or no-go decision. The brief
+  cannot send invitations, provision accounts or activate a pilot.
 - Optional demo mode uses deterministic, session-scoped sample data that is
   labelled on every page as non-live and non-transactional.
 - Primary navigation separates audience value from provider, brokerage,
@@ -34,7 +43,7 @@ compliance boundaries are designed in before execution features are enabled.
   private workspaces still require an account and all regulated actions remain
   disabled.
 - Phase 8Z's server-side real-time adapter remains a guarded implementation
-  candidate; Phase 9C does not activate a licensed feed or customer display.
+  candidate; Phase 9D does not activate a licensed feed or customer display.
 
 - A server-only Twelve Data WebSocket candidate can accept up to 30 explicitly
   mapped price symbols in a bounded zero-customer canary.

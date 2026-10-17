@@ -845,6 +845,69 @@ test('audience insight synthesis accepts only local privacy-safe debrief evidenc
   await expect(page.locator('input[type="email"], input[type="tel"]')).toHaveCount(0)
 })
 
+test('audience pilot decision brief reconciles aggregate evidence without activating outreach', async ({ page }) => {
+  await page.goto('/#audience-pilot-decision')
+  const validAggregate = {
+    schemaVersion: 1,
+    phase: '9C',
+    dataClassification: 'aggregate local audience research evidence',
+    containsIdentityFields: false,
+    containsContactFields: false,
+    containsRawText: false,
+    sourceFilesRetained: false,
+    transmittedToTradePulse: false,
+    sessionCount: 5,
+    scores: {
+      averageClarity: 4.4,
+      averageTrust: 4.2,
+      averageValue: 4.4,
+      fullJourneyPercent: 100,
+      weeklyInterestPercent: 80,
+      notRelevantPercent: 0,
+    },
+    distributions: {
+      audienceRoles: { analyst: 3, investor: 2 },
+      mostUseful: { 'Evidence lineage': 3, 'Forecast reliability': 2 },
+      confusionAreas: { 'Nothing was unclear': 4, 'Data freshness labels': 1 },
+      expectedNextActions: { 'Join a controlled pilot': 4, 'Review more research': 1 },
+      weeklyUse: { yes: 4, maybe: 1 },
+    },
+    researchDecision: {
+      state: 'pilot-review',
+      label: 'Evidence supports pilot review',
+      reason: 'The research thresholds are met.',
+      authorizesAudienceActivation: false,
+      gates: [
+        { label: 'Research sample', value: '5 sessions', target: 'At least 5', met: true },
+        { label: 'Journey completion', value: '100%', target: 'At least 80%', met: true },
+        { label: 'Clarity', value: '4.4/5', target: 'At least 4.0', met: true },
+        { label: 'Trust', value: '4.2/5', target: 'At least 4.0', met: true },
+        { label: 'Perceived value', value: '4.4/5', target: 'At least 4.0', met: true },
+        { label: 'Weekly interest', value: '80%', target: 'At least 70%', met: true },
+      ],
+    },
+    generatedAt: '2026-10-17T08:00:00.000Z',
+  }
+
+  await page.getByLabel('Import Phase 9C aggregate').setInputFiles({
+    name: 'audience-insights.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify(validAggregate)),
+  })
+  await expect(page.getByRole('heading', { name: 'Ready for accountable pilot review' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Experiment backlog' })).toBeVisible()
+  await expect(page.getByText('Maximum 30 participants')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Download draft brief' })).toBeEnabled()
+
+  await page.getByLabel('Import Phase 9C aggregate').setInputFiles({
+    name: 'unsafe-audience-insights.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify({ ...validAggregate, email: 'participant@example.com' })),
+  })
+  await expect(page.getByRole('alert')).toContainText('identity, contact field or email-like value')
+  await expect(page.locator('input[type="email"], input[type="tel"]')).toHaveCount(0)
+})
+
 test('core landmarks pass automated WCAG A and AA checks', async ({ page }, testInfo) => {
   if (testInfo.project.name === 'mobile-chromium') {
     const toggle = page.getByRole('button', { name: 'Open product navigation' })
@@ -906,7 +969,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(56)
+  await expect(navigation.getByRole('link')).toHaveCount(57)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)

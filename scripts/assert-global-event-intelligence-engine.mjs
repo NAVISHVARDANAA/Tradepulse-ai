@@ -99,8 +99,8 @@ for (const integration of [
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.globalEventIntelligence
-assert(manifest.phase === '9C', 'Release manifest is not Phase 8F')
-assert(manifest.status === 'audience_insight_synthesis_candidate', 'Release status is not the Phase 8F candidate')
+assert(manifest.phase === '9D', 'Release manifest is not Phase 8F')
+assert(manifest.status === 'audience_pilot_decision_brief_candidate', 'Release status is not the Phase 8F candidate')
 assert(packageJson.scripts?.['check:global-event-intelligence'], 'Package scripts omit the Phase 8F check')
 assert(manifest.requiredChecks.includes('check:global-event-intelligence'), 'Manifest omits the Phase 8F check')
 for (const capability of [
@@ -125,8 +125,8 @@ assert(release?.terminalScenarioCount === 6, 'Phase 8F terminal scenario count c
 
 for (const [workflow, confirmation] of [
   [deployData, 'DEPLOY_DATA_PHASE_8Z'], [verifyData, 'VERIFY_DATA_PHASE_8Z'],
-  [buildWeb, 'BUILD_PHASE_9C'], [deployWeb, 'DEPLOY_PHASE_9C'],
-  [verifyWeb, 'VERIFY_WEB_PHASE_9C'],
+  [buildWeb, 'BUILD_PHASE_9D'], [deployWeb, 'DEPLOY_PHASE_9D'],
+  [verifyWeb, 'VERIFY_WEB_PHASE_9D'],
 ]) assert(workflow.includes(confirmation), `Workflow omits ${confirmation}`)
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
   assert(workflow.includes('check:global-event-intelligence'), 'A web gate omits the Phase 8F check')
