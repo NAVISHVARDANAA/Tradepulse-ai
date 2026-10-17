@@ -35,17 +35,17 @@ After this PR is merged and all `main` checks pass:
 2. Run **Verify Supabase production** on `main` with
    `VERIFY_DATA_PHASE_8Z` and retain the read-only evidence.
 3. Open **Actions → Build production web release**, choose `main`, enter
-   `BUILD_PHASE_9C` and record the green audience-insight synthesis
+   `BUILD_PHASE_9D` and record the green audience pilot decision-brief
    web artifact.
 4. Open **Actions → Deploy controlled beta web**, choose `main`, enter
-   `DEPLOY_PHASE_9C` and approve the protected production environment.
+   `DEPLOY_PHASE_9D` and approve the protected production environment.
 5. Record the immutable commit, workflow run and Cloudflare deployment URL from
    the job summary. The workflow verifies HTTPS, browser security headers, the
    release manifest and every hard lock after upload. It then runs desktop and
    mobile production browser checks across the public workspaces, Analytics
    interactions, console/network failures and guest execution locks.
 6. After a release or operational incident, open **Actions → Verify web
-   production**, choose `main`, enter `VERIFY_WEB_PHASE_9C` and retain the green
+   production**, choose `main`, enter `VERIFY_WEB_PHASE_9D` and retain the green
    production-browser report.
 7. Do not invite testers yet. Choose and validate the final domain, configure
    its exact Supabase Auth site URL and redirect allow-list, then complete the
@@ -53,8 +53,8 @@ After this PR is merged and all `main` checks pass:
 
 Deploy and verify migration 066 with the Phase 8Z data gates before the web
 workspace. Every pilot activation gate remains unverified, every provider
-commercial-review domain remains unavailable and every readiness cell remains blocked. The
-The Phase 9C web artifact adds local-only, aggregate audience research synthesis
+commercial-review domain remains unavailable and every readiness cell remains blocked.
+The Phase 9D web artifact adds a local-only, unsigned audience pilot decision brief
 while preserving the Phase 9B debrief, clearly labelled Phase 9A demo, Phase 8Z server
 adapter and database delivery path. The product
 cannot accept a quote, sign a contract, grant

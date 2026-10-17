@@ -1,0 +1,252 @@
+.audience-pilot-decision {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.pilot-decision-hero,
+.pilot-decision-boundary,
+.pilot-decision-import,
+.pilot-decision-recommendation,
+.pilot-decision-backlog,
+.pilot-decision-columns > section,
+.pilot-decision-empty {
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: var(--panel-soft);
+}
+
+.pilot-decision-hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+
+.pilot-decision-hero h2,
+.pilot-decision-import h3,
+.pilot-decision-recommendation h3,
+.pilot-decision-backlog h3,
+.pilot-decision-columns h3 {
+  margin: 0.35rem 0 0.55rem;
+}
+
+.pilot-decision-hero p,
+.pilot-decision-import p,
+.pilot-decision-recommendation p,
+.pilot-decision-backlog p {
+  margin: 0;
+}
+
+.pilot-decision-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #a78bfa;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.pilot-decision-badge,
+.pilot-decision-score {
+  min-width: 9.5rem;
+  display: grid;
+  justify-items: center;
+  gap: 0.2rem;
+  padding: 1rem;
+  border-radius: 0.85rem;
+  background: rgba(139, 92, 246, 0.1);
+  text-align: center;
+}
+
+.pilot-decision-badge span,
+.pilot-decision-score span {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.pilot-decision-boundary {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem 1.2rem;
+  border-color: rgba(52, 211, 153, 0.28);
+}
+
+.pilot-decision-boundary div {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.pilot-decision-boundary span {
+  color: var(--muted);
+}
+
+.pilot-decision-import {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+}
+
+.pilot-decision-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.pilot-decision-file-button {
+  cursor: pointer;
+}
+
+#pilot-decision-file {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.pilot-decision-notice,
+.pilot-decision-error {
+  padding: 0.8rem 0.9rem;
+  border-radius: 0.75rem;
+  font-weight: 650;
+}
+
+.pilot-decision-notice {
+  background: color-mix(in srgb, #16a34a 12%, transparent);
+  color: #15803d;
+}
+
+.pilot-decision-error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: color-mix(in srgb, #dc2626 10%, transparent);
+  color: #b91c1c;
+}
+
+.pilot-decision-recommendation {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding: 1.35rem;
+  border-left: 0.35rem solid #8b5cf6;
+}
+
+.pilot-decision-recommendation.reframe { border-left-color: #dc2626; }
+.pilot-decision-recommendation.iterate { border-left-color: #d97706; }
+.pilot-decision-recommendation.pilot-review { border-left-color: #16a34a; }
+
+.pilot-decision-signals {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.pilot-decision-signals article {
+  display: grid;
+  gap: 0.35rem;
+  min-height: 5.25rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.85rem;
+  background: var(--panel-soft);
+}
+
+.pilot-decision-signals span {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.pilot-decision-backlog {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+}
+
+.pilot-decision-backlog > div:last-child {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.pilot-decision-backlog article {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+  padding: 0.85rem;
+  border-radius: 0.75rem;
+  background: rgba(139, 92, 246, 0.06);
+}
+
+.pilot-decision-backlog article > span {
+  display: grid;
+  place-items: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: #8b5cf6;
+  color: white;
+  font-weight: 800;
+}
+
+.pilot-decision-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.pilot-decision-columns > section {
+  padding: 1.2rem;
+}
+
+.pilot-decision-columns ul {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.pilot-decision-columns li svg {
+  vertical-align: -0.15rem;
+  color: #16a34a;
+}
+
+.pilot-decision-empty {
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  padding: 2rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+.pilot-decision-lock {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+@media (max-width: 780px) {
+  .pilot-decision-hero,
+  .pilot-decision-recommendation {
+    flex-direction: column;
+  }
+
+  .pilot-decision-badge,
+  .pilot-decision-score {
+    width: 100%;
+  }
+
+  .pilot-decision-signals,
+  .pilot-decision-columns {
+    grid-template-columns: 1fr;
+  }
+}

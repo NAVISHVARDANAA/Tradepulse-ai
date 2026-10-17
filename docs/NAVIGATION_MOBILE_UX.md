@@ -1,7 +1,7 @@
 # Product navigation and mobile UX
 
-Phase 9C preserves the six audience-oriented navigation groups introduced in
-Phase 9A and adds audience debrief and synthesis workspaces to the Demo group:
+Phase 9D preserves the six audience-oriented navigation groups introduced in
+Phase 9A and adds the pilot decision brief to the Business group:
 Demo, Research, Learn & practise, Business, Trust & account, and Readiness
 controls. Every previously available product destination remains reachable;
 the presentation change does not alter authorization, data access or execution
@@ -13,7 +13,7 @@ targets. The current section and group are derived from viewport position,
 exposed through `aria-current`, and updated immediately when a destination is
 selected. Escape closes any open navigation surface.
 
-`npm run check:navigation` enforces the six groups, all 56 unique destinations,
+`npm run check:navigation` enforces the six groups, all 57 unique destinations,
 their matching application section IDs, and the required accessible-menu state.
 CI and the protected production web-artifact workflow both run this contract.
 

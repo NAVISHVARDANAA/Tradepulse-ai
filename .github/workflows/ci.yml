@@ -170,6 +170,9 @@ jobs:
       - name: Verify audience-insight synthesis
         run: npm run check:audience-insight-synthesis
 
+      - name: Verify audience pilot decision brief
+        run: npm run check:audience-pilot-decision-brief
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 

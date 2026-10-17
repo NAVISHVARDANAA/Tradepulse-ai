@@ -1611,6 +1611,33 @@ and read-only `VERIFY_WEB_PHASE_9C` evidence. Publishing the candidate cannot
 deploy it or authorize outreach. A named owner must still review the aggregate
 evidence and make the bounded pilot go / no-go decision.
 
+### Phase 9D — audience pilot decision brief (implemented candidate)
+
+- A public decision-governance workspace imports one aggregate-only Phase 9C
+  JSON export and rejects identity, contact, raw-text or activation-bearing
+  evidence.
+- Score ranges, distribution totals, six research gates and the Phase 9C
+  decision state must reconcile before a brief can be produced.
+- The workspace turns unmet thresholds into a prioritized experiment backlog
+  and preserves collect, iterate, reframe or pilot-review outcomes without
+  fabricating a launch claim.
+- A fixed pilot envelope caps any future research wave at 30 participants for
+  four weeks, free of charge, with reference, delayed or curated demo data.
+  Licensed real-time data is not required.
+- The aggregate-only copy and JSON export are unsigned local drafts. Product,
+  privacy, support, measurement, cost and rollback ownership plus a documented
+  human go / no-go decision remain external requirements.
+- Phase 9D adds no migration, server endpoint or analytics tracker and cannot
+  record a decision, send an invitation, create an account, enable signup,
+  connect a provider, display licensed live data or perform a financial action.
+
+**Phase 9D exit gate:** green type, build, browser, accessibility,
+audience-decision, audience-insight, audience-feedback, demo-readiness,
+security, bundle and release contracts; successful `BUILD_PHASE_9D`; reviewed
+`DEPLOY_PHASE_9D`; and read-only `VERIFY_WEB_PHASE_9D` evidence. Publishing the
+candidate cannot deploy it or authorize outreach. Actual audience contact still
+requires the external owner evidence and accountable go / no-go decision.
+
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.

@@ -52,6 +52,7 @@
     "check:live-demo-readiness": "node scripts/assert-live-demo-readiness.mjs",
     "check:audience-feedback-readiness": "node scripts/assert-audience-feedback-readiness.mjs",
     "check:audience-insight-synthesis": "node scripts/assert-audience-insight-synthesis.mjs",
+    "check:audience-pilot-decision-brief": "node scripts/assert-audience-pilot-decision-brief.mjs",
     "check:bundle": "node scripts/assert-frontend-budgets.mjs",
     "check:beta": "node scripts/assert-beta-readiness.mjs",
     "check:hosting": "node scripts/assert-cloudflare-hosting.mjs",

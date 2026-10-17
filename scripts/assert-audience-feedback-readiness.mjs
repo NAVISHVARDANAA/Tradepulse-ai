@@ -44,7 +44,7 @@ const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 
 assert(
-  manifest.phase === '9C' && manifest.status === 'audience_insight_synthesis_candidate',
+  manifest.phase === '9D' && manifest.status === 'audience_pilot_decision_brief_candidate',
   'Manifest is not the Phase 9B audience-feedback readiness candidate',
 )
 assert(packageJson.scripts?.['check:audience-feedback-readiness'], 'Package omits the Phase 9B check')
@@ -119,7 +119,7 @@ for (const selector of ['.demo-feedback-summary', '.demo-feedback-progress', '.d
 for (const workflow of [ci, build, deploy, verify]) {
   assert(workflow.includes('npm run check:audience-feedback-readiness'), 'A web release gate omits the Phase 9B check')
 }
-for (const token of ['BUILD_PHASE_9C', 'DEPLOY_PHASE_9C', 'VERIFY_WEB_PHASE_9C']) {
+for (const token of ['BUILD_PHASE_9D', 'DEPLOY_PHASE_9D', 'VERIFY_WEB_PHASE_9D']) {
   assert([build, deploy, verify].some((workflow) => workflow.includes(token)), `Web release token is missing: ${token}`)
 }
 for (const contract of ['#demo-feedback', 'Turn a live demo into evidence.', 'Save local debrief', 'tradepulse-demo-journey-v1']) {

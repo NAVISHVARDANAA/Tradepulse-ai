@@ -192,6 +192,9 @@ const DemoFeedbackPanel = lazy(() => import('./components/DemoFeedbackPanel').th
 const AudienceInsightsPanel = lazy(() => import('./components/AudienceInsightsPanel').then((module) => ({
   default: module.AudienceInsightsPanel,
 })))
+const AudiencePilotDecisionPanel = lazy(() => import('./components/AudiencePilotDecisionPanel').then((module) => ({
+  default: module.AudiencePilotDecisionPanel,
+})))
 
 function SectionLoader({ label }: { label: string }) {
   return (
@@ -593,6 +596,14 @@ function App() {
           <ProductErrorBoundary title="Audience insight synthesis is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Audience insight synthesis" />}>
               <AudienceInsightsPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        ) : null}
+
+        {activeHref === '#audience-pilot-decision' ? (
+          <ProductErrorBoundary title="The audience pilot decision brief is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Audience pilot decision brief" />}>
+              <AudiencePilotDecisionPanel />
             </Suspense>
           </ProductErrorBoundary>
         ) : null}

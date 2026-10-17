@@ -86,8 +86,8 @@ assert(productionTest.includes("'#international-paper'"), 'Production browser te
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.internationalMultiAssetPaperTrading
-assert(manifest.phase === '9C', 'Release manifest is not Phase 8D')
-assert(manifest.status === 'audience_insight_synthesis_candidate', 'Release status is not the Phase 8D candidate')
+assert(manifest.phase === '9D', 'Release manifest is not Phase 8D')
+assert(manifest.status === 'audience_pilot_decision_brief_candidate', 'Release status is not the Phase 8D candidate')
 assert(manifest.requiredChecks.includes('check:international-paper-trading'), 'Manifest omits the Phase 8B check')
 assert(packageJson.scripts?.['check:international-paper-trading'], 'Package scripts omit the Phase 8B check')
 assert(release?.venueCount === 6 && release?.listingCount === 12 && release?.virtualCurrencyCount === 5, 'Manifest scenario counts are incomplete')
@@ -98,7 +98,7 @@ for (const lock of ['liveMarketDataConnectivityEnabled', 'orderRoutingEnabled', 
 
 for (const [workflow, confirmation] of [
   [deployData, 'DEPLOY_DATA_PHASE_8Z'], [verifyData, 'VERIFY_DATA_PHASE_8Z'],
-  [buildWeb, 'BUILD_PHASE_9C'], [deployWeb, 'DEPLOY_PHASE_9C'], [verifyWeb, 'VERIFY_WEB_PHASE_9C'],
+  [buildWeb, 'BUILD_PHASE_9D'], [deployWeb, 'DEPLOY_PHASE_9D'], [verifyWeb, 'VERIFY_WEB_PHASE_9D'],
 ]) assert(workflow.includes(confirmation), `Workflow omits ${confirmation}`)
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {
   assert(workflow.includes('check:international-paper-trading'), 'A web gate omits the Phase 8B check')
