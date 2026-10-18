@@ -13,9 +13,9 @@ const artifactManifest = JSON.parse(artifactManifestText)
 
 assert(manifest.schemaVersion === 1, 'Unexpected beta manifest schema')
 assert(manifest.release === 'controlled-beta-rc2', 'Unexpected beta release identifier')
-assert(manifest.phase === '9D', 'Beta manifest is not on Phase 8Z')
+assert(manifest.phase === '9E', 'Beta manifest is not on Phase 8Z')
 assert(
-  manifest.status === 'audience_pilot_decision_brief_candidate',
+  manifest.status === 'audience_pilot_launch_kit_candidate',
   'Beta manifest overstates the release status',
 )
 assert(manifest.audience === 'internal_release_review', 'Beta audience boundary changed')
@@ -89,6 +89,7 @@ const expectedChecks = [
   'check:audience-feedback-readiness',
   'check:audience-insight-synthesis',
   'check:audience-pilot-decision-brief',
+  'check:audience-pilot-launch-kit',
   'check:production-experience',
   'check:bundle',
   'check:release',
@@ -122,17 +123,17 @@ const [buildWorkflow, deployWorkflow, verifyWebWorkflow, ciWorkflow, securityWor
   ])
 
 for (const contract of [
-  'BUILD_PHASE_9D',
+  'BUILD_PHASE_9E',
   'npm run check:beta',
   'tradepulse-beta-rc2-${{ github.sha }}',
   'environment: production',
 ]) {
   assert(buildWorkflow.includes(contract), `Beta build workflow contract missing: ${contract}`)
 }
-for (const contract of ['DEPLOY_PHASE_9D', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['DEPLOY_PHASE_9E', 'cloudflare/wrangler-action@v3', 'verify:web-deployment', 'test:e2e:production']) {
   assert(deployWorkflow.includes(contract), `Beta deploy workflow contract missing: ${contract}`)
 }
-for (const contract of ['VERIFY_WEB_PHASE_9D', 'verify:web-deployment', 'test:e2e:production']) {
+for (const contract of ['VERIFY_WEB_PHASE_9E', 'verify:web-deployment', 'test:e2e:production']) {
   assert(verifyWebWorkflow.includes(contract), `Beta web verification workflow contract missing: ${contract}`)
 }
 for (const contract of [
@@ -178,6 +179,7 @@ for (const contract of [
   'npm run check:audience-feedback-readiness',
   'npm run check:audience-insight-synthesis',
   'npm run check:audience-pilot-decision-brief',
+  'npm run check:audience-pilot-launch-kit',
   'npm run check:security',
   'npm run check:hosting',
 ]) {
@@ -233,6 +235,7 @@ assert(roadmap.includes('Phase 9A — live-demo readiness (implemented candidate
 assert(roadmap.includes('Phase 9B — audience-feedback readiness (implemented candidate)'), 'Roadmap omits audience-feedback readiness')
 assert(roadmap.includes('Phase 9C — audience-insight synthesis (implemented candidate)'), 'Roadmap omits audience-insight synthesis')
 assert(roadmap.includes('Phase 9D — audience pilot decision brief (implemented candidate)'), 'Roadmap omits audience pilot decision brief')
+assert(roadmap.includes('Phase 9E — real-audience pilot launch kit (implemented candidate)'), 'Roadmap omits audience pilot launch kit')
 assert(roadmap.includes('Phase 5E — controlled-beta onboarding and operations'), 'Roadmap omits Phase 5E')
 assert(roadmap.includes('Phase 5F — route-aware data loading'), 'Roadmap omits Phase 5F')
 assert(candidateDoc.includes('Artifact-only status'), 'Candidate documentation omits artifact status')

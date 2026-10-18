@@ -67,7 +67,7 @@ assert(production.includes("'#dependency-intelligence'"), 'Production test omits
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.globalDependencyTransmission
-assert(manifest.phase === '9D' && manifest.status === 'audience_pilot_decision_brief_candidate',
+assert(manifest.phase === '9E' && manifest.status === 'audience_pilot_launch_kit_candidate',
   'Manifest is not Phase 8J')
 assert(packageJson.scripts?.['check:global-dependency-transmission'], 'Package omits Phase 8J check')
 assert(manifest.requiredChecks.includes('check:global-dependency-transmission'), 'Manifest omits Phase 8J check')
@@ -91,8 +91,8 @@ assert(release?.verifiedRelationshipCount === 0 && release?.mechanismTemplateCou
   && release?.reviewGateCount === 8, 'Relationship, mechanism, or gate counts changed')
 
 for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8Z'],
-  [verifyData, 'VERIFY_DATA_PHASE_8Z'], [buildWeb, 'BUILD_PHASE_9D'],
-  [deployWeb, 'DEPLOY_PHASE_9D'], [verifyWeb, 'VERIFY_WEB_PHASE_9D']]) {
+  [verifyData, 'VERIFY_DATA_PHASE_8Z'], [buildWeb, 'BUILD_PHASE_9E'],
+  [deployWeb, 'DEPLOY_PHASE_9E'], [verifyWeb, 'VERIFY_WEB_PHASE_9E']]) {
   assert(workflow.includes(token), `Workflow omits ${token}`)
 }
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {

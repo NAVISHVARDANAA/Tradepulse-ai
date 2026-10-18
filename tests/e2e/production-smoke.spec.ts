@@ -7,6 +7,7 @@ const publicWorkspaces = [
   ['#demo-feedback', 'Live-demo audience debrief'],
   ['#audience-insights', 'Audience insight synthesis'],
   ['#audience-pilot-decision', 'Audience pilot decision brief'],
+  ['#audience-pilot-launch-kit', 'Real-audience pilot launch kit'],
   ['#dashboard', 'One platform. Focused workspaces.'],
   ['#analytics-studio', 'Governed Analytics Studio'],
   ['#global-access', 'Venue and instrument access map'],
@@ -234,6 +235,43 @@ test('audience pilot decision brief remains a local non-authorizing draft', asyn
   await expect(page.getByRole('button', { name: 'Download draft brief' })).toBeEnabled()
   await expect(page.locator('input[type="email"], input[type="tel"]')).toHaveCount(0)
   await expect(page.getByRole('button', { name: /invite|sign up|approve|activate|trade|pay|transfer|deposit/i })).toHaveCount(0)
+  expect(failures, failures.join('\n')).toEqual([])
+})
+
+test('Phase 9E launch kit remains non-authorizing', async ({ page }) => {
+  const failures = observeRuntimeFailures(page)
+  await page.goto('/#audience-pilot-launch-kit', { waitUntil: 'domcontentloaded' })
+  await dismissWelcome(page)
+  const decision = {
+    schemaVersion: 1,
+    phase: '9D',
+    status: 'draft-human-review-only',
+    dataClassification: 'aggregate local audience decision brief',
+    sourceEvidence: {
+      phase: '9C', sessionCount: 5,
+      scores: { averageClarity: 4.4, averageTrust: 4.2, averageValue: 4.4, fullJourneyPercent: 100, weeklyInterestPercent: 80, notRelevantPercent: 0 },
+      researchDecision: { state: 'pilot-review', label: 'Evidence supports pilot review', reason: 'The research thresholds are met.' },
+      topSignals: { audiencePerspective: 'analyst', mostUseful: 'Evidence lineage', biggestConfusion: 'Data freshness labels', expectedNextAction: 'Join a controlled pilot' },
+    },
+    recommendation: { state: 'pilot-review', label: 'Ready for accountable pilot review', reason: 'All research thresholds are met, but external owners must still approve outreach.' },
+    experimentBacklog: [{ priority: 1, title: 'Run an accountable pilot review', outcome: 'Product, privacy and support owners review the evidence.' }],
+    boundedPilotEnvelope: { maximumParticipants: 30, maximumDurationWeeks: 4, freeOfCharge: true, permittedData: ['reference', 'delayed', 'curated-demo'], liveRealtimeDataRequired: false },
+    externalHumanReviewRequired: ['accountable product owner', 'participant consent and privacy review', 'support and incident owner', 'privacy-safe measurement approval', 'cost ceiling approval', 'rollback owner', 'documented go or no-go decision'],
+    containsIdentityFields: false, containsContactFields: false, containsRawText: false,
+    transmittedToTradePulse: false, authorizesInvitations: false, authorizesSignup: false,
+    authorizesLiveData: false, authorizesFinancialExecution: false,
+    generatedAt: '2026-10-18T08:00:00.000Z',
+  }
+  await page.getByLabel('Import Phase 9D decision').setInputFiles({
+    name: 'pilot-decision.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(decision)),
+  })
+
+  await expect(page.getByRole('heading', { name: 'Prepare for accountable human review' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Five balanced audience cohorts' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Pilot scorecard' })).toBeVisible()
+  await expect(page.getByText('TradePulse cannot send, track or record this message.')).toBeVisible()
+  await expect(page.locator('input[type="email"], input[type="tel"]')).toHaveCount(0)
+  await expect(page.getByRole('button', { name: /send|invite|sign up|approve|activate|trade|buy|sell|pay|transfer|deposit/i })).toHaveCount(0)
   expect(failures, failures.join('\n')).toEqual([])
 })
 

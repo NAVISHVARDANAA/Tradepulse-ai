@@ -1,7 +1,7 @@
-# Phase 9D audience pilot decision-brief candidate
+# Phase 9E real-audience pilot launch-kit candidate
 
-Phase 9D extends the host-neutral controlled-beta candidate for the TradePulse AI web
-application with a local-only, aggregate audience pilot decision brief. The artifact includes
+Phase 9E extends the host-neutral controlled-beta candidate for the TradePulse AI web
+application with a local-only audience research and marketing launch kit. The artifact includes
 SPA routing, a static-only service worker,
 PWA metadata, cache controls and browser security headers. Source maps, server
 secret names and local environment files are rejected before upload.
@@ -18,14 +18,15 @@ the project's public Supabase anon key. `SUPABASE_PROJECT_REF` remains the sourc
 for the approved HTTPS origin.
 
 After merging, open **Actions → Build production web release**, select `main`
-and enter `BUILD_PHASE_9D`. The workflow validates the public configuration,
+and enter `BUILD_PHASE_9E`. The workflow validates the public configuration,
 builds the application and retains the immutable commit-addressed artifact for
 14 days as `tradepulse-beta-rc-<commit>`. It does not publish to a hosting
 provider; the final domain and external audience authorization remain manual
-launch prerequisites. The release adds a public decision route that validates
-one Phase 9C aggregate, reconciles its gates and creates an unsigned experiment
-brief. It rejects identity/contact input, excludes raw notes and makes no
-automatic submission or authorization. The Phase 8Z
+launch prerequisites. The release adds a public launch-kit route that validates
+one unsigned Phase 9D decision draft and prepares target cohorts, neutral
+interview questions, founder-led channels, measurable stop/continue criteria
+and reviewed outreach wording. It rejects identity/contact input, excludes raw
+notes and makes no automatic submission, messaging or authorization. The Phase 8Z
 workspace still exposes a read-only real-time-data activation cockpit and a
 server-only, license-gated streaming adapter. The adapter is not called by the
 web release and no provider key is included in the
