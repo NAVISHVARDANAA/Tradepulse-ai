@@ -49,9 +49,10 @@ const budgets = {
   // activation workspaces. The shell and largest-chunk limits stay unchanged;
   // Phase 9B adds the debrief, Phase 9C adds local synthesis, Phase 9D adds a
   // local aggregate decision brief and Phase 9E adds the local launch kit. The bounded total is recalibrated after
-  // reviewing the 422.9 KiB production build; the largest-asset limit remains
-  // unchanged and the shell receives less than 1 KiB of additional headroom.
-  totalJavaScriptGzipBytes: 426 * 1024,
+  // reviewing the 430.0 KiB GitHub production build. The Phase 9E allowance is
+  // limited to the route-deferred launch-kit module; the 167 KiB initial-load
+  // and 90 KiB largest-asset limits remain unchanged.
+  totalJavaScriptGzipBytes: 434 * 1024,
   largestAssetGzipBytes: 90 * 1024,
 }
 
