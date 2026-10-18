@@ -1638,6 +1638,37 @@ security, bundle and release contracts; successful `BUILD_PHASE_9D`; reviewed
 candidate cannot deploy it or authorize outreach. Actual audience contact still
 requires the external owner evidence and accountable go / no-go decision.
 
+### Phase 9E — real-audience pilot launch kit (implemented candidate)
+
+- A public audience-and-marketing readiness workspace imports one unsigned
+  Phase 9D decision draft and rejects identity, contact, email-like, inconsistent
+  or activation-bearing evidence.
+- Five six-person cohorts balance self-directed investors, active research
+  users, finance/data professionals, globally exposed SME operators and finance
+  learners instead of relying on one convenient audience segment.
+- Eleven neutral interview questions test the existing research workflow,
+  unaided comprehension, evidence trust, repeat-use jobs, alternatives and
+  value without turning the session into a sales pitch.
+- The founder-led channel plan starts with trusted conversations, then
+  learning-led LinkedIn posts, moderator-approved niche communities and
+  consented referrals. Paid acquisition waits until product evidence is strong.
+- A seven-metric scorecard and four-week operating rhythm define explicit
+  continue and stop signals. Non-pilot-review decisions keep outreach on hold.
+- The workspace can copy reviewed wording and download an aggregate-only
+  launch-kit draft, but it cannot send or track messages, collect contacts,
+  authorize outreach, create accounts, enable signup or install analytics.
+- Phase 9E adds no migration, provider integration or external tracker and
+  cannot activate live data, provide personalised advice, route orders, collect
+  payment, move money, fund accounts, hold assets or settle transactions.
+
+**Phase 9E exit gate:** green type, build, browser, accessibility,
+audience-launch-kit, audience-decision, audience-insight, security, bundle and
+release contracts; successful `BUILD_PHASE_9E`; reviewed `DEPLOY_PHASE_9E`; and
+read-only `VERIFY_WEB_PHASE_9E` evidence. Publishing the candidate cannot deploy
+it or authorize audience contact. Real outreach still requires assigned owners,
+approved consent/privacy/support/measurement evidence, cost and rollback limits,
+and a documented human go / no-go decision.
+
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.

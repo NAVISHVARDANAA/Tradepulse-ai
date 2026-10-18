@@ -195,6 +195,9 @@ const AudienceInsightsPanel = lazy(() => import('./components/AudienceInsightsPa
 const AudiencePilotDecisionPanel = lazy(() => import('./components/AudiencePilotDecisionPanel').then((module) => ({
   default: module.AudiencePilotDecisionPanel,
 })))
+const AudiencePilotLaunchKitPanel = lazy(() => import('./components/AudiencePilotLaunchKitPanel').then((module) => ({
+  default: module.AudiencePilotLaunchKitPanel,
+})))
 
 function SectionLoader({ label }: { label: string }) {
   return (
@@ -604,6 +607,14 @@ function App() {
           <ProductErrorBoundary title="The audience pilot decision brief is temporarily unavailable">
             <Suspense fallback={<SectionLoader label="Audience pilot decision brief" />}>
               <AudiencePilotDecisionPanel />
+            </Suspense>
+          </ProductErrorBoundary>
+        ) : null}
+
+        {activeHref === '#audience-pilot-launch-kit' ? (
+          <ProductErrorBoundary title="The audience pilot launch kit is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Audience pilot launch kit" />}>
+              <AudiencePilotLaunchKitPanel />
             </Suspense>
           </ProductErrorBoundary>
         ) : null}

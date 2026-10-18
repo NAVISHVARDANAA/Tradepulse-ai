@@ -172,6 +172,8 @@ jobs:
 
       - name: Verify audience pilot decision brief
         run: npm run check:audience-pilot-decision-brief
+      - name: Verify audience pilot launch kit
+        run: npm run check:audience-pilot-launch-kit
 
       - name: Verify production experience contract
         run: npm run check:production-experience

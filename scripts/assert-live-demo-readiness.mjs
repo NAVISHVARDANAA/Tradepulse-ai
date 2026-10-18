@@ -48,7 +48,7 @@ const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const styles = `${shellStyles}\n${demoStyles}\n${demoModeStyles}`
 
-assert(manifest.phase === '9D' && manifest.status === 'audience_pilot_decision_brief_candidate',
+assert(manifest.phase === '9E' && manifest.status === 'audience_pilot_launch_kit_candidate',
   'Current manifest does not preserve Phase 9A demo readiness inside the Phase 9B candidate')
 assert(packageJson.scripts?.['check:live-demo-readiness'], 'Package omits the Phase 9A check')
 assert(manifest.requiredChecks.includes('check:live-demo-readiness'), 'Manifest omits the Phase 9A check')
@@ -113,7 +113,7 @@ for (const selector of ['.live-demo-hero', '.live-demo-grid', '.demo-mode-banner
 for (const workflow of [ci, build, deploy, verify]) {
   assert(workflow.includes('npm run check:live-demo-readiness'), 'A web release gate omits the Phase 9A check')
 }
-for (const token of ['BUILD_PHASE_9D', 'DEPLOY_PHASE_9D', 'VERIFY_WEB_PHASE_9D']) {
+for (const token of ['BUILD_PHASE_9E', 'DEPLOY_PHASE_9E', 'VERIFY_WEB_PHASE_9E']) {
   assert([build, deploy, verify].some((workflow) => workflow.includes(token)), `Web release token is missing: ${token}`)
 }
 for (const contract of ['#live-demo', 'Curated demo data—not a live feed', 'Demo data is active']) {

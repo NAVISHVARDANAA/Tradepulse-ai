@@ -38,8 +38,8 @@ const largestAsset = assetFiles.reduce((largest, asset) => (
 ))
 
 const budgets = {
-  // Phase 9D keeps the audience debrief, insight and decision workspaces, their
-  // coordinators and CSS route-deferred. The 57th navigation destination adds
+  // Phase 9E keeps the audience debrief, insight, decision and launch-kit
+  // workspaces, their coordinators and CSS route-deferred. The 58th navigation destination adds
   // only reviewed route metadata to the application shell.
   initialGzipBytes: 167 * 1024,
   // Phases 8L-8Y add route-deferred provider certification, contract-test,
@@ -47,8 +47,8 @@ const budgets = {
   // activation-readiness, rehearsal, launch-readiness and licensed-data
   // integration, commercial-readiness, pilot operating-model and pilot
   // activation workspaces. The shell and largest-chunk limits stay unchanged;
-  // Phase 9B adds the debrief, Phase 9C adds local synthesis and Phase 9D adds
-  // a local aggregate decision brief. The bounded total is recalibrated after
+  // Phase 9B adds the debrief, Phase 9C adds local synthesis, Phase 9D adds a
+  // local aggregate decision brief and Phase 9E adds the local launch kit. The bounded total is recalibrated after
   // reviewing the 422.9 KiB production build; the largest-asset limit remains
   // unchanged and the shell receives less than 1 KiB of additional headroom.
   totalJavaScriptGzipBytes: 426 * 1024,

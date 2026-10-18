@@ -48,7 +48,7 @@ const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 
 assert(
-  manifest.phase === '9D' && manifest.status === 'audience_pilot_decision_brief_candidate',
+  manifest.phase === '9E' && manifest.status === 'audience_pilot_launch_kit_candidate',
   'Manifest is not the Phase 9C audience-insight synthesis candidate',
 )
 assert(packageJson.scripts?.['check:audience-insight-synthesis'], 'Package omits the Phase 9C check')
@@ -125,7 +125,7 @@ for (const selector of ['.audience-insights-hero', '.audience-insights-import', 
 for (const workflow of [ci, build, deploy, verify]) {
   assert(workflow.includes('npm run check:audience-insight-synthesis'), 'A web release gate omits the Phase 9C check')
 }
-for (const token of ['BUILD_PHASE_9D', 'DEPLOY_PHASE_9D', 'VERIFY_WEB_PHASE_9D']) {
+for (const token of ['BUILD_PHASE_9E', 'DEPLOY_PHASE_9E', 'VERIFY_WEB_PHASE_9E']) {
   assert([build, deploy, verify].some((workflow) => workflow.includes(token)), `Web release token is missing: ${token}`)
 }
 for (const contract of ['audienceInsightSynthesis', 'maximumLocalEvidenceFiles', 'pilotAuthorizationEnabled']) {

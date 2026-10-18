@@ -908,6 +908,58 @@ test('audience pilot decision brief reconciles aggregate evidence without activa
   await expect(page.locator('input[type="email"], input[type="tel"]')).toHaveCount(0)
 })
 
+test('Phase 9E audience pilot launch kit prepares research and marketing without sending outreach', async ({ page }) => {
+  await page.goto('/#audience-pilot-launch-kit')
+  const validDecision = {
+    schemaVersion: 1,
+    phase: '9D',
+    status: 'draft-human-review-only',
+    dataClassification: 'aggregate local audience decision brief',
+    sourceEvidence: {
+      phase: '9C',
+      sessionCount: 5,
+      scores: { averageClarity: 4.4, averageTrust: 4.2, averageValue: 4.4, fullJourneyPercent: 100, weeklyInterestPercent: 80, notRelevantPercent: 0 },
+      researchDecision: { state: 'pilot-review', label: 'Evidence supports pilot review', reason: 'The research thresholds are met.' },
+      topSignals: { audiencePerspective: 'analyst', mostUseful: 'Evidence lineage', biggestConfusion: 'Data freshness labels', expectedNextAction: 'Join a controlled pilot' },
+    },
+    recommendation: { state: 'pilot-review', label: 'Ready for accountable pilot review', reason: 'All research thresholds are met, but external owners must still approve outreach.' },
+    experimentBacklog: [
+      { priority: 1, title: 'Run an accountable pilot review', outcome: 'Product, privacy and support owners review the evidence.' },
+      { priority: 2, title: 'Prepare the first research wave', outcome: 'Use curated demo data with no signup or execution.' },
+    ],
+    boundedPilotEnvelope: { maximumParticipants: 30, maximumDurationWeeks: 4, freeOfCharge: true, permittedData: ['reference', 'delayed', 'curated-demo'], liveRealtimeDataRequired: false },
+    externalHumanReviewRequired: ['accountable product owner', 'participant consent and privacy review', 'support and incident owner', 'privacy-safe measurement approval', 'cost ceiling approval', 'rollback owner', 'documented go or no-go decision'],
+    containsIdentityFields: false,
+    containsContactFields: false,
+    containsRawText: false,
+    transmittedToTradePulse: false,
+    authorizesInvitations: false,
+    authorizesSignup: false,
+    authorizesLiveData: false,
+    authorizesFinancialExecution: false,
+    generatedAt: '2026-10-18T08:00:00.000Z',
+  }
+
+  await page.getByLabel('Import Phase 9D decision').setInputFiles({
+    name: 'pilot-decision.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify(validDecision)),
+  })
+  await expect(page.getByRole('heading', { name: 'Prepare for accountable human review' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Five balanced audience cohorts' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Eleven neutral research questions' })).toBeVisible()
+  await expect(page.getByText('Do not claim accuracy, guaranteed returns, live data or autonomous trading.')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Download launch kit' })).toBeEnabled()
+
+  await page.getByLabel('Import Phase 9D decision').setInputFiles({
+    name: 'unsafe-pilot-decision.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify({ ...validDecision, email: 'participant@example.com' })),
+  })
+  await expect(page.getByRole('alert')).toContainText('identity, contact field or email-like value')
+  await expect(page.locator('input[type="email"], input[type="tel"]')).toHaveCount(0)
+})
+
 test('core landmarks pass automated WCAG A and AA checks', async ({ page }, testInfo) => {
   if (testInfo.project.name === 'mobile-chromium') {
     const toggle = page.getByRole('button', { name: 'Open product navigation' })
@@ -969,7 +1021,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(57)
+  await expect(navigation.getByRole('link')).toHaveCount(58)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)

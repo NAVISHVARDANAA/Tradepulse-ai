@@ -80,9 +80,9 @@ assert(vite.includes("target: 'es2022'"), 'Production build is not pinned to the
 assert(vite.includes('modulePreload: { polyfill: false }'), 'Native module preloading is not pinned')
 
 for (const [name, workflow, confirmation] of [
-  ['build', build, 'BUILD_PHASE_9D'],
-  ['deploy', deploy, 'DEPLOY_PHASE_9D'],
-  ['verify', verify, 'VERIFY_WEB_PHASE_9D'],
+  ['build', build, 'BUILD_PHASE_9E'],
+  ['deploy', deploy, 'DEPLOY_PHASE_9E'],
+  ['verify', verify, 'VERIFY_WEB_PHASE_9E'],
   ['CI', ci, 'check:data-loading'],
 ]) {
   assert(workflow.includes(confirmation), `Phase 5I ${name} contract is missing`)

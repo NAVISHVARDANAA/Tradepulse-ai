@@ -7,7 +7,7 @@ compliance boundaries are designed in before execution features are enabled.
 
 ## Current product scope
 
-### Current release — Phase 9D audience pilot decision brief
+### Current release — Phase 9E real-audience pilot launch kit
 
 - A public `#live-demo` workspace gives presenters a focused ten-minute path
   through market context, governed analytics, equity research and forecast
@@ -34,6 +34,16 @@ compliance boundaries are designed in before execution features are enabled.
 - Product, privacy, support, measurement, cost and rollback owners still need
   external evidence and an accountable human go or no-go decision. The brief
   cannot send invitations, provision accounts or activate a pilot.
+- A public `#audience-pilot-launch-kit` workspace accepts one unsigned Phase
+  9D decision draft and prepares five balanced audience cohorts, eleven neutral
+  interview questions, a founder-led channel plan and a measurable four-week
+  scorecard.
+- The launch kit positions TradePulse as global market research intelligence,
+  not guaranteed prediction or personalised investment advice. It recommends
+  trusted conversations and learning-led posts before paid ads.
+- Outreach copy and the interview guide can be copied for external human
+  review, but TradePulse cannot send or track messages, collect contacts,
+  approve outreach or activate public signup.
 - Optional demo mode uses deterministic, session-scoped sample data that is
   labelled on every page as non-live and non-transactional.
 - Primary navigation separates audience value from provider, brokerage,
@@ -43,7 +53,7 @@ compliance boundaries are designed in before execution features are enabled.
   private workspaces still require an account and all regulated actions remain
   disabled.
 - Phase 8Z's server-side real-time adapter remains a guarded implementation
-  candidate; Phase 9D does not activate a licensed feed or customer display.
+  candidate; Phase 9E does not activate a licensed feed or customer display.
 
 - A server-only Twelve Data WebSocket candidate can accept up to 30 explicitly
   mapped price symbols in a bounded zero-customer canary.
