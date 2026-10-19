@@ -4,7 +4,7 @@
 
 Phase 9B turns the safe Phase 9A walkthrough into a repeatable learning loop.
 The public `#demo-feedback` workspace records whether an audience member
-completed the four demo stops and captures structured signals about clarity,
+completed the guided demo stops and captures structured signals about clarity,
 trust, perceived value, confusion, expected next action and likely weekly use.
 
 The purpose is product discovery, not lead capture. The workspace does not ask
@@ -26,7 +26,7 @@ financial information.
 
 1. Recruit 5–8 participants from one target segment at a time: active market
    learner, analyst, data/risk operator or prospective business buyer.
-2. Start at `#live-demo` and let the participant navigate the four stops with
+2. Start at `#live-demo` and let the participant navigate the five stops with
    minimal explanation.
 3. Complete the debrief immediately after the walkthrough.
 4. Export only reviewed, identity-free evidence into the approved research

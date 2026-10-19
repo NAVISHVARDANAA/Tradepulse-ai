@@ -175,6 +175,9 @@ jobs:
       - name: Verify audience pilot launch kit
         run: npm run check:audience-pilot-launch-kit
 
+      - name: Verify event-to-market impact brief
+        run: npm run check:market-impact-brief
+
       - name: Verify production experience contract
         run: npm run check:production-experience
 

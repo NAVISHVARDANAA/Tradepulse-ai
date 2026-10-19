@@ -1,6 +1,6 @@
 # Product navigation and mobile UX
 
-Phase 9E preserves the six audience-oriented navigation groups introduced in
+Phase 9F preserves the six audience-oriented navigation groups introduced in
 Phase 9A and adds the pilot launch kit to the Business group:
 Demo, Research, Learn & practise, Business, Trust & account, and Readiness
 controls. Every previously available product destination remains reachable;

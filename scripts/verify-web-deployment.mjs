@@ -1088,6 +1088,34 @@ if (
   manifest.audiencePilotLaunchKit?.settlementEnabled !== false
 ) throw new Error('Deployed audience pilot launch-kit boundary is incomplete or unsafe.')
 if (
+  manifest.marketImpactBrief?.workspaceEnabled !== true ||
+  manifest.marketImpactBrief?.eventScenarioCount !== 4 ||
+  manifest.marketImpactBrief?.decisionLensCount !== 3 ||
+  manifest.marketImpactBrief?.evidenceCheckCount !== 4 ||
+  manifest.marketImpactBrief?.localCopyEnabled !== true ||
+  manifest.marketImpactBrief?.localDownloadEnabled !== true ||
+  manifest.marketImpactBrief?.browserMemoryOnly !== true ||
+  manifest.marketImpactBrief?.marketObservationReuseEnabled !== true ||
+  manifest.marketImpactBrief?.sourceAndTimestampVisible !== true ||
+  manifest.marketImpactBrief?.counterSignalsVisible !== true ||
+  manifest.marketImpactBrief?.missingObservationFabricationEnabled !== false ||
+  manifest.marketImpactBrief?.causalClaimEnabled !== false ||
+  manifest.marketImpactBrief?.automaticNewsIntakeEnabled !== false ||
+  manifest.marketImpactBrief?.externalAnalyticsEnabled !== false ||
+  manifest.marketImpactBrief?.externalMessagingEnabled !== false ||
+  manifest.marketImpactBrief?.alertCreationEnabled !== false ||
+  manifest.marketImpactBrief?.accountProvisioningEnabled !== false ||
+  manifest.marketImpactBrief?.licensedRealtimeFeedEnabled !== false ||
+  manifest.marketImpactBrief?.personalizedAdviceEnabled !== false ||
+  manifest.marketImpactBrief?.checkoutEnabled !== false ||
+  manifest.marketImpactBrief?.orderRoutingEnabled !== false ||
+  manifest.marketImpactBrief?.paymentExecutionEnabled !== false ||
+  manifest.marketImpactBrief?.moneyMovementEnabled !== false ||
+  manifest.marketImpactBrief?.customerFundingEnabled !== false ||
+  manifest.marketImpactBrief?.custodyEnabled !== false ||
+  manifest.marketImpactBrief?.settlementEnabled !== false
+) throw new Error('Deployed market impact-brief boundary is incomplete or unsafe.')
+if (
   manifest.globalVenueInstrumentIntelligence?.workspaceEnabled !== true ||
   manifest.globalVenueInstrumentIntelligence?.venueCount !== 6 ||
   manifest.globalVenueInstrumentIntelligence?.listingCount !== 12 ||

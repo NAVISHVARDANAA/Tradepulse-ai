@@ -785,17 +785,40 @@ test.beforeEach(async ({ page }) => {
   ).toBeVisible()
 })
 
+test('Phase 9F market impact brief turns an event into a sourced, non-causal decision frame', async ({ page }) => {
+  await page.getByRole('button', { name: /Start guided demo/i }).click()
+  await expect(page).toHaveURL(/#market-impact-brief$/)
+  await expect(page.getByRole('heading', { name: 'Turn a market-moving event into a five-minute impact brief.' })).toBeVisible()
+  await expect(page.getByText('The real-time problem')).toBeVisible()
+  await expect(page.getByText('Observation ≠ causation').first()).toBeVisible()
+
+  await page.getByLabel('Event type').selectOption('export-restriction')
+  await page.getByLabel('Decision lens').selectOption('investor')
+  await page.getByLabel('Event headline or working claim').fill('A critical-input export restriction takes effect next week')
+  await page.getByLabel('Primary source checked').check()
+  await page.getByLabel('Market timestamp checked').check()
+
+  await expect(page.getByRole('heading', { name: 'A critical-input export restriction takes effect next week' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'What would confirm it?' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'What would change my mind?' })).toBeVisible()
+  await expect(page.getByText('TradePulse curated demo').first()).toBeVisible()
+  await expect(page.getByText('User-marked checklist · 2/4 checked · not independently verified by TradePulse')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Download local brief' })).toBeEnabled()
+  await expect(page.locator('input[type="email"], input[type="tel"]')).toHaveCount(0)
+  await expect(page.getByRole('button', { name: /send|invite|sign up|approve|activate|trade|buy|sell|pay|transfer|deposit/i })).toHaveCount(0)
+})
+
 test('guided demo captures a privacy-safe local audience debrief', async ({ page }) => {
   await page.getByRole('button', { name: /Start guided demo/i }).click()
-  await expect(page.locator('.demo-mode-progress')).toHaveText('1/4 guided stops')
-  for (const [route, progress] of [['#markets', '2/4 guided stops'], ['#stock-research', '3/4 guided stops'], ['#forecasts', '4/4 guided stops']] as const) {
+  await expect(page.locator('.demo-mode-progress')).toHaveText('1/5 guided stops')
+  for (const [route, progress] of [['#markets', '2/5 guided stops'], ['#analytics-studio', '3/5 guided stops'], ['#stock-research', '4/5 guided stops'], ['#forecasts', '5/5 guided stops']] as const) {
     await page.goto(`/${route}`)
     await expect(page.locator('.demo-mode-progress')).toHaveText(progress)
   }
   await page.goto('/#demo-feedback')
 
   await expect(page.getByRole('heading', { name: 'Turn a live demo into evidence.' })).toBeVisible()
-  await expect(page.getByLabel('4 of 4 demo stops completed')).toBeVisible()
+  await expect(page.getByLabel('5 of 5 demo stops completed')).toBeVisible()
   await page.getByLabel('Audience perspective').selectOption('analyst')
   await page.getByRole('group', { name: 'Clarity rating' }).getByLabel('5').check()
   await page.getByRole('group', { name: 'Trust rating' }).getByLabel('4').check()
@@ -1021,7 +1044,7 @@ test('mobile menu keeps every destination reachable without horizontal overflow'
   await toggle.click()
   const navigation = page.getByRole('navigation', { name: 'Mobile product navigation' })
   await expect(navigation).toBeVisible()
-  await expect(navigation.getByRole('link')).toHaveCount(58)
+  await expect(navigation.getByRole('link')).toHaveCount(59)
 
   await navigation.getByRole('link', { name: 'System status' }).click()
   await expect(page).toHaveURL(/#system-status$/)

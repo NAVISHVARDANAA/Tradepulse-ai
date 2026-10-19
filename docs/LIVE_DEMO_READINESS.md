@@ -4,12 +4,13 @@
 
 Phase 9A makes the public product understandable to a real audience without
 misrepresenting sample data or weakening regulated controls. The default
-`#live-demo` route supports a ten-minute presentation across four stops:
+`#live-demo` route supports a ten-minute presentation across five stops:
 
-1. market and trade context;
-2. governed analytics and source lineage;
-3. transparent equity research;
-4. forecast uncertainty and reliability.
+1. a real-world event-to-market impact brief;
+2. market and trade context;
+3. governed analytics and source lineage;
+4. transparent equity research;
+5. forecast uncertainty and reliability.
 
 The presentation is designed to test whether the audience understands the
 value proposition, trusts the evidence, and can identify a useful next action.
@@ -38,7 +39,7 @@ broken product features.
 
 - Recruit 5–8 target participants from investing, analysis, operations or a
   prospective business buyer segment.
-- Ask each participant to complete the four-stop journey without explanation.
+- Ask each participant to complete the five-stop journey without explanation.
 - Capture task completion, trust rating, confusing terms, most valuable insight
   and the action they expected to take next.
 - Do not promise real-time data, personalized advice, live trading, payments or
@@ -48,7 +49,7 @@ broken product features.
 ## Release boundary
 
 Phase 9A is a web-only change and introduces no database migration or Edge
-Function change. The current Phase 9E release confirmations are
-`BUILD_PHASE_9E`, `DEPLOY_PHASE_9E` and `VERIFY_WEB_PHASE_9E`. Migration 066 and
+Function change. The current Phase 9F release confirmations are
+`BUILD_PHASE_9F`, `DEPLOY_PHASE_9F` and `VERIFY_WEB_PHASE_9F`. Migration 066 and
 the guarded Phase 8Z data confirmations remain unchanged. Publishing the code
 does not run a deployment or activate a data provider.

@@ -38,9 +38,9 @@ const largestAsset = assetFiles.reduce((largest, asset) => (
 ))
 
 const budgets = {
-  // Phase 9E keeps the audience debrief, insight, decision and launch-kit
-  // workspaces, their coordinators and CSS route-deferred. The 58th navigation destination adds
-  // only reviewed route metadata to the application shell.
+  // Phase 9F keeps the audience debrief, insight, decision, launch-kit and
+  // event-to-market workspaces, their coordinators and CSS route-deferred. The
+  // 59th navigation destination adds only reviewed route metadata to the shell.
   initialGzipBytes: 167 * 1024,
   // Phases 8L-8Y add route-deferred provider certification, contract-test,
   // candidate-evidence, review-governance, decision-control, recovery and
@@ -48,11 +48,12 @@ const budgets = {
   // integration, commercial-readiness, pilot operating-model and pilot
   // activation workspaces. The shell and largest-chunk limits stay unchanged;
   // Phase 9B adds the debrief, Phase 9C adds local synthesis, Phase 9D adds a
-  // local aggregate decision brief and Phase 9E adds the local launch kit. The bounded total is recalibrated after
-  // reviewing the 430.0 KiB GitHub production build. The Phase 9E allowance is
-  // limited to the route-deferred launch-kit module; the 167 KiB initial-load
-  // and 90 KiB largest-asset limits remain unchanged.
-  totalJavaScriptGzipBytes: 434 * 1024,
+  // local aggregate decision brief, Phase 9E adds the local launch kit and
+  // Phase 9F adds the route-deferred impact brief. The bounded total is
+  // recalibrated from the 436.1 KiB local production build with less than 4 KiB
+  // headroom; the 167 KiB initial-load and 90 KiB largest-asset limits remain
+  // unchanged.
+  totalJavaScriptGzipBytes: 440 * 1024,
   largestAssetGzipBytes: 90 * 1024,
 }
 

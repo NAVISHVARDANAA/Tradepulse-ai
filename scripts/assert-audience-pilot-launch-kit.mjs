@@ -45,7 +45,7 @@ const [
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 
-assert(manifest.phase === '9E' && manifest.status === 'audience_pilot_launch_kit_candidate', 'Manifest is not the Phase 9E audience-pilot launch-kit candidate')
+assert(manifest.phase === '9F' && manifest.status === 'market_impact_brief_candidate', 'Manifest is not the Phase 9E audience-pilot launch-kit candidate')
 assert(packageJson.scripts?.['check:audience-pilot-launch-kit'], 'Package omits the Phase 9E check')
 assert(manifest.requiredChecks.includes('check:audience-pilot-launch-kit'), 'Manifest omits the Phase 9E check')
 
@@ -97,7 +97,7 @@ for (const selector of ['.pilot-launch-hero', '.pilot-launch-cohorts', '.pilot-l
 for (const workflow of [ci, build, deploy, verify]) {
   assert(workflow.includes('npm run check:audience-pilot-launch-kit'), 'A web release gate omits the Phase 9E check')
 }
-for (const token of ['BUILD_PHASE_9E', 'DEPLOY_PHASE_9E', 'VERIFY_WEB_PHASE_9E']) {
+for (const token of ['BUILD_PHASE_9F', 'DEPLOY_PHASE_9F', 'VERIFY_WEB_PHASE_9F']) {
   assert(`${build}\n${deploy}\n${verify}`.includes(token), `Release workflows omit ${token}`)
 }
 for (const contract of ['audiencePilotLaunchKit', 'targetCohortCount !== 5', 'outreachDeliveryEnabled !== false']) {

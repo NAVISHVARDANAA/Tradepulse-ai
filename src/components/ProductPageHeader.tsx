@@ -6,6 +6,7 @@ type PageCopy = [eyebrow: string, title: string, description: string, boundary: 
 
 const pageCopy: Record<string, PageCopy> = {
   '#live-demo': ['Audience showcase', 'A clear, safe TradePulse live demo', 'Walk a real audience through market context, governed analytics, transparent stock research and forecast reliability using an explicitly labelled, deterministic demo dataset.', 'Demo ready · no execution'],
+  '#market-impact-brief': ['Real-world decision intelligence', 'Event-to-market impact brief', 'Turn a market-moving event into a testable transmission path, source-labelled watchlist and explicit confirming or counter-signals for investors, analysts and globally exposed operators.', 'Observation ≠ causation'],
   '#demo-feedback': ['Audience evidence', 'Live-demo audience debrief', 'Capture structured product clarity, trust and value evidence without requesting participant identity or transmitting feedback automatically.', 'Local only · user-controlled export'],
   '#audience-insights': ['Audience research', 'Audience insight synthesis', 'Combine privacy-safe debrief exports into aggregate product-learning signals and explicit research thresholds without uploading source files or raw notes.', 'On-device · no activation authority'],
   '#audience-pilot-decision': ['Pilot decision governance', 'Audience pilot decision brief', 'Reconcile one aggregate audience evidence file into a bounded recommendation and prioritized experiment backlog for accountable human review.', 'Unsigned draft · no outreach authority'],

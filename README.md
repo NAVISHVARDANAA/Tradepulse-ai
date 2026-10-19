@@ -7,7 +7,23 @@ compliance boundaries are designed in before execution features are enabled.
 
 ## Current product scope
 
-### Current release — Phase 9E real-audience pilot launch kit
+### Current release — Phase 9F event-to-market impact brief
+
+- A public `#market-impact-brief` workspace turns a market-moving event into a
+  testable transmission path, affected-market watchlist, confirming signals,
+  counter-signals and role-specific decision questions.
+- The workflow is designed for self-directed investors, analysts and globally
+  exposed SME operators who currently switch between headlines, price screens,
+  supplier context and spreadsheets under time pressure.
+- Available market observations keep their value, source and timestamp. Missing
+  observations stay missing; a market move is never presented as proof that the
+  event caused it.
+- Four scenario structures cover logistics disruption, interest-rate surprise,
+  commodity supply shock and export restrictions. Investor, operator and analyst
+  lenses make the output useful beyond a generic market dashboard.
+- The plain-text brief can be copied or downloaded locally. It cannot ingest
+  news automatically, send a message, create an alert, provision an account,
+  place an order or create any financial action.
 
 - A public `#live-demo` workspace gives presenters a focused ten-minute path
   through market context, governed analytics, equity research and forecast
@@ -53,7 +69,8 @@ compliance boundaries are designed in before execution features are enabled.
   private workspaces still require an account and all regulated actions remain
   disabled.
 - Phase 8Z's server-side real-time adapter remains a guarded implementation
-  candidate; Phase 9E does not activate a licensed feed or customer display.
+  candidate; Phase 9F solves the real-time reasoning workflow without activating
+  a licensed feed or customer real-time display.
 
 - A server-only Twelve Data WebSocket candidate can accept up to 30 explicitly
   mapped price symbols in a bounded zero-customer canary.

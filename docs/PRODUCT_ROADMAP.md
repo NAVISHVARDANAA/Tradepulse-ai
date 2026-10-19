@@ -1669,6 +1669,39 @@ it or authorize audience contact. Real outreach still requires assigned owners,
 approved consent/privacy/support/measurement evidence, cost and rollback limits,
 and a documented human go / no-go decision.
 
+### Phase 9F — event-to-market impact brief (implemented candidate)
+
+- A public `#market-impact-brief` workspace turns one market-moving event into a
+  five-minute, reviewable decision frame for self-directed investors, analysts
+  and globally exposed SME operators.
+- Four bounded structures cover shipping or logistics disruption, an unexpected
+  interest-rate decision, a commodity supply shock and an export restriction.
+  Users can edit the working claim, severity and horizon.
+- Investor, business-operator and analyst lenses convert the same event into
+  relevant exposure, operating and evidence questions without creating a
+  personalised recommendation.
+- The active market route supplies the latest available observation, change,
+  source and timestamp for each affected asset. Missing data stays visibly
+  missing; reference or delayed observations are never upgraded to a real-time
+  claim.
+- Every scenario includes an explicit transmission hypothesis, confirming
+  signals and counter-signals. The workspace states that observation does not
+  prove causation and never generates a directional price target.
+- A four-item, user-marked evidence checklist records what the researcher says
+  they checked, while clearly stating that TradePulse did not independently
+  verify those marks.
+- The plain-text brief can be copied or downloaded locally. Phase 9F adds no
+  migration, provider connection, news scraper, external analytics, messaging,
+  alert creation, account provisioning or financial action.
+
+**Phase 9F exit gate:** green type, build, browser, accessibility,
+market-impact, route-loading, live-demo, security, bundle and release contracts;
+successful `BUILD_PHASE_9F`; reviewed `DEPLOY_PHASE_9F`; and read-only
+`VERIFY_WEB_PHASE_9F` evidence. Publishing the candidate cannot deploy it or
+activate a licensed real-time feed. Production data display still requires
+commercial rights, entitlements, credentials, freshness monitoring, canary
+evidence, incident ownership and an explicit human release decision.
+
 ## Platform evolution
 
 - Public web dashboard first; responsive mobile experience throughout.

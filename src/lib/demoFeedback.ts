@@ -2,6 +2,7 @@ export const DEMO_JOURNEY_EVENT = 'tradepulse-demo-journey-change'
 export const DEMO_JOURNEY_KEY = 'tradepulse-demo-journey-v1'
 
 export const DEMO_JOURNEY_ROUTES = [
+  '#market-impact-brief',
   '#markets',
   '#analytics-studio',
   '#stock-research',

@@ -24,7 +24,7 @@ without sending evidence to TradePulse or another service.
 | Signal | Pilot-review threshold |
 | --- | ---: |
 | Valid debriefs | At least 5 |
-| Full four-stop journeys | At least 80% |
+| Full guided journeys | At least 80% |
 | Average clarity | At least 4.0 / 5 |
 | Average trust | At least 4.0 / 5 |
 | Average perceived value | At least 4.0 / 5 |
