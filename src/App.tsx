@@ -198,6 +198,9 @@ const AudiencePilotDecisionPanel = lazy(() => import('./components/AudiencePilot
 const AudiencePilotLaunchKitPanel = lazy(() => import('./components/AudiencePilotLaunchKitPanel').then((module) => ({
   default: module.AudiencePilotLaunchKitPanel,
 })))
+const MarketImpactBriefPanel = lazy(() => import('./components/MarketImpactBriefPanel').then((module) => ({
+  default: module.MarketImpactBriefPanel,
+})))
 
 function SectionLoader({ label }: { label: string }) {
   return (
@@ -538,7 +541,7 @@ function App() {
     void import('./lib/demoFeedback').then(({ resetDemoJourney }) => {
       resetDemoJourney()
       setDemoModeEnabled(true)
-      window.location.hash = '#analytics-studio'
+      window.location.hash = '#market-impact-brief'
     })
   }
 
@@ -577,6 +580,19 @@ function App() {
           <Suspense fallback={null}>
             <DemoModeBanner onExit={exitDemo} />
           </Suspense>
+        ) : null}
+
+        {activeHref === '#market-impact-brief' ? (
+          <ProductErrorBoundary title="The market impact brief is temporarily unavailable">
+            <Suspense fallback={<SectionLoader label="Event-to-market impact brief" />}>
+              <MarketImpactBriefPanel
+                marketAssets={marketAssets}
+                marketLoading={marketLoading}
+                marketError={marketError}
+                demoMode={demoMode}
+              />
+            </Suspense>
+          </ProductErrorBoundary>
         ) : null}
 
         {activeHref === '#live-demo' ? (

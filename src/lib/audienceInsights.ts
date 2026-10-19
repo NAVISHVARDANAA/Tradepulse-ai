@@ -147,8 +147,9 @@ export function parseAudienceFeedbackExport(input: unknown): AudienceEvidence {
   }
   const completedStops = Number(input.journey.completedStops)
   const totalStops = Number(input.journey.totalStops)
-  if (!Number.isInteger(completedStops) || completedStops < 0 || completedStops > 4 || totalStops !== 4) {
-    throw new Error('The guided-journey evidence is not a valid four-stop record.')
+  const supportedJourney = totalStops === 4 || totalStops === 5
+  if (!Number.isInteger(completedStops) || completedStops < 0 || !supportedJourney || completedStops > totalStops) {
+    throw new Error('The guided-journey evidence is not a supported four- or five-stop record.')
   }
   const weeklyUse = feedback.weeklyUse === '' || feedback.weeklyUse === undefined
     ? 'not-answered'

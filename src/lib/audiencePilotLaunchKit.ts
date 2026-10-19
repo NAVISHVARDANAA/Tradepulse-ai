@@ -215,7 +215,7 @@ export function buildPilotLaunchKit(evidence: PilotDecisionEvidence): PilotLaunc
     positioning: {
       headline: 'Understand global market signals without the data overload.',
       promise: 'TradePulse connects market movement, country context and world-event evidence in one guided research experience.',
-      proof: 'Show the four-stop demo, transparent source and freshness labels, and the evidence behind each insight.',
+      proof: 'Show the guided demo, transparent source and freshness labels, and the evidence behind each insight.',
       boundary: 'Research and education only. No guaranteed predictions, personalised advice, real-time-feed claim or trade execution.',
     },
     cohorts: [

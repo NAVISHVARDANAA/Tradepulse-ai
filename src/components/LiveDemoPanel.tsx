@@ -21,6 +21,14 @@ type LiveDemoPanelProps = {
 const demoStops = [
   {
     step: '01',
+    title: 'Explain the event',
+    description: 'Turn one market-moving event into a source-labelled transmission hypothesis and affected-market watchlist.',
+    href: '#market-impact-brief',
+    label: 'Build an impact brief',
+    Icon: BrainCircuit,
+  },
+  {
+    step: '02',
     title: 'Frame the market',
     description: 'Explore curated market and cross-border trade observations with source and timestamp context.',
     href: '#markets',
@@ -28,7 +36,7 @@ const demoStops = [
     Icon: LineChart,
   },
   {
-    step: '02',
+    step: '03',
     title: 'Interrogate the evidence',
     description: 'Slice governed market, forecast, equity and trade measures, then drill through to their lineage.',
     href: '#analytics-studio',
@@ -36,7 +44,7 @@ const demoStops = [
     Icon: BarChart3,
   },
   {
-    step: '03',
+    step: '04',
     title: 'Compare research',
     description: 'Filter a curated equity universe and inspect transparent scores, uncertainty, reasons and risk flags.',
     href: '#stock-research',
@@ -44,7 +52,7 @@ const demoStops = [
     Icon: BrainCircuit,
   },
   {
-    step: '04',
+    step: '05',
     title: 'Challenge the forecast',
     description: 'Review intervals, baseline lift and reliability evidence without turning a model output into advice.',
     href: '#forecasts',

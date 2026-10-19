@@ -48,7 +48,7 @@ debrief and aggregate synthesis workflow.
 **Promise:** TradePulse connects market movement, country context and world-event
 evidence in one guided research experience.
 
-**Proof:** Show the four-stop demo, transparent source and freshness labels, and
+**Proof:** Show the guided demo, transparent source and freshness labels, and
 the evidence behind each insight.
 
 **Boundary:** Research and education only. Never market guaranteed predictions,
@@ -98,5 +98,5 @@ download an unsigned aggregate launch kit. It cannot send messages, collect cont
 activate signup, install analytics, provision accounts, collect payment, connect a
 live provider, offer personalised financial advice or execute financial actions.
 
-The web-release confirmations are `BUILD_PHASE_9E`, `DEPLOY_PHASE_9E` and
-`VERIFY_WEB_PHASE_9E`. Publishing the code does not run or approve any workflow.
+The current web-release confirmations are `BUILD_PHASE_9F`, `DEPLOY_PHASE_9F`
+and `VERIFY_WEB_PHASE_9F`. Publishing the code does not run or approve any workflow.

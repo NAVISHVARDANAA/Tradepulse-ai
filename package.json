@@ -54,6 +54,7 @@
     "check:audience-insight-synthesis": "node scripts/assert-audience-insight-synthesis.mjs",
     "check:audience-pilot-decision-brief": "node scripts/assert-audience-pilot-decision-brief.mjs",
     "check:audience-pilot-launch-kit": "node scripts/assert-audience-pilot-launch-kit.mjs",
+    "check:market-impact-brief": "node scripts/assert-market-impact-brief.mjs",
     "check:bundle": "node scripts/assert-frontend-budgets.mjs",
     "check:beta": "node scripts/assert-beta-readiness.mjs",
     "check:hosting": "node scripts/assert-cloudflare-hosting.mjs",

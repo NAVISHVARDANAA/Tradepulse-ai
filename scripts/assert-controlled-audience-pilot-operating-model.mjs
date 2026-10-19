@@ -40,7 +40,7 @@ assert(production.includes("'#audience-pilot-plan'"), 'Production test omits pil
 const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 const release = manifest.controlledAudiencePilotOperatingModel
-assert(manifest.phase === '9E' && manifest.status === 'audience_pilot_launch_kit_candidate',
+assert(manifest.phase === '9F' && manifest.status === 'market_impact_brief_candidate',
   'Manifest is not Phase 8X')
 assert(packageJson.scripts?.['check:controlled-audience-pilot-operating-model'], 'Package omits Phase 8X check')
 assert(manifest.requiredChecks.includes('check:controlled-audience-pilot-operating-model'), 'Manifest omits Phase 8X check')
@@ -64,8 +64,8 @@ assert(release?.readyFoundationCount === 0 && release?.liveDataRequiredForPilot 
   && release?.costCeilingApproved === false, 'Pilot readiness boundary changed')
 
 for (const [workflow, token] of [[deployData, 'DEPLOY_DATA_PHASE_8Z'],
-  [verifyData, 'VERIFY_DATA_PHASE_8Z'], [buildWeb, 'BUILD_PHASE_9E'],
-  [deployWeb, 'DEPLOY_PHASE_9E'], [verifyWeb, 'VERIFY_WEB_PHASE_9E']]) {
+  [verifyData, 'VERIFY_DATA_PHASE_8Z'], [buildWeb, 'BUILD_PHASE_9F'],
+  [deployWeb, 'DEPLOY_PHASE_9F'], [verifyWeb, 'VERIFY_WEB_PHASE_9F']]) {
   assert(workflow.includes(token), `Workflow omits ${token}`)
 }
 for (const workflow of [ci, buildWeb, deployWeb, verifyWeb]) {

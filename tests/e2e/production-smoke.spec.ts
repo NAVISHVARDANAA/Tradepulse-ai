@@ -4,6 +4,7 @@ const baseURL = new URL(process.env.WEB_PRODUCTION_URL ?? 'https://invalid.examp
 
 const publicWorkspaces = [
   ['#live-demo', 'A clear, safe TradePulse live demo'],
+  ['#market-impact-brief', 'Event-to-market impact brief'],
   ['#demo-feedback', 'Live-demo audience debrief'],
   ['#audience-insights', 'Audience insight synthesis'],
   ['#audience-pilot-decision', 'Audience pilot decision brief'],
@@ -103,11 +104,26 @@ test('live demo is explicit, useful and cannot be mistaken for live execution', 
   await expect(page.getByText('No orders, payments or real funds')).toBeVisible()
 
   await page.getByRole('button', { name: /Start guided demo/i }).click()
-  await expect(page).toHaveURL(/#analytics-studio$/)
+  await expect(page).toHaveURL(/#market-impact-brief$/)
   await expect(page.getByLabel('Demo data is active')).toContainText('no live prices')
-  await expect(page.locator('.analytics-table-panel tbody tr').first()).toBeVisible()
+  await expect(page.getByText('TradePulse curated demo').first()).toBeVisible()
   await expect(page.getByRole('button', { name: /buy|sell|trade|pay|transfer|deposit/i })).toHaveCount(0)
 
+  expect(failures, failures.join('\n')).toEqual([])
+})
+
+test('Phase 9F impact brief remains non-executing', async ({ page }) => {
+  const failures = observeRuntimeFailures(page)
+  await page.goto('/#market-impact-brief', { waitUntil: 'domcontentloaded' })
+  await dismissWelcome(page)
+
+  await expect(page.getByRole('heading', { name: 'Turn a market-moving event into a five-minute impact brief.' })).toBeVisible()
+  await expect(page.getByText('The real-time problem')).toBeVisible()
+  await expect(page.getByText('Observation ≠ causation').first()).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'What would change my mind?' })).toBeVisible()
+  await expect(page.getByText(/No account, message, alert, order or financial action is created/)).toBeVisible()
+  await expect(page.locator('input[type="email"], input[type="tel"]')).toHaveCount(0)
+  await expect(page.getByRole('button', { name: /send|invite|sign up|approve|activate|trade|buy|sell|pay|transfer|deposit/i })).toHaveCount(0)
   expect(failures, failures.join('\n')).toEqual([])
 })
 
@@ -115,15 +131,15 @@ test('audience debrief records structured local evidence without identity or sub
   const failures = observeRuntimeFailures(page)
   await page.goto('/#live-demo', { waitUntil: 'domcontentloaded' })
   await page.getByRole('button', { name: /Start guided demo/i }).click()
-  await expect(page.locator('.demo-mode-progress')).toHaveText('1/4 guided stops')
-  for (const [route, progress] of [['#markets', '2/4 guided stops'], ['#stock-research', '3/4 guided stops'], ['#forecasts', '4/4 guided stops']] as const) {
+  await expect(page.locator('.demo-mode-progress')).toHaveText('1/5 guided stops')
+  for (const [route, progress] of [['#markets', '2/5 guided stops'], ['#analytics-studio', '3/5 guided stops'], ['#stock-research', '4/5 guided stops'], ['#forecasts', '5/5 guided stops']] as const) {
     await page.goto(`/${route}`, { waitUntil: 'domcontentloaded' })
     await expect(page.locator('.demo-mode-progress')).toHaveText(progress)
   }
   await page.goto('/#demo-feedback', { waitUntil: 'domcontentloaded' })
 
   await expect(page.getByRole('heading', { name: 'Turn a live demo into evidence.' })).toBeVisible()
-  await expect(page.getByLabel('4 of 4 demo stops completed')).toBeVisible()
+  await expect(page.getByLabel('5 of 5 demo stops completed')).toBeVisible()
   await page.getByLabel('Audience perspective').selectOption('analyst')
   await page.getByRole('group', { name: 'Clarity rating' }).getByLabel('5').check()
   await page.getByRole('group', { name: 'Trust rating' }).getByLabel('4').check()

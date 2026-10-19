@@ -48,7 +48,7 @@ const manifest = JSON.parse(manifestText)
 const packageJson = JSON.parse(packageText)
 
 assert(
-  manifest.phase === '9E' && manifest.status === 'audience_pilot_launch_kit_candidate',
+  manifest.phase === '9F' && manifest.status === 'market_impact_brief_candidate',
   'Manifest is not the Phase 9D audience-pilot decision-brief candidate',
 )
 assert(packageJson.scripts?.['check:audience-pilot-decision-brief'], 'Package omits the Phase 9D check')
@@ -126,7 +126,7 @@ for (const selector of ['.pilot-decision-hero', '.pilot-decision-import', '.pilo
 for (const workflow of [ci, build, deploy, verify]) {
   assert(workflow.includes('npm run check:audience-pilot-decision-brief'), 'A web release gate omits the Phase 9D check')
 }
-for (const token of ['BUILD_PHASE_9E', 'DEPLOY_PHASE_9E', 'VERIFY_WEB_PHASE_9E']) {
+for (const token of ['BUILD_PHASE_9F', 'DEPLOY_PHASE_9F', 'VERIFY_WEB_PHASE_9F']) {
   assert([build, deploy, verify].some((workflow) => workflow.includes(token)), `Web release token is missing: ${token}`)
 }
 for (const contract of ['audiencePilotDecisionBrief', 'maximumPilotParticipants', 'decisionRecordingEnabled']) {
